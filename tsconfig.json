@@ -8,13 +8,3 @@
         "allowSyntheticDefaultImports": true
     }
 }
-
-/* 
-1. Pour enlever les erreurs dans VScode, 
-quand on met des balises HTML dans React
-https://stackoverflow.com/questions/64656055/react-refers-to-a-umd-global-but-the-current-file-is-a-module#answer-65539274
-
-
-2. Permettre d'importer de cette façon: import React from 'react'; 
-https://stackoverflow.com/questions/62273153/this-module-is-declared-with-using-export-and-can-only-be-used-with-a-defau#answer-71881440
-*/
