@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
     const navigate = useNavigate();
+    const [isFirstSubmit, setIsFirstSubmit] = useState(false);
+
     const [infos, setInfos] = useState(
         {
             email: "",
@@ -11,16 +13,7 @@ export default function Signup() {
     );
     const [errors, setErrors] = useState({})
 
-    function handleChange(event) {
-        setInfos(
-            {
-            ...infos,
-            [event.target.name]: event.target.value
-            })
-    }
-
-    function handleClick(event) {
-        event.preventDefault();
+    const getError = () => {
         const errors = {}
         if (!infos.email) {
             errors.email = "Required";
@@ -35,10 +28,34 @@ export default function Signup() {
             errors.password = "Password must contain at least one special character";
         }
         
+        setErrors(errors);
+    }
+
+    function handleChange(event) {
+        setInfos(
+            {
+                ...infos,
+                [event.target.name]: event.target.value
+            })
+
+        if (isFirstSubmit) {
+            getError();
+        }
+    }
+
+    function handleClick(event) {
+        event.preventDefault();
+
+        /*
         if (!errors.email && !errors.password) {
             navigate("/verification");
-        }
-        setErrors(errors);
+        }*/
+
+        if (!isFirstSubmit) {
+            setIsFirstSubmit(true)
+        };
+
+        getError();
     }
     
     return (
