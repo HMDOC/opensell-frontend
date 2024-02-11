@@ -45,9 +45,9 @@ export default function Signup() {
         <div>
             <h1>Sign up</h1>
             <form>
-                <label>Email</label><br />
+                <label>Email *</label><br />
                 <input type="email" name="email" onChange={handleChange}></input>&nbsp;{errors.email}<br /><br />
-                <label>Password</label><br />
+                <label>Password *</label><br />
                 <input type="password" name="password" onChange={handleChange}></input>&nbsp;{errors.password}<br /><br />
                 <button type="submit" onClick={handleClick}>Sign up</button>
             </form>
