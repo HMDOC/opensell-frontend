@@ -4,7 +4,6 @@ import emailjs from "emailjs-com";
 
 export default function Signup() {
     const navigate = useNavigate();
-    const [isCorrect, setIsCorrect] = useState(false);
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
 
     const [infos, setInfos] = useState(
@@ -13,10 +12,10 @@ export default function Signup() {
             password: ""
         }
     );
-    const [errors, setErrors] = useState({})
+    const [eErrors, setEErrors] = useState({email : "", password : ""})
 
     const getError = () => {
-        const errors = {}
+        const errors = {email : "", password : ""};
         if (!infos.email) {
             errors.email = "Required";
         } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(infos.email)) {
@@ -29,7 +28,10 @@ export default function Signup() {
         } else if (!/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(infos.password)) {
             errors.password = "Password must contain at least one special character";
         }
-        setErrors(errors);
+
+        setEErrors(errors);
+
+        return !errors.email && !errors.password;
     }
 
     function handleChange(event) {
@@ -50,14 +52,11 @@ export default function Signup() {
         if (!isFirstSubmit) {
             setIsFirstSubmit(true)
         };
-        console.log(errors);
-        if (!errors.email && !errors.password) {
-            navigate("/verification");
-        }
-        if (isCorrect) {
-            // emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
-        }
 
+        if (getError()) {
+            navigate("/verification");
+            emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
+        }
     }
     
     return (
@@ -65,9 +64,9 @@ export default function Signup() {
             <h1>Sign up</h1>
             <form id="form">
                 <label>Email: *</label><br />
-                <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{errors.email}<br /><br />
+                <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{eErrors.email}<br /><br />
                 <label>Password: *</label><br />
-                <input type="password" name="password" onChange={handleChange}></input>&nbsp;{errors.password}<br /><br />
+                <input type="password" name="password" onChange={handleChange}></input>&nbsp;{eErrors.password}<br /><br />
                 <button type="submit" onClick={handleClick}>Sign up</button>
             </form>
         </div>
