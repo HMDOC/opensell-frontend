@@ -14,9 +14,8 @@ interface AdBuyerView {
     adDescription? : string;
     adAddress? : string;
     adTypeName? : string;
-    adTagsName? : Set<string>;
-    adImagePath? : Array<string>;
-    adLink? : string;
+    adTagsName? : Array<string>;
+    adImagesPath? : Array<string>;
     username? : string;
     userLink? : string;
     userIcon? : string;
