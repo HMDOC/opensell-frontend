@@ -1,5 +1,6 @@
 /**
- * Interface for when the user will see an Ad while searching for it. Like a preview of it
+ * Interface for when the user will see an Ad while browsing the site. 
+ * Like a preview of it
  * 
  * @author Davide
  */
