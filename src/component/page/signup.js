@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import emailjs from "emailjs-com";
+import emailjs, { send } from "emailjs-com";
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -54,13 +54,15 @@ export default function Signup() {
         };
 
         if (getError()) {
-            navigate("/verification");
-            emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
+          sendEmail();
+            // navigate("/verification");
+            // emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
         }
     }
     
     return (
         <div>
+          
             <h1>Sign up</h1>
             <form id="form">
                 <label>Email: *</label><br />
