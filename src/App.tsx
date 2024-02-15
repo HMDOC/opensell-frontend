@@ -6,6 +6,7 @@ import LazyLoad from './component/page/LazyLoad';
 
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
 const Signup = lazy(() => (import("./component/page/signup")));
+const Login = lazy(() => (import("./component/page/login")));
 const AdView = lazy(() => (import("./component/page/AdView")));
 const UserProfil = lazy(() => (import("./component/page/UserProfil")));
 const NotFound = lazy(() => (import("./component/page/NotFound")));
@@ -19,6 +20,7 @@ export default function App() {
 				<Routes>
 					<Route path="/" element={<MainMenu />}></Route>
 					<Route path="/signup" element={<Signup />}></Route>
+					<Route path="/login" element={<Login />}></Route>
 					<Route path="/ad/:link" element={<AdView />}></Route>
 					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="*" element={<NotFound />}></Route>

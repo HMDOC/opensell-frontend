@@ -1,5 +1,4 @@
 import http from "../http-commons";
-import data from "../data.json";
 
 export const getAdByLink = async (link: string) => {
     try {

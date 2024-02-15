@@ -54,9 +54,8 @@ export default function Signup() {
         };
 
         if (getError()) {
-          sendEmail();
+            emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
             // navigate("/verification");
-            // emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
         }
     }
     
