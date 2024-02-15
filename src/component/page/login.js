@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { checkLogin } from "./proxy.ts";
+import { checkLogin } from '../../services/LogInService.ts';
 
 export default function Login() {
     const username = useRef();
