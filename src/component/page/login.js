@@ -1,9 +1,7 @@
 import { useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
-import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-    const navigate = useNavigate();
     const username = useRef(null);
     const password = useRef(null);
     const [error, setErrors] = useState(
@@ -27,10 +25,8 @@ export default function Login() {
             checkLogin(username.current.value, password.current.value).then(res => {
                 if (res?.data === 1) {
                     console.log("Login successful");
-                } else if (res?.data === 2) {
-                    errors.creds = "Wrong password";
                 } else {
-                    errors.creds = "Username not found";
+                    errors.creds = "Username or password is incorrect";
                 }
                 setErrors(errors);
             });
