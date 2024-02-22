@@ -32,14 +32,14 @@ const resultList = () : ReactElement => {
                     console.log(data);
                     console.log(i);
                     return (
-                    <AdPreview 
-                        link={data?.adLink}
-                        price={data?.adPrice}
-                        shape={data?.adShape}
-                        title={data?.adTitle}
-                        isSold={data?.isAdSold}
-                        firstImagePath={data?.adFirstImagePath}
-                     />
+                        <AdPreview 
+                            link={data?.adLink}
+                            price={data?.adPrice}
+                            shape={data?.adShape}
+                            title={data?.adTitle}
+                            isSold={data?.isAdSold}
+                            firstImagePath={data?.adFirstImagePath}
+                        />
                     )
                 } )}
             </div>
