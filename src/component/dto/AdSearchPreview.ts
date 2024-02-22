@@ -7,7 +7,7 @@
 
 interface AdSearchPreview {
     adTitle? : string;
-    adPrive? : number;
+    adPrice? : number;
     adShape? : number;
     isAdSold? : boolean;
     adLink? : string;
