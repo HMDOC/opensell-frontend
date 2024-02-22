@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
-import { sendEmail } from "../../services/EmailService";
+import { useNavigate } from "react-router-dom";
+import Verification from "./Verification.tsx";
 
 export default function Signup() {
+    const naviguate = useNavigate();
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
+    const [isAuthentified, setIsAuthentified] = useState(false);
 
     const [infos, setInfos] = useState(
         {
@@ -58,34 +61,35 @@ export default function Signup() {
 
         if (getError()) {
             checkSignup(infos.email, infos.username, infos.password).then(res => {
-                console.log(res.data);
                 if (res?.data === 1) {
                     setEErrors({email : "Email already exists"});
                 } else if (res?.data === 2) {
                     setEErrors({username : "Username already exists"});
+                    } else if (res?.data === 3) {
+                        setIsAuthentified(true);
                     } else {
-                    sendEmail(infos.email, "Welcome to our website", "You have successfully signed up to our website. Enjoy your time here!").then(res => {
-                        console.log("Email sent");
-                        console.log(res.data);
-                    });
-                }
+                        naviguate("/error");
+                    }
             });
         }
     }
     
     return (
         <div>
-          
-            <h1>Sign up</h1>
-            <form id="form">
-                <label>Email: *</label><br />
-                <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{eErrors.email}<br /><br />
-                <label>Username: *</label><br />
-                <input type="text" name="username" onChange={handleChange}></input>&nbsp;{eErrors.username}<br /><br />
-                <label>Password: *</label><br />
-                <input type="password" name="password" onChange={handleChange}></input>&nbsp;{eErrors.password}<br /><br />
-                <button type="submit" onClick={handleClick}>Sign up</button>
-            </form>
+            {isAuthentified ? (<Verification email={infos.email} />) : (
+                <div>
+                <h1>Sign up</h1>
+                <form id="form">
+                    <label>Email: *</label><br />
+                    <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{eErrors.email}<br /><br />
+                    <label>Username: *</label><br />
+                    <input type="text" name="username" onChange={handleChange}></input>&nbsp;{eErrors.username}<br /><br />
+                    <label>Password: *</label><br />
+                    <input type="password" name="password" onChange={handleChange}></input>&nbsp;{eErrors.password}<br /><br />
+                    <button type="submit" onClick={handleClick}>Sign up</button>
+                </form>
+                </div>
+            )}
         </div>
     )
 }
