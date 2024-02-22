@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
-import { sendEmail } from "../../services/EmailService";
 
 export default function Signup() {
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
