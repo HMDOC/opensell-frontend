@@ -4,7 +4,7 @@ import { getAdByLink } from "../../services/AdService";
 import content from "../../locales/ad.json";
 import { getLanguage } from "../../i18n/i18n";
 import "../../css/component/page/AdView.css";
-import Loading from "./Loading";
+import Loading from "../part/Loading";
 
 /**
  * Function that increase the index of the current picture

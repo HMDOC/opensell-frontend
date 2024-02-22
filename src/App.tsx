@@ -2,7 +2,8 @@ import { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { useState } from 'react';
-import LazyLoad from './component/page/LazyLoad';
+import LazyLoad from './component/part/LazyLoad';
+import AdModification from './component/page/AdModification';
 
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
 const Signup = lazy(() => (import("./component/page/signup")));
@@ -25,6 +26,7 @@ export default function App() {
 					<Route path="/catalog" element={<Catalog />}></Route>
 					<Route path="/ad/:link" element={<AdView />}></Route>
 					<Route path="/user/:link" element={<UserProfil />}></Route>
+					<Route path="/ad-modification/" element={<AdModification />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>
