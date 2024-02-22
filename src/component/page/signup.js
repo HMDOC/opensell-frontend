@@ -1,10 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import emailjs, { send } from "emailjs-com";
 import { checkSignup } from "../../services/SignupService";
+import { sendEmail } from "../../services/EmailService";
 
 export default function Signup() {
-    const navigate = useNavigate();
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
 
     const [infos, setInfos] = useState(
@@ -20,7 +18,7 @@ export default function Signup() {
         const errors = {email : "", username: "", password : ""};
         if (!infos.email) {
             errors.email = "Required";
-        } else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(infos.email)) {
+        } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(infos.email)) {
             errors.email = "Wrong email format";
         }
         if (!infos.username) {
@@ -30,7 +28,7 @@ export default function Signup() {
             errors.password = "Required";
         } else if (infos.password.length < 10) {
             errors.password = "Password must be at least 10 characters long"
-        } else if (!/[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/.test(infos.password)) {
+        } else if (!/[`!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(infos.password)) {
             errors.password = "Password must contain at least one special character";
         }
 
@@ -66,8 +64,10 @@ export default function Signup() {
                 } else if (res?.data === 2) {
                     setEErrors({username : "Username already exists"});
                     } else {
-                    // emailjs.sendForm("service_q43eo43", "template_m9mke14",document.getElementById("form"), "JVWiU1aD5RwLlfMiN");
-                    // navigate("/verification");
+                    sendEmail(infos.email, "Welcome to our website", "You have successfully signed up to our website. Enjoy your time here!").then(res => {
+                        console.log("Email sent");
+                        console.log(res.data);
+                    });
                 }
             });
         }
