@@ -19,7 +19,8 @@ const resultList = () : ReactElement => {
             }
         })
         */
-       setListOfAds([undefined, undefined]);
+       var b: AdSearchPreview = {adPrice : 100, adTitle: "Psdf", adFirstImagePath : "sadds"};
+       setListOfAds([b, undefined]);
        console.log(listOfAds);
     }, []);
 
