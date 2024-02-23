@@ -1,17 +1,13 @@
 import { ChangeEvent, useState } from "react";
 import { verifyCode } from "../../services/CodeService";
 
-
-// C<est comme si tu donner le type dune classe en java
-// Le props cest un object
-// AVec JS tu disais ca marchais sans type car ces any
 export default function Verification(props: {email: string}) {
     const [code, setCode] = useState<string>();
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         setCode(e.target.value);
     }
-    // Pour faire comme avec JS tu fais any
+    
     function handleCode(e) {
         e.preventDefault();
         verifyCode(code).then((response: any) => {
