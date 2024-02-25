@@ -7,7 +7,7 @@ import { getAdBySearch } from "../../services/AdService";
     THIS IS UNFINISHED
 */
 
-const resultList = () : ReactElement => {
+const ResultList = () : ReactElement => {
 
     //const query = useRef();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
@@ -48,4 +48,4 @@ const resultList = () : ReactElement => {
     )
 }
 
-export default resultList;
+export default ResultList;
