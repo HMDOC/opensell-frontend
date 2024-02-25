@@ -6,8 +6,5 @@ that point to Spring baseURL */
 export default axios.create(
     {
         baseURL : data.url,
-        headers : {
-            "Content-Type" : "application/json"
-        }
     }
 )
