@@ -1,3 +1,6 @@
+@import "./css/component/page/AdView.css";
+@import "./css/component/page/CustomerModification.css";
+
 .App {
   text-align: center;
 }

@@ -1,5 +1,5 @@
 import {CustomerModificationView} from "../dto/CustomerModificationView";
-import {getCustomerModificationView} from "../../services/CustomerService";
+import {getCustomerModificationView, formInformation as info} from "../../services/CustomerService";
 import React, {ChangeEvent, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {RegexCode, verify} from "../../services/FormService";
@@ -14,23 +14,21 @@ export default function CustomerModification() {
     // useState in order to be used in the render method
     const [view, setView] = useState<CustomerModificationView>();
     const initialState = {
-        username: false,
-        firstName: false,
-        lastName: false,
-        exposedEmail: false,
-        personalEmail: false,
-        primaryAddress: false,
-        phoneNumber: false,
-        pwd: false
+        username: view?.username,
+        firstName: view?.firstName,
+        lastName: view?.lastName,
+        exposedEmail: view?.exposedEmail,
+        personalEmail: "",
+        primaryAddress: view?.primaryAddress,
+        phoneNumber: "",
+        pwd: ""
     }
-
     //each of these attributes need to be verified with rational expressions
     //this useState syntax allows us to use only one handleChange for everything by using the name attribute (ex: isValid[nameOfInput])
-    const [isValid, setIsValid] = useState(initialState); //bio, iconPath, socials
+    const [inputValues, setInputValues] = useState(initialState); //bio, iconPath, socials
 
-
+    //lifecycle management hook
     useEffect(() => {
-        console.log("reload");
         //returns a AxiosPromise
         //.data returns the actual object
         try {
@@ -44,35 +42,48 @@ export default function CustomerModification() {
         //array of dependencies (an array of useStates)
     }, [])
 
-    const handleChange = (inputElement: ChangeEvent<HTMLInputElement>, prevState: any) => {
+    const formatInputElement = (inputElement: ChangeEvent<HTMLInputElement>, code?: RegexCode) => {
+        const {name, value} = inputElement.target;
+        if (value === "" || value === view[name]) {
+            inputElement.target.className = "";
+        } else if (verify(value, code)) {
+            inputElement.target.className = "validInput";
+        } else {
+            inputElement.target.className = "invalidInput";
+        }
+    }
+
+    const handleChange = (inputElement: ChangeEvent<HTMLInputElement>, code?: RegexCode) => {
         try {
             const {name, value} = inputElement.target;
-            //let copyOfIsValid = {...isValid};
-            //copyOfIsValid[target?.name] = verify(target?.name, code);
-            //setIsValid(copyOfIsValid);
-            setIsValid({
-                ...prevState,
-                username: true
-            })
+            let copyOfInputValue = {...inputValues};
+            copyOfInputValue[name] = value;
+            //will change the value at some point (we can't see the change in the handleChange)
+            setInputValues(copyOfInputValue);
+            formatInputElement(inputElement, code);
         } catch (ex) {
             console.log(ex);
         }
     }
 
-    const FormInput = (param: {type: string, labelName: string, name: string, defaultValue: string, code: RegexCode}) => {
-        const {type, labelName, name, defaultValue, code} = param;
-        return(
-            <div>
-                <label htmlFor={name}>{labelName}</label>
-                <input type={type} name={name} defaultValue={defaultValue} onChange={(e) => handleChange(e, {...isValid})}/>
-            </div>
-        )
+    const saveChanges = () => {
+        alert("slt")
     }
 
     return(
         <>
             <form>
-                <FormInput type={"text"} labelName={"username"} name={"username"} defaultValue={view?.username} code={RegexCode.USERNAME}/>
+
+                {info.map((info) => (
+                    <div key={info.name}>
+                        <label htmlFor={info.name}>{info.labelName}</label>
+                        <input type={info.type}
+                               defaultValue={view?.[info.name]} //???
+                               name={info.name}
+                               onChange={(inputElement) => handleChange(inputElement, info.code)}/>
+                    </div>
+                ))}
+
                 <button>SAVE</button>
             </form>
         </>
