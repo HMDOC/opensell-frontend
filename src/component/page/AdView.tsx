@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { getAdByLink } from "../../services/AdService";
 import content from "../../locales/ad.json";
 import { getLanguage } from "../../i18n/i18n";
-import "../../css/component/page/AdView.css";
 import Loading from "../part/Loading";
 
 /**
