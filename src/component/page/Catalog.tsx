@@ -1,6 +1,7 @@
 import { Component, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import SearchBar from "./SearchBar";
 import AdPreview from "./AdPreview";
+import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
 
 /*
@@ -11,23 +12,26 @@ const ResultList = () : ReactElement => {
 
     //const query = useRef();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
+    const searchBarRef = useRef("lor");
+
     useEffect(() => {
         
-        getAdBySearch("2").then(res => {
+        getAdBySearch(searchBarRef.current).then(res => {
             if (res?.data){
                 setListOfAds(res.data);
             }
         })
         
-       var b: AdSearchPreview = {adPrice : 100, adTitle: "Psdf", adFirstImagePath : "sadds"};
-       setListOfAds([b, undefined]);
        console.log(listOfAds);
     }, []);
-
+    // <SearchBar ref={searchBarRef}/>
     return (
         <>
-            <h1>Catalog</h1>
-            <SearchBar />
+            <div id="searchTop">
+                <h1>Catalog</h1>
+                <SearchBar />
+            </div>
+            
             <div id="searchResult">
                 {listOfAds.map( (data : AdSearchPreview, i : number) => {
                     console.log(data);
