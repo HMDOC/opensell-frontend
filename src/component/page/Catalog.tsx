@@ -12,13 +12,13 @@ const ResultList = () : ReactElement => {
     //const query = useRef();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     useEffect(() => {
-        /*
-        getAdBySearch("").then(res => {
+        
+        getAdBySearch("2").then(res => {
             if (res?.data){
                 setListOfAds(res.data);
             }
         })
-        */
+        
        var b: AdSearchPreview = {adPrice : 100, adTitle: "Psdf", adFirstImagePath : "sadds"};
        setListOfAds([b, undefined]);
        console.log(listOfAds);
