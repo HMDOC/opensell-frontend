@@ -8,7 +8,7 @@ export const getAdByLink = async (link: string) => {
 };
 
 export const getAdBySearch = async (query: string) => {
-    return await http.get<AdSearchPreview>(`/ad/search`)
+    return await http.get<AdSearchPreview[]>(`/ad/search`, {params : { query } })
 }
 
 export const testImages = async (formData: any) => {

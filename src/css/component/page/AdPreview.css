@@ -1,0 +1,24 @@
+
+.adPreview{
+    width: 150px;
+    margin: 0.75em auto;
+    background-color: aliceblue;
+    border-radius: 0.75em;
+    overflow: hidden;
+}
+
+.adPreview img{
+    width: 100%;
+    height: 80px;
+    object-fit: cover; /* le morceau important */
+    object-position: 50% 50%; /* pour mieux aligner l'image */
+}
+
+.adTxt{
+    max-width: inherit;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0;
+    margin: 2px 4px;
+}

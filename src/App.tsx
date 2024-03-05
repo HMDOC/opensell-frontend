@@ -12,6 +12,7 @@ const UserProfil = lazy(() => (import("./component/page/UserProfil")));
 const NotFound = lazy(() => (import("./component/page/NotFound")));
 const Catalog = lazy(() => (import("./component/page/Catalog")));
 const FileUploader = lazy(() => (import("./component/page/FileUploader")));
+const CustomerModification = lazy(() => (import("./component/page/CustomerModification")));
 const AdModification = lazy(() => (import("./component/page/AdModification")));
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
 					<Route path="/ad/:link" element={<AdView />}></Route>
 					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="/file-uploader/" element={<FileUploader />}></Route>
+					<Route path="/customer-modification/:link" element={<CustomerModification/>}></Route>
 					<Route path="/ad-modification" element={<AdModification />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>

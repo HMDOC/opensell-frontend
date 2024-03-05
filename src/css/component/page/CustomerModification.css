@@ -1,0 +1,11 @@
+
+
+.invalidInput {
+    border-color: red;
+    background-color: #e7bcbc;
+}
+
+.validInput {
+    border-color: green;
+    background-color: #c5eec5;
+}
