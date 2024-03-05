@@ -8,8 +8,8 @@ const AdPreview = (props) : ReactElement => {
     //const query = useRef();
 
     return (
-        <div id={props?.link}>
-            <img src={props?.firstImagePath} alt="The image cant load!"></img>
+        <div id={props?.link} className="card" >
+            <img className="card-img-top" src={props?.firstImagePath} alt="The image cant load!"></img>
             <h3>{props?.title}</h3>
             <h5>{props?.price}</h5>
             <h5>{props?.shape}</h5>
