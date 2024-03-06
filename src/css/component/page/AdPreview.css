@@ -2,6 +2,7 @@
 .adPreview{
     width: 150px;
     margin: 0.75em auto;
+    padding-bottom: 5px;
     background-color: aliceblue;
     border-radius: 0.75em;
     overflow: hidden;
@@ -14,9 +15,8 @@
     object-position: 50% 50%; /* pour mieux aligner l'image */
 }
 
-.adTxt{
-    max-width: inherit;
-    text-wrap: nowrap;
+.adPreviewText{
+    white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 0;
