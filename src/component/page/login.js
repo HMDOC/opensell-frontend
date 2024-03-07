@@ -1,9 +1,11 @@
 import { useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const username = useRef(null);
     const password = useRef(null);
+    const naviguate = useNavigate();
     const [error, setErrors] = useState(
         {
             username: "",
@@ -24,6 +26,7 @@ export default function Login() {
         } else if (username.current.value && password.current.value) {
             checkLogin(username.current.value, password.current.value).then(res => {
                 if (res?.data === 1) {
+                    naviguate("/");
                     console.log("Login successful");
                 } else {
                     errors.creds = "Username or password is incorrect";
