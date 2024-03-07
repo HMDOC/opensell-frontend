@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import AdPreview from "./AdPreview";
 import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
+import { useSearchParams } from "react-router-dom";
 
 /*
     THIS IS UNFINISHED
@@ -11,12 +12,15 @@ import { getAdBySearch } from "../../services/AdService";
 const ResultList = () : ReactElement => {
 
     //const query = useRef();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
     const [filterOptions, setFilterOptions] = useState({filterSold : null});
 
     useEffect(() => {
+        console.log(searchParams);
+        //setSearchParams({query : "s", priceMin : "0"});
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
             setListOfAds(res?.data);
         }).catch(e => console.log(e));
