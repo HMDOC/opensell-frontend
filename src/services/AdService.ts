@@ -14,3 +14,7 @@ export const getAdBySearch = async (query: string) => {
 export const testImages = async (formData: any) => {
     return await http.post<boolean>(`/ad/get-images`, formData);
 }
+
+export const getAdToModif = async (link: string) => {
+    return await http.get<AdModifView>(`/ad/to-modify/${link}`);
+}
