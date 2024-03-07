@@ -24,10 +24,9 @@ const ResultList = () : ReactElement => {
             tmpFilterOptions[key] = value;
         });
         setFilterOptions(tmpFilterOptions);
-    }, []);
+    }, [searchParams]);
 
     useEffect(() => {
-        console.log(filterOptions);
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
             setListOfAds(res?.data);
         }).catch(e => console.log(e));
