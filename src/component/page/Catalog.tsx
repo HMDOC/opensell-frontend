@@ -16,15 +16,10 @@ const ResultList = () : ReactElement => {
     const [searchClick, setSearchClick] = useState<boolean>(false);
 
     useEffect(() => {
-        console.log(searchBarRef);
-        console.log(searchBarRef.current);
         getAdBySearch(searchBarRef.current.value).then(res => {
-            if (res?.data){
-                setListOfAds(res.data);
-            }
-        })
+            setListOfAds(res?.data);
+        }).catch(e => console.log(e));
         
-       console.log(listOfAds);
     }, [searchClick]);
     // <SearchBar ref={searchBarRef}/>
     return (
@@ -35,9 +30,9 @@ const ResultList = () : ReactElement => {
             </div>
             
             <div id="searchResult">
-                {listOfAds.map( (data : AdSearchPreview, i : number) => {
-                    console.log(data);
-                    console.log(i);
+            {(listOfAds.length>0) ? listOfAds.map( (data : AdSearchPreview, i : number) => {
+                    //console.log(data);
+                    //console.log(i);
                     return (
                         <AdPreview 
                             link={data?.adLink}
@@ -48,7 +43,7 @@ const ResultList = () : ReactElement => {
                             firstImagePath={data?.adFirstImagePath}
                         />
                     )
-                } )}
+                } ) : <div className="searchEmpty">Nobody here but chickens!</div>}
             </div>
         </>
     )
