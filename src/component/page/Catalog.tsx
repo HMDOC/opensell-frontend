@@ -11,29 +11,37 @@ import { useSearchParams } from "react-router-dom";
 
 const ResultList = () : ReactElement => {
 
-    
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
     const [filterOptions, setFilterOptions] = useState({});
 
+    useEffect( () => {
+        searchBarRef.current.value = searchParams.get("query");
+        let tmpFilterOptions = filterOptions;
+        searchParams.forEach( (value, key) => {
+            tmpFilterOptions[key] = value;
+        });
+        setFilterOptions(tmpFilterOptions);
+    }, []);
+
     useEffect(() => {
+        console.log(filterOptions);
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
             setListOfAds(res?.data);
         }).catch(e => console.log(e));
 
         let tmpQueryParams:any = filterOptions;
-        tmpQueryParams.query = searchBarRef.current.value;
-        
+
         setSearchParams(tmpQueryParams);
     }, [searchClick]);
-    
+
     return (
         <>
             <div id="searchTop">
                 <h1>Catalog</h1>
-                <SearchBar reference={searchBarRef} click={setSearchClick}/>
+                <SearchBar reference={searchBarRef} click={setSearchClick} />
             </div>
             
             <div id="searchResult">
