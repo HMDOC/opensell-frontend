@@ -13,10 +13,11 @@ const ResultList = () : ReactElement => {
     //const query = useRef();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     const searchBarRef = useRef<HTMLInputElement>();
-    const [searchClick, setSearchClick] = useState<boolean>(false);
+    const [searchClick, setSearchClick] = useState(false);
+    const [filterOptions, setFilterOptions] = useState({filterSold : null});
 
     useEffect(() => {
-        getAdBySearch(searchBarRef.current.value).then(res => {
+        getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
             setListOfAds(res?.data);
         }).catch(e => console.log(e));
         
@@ -34,7 +35,8 @@ const ResultList = () : ReactElement => {
                     //console.log(data);
                     //console.log(i);
                     return (
-                        <AdPreview 
+                        <AdPreview
+                            key={`ad-preview-${i}`}
                             link={data?.adLink}
                             price={data?.adPrice}
                             shape={data?.adShape}
