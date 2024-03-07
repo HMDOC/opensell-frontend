@@ -5,18 +5,18 @@
  * @author Achraf
  */
 interface AdBuyerView {
-    adTitle? : string; 
-    adPrice? : number; 
-    adAddedDate? : Date; 
-    adShape? : number;
-    isAdSold? : boolean;
-    adVisibility? : number;
-    adDescription? : string;
-    adAddress? : string;
-    adTypeName? : string;
-    adTagsName? : Array<string>;
-    adImagesPath? : Array<string>;
-    username? : string;
-    userLink? : string;
-    userIcon? : string;
+    adTitle?: string;
+    adPrice?: number;
+    adAddedDate?: Date;
+    adShape?: number;
+    isAdSold?: boolean;
+    adVisibility?: number;
+    adDescription?: string;
+    adAddress?: string;
+    adTypeName?: string;
+    adTagsName?: Array<string>;
+    adImagesPath?: Array<string>;
+    username?: string;
+    userLink?: string;
+    userIcon?: string;
 }

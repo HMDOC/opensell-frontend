@@ -30,7 +30,7 @@ export default function App() {
 					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="/file-uploader/" element={<FileUploader />}></Route>
 					<Route path="/customer-modification/:link" element={<CustomerModification/>}></Route>
-					<Route path="/ad-modification" element={<AdModification />}></Route>
+					<Route path="/ad-modification/:link" element={<AdModification />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>
