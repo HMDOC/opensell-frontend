@@ -1,14 +1,20 @@
 import { Component, ReactElement, ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCustomerInfo } from "../../services/CustomerInfo";
+import { getCustomerInfo, getPublicUserAds } from "../../services/CustomerInfo";
 import { CustomerInfoView } from "../dto/CustomerInfo";
+import AdPreview from "./AdPreview";
+import "../../css/component/page/Catalog.css"
 
 export default function UserProfil(): ReactElement {
     const { link } = useParams();
     const [customerInfo, setCustomerInfo] = useState<CustomerInfoView>();
+    const [publicUserAds, setPublicUserAds] = useState<AdSearchPreview[]>([]);
     useState(() => {
         getCustomerInfo(link).then(res => {
             setCustomerInfo(res?.data)
+        })
+        getPublicUserAds(link).then(res => {
+            setPublicUserAds(res?.data)
         })
     });
     return(
@@ -19,6 +25,23 @@ export default function UserProfil(): ReactElement {
             <p>{customerInfo?.primaryAddress}</p>
             <p>{customerInfo?.exposedEmail}</p>
             <p>{customerInfo?.bio}</p>
+            <h3>Posted ads</h3>
+            <div id="searchResult">
+                {(publicUserAds.length > 0) ? publicUserAds.map( (data : AdSearchPreview, i : number) => {
+                    return (
+                        <AdPreview
+                            key={`ad-preview-${i}`}
+                            link={data?.adLink}
+                            price={data?.adPrice}
+                            shape={data?.adShape}
+                            title={data?.adTitle}
+                            isSold={data?.isAdSold}
+                            firstImagePath={data?.adFirstImagePath}
+                        />
+                    )
+                } ) : <div className="searchEmpty">No ads posted, yet</div>}
+            </div>
+
         </>
     );
 }

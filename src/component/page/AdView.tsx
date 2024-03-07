@@ -52,7 +52,6 @@ const AdView = (): ReactElement => {
         }
     };
 
-    console.log("Test");
     return (
         <>
             {isLoading ?
