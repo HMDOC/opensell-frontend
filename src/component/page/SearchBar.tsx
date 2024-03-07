@@ -3,6 +3,8 @@ import "../../css/component/page/SearchBar.css";
 
 const SearchBar = (props) : ReactElement => {
 
+    //This is temporary
+    //https://developer.mozilla.org/en-US/docs/Web/API/Element/keydown_event
     const searchBarPress = (event) => {
         let key:string = event.key;
         if (key==="Enter"){
