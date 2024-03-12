@@ -33,3 +33,7 @@ export const testImages = async (formData: any) => {
 export const getAdToModif = async (link: string) => {
     return await http.get<AdModifView>(`/ad/to-modify/${link}`);
 }
+
+export const changeAd = async (json: Map<String, Object>, idValue: number) => {
+    return await http.post(`/ad/test-map-json`, Object.fromEntries(json), {params : {idValue}});
+}

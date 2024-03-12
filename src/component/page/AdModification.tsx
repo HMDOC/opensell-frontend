@@ -1,7 +1,9 @@
-import { PureComponent, ReactElement, ReactNode, RefObject, createRef, useEffect, useState } from "react";
+import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAdToModif } from "../../services/AdService";
+import { changeAd, getAdToModif } from "../../services/AdService";
 import Loading from "../part/Loading";
+
+var a: Map<String, Object> = new Map<String, Object>();
 
 interface InputReaderProps {
     label?: string;
@@ -38,25 +40,27 @@ const INPUTS: Array<InputReaderProps> = [
     { name: "reference", reference: createRef() },
     { name: "images", multiple: true, reference: createRef(), isFile: true },
     { name: "price", type: "number", reference: createRef() },
-    { name: "type", reference: createRef() },
-    { name: "tags", reference: createRef(), otherHtml: <div>Hello</div> },
+    { name: "adType", reference: createRef() },
     { name: "address", reference: createRef() },
     { name: "isSold", reference: createRef(), isChecked: true },
     { name: "description", reference: createRef(), isTextArea: true },
 ];
 
 export class SelectorReader extends PureComponent<SelectorReaderProps> {
-    public asChanged: boolean = true;
+    public state = {
+        value : undefined
+    };
 
-    public firstChange() {
-        if (!this.asChanged) this.asChanged = false;
+    public firstChange(e: ChangeEvent<HTMLInputElement>) {
+        this.setState({value: e.target.value});
+        a.set(this.props.name, e.target.value);
     }
 
     public render(): ReactNode {
         return (
             <>
                 <label>{this.props.name} : </label>
-                <select value={this.props.value} onChange={this.firstChange.bind(this)} ref={this.props.reference}>
+                <select defaultValue={this.props.value} onChange={this.firstChange.bind(this)} ref={this.props.reference}>
                     {
                         this.props.options.map((option, index) => (
                             <option key={`${this.props.name}-options-${index}`} value={`${index}`}>{option}</option>
@@ -71,11 +75,14 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
 }
 
 export class InputReader extends PureComponent<InputReaderProps> {
-    public asChanged: boolean = true;
+    public state = {
+        value : undefined
+    }
 
-    public firstChange() {
-        if (!this.asChanged) this.asChanged = false;
-        console.log("Change!");
+    public firstChange(value: any) {
+        this.setState({value : value});
+        a.set(this.props.name, value);
+        console.log(a);
     }
 
     public render(): ReactNode {
@@ -86,18 +93,18 @@ export class InputReader extends PureComponent<InputReaderProps> {
                 {this.props.isTextArea ?
                     (
                         <>
-                            <textarea style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.value} ref={this.props.reference} />
+                            <textarea onChange={(e) => this.firstChange(e.target.value)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.value} ref={this.props.reference} />
                         </>
                     ) :
                     (
                         this.props.isChecked ?
                             (
-                                <input type="checkbox" name={this.props.name} defaultChecked={this.props.value} />
+                                <input onChange={(e) => this.firstChange(e.target.checked)} type="checkbox" name={this.props.name} defaultChecked={this.props.value} />
                             ) : (
                                 this.props.isFile ? (
-                                    <input name={this.props.name} onChange={this.firstChange.bind(this)} type="file" />
+                                    <input name={this.props.name} onChange={(e) => this.firstChange(e.target.value)} type="file" />
                                 ) : (
-                                    <input name={this.props.name} defaultValue={this.props.value} onChange={this.firstChange.bind(this)} type={this.props.type ? this.props.type : "text"} ref={this.props.reference} multiple={this.props.multiple ? this.props.multiple : false} />
+                                    <input name={this.props.name} onChange={(e) => this.firstChange(e.target.value)} defaultValue={this.props.value} type={this.props.type ? this.props.type : "text"} ref={this.props.reference} multiple={this.props.multiple ? this.props.multiple : false} />
                                 )
                             )
                     )
@@ -110,11 +117,67 @@ export class InputReader extends PureComponent<InputReaderProps> {
     }
 }
 
+
+// Faire un gros map avec ton les types d'inputs et il va avoir un if terner pour savoir est-ce que c'est un selector, un input ou autres
+class AdTags extends PureComponent<{reference : RefObject<HTMLInputElement>, adTags: Set<string>}> {
+    public state = {
+        adTags : Array.from(this.props.adTags),
+        error : 0
+    };
+
+    public inputChange(e: ChangeEvent<HTMLInputElement>): void {
+        if(!e.currentTarget.value) {
+            if(this.state.error !== 1) this.setState({error : 1});
+        }
+        else {
+            if(!this.state.adTags.includes(e.currentTarget.value)) {
+                this.setState({adTags : [...this.state.adTags, e.currentTarget.value], error : 0});
+                a.set("adTags", [...this.state.adTags, e.currentTarget.value]);
+            } else {
+                if(this.state.error !== 2) this.setState({error : 2});
+            }
+        }
+        
+        e.currentTarget.value = "";
+    }
+
+    public getError(error: number, label: string): string {
+        switch(error) {
+            case 0: return label;
+            case 1: return "Tag cannot be empty";
+            case 2: return "Tag already exists";
+        }
+    }
+
+    public render(): ReactNode {
+        console.log(a);
+
+        return (
+            <>
+                <label>{this.getError(this.state.error, "adTags")}</label>
+                <br />
+
+                <input onDoubleClick={this.inputChange.bind(this)} name="adTags" ref={this.props.reference} />
+                <br />
+                <br />
+
+                {this.state.adTags?.map((value, index) => (
+                    <button onDoubleClick={() => {let adTagsChange = this.state.adTags.filter((tag) => tag !== value); this.setState({adTags : adTagsChange}); a.set("adTags", adTagsChange)}} key={`${index}`}>{value}</button>
+                ))}
+
+                <br />
+                <br />
+            </>
+        );
+    }
+}
+
 export default function AdModification(): ReactElement {
     const { link } = useParams();
     const [isloading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();
-
+    const [adTagsStr, setAdTagsStr] = useState<Set<string>>();
+    
     useEffect(() => {
         getAdToModif(link).then(res => {
             // Rendu à faire mettre les anciennes valeurs dans les objets d'inputs, il faut aussi gérer les anciens tags et images.
@@ -128,6 +191,7 @@ export default function AdModification(): ReactElement {
                 }
 
                 setIsLoading(false);
+                setAdTagsStr(res?.data?.adTags);
             }
 
             else {
@@ -135,6 +199,8 @@ export default function AdModification(): ReactElement {
             }
         });
     }, []);
+
+    var adTagsRef: RefObject<HTMLInputElement> = createRef();
 
     return (
         <>
@@ -154,9 +220,13 @@ export default function AdModification(): ReactElement {
                                     multiple={value.multiple}
                                     otherHtml={value.otherHtml}
                                     isTextArea={value.isTextArea}
-                                    isChecked={value.isChecked} />
+                                    isChecked={value.isChecked} 
+                                    // isFile={value.isFile} 
+                                    />
                             ))
                         }
+
+                        <AdTags reference={adTagsRef} adTags={adTagsStr} />
 
                         {
                             SELECTS.map((value, index) => (
@@ -168,7 +238,7 @@ export default function AdModification(): ReactElement {
                             ))
                         }
 
-                        <button onClick={console.log}>submit</button>
+                        <button onClick={() => {if(a.size !== 0) changeAd(a, 1);}}>submit</button>
                     </>
                 )
             }

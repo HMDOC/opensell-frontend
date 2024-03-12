@@ -9,7 +9,7 @@ interface AdModifView {
     reference: string
     address: string;
     link: string
-    adTypeName: string;
-    adTagsName: Set<String>;
-    adImagesPath: Array<String>;
+    adType: string;
+    adTags: Set<string>;
+    adImagesPath: Array<string>;
 }
