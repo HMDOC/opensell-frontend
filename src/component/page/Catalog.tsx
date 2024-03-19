@@ -15,6 +15,9 @@ const ResultList = () : ReactElement => {
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
+
+    const [filtersUpdated, setFiltersUpdated] = useState(false);
+    const filtersRef = useRef<HTMLElement>();
     const [filterOptions, setFilterOptions] = useState({});
 
     useEffect( () => {
