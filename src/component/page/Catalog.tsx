@@ -5,10 +5,10 @@ import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 
-/*
+/** 
     THIS IS UNFINISHED
+    @author Davide
 */
-
 const ResultList = () : ReactElement => {
 
     const [searchParams, setSearchParams] = useSearchParams();

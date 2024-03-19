@@ -1,6 +1,10 @@
 import { Component, ReactNode, ReactElement } from "react";
 import "../../css/component/page/SearchBar.css";
 
+/** 
+    The component for the search bar.
+    @author Davide
+*/
 const SearchBar = (props) : ReactElement => {
 
     const searchBarPress = (event) => {
