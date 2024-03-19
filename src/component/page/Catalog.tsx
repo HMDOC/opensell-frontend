@@ -58,7 +58,7 @@ const ResultList = () : ReactElement => {
                             firstImagePath={data?.adFirstImagePath}
                         />
                     )
-                } ) : <div className="searchEmpty">Nobody here but chickens!</div>}
+                } ) : <div className="searchEmpty">Nobody here but us script kitties!</div>}
             </div>
         </>
     )
