@@ -16,8 +16,8 @@ const ResultList = () : ReactElement => {
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
 
-    const [filtersUpdated, setFiltersUpdated] = useState(false);
-    const filtersRef = useRef<HTMLElement>();
+    const [filtersUpdated, setFiltersUpdated] = useState();
+    const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
 
     useEffect( () => {
@@ -39,11 +39,18 @@ const ResultList = () : ReactElement => {
         setSearchParams(tmpQueryParams);
     }, [searchClick]);
 
+    useEffect(() =>{
+        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
+            console.log(`${value?.name} - ${value?.value}`);
+        });
+
+    }, [filtersUpdated]);
+
     return (
         <>
             <div id="searchTop">
                 <h1>Catalog</h1>
-                <SearchBar reference={searchBarRef} click={setSearchClick} />
+                <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             
             <div id="searchResult">

@@ -12,7 +12,7 @@ const FilterToggle = (props) : ReactElement => {
     const filterRef = props.filterRef;
 
     const toggleFilters = () => {
-        filterRef.current.hidden = !filterRef.current.hidden;
+        filterRef.current.parentElement.hidden = !filterRef.current.parentElement.hidden;
     }
 
     return (
@@ -28,8 +28,6 @@ const FilterToggle = (props) : ReactElement => {
 */
 const SearchBar = (props) : ReactElement => {
 
-    const filterElementRef = useRef<HTMLDivElement>();
-
     const searchBarPress = (event) => {
         let key:string = event.key;
         if (key==="Enter"){
@@ -43,10 +41,10 @@ const SearchBar = (props) : ReactElement => {
         <>
             <div id="searchBar">
                 <input ref={props.reference} onKeyDown={searchBarPress} placeholder="what are you looking for?" />
-                <FilterToggle filterRef={filterElementRef} />
+                <FilterToggle filterRef={props.filters} />
                 <button onClick={props.click}>Search</button>
             </div>
-            <SearchFilters filterElementRef={filterElementRef} />
+            <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
         </>
         
     )
