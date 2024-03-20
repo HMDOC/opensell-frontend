@@ -1,7 +1,10 @@
 import { ReactElement } from "react";
-import { useNavigate, NavigateOptions, useParams } from "react-router-dom";
 import "../../css/component/page/AdPreview.css"
 
+/** 
+    The preview component for the Ads. Clicking on it will
+    @author Davide
+*/
 const AdPreview = (props) : ReactElement => {
 
     //const query = useRef();

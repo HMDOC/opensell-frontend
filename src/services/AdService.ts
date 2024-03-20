@@ -6,17 +6,12 @@ import axios from "axios";
 export const getAdByLink = async (link: string) => {
     return await http.get<AdBuyerView>(`/ad/get-ad-buyer-view/${link}`);
 };
-/*
-defaultValue = "" String query,
-defaultValue = 0 Double priceMin,
-defaultValue = 9999999d Double priceMax,
-defaultValue = 2020-01-01 Date dateMin,
-defaultValue = "3000-01-01") Date dateMax,
-defaultValue = null Integer typeId, 
-defaultValue = null Set<String> tagListId,
-defaultValue = null Integer shapeId,
-@RequestParam(required = false) Boolean filterSold,
-defaultValue = "addedDate" String sortBy
+
+/**
+    Search for ads with a query text and some filter options if necessary.
+    @param query The search query
+    @param filters Any optional filter included in this object will be added to the request
+    @author Davide
 */
 export const getAdBySearch = async (query: string, filters) => {
     filters.query = query;
@@ -32,4 +27,8 @@ export const testImages = async (formData: any) => {
 
 export const getAdToModif = async (link: string) => {
     return await http.get<AdModifView>(`/ad/to-modify/${link}`);
+}
+
+export const changeAd = async (json: Map<String, Object>, idValue: number) => {
+    return await http.post(`/ad/test-map-json`, Object.fromEntries(json), {params : {idValue}});
 }

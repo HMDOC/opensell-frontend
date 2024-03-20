@@ -5,16 +5,19 @@ import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 
-/*
+/** 
     THIS IS UNFINISHED
+    @author Davide
 */
-
 const ResultList = () : ReactElement => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
+
+    const [filtersUpdated, setFiltersUpdated] = useState();
+    const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
 
     useEffect( () => {
@@ -36,11 +39,18 @@ const ResultList = () : ReactElement => {
         setSearchParams(tmpQueryParams);
     }, [searchClick]);
 
+    useEffect(() =>{
+        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
+            console.log(`${value?.name} - ${value?.value}`);
+        });
+
+    }, [filtersUpdated]);
+
     return (
         <>
             <div id="searchTop">
                 <h1>Catalog</h1>
-                <SearchBar reference={searchBarRef} click={setSearchClick} />
+                <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             
             <div id="searchResult">
@@ -58,7 +68,7 @@ const ResultList = () : ReactElement => {
                             firstImagePath={data?.adFirstImagePath}
                         />
                     )
-                } ) : <div className="searchEmpty">Nobody here but kittens!</div>}
+                } ) : <div className="searchEmpty">Nobody here but us script kitties!</div>}
             </div>
         </>
     )

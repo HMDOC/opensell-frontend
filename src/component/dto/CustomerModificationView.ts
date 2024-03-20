@@ -11,5 +11,9 @@ export interface CustomerModificationView {
     bio: string,
     primaryAddress: string,
     iconPath: string,
-    socials: string[]
+    social1: string,
+    social2: string,
+    social3: string,
+    social4: string,
+    social5: string
 }
