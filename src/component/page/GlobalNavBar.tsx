@@ -24,7 +24,7 @@ export default function GlobalNavBar(): ReactElement {
 
     return (
         <>
-            <Navbar expand="lg" className="bg-body-tertiary">
+            <Navbar expand="lg" className="bg-body-tertiary mb-2">
                 <Container>
                     <Navbar.Brand><NavLink to="/" style={{textDecoration: "none"}} className={b}>OpenSell Inc.</NavLink></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
