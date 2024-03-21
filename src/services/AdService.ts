@@ -32,3 +32,7 @@ export const getAdToModif = async (link: string) => {
 export const changeAd = async (json: Map<String, Object>, idValue: number) => {
     return await http.post(`/ad/test-map-json`, Object.fromEntries(json), {params : {idValue}});
 }
+
+export const getAllAdTypes = async () => {
+    return await http.get("/ad/get-all-ad-type");
+}

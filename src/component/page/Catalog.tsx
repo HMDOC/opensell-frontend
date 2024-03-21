@@ -20,11 +20,30 @@ const ResultList = () : ReactElement => {
     const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
 
+    useEffect(() =>{
+        let tmpFilterOptions = {};
+        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
+            console.log(`${value?.name} - ${value?.value} - ${value?.defaultValue}`);
+            if ((value?.value!==value?.defaultValue) && (value?.value!=="")){
+                tmpFilterOptions[`${value?.name}`] = value.value;
+            }
+        });
+
+        console.log(tmpFilterOptions);
+
+        setFilterOptions(tmpFilterOptions);
+
+    }, [filtersUpdated]);
+
     useEffect( () => {
         searchBarRef.current.value = searchParams.get("query");
         let tmpFilterOptions = filterOptions;
         searchParams.forEach( (value, key) => {
             tmpFilterOptions[key] = value;
+            let element:any = document.querySelector(`#${key}`);
+            if (element!=null){
+                element.value = value
+            }
         });
         setFilterOptions(tmpFilterOptions);
     }, [searchParams]);
@@ -36,15 +55,11 @@ const ResultList = () : ReactElement => {
 
         let tmpQueryParams:any = filterOptions;
 
+        console.log(tmpQueryParams);
+
         setSearchParams(tmpQueryParams);
     }, [searchClick]);
 
-    useEffect(() =>{
-        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
-            console.log(`${value?.name} - ${value?.value}`);
-        });
-
-    }, [filtersUpdated]);
 
     return (
         <>

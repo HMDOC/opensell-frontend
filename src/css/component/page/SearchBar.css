@@ -9,3 +9,11 @@
     min-width: 200px;
     max-width: 600px;
 }
+
+input[type="number"]{
+    width: 50px;
+}
+
+#reverseSort{
+    width: 30px;
+}
