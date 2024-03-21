@@ -1,4 +1,4 @@
-import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, useEffect, useState } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute, PureComponent, ReactElement, ReactNode, Ref, RefObject, createRef, useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { changeAd, getAdToModif } from "../../services/AdService";
 import Loading from "../part/Loading";
@@ -15,7 +15,7 @@ interface InputReaderProps {
     value?: any;
     isTextArea?: boolean;
     isChecked?: boolean;
-    isFile?: boolean;
+    request?(): void
 }
 
 interface SelectorReaderProps {
@@ -30,15 +30,9 @@ const SELECTS: Array<SelectorReaderProps> = [
     { name: "shape", reference: createRef(), options: ["new", "like new", "good", "usable", "bad", "unknow"] },
 ];
 
-/**
- * When a tag is added in the frontend, we will just display it in a div.
- * 
- * - Pour les images et les tags, on pourra utiliser otherHTML
- */
 const INPUTS: Array<InputReaderProps> = [
     { name: "title", reference: createRef() },
     { name: "reference", reference: createRef() },
-    { name: "images", multiple: true, reference: createRef(), isFile: true },
     { name: "price", type: "number", reference: createRef() },
     { name: "adType", reference: createRef() },
     { name: "address", reference: createRef() },
@@ -48,11 +42,11 @@ const INPUTS: Array<InputReaderProps> = [
 
 export class SelectorReader extends PureComponent<SelectorReaderProps> {
     public state = {
-        value : undefined
+        value: undefined
     };
 
     public firstChange(e: ChangeEvent<HTMLInputElement>) {
-        this.setState({value: e.target.value});
+        this.setState({ value: e.target.value });
         a.set(this.props.name, e.target.value);
     }
 
@@ -76,11 +70,11 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
 
 export class InputReader extends PureComponent<InputReaderProps> {
     public state = {
-        value : undefined
+        value: undefined
     }
 
     public firstChange(value: any) {
-        this.setState({value : value});
+        this.setState({ value: value });
         a.set(this.props.name, value);
         console.log(a);
     }
@@ -101,11 +95,7 @@ export class InputReader extends PureComponent<InputReaderProps> {
                             (
                                 <input onChange={(e) => this.firstChange(e.target.checked)} type="checkbox" name={this.props.name} defaultChecked={this.props.value} />
                             ) : (
-                                this.props.isFile ? (
-                                    <input name={this.props.name} onChange={(e) => this.firstChange(e.target.value)} type="file" />
-                                ) : (
-                                    <input name={this.props.name} onChange={(e) => this.firstChange(e.target.value)} defaultValue={this.props.value} type={this.props.type ? this.props.type : "text"} ref={this.props.reference} multiple={this.props.multiple ? this.props.multiple : false} />
-                                )
+                                <input name={this.props.name} onChange={(e) => this.firstChange(e.target.value)} defaultValue={this.props.value} type={this.props.type ? this.props.type : "text"} ref={this.props.reference} multiple={this.props.multiple ? this.props.multiple : false} />
                             )
                     )
                 }
@@ -119,30 +109,30 @@ export class InputReader extends PureComponent<InputReaderProps> {
 
 
 // Faire un gros map avec ton les types d'inputs et il va avoir un if terner pour savoir est-ce que c'est un selector, un input ou autres
-class AdTags extends PureComponent<{reference : RefObject<HTMLInputElement>, adTags: Set<string>}> {
+class AdTags extends PureComponent<{ reference: RefObject<HTMLInputElement>, adTags: Set<string> }> {
     public state = {
-        adTags : Array.from(this.props.adTags),
-        error : 0
+        adTags: Array.from(this.props.adTags),
+        error: 0
     };
 
     public inputChange(e: ChangeEvent<HTMLInputElement>): void {
-        if(!e.currentTarget.value) {
-            if(this.state.error !== 1) this.setState({error : 1});
+        if (!e.currentTarget.value) {
+            if (this.state.error !== 1) this.setState({ error: 1 });
         }
         else {
-            if(!this.state.adTags.includes(e.currentTarget.value)) {
-                this.setState({adTags : [...this.state.adTags, e.currentTarget.value], error : 0});
+            if (!this.state.adTags.includes(e.currentTarget.value)) {
+                this.setState({ adTags: [...this.state.adTags, e.currentTarget.value], error: 0 });
                 a.set("adTags", [...this.state.adTags, e.currentTarget.value]);
             } else {
-                if(this.state.error !== 2) this.setState({error : 2});
+                if (this.state.error !== 2) this.setState({ error: 2 });
             }
         }
-        
+
         e.currentTarget.value = "";
     }
 
     public getError(error: number, label: string): string {
-        switch(error) {
+        switch (error) {
             case 0: return label;
             case 1: return "Tag cannot be empty";
             case 2: return "Tag already exists";
@@ -162,7 +152,7 @@ class AdTags extends PureComponent<{reference : RefObject<HTMLInputElement>, adT
                 <br />
 
                 {this.state.adTags?.map((value, index) => (
-                    <button onDoubleClick={() => {let adTagsChange = this.state.adTags.filter((tag) => tag !== value); this.setState({adTags : adTagsChange}); a.set("adTags", adTagsChange)}} key={`${index}`}>{value}</button>
+                    <button onDoubleClick={() => { let adTagsChange = this.state.adTags.filter((tag) => tag !== value); this.setState({ adTags: adTagsChange }); a.set("adTags", adTagsChange) }} key={`${index}`}>{value}</button>
                 ))}
 
                 <br />
@@ -172,12 +162,190 @@ class AdTags extends PureComponent<{reference : RefObject<HTMLInputElement>, adT
     }
 }
 
+class ImageObject {
+    public isPath: boolean;
+    public object: any;
+
+    constructor(object: any, isPath: boolean) {
+        this.object = object;
+        this.isPath = isPath;
+    }
+
+    public static fromPath(filePath: string): ImageObject {
+        return new ImageObject(filePath, true);
+    }
+
+    public static fromFile(file: File): ImageObject {
+        return new ImageObject(file, false);
+    }
+
+    public static fromMultipleFile(fileList: FileList): Array<ImageObject> {
+        let fileArray = Array.from(fileList);
+        return fileArray?.map(file => ImageObject.fromFile(file));
+
+    }
+
+    public static fromStringArray(imagesLink?: Array<string>) {
+        return imagesLink?.map(link => ImageObject.fromPath(link));
+    }
+}
+
+class AdImages extends PureComponent<{ images: Array<ImageObject> }> {
+    public objectUrls: Array<string> = [];
+
+    public addUrl(file: any): any {
+        let url = URL.createObjectURL(file);
+        this.objectUrls.push(url);
+        return url;
+    }
+
+    public state = {
+        images: this.props.images
+    };
+
+    public componentWillUnmount(): void {
+        for (let url of this.objectUrls) URL.revokeObjectURL(url);
+    }
+
+    public handleChange(e: ChangeEvent<HTMLInputElement>): void {
+        this.setState({ images: this.state.images.concat(ImageObject.fromMultipleFile(e.target.files)) });
+        e.target.value = null;
+        a.set("adImages", true);
+    }
+
+    public getFiles(): { multipartFiles: Array<File>, fileSpots: Array<number>, oldImages: Array<{ path: string, spot: number }> } {
+        let fileSpots = [];
+        let oldImages = [];
+        let multipartFiles = [];
+
+        let positionCounter = 0;
+        this.state.images.forEach(image => {
+            if (image.isPath) {
+                oldImages.push({ path: image.object, spot: positionCounter });
+            } else {
+                multipartFiles.push(image.object);
+                fileSpots.push(positionCounter);
+            }
+
+            positionCounter++;
+        });
+
+        return { multipartFiles, fileSpots, oldImages };
+    }
+
+    // Dealing with Image
+    public render(): ReactNode {
+        console.log(this.state.images)
+        return (
+            <>
+                <label>adImages: </label>
+                <br />
+                <input onChange={this.handleChange.bind(this)} type="file" multiple />
+                <br />
+                <br />
+                {this.state.images?.map((image, index) => (
+                    image.isPath ?
+                        (
+                            <img width="250px" key={`image-${index}`} src={image.object} />
+
+                        ) : (
+                            <img width="250px" key={`image-${index}`} src={this.addUrl(image.object)} />
+                        )
+                ))}
+                <br />
+                <br />
+
+            </>
+        );
+    }
+}
+
+interface SimpleInputProps {
+    label: string;
+    name: string;
+    type?: HTMLInputTypeAttribute;
+    value?: any;
+    isTextArea?: boolean;
+    isChecked?: boolean;
+    request(value: any): number;
+    /**
+     * 
+     * @return 0 if value is good other number if it is a bad value.
+    */
+    checkValue(value: any): number;
+    getErrorType(error: number): void;
+}
+
+class SimpleInput extends PureComponent<SimpleInputProps> {
+    public oldValue: any;
+
+    public inputRef: RefObject<HTMLInputElement> = createRef();
+    public saveRef: RefObject<HTMLButtonElement> = createRef();
+    public cancelRef: RefObject<HTMLButtonElement> = createRef();
+
+    public state = {
+        error: 0,
+        isEditing: false
+    };
+
+    public handleChange(e: ChangeEvent<HTMLInputElement>): void {
+        var error = this.props.checkValue(e.target.value);
+        if (error != this.state.error) this.setState({ error: error });
+    }
+
+    public focusIn() {
+        this.setState({ isEditing: true });
+        this.oldValue = this.inputRef.current.value;
+    }
+
+    public cancel() {
+        this.setState({ isEditing: false });
+        this.inputRef.current.value = this.oldValue;
+    }
+
+    public save() {
+        this.setState({ isEditing : false });
+        var resultCode = this.props.request(this.inputRef.current.value);
+        if(resultCode != this.state.error) this.setState({error : resultCode});
+    }
+
+    public render(): ReactNode {
+        return (
+            <>
+                {this.state.error != 0 ? this.props.getErrorType(this.state.error) : this.props.label}
+                <br />
+                <div>
+                    <input ref={this.inputRef} onFocus={this.focusIn.bind(this)} name={this.props.name} onChange={this.handleChange.bind(this)} />
+                    {this.state.isEditing ?
+                        (
+                            <>
+                                <button ref={this.cancelRef} onClick={this.cancel.bind(this)}>x</button>
+                                <button ref={this.saveRef} onClick={this.save.bind(this)}>v</button>
+                            </>
+                        ) : (
+                            <>
+                            
+                            </>
+                        )
+                    }
+                </div>
+
+                <br />
+                <br />
+            </>
+        );
+    }
+}
+
+// { name: "images", multiple: true, reference: createRef(), isFile: true },
 export default function AdModification(): ReactElement {
     const { link } = useParams();
     const [isloading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();
     const [adTagsStr, setAdTagsStr] = useState<Set<string>>();
-    
+    const [adImagesPath, setAdImagesPath] = useState<Array<string>>();
+    var adImagesRef: RefObject<AdImages> = useRef(null);
+
     useEffect(() => {
         getAdToModif(link).then(res => {
             // Rendu à faire mettre les anciennes valeurs dans les objets d'inputs, il faut aussi gérer les anciens tags et images.
@@ -192,15 +360,40 @@ export default function AdModification(): ReactElement {
 
                 setIsLoading(false);
                 setAdTagsStr(res?.data?.adTags);
+                setAdImagesPath(res?.data?.adImagesPath);
             }
 
-            else {
-                navigate("/not-found");
-            }
+            else navigate("/not-found");
         });
     }, []);
 
     var adTagsRef: RefObject<HTMLInputElement> = createRef();
+
+    function handleClick(): void {
+
+        if (a.size !== 0) {
+            if (a.get("adImages")) {
+                let data = new FormData();
+                let adImagesObject = adImagesRef.current.getFiles();
+
+                if (adImagesObject != null) {
+                    for (let file of adImagesObject.multipartFiles) {
+                        data.append("multipartFiles", file);
+                    }
+
+                    console.log(adImagesObject.multipartFiles);
+
+                    // To deal with backend, to put in JpaJSON
+                    a.delete("adImages");
+
+                    changeAd(a, 1, { fileSpots: adImagesObject.fileSpots, oldImages: adImagesObject.oldImages, multipartFiles: data });
+                }
+
+            } else {
+                changeAd(a, 1);
+            }
+        }
+    }
 
     return (
         <>
@@ -209,6 +402,7 @@ export default function AdModification(): ReactElement {
                     <Loading />
                 ) : (
                     <>
+                        <SimpleInput request={value => {console.log(value); return 0;}} name="test" checkValue={(value: any) => { return 0; }} getErrorType={() => { return "" }} label="test" />
                         {
                             INPUTS.map((value, index) => (
                                 <InputReader
@@ -220,11 +414,13 @@ export default function AdModification(): ReactElement {
                                     multiple={value.multiple}
                                     otherHtml={value.otherHtml}
                                     isTextArea={value.isTextArea}
-                                    isChecked={value.isChecked} 
-                                    // isFile={value.isFile} 
-                                    />
+                                    isChecked={value.isChecked}
+                                // isFile={value.isFile}
+                                />
                             ))
                         }
+
+                        <AdImages ref={adImagesRef} images={ImageObject.fromStringArray(adImagesPath)} />
 
                         <AdTags reference={adTagsRef} adTags={adTagsStr} />
 
@@ -238,7 +434,7 @@ export default function AdModification(): ReactElement {
                             ))
                         }
 
-                        <button onClick={() => {if(a.size !== 0) changeAd(a, 1);}}>submit</button>
+                        <button onClick={handleClick}>submit</button>
                     </>
                 )
             }

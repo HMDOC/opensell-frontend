@@ -34,6 +34,10 @@ export const getAdToModif = async (link: string) => {
     return await http.get<AdModifView>(`/ad/to-modify/${link}`);
 }
 
-export const changeAd = async (json: Map<String, Object>, idValue: number) => {
-    return await http.post(`/ad/test-map-json`, Object.fromEntries(json), {params : {idValue}});
+export const changeAd = async (json: Map<String, Object>, idValue: number, imageDeal?: any) => {
+    return await http.post(`/ad/test-map-json`, {json : Object.fromEntries(json), imageDeal : imageDeal}, {params : {idValue}});
+}
+
+const adModification = async (modifType: number, value: any, idAd: number) => {
+    return await http.patch("/ad/modification", null, {params : {modifType, value, idAd}});
 }
