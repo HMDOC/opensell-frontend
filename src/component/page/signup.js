@@ -2,7 +2,6 @@ import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
 import { useNavigate } from "react-router-dom";
 import Verification from "./Verification.tsx";
-import GlobalNavBar from "./GlobalNavBar.js";
 
 export default function Signup() {
     const naviguate = useNavigate();
@@ -16,10 +15,10 @@ export default function Signup() {
             password: "",
         }
     );
-    const [eErrors, setEErrors] = useState({ email: "", username: "", password: "" })
+    const [eErrors, setEErrors] = useState({email : "", username: "", password : ""})
 
     const getError = () => {
-        const errors = { email: "", username: "", password: "" };
+        const errors = {email : "", username: "", password : ""};
         if (!infos.email) {
             errors.email = "Required";
         } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(infos.email)) {
@@ -63,37 +62,34 @@ export default function Signup() {
         if (getError()) {
             checkSignup(infos.email, infos.username, infos.password).then(res => {
                 if (res?.data === 1) {
-                    setEErrors({ email: "Email already exists" });
+                    setEErrors({email : "Email already exists"});
                 } else if (res?.data === 2) {
-                    setEErrors({ username: "Username already exists" });
-                } else if (res?.data === 3) {
-                    setIsAuthentified(true);
-                } else {
-                    naviguate("/error");
-                }
+                    setEErrors({username : "Username already exists"});
+                    } else if (res?.data === 3) {
+                        setIsAuthentified(true);
+                    } else {
+                        naviguate("/error");
+                    }
             });
         }
     }
-
+    
     return (
-        <>
-            <GlobalNavBar />
-            <div>
-                {isAuthentified ? (<Verification email={infos.email} />) : (
-                    <div>
-                        <h1>Register</h1>
-                        <form id="form">
-                            <label>Email: *</label><br />
-                            <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{eErrors.email}<br /><br />
-                            <label>Username: *</label><br />
-                            <input type="text" name="username" onChange={handleChange}></input>&nbsp;{eErrors.username}<br /><br />
-                            <label>Password: *</label><br />
-                            <input type="password" name="password" onChange={handleChange}></input>&nbsp;{eErrors.password}<br /><br />
-                            <button type="submit" onClick={handleClick}>Sign up</button>
-                        </form>
-                    </div>
-                )}
-            </div>
-        </>
+        <div>
+            {isAuthentified ? (<Verification email={infos.email} />) : (
+                <div>
+                <h1>Sign up</h1>
+                <form id="form">
+                    <label>Email: *</label><br />
+                    <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{eErrors.email}<br /><br />
+                    <label>Username: *</label><br />
+                    <input type="text" name="username" onChange={handleChange}></input>&nbsp;{eErrors.username}<br /><br />
+                    <label>Password: *</label><br />
+                    <input type="password" name="password" onChange={handleChange}></input>&nbsp;{eErrors.password}<br /><br />
+                    <button type="submit" onClick={handleClick}>Sign up</button>
+                </form>
+                </div>
+            )}
+        </div>
     )
 }

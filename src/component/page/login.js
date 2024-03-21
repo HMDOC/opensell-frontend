@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
 import { useNavigate } from "react-router-dom";
-import GlobalNavBar from "./GlobalNavBar";
 
 export default function Login() {
     const username = useRef(null);
@@ -17,7 +16,7 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = { username: "", password: "" };
+        const errors = {username: "", password: ""};
         if (!username.current.value) {
             errors.username = "Required";
             setErrors(errors);
@@ -38,19 +37,16 @@ export default function Login() {
     };
 
     return (
-        <>
-            <GlobalNavBar />
-            <div>
-                <h1>Login</h1>
-                <form id="form">
-                    <label>Email or username:</label><br />
-                    <input type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
-                    <label>Password:</label><br />
-                    <input type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
-                    <button type="submit" onClick={handleSubmit}>Sign up</button>
-                </form><br />
-                {error.creds}
-            </div>
-        </>
+        <div>
+            <h1>Login</h1>
+            <form id="form">
+                <label>Email or username:</label><br />
+                <input type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
+                <label>Password:</label><br />
+                <input type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
+                <button type="submit" onClick={handleSubmit}>Sign up</button>
+            </form><br />
+            {error.creds}
+        </div>
     )
 }

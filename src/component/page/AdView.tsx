@@ -4,7 +4,6 @@ import { getAdByLink } from "../../services/AdService";
 import content from "../../locales/ad.json";
 import { getLanguage } from "../../i18n/i18n";
 import Loading from "../part/Loading";
-import GlobalNavBar from "./GlobalNavBar.js";
 
 /**
  * Function that increase the index of the current picture
@@ -62,7 +61,6 @@ const AdView = (): ReactElement => {
                     adBuyerView ?
                         (
                             <>
-                                <GlobalNavBar />
                                 <div>
                                     <h1>{adBuyerView?.adTitle}</h1>
                                     {/* Image Section */}

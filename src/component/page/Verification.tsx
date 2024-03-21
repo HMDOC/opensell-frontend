@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { verifyCode } from "../../services/CodeService";
 import { useNavigate } from "react-router-dom";
 
-export default function Verification(props: { email: string }) {
+export default function Verification(props: {email: string}) {
     const [code, setCode] = useState<string>();
     const [message, setMessage] = useState<string>();
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ export default function Verification(props: { email: string }) {
         e.preventDefault();
         setCode(e.target.value);
     }
-
+    
     function handleCode(e) {
         e.preventDefault();
         verifyCode(props.email, code).then((response: any) => {
