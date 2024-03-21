@@ -14,8 +14,11 @@
 }
 
 .is-active {
-  text-decoration: underline red;
   color: black;
+  border: solid white;
+  background-color: white;
+  border-radius: 10%;
+  text-decoration: none;
 }
 
 .nav {

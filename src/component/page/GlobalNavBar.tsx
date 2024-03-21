@@ -12,21 +12,14 @@ import navLinks from "./Navbar.json";
  * @author Quoc 
  */
 export default function GlobalNavBar(): ReactElement {
-    const handleClick = (e: any) => {
-        e.target.style = "";
-        console.log("test")
-        e.target.document.body.style.textDecoration = "underline red"
-    }
-
-    const b = ({isActive}) => {
+    const b = ({ isActive }) => {
         return isActive ? "is-active" : "nav"
     };
 
     return (
         <>
-            <Navbar expand="lg" className="bg-body-tertiary mb-2">
-                <Container>
-                    <Navbar.Brand><NavLink to="/" style={{textDecoration: "none"}} className={b}>OpenSell Inc.</NavLink></Navbar.Brand>
+            <Navbar expand="lg" className="bg-danger mb-2">
+            <Navbar.Brand><NavLink to="/" style={{ textDecoration: "none", color: "black" }}><h2>OpenSell Inc.</h2></NavLink></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
@@ -55,7 +48,6 @@ export default function GlobalNavBar(): ReactElement {
 
                         </Nav>
                     </Navbar.Collapse>
-                </Container>
             </Navbar>
         </>
     );
