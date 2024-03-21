@@ -9,18 +9,6 @@ const SearchFilters = (props) : ReactElement =>{
     const dateMin = "2020-01-01";
     const dateMax = "3000-01-01";
 
-    /*
-defaultValue = "0") Double priceMin,
-defaultValue = "9999999d") Double priceMax,
-defaultValue = "2020-01-01") Date dateMin,
-defaultValue = "3000-01-01") Date dateMax,
-Integer typeId, -
-Set<Integer> tagListId, -
-Integer shapeId, -
-Boolean filterSold, -
-sortby
-    */
-
     const [adTypes, setAdTypes] = useState<Array<any>>(new Array());
     const adSortBy = [
         {sortParam : "", sortVisual : "Added Date"},
