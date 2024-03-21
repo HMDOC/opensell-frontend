@@ -2,6 +2,7 @@ import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createR
 import { useNavigate, useParams } from "react-router-dom";
 import { changeAd, getAdToModif } from "../../services/AdService";
 import Loading from "../part/Loading";
+import GlobalNavBar from "./GlobalNavBar.js";
 
 var a: Map<String, Object> = new Map<String, Object>();
 
@@ -48,11 +49,11 @@ const INPUTS: Array<InputReaderProps> = [
 
 export class SelectorReader extends PureComponent<SelectorReaderProps> {
     public state = {
-        value : undefined
+        value: undefined
     };
 
     public firstChange(e: ChangeEvent<HTMLInputElement>) {
-        this.setState({value: e.target.value});
+        this.setState({ value: e.target.value });
         a.set(this.props.name, e.target.value);
     }
 
@@ -76,11 +77,11 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
 
 export class InputReader extends PureComponent<InputReaderProps> {
     public state = {
-        value : undefined
+        value: undefined
     }
 
     public firstChange(value: any) {
-        this.setState({value : value});
+        this.setState({ value: value });
         a.set(this.props.name, value);
         console.log(a);
     }
@@ -119,30 +120,30 @@ export class InputReader extends PureComponent<InputReaderProps> {
 
 
 // Faire un gros map avec ton les types d'inputs et il va avoir un if terner pour savoir est-ce que c'est un selector, un input ou autres
-class AdTags extends PureComponent<{reference : RefObject<HTMLInputElement>, adTags: Set<string>}> {
+class AdTags extends PureComponent<{ reference: RefObject<HTMLInputElement>, adTags: Set<string> }> {
     public state = {
-        adTags : Array.from(this.props.adTags),
-        error : 0
+        adTags: Array.from(this.props.adTags),
+        error: 0
     };
 
     public inputChange(e: ChangeEvent<HTMLInputElement>): void {
-        if(!e.currentTarget.value) {
-            if(this.state.error !== 1) this.setState({error : 1});
+        if (!e.currentTarget.value) {
+            if (this.state.error !== 1) this.setState({ error: 1 });
         }
         else {
-            if(!this.state.adTags.includes(e.currentTarget.value)) {
-                this.setState({adTags : [...this.state.adTags, e.currentTarget.value], error : 0});
+            if (!this.state.adTags.includes(e.currentTarget.value)) {
+                this.setState({ adTags: [...this.state.adTags, e.currentTarget.value], error: 0 });
                 a.set("adTags", [...this.state.adTags, e.currentTarget.value]);
             } else {
-                if(this.state.error !== 2) this.setState({error : 2});
+                if (this.state.error !== 2) this.setState({ error: 2 });
             }
         }
-        
+
         e.currentTarget.value = "";
     }
 
     public getError(error: number, label: string): string {
-        switch(error) {
+        switch (error) {
             case 0: return label;
             case 1: return "Tag cannot be empty";
             case 2: return "Tag already exists";
@@ -162,7 +163,7 @@ class AdTags extends PureComponent<{reference : RefObject<HTMLInputElement>, adT
                 <br />
 
                 {this.state.adTags?.map((value, index) => (
-                    <button onDoubleClick={() => {let adTagsChange = this.state.adTags.filter((tag) => tag !== value); this.setState({adTags : adTagsChange}); a.set("adTags", adTagsChange)}} key={`${index}`}>{value}</button>
+                    <button onDoubleClick={() => { let adTagsChange = this.state.adTags.filter((tag) => tag !== value); this.setState({ adTags: adTagsChange }); a.set("adTags", adTagsChange) }} key={`${index}`}>{value}</button>
                 ))}
 
                 <br />
@@ -177,7 +178,7 @@ export default function AdModification(): ReactElement {
     const [isloading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();
     const [adTagsStr, setAdTagsStr] = useState<Set<string>>();
-    
+
     useEffect(() => {
         getAdToModif(link).then(res => {
             // Rendu à faire mettre les anciennes valeurs dans les objets d'inputs, il faut aussi gérer les anciens tags et images.
@@ -209,6 +210,7 @@ export default function AdModification(): ReactElement {
                     <Loading />
                 ) : (
                     <>
+                        <GlobalNavBar />
                         {
                             INPUTS.map((value, index) => (
                                 <InputReader
@@ -220,9 +222,9 @@ export default function AdModification(): ReactElement {
                                     multiple={value.multiple}
                                     otherHtml={value.otherHtml}
                                     isTextArea={value.isTextArea}
-                                    isChecked={value.isChecked} 
-                                    // isFile={value.isFile} 
-                                    />
+                                    isChecked={value.isChecked}
+                                // isFile={value.isFile} 
+                                />
                             ))
                         }
 
@@ -238,7 +240,7 @@ export default function AdModification(): ReactElement {
                             ))
                         }
 
-                        <button onClick={() => {if(a.size !== 0) changeAd(a, 1);}}>submit</button>
+                        <button onClick={() => { if (a.size !== 0) changeAd(a, 1); }}>submit</button>
                     </>
                 )
             }

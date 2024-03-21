@@ -1,10 +1,11 @@
 import { Component, ReactNode, ChangeEvent, RefObject, createRef } from "react";
 import { testImages } from "../../services/AdService";
+import GlobalNavBar from "./GlobalNavBar.js";
 
 export default class FileUploader extends Component {
     public fileInputRef: RefObject<HTMLInputElement> = createRef();
-    
-    public state: {customerImages: any} = {
+
+    public state: { customerImages: any } = {
         customerImages: [],
     };
 
@@ -29,6 +30,7 @@ export default class FileUploader extends Component {
     public render(): ReactNode {
         return (
             <>
+                <GlobalNavBar />
                 <input ref={this.fileInputRef} onChange={this.addFile.bind(this)} type="file" multiple />
 
                 {this.state.customerImages.map((image, index) => (

@@ -3,12 +3,13 @@ import "../../css/component/page/SearchBar.css";
 import SearchFilters from "./SearchFilters";
 
 
+
 /** 
     The component for the filter.
     @author Davide
 */
-const FilterToggle = (props) : ReactElement => {
-    
+const FilterToggle = (props): ReactElement => {
+
     const filterRef = props.filterRef;
 
     const toggleFilters = () => {
@@ -26,11 +27,11 @@ const FilterToggle = (props) : ReactElement => {
     The component for the search bar.
     @author Davide
 */
-const SearchBar = (props) : ReactElement => {
+const SearchBar = (props): ReactElement => {
 
     const searchBarPress = (event) => {
-        let key:string = event.key;
-        if (key==="Enter"){
+        let key: string = event.key;
+        if (key === "Enter") {
             console.log("Enter")
             props.click(event.timeStamp);
         }
@@ -46,7 +47,7 @@ const SearchBar = (props) : ReactElement => {
             </div>
             <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
         </>
-        
+
     )
 }
 

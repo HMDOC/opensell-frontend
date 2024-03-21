@@ -4,15 +4,16 @@ import AdPreview from "./AdPreview";
 import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
+import GlobalNavBar from "./GlobalNavBar.js";
 
 /** 
     The catalog page that lets the user search and filter their results.
     @author Davide
 */
-const ResultList = () : ReactElement => {
+const ResultList = (): ReactElement => {
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
+    const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>([]);
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
 
@@ -20,11 +21,11 @@ const ResultList = () : ReactElement => {
     const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
 
-    useEffect(() =>{
+    useEffect(() => {
         let tmpFilterOptions = {};
-        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
+        filterRef.current.childNodes.forEach((value: HTMLInputElement, key: number) => {
             console.log(`${value?.name} - ${value?.value} - ${value?.defaultValue}`);
-            if ((value?.value!==value?.defaultValue) && (value?.value!=="")){
+            if ((value?.value !== value?.defaultValue) && (value?.value !== "")) {
                 tmpFilterOptions[`${value?.name}`] = value.value;
             }
         });
@@ -35,13 +36,13 @@ const ResultList = () : ReactElement => {
 
     }, [filtersUpdated]);
 
-    useEffect( () => {
+    useEffect(() => {
         searchBarRef.current.value = searchParams.get("query");
         let tmpFilterOptions = filterOptions;
-        searchParams.forEach( (value, key) => {
+        searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
-            let element:any = document.querySelector(`#${key}`);
-            if (element!=null){
+            let element: any = document.querySelector(`#${key}`);
+            if (element != null) {
                 element.value = value
             }
         });
@@ -53,7 +54,7 @@ const ResultList = () : ReactElement => {
             setListOfAds(res?.data);
         }).catch(e => console.log(e));
 
-        let tmpQueryParams:any = filterOptions;
+        let tmpQueryParams: any = filterOptions;
 
         console.log(tmpQueryParams);
 
@@ -63,13 +64,14 @@ const ResultList = () : ReactElement => {
 
     return (
         <>
+            <GlobalNavBar />
             <div id="searchTop">
                 <h1>Catalog</h1>
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
-            
+
             <div id="searchResult">
-            {(listOfAds.length>0) ? listOfAds.map( (data : AdSearchPreview, i : number) => {
+                {(listOfAds.length > 0) ? listOfAds.map((data: AdSearchPreview, i: number) => {
                     //console.log(data);
                     //console.log(i);
                     return (
@@ -83,7 +85,7 @@ const ResultList = () : ReactElement => {
                             firstImagePath={data?.adFirstImagePath}
                         />
                     )
-                } ) : <div className="searchEmpty">Nobody here but us script kitties!</div>}
+                }) : <div className="searchEmpty">Nobody here but us script kitties!</div>}
             </div>
         </>
     )

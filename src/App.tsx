@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { useState } from 'react';
 import LazyLoad from './component/part/LazyLoad';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
 const Signup = lazy(() => (import("./component/page/signup")));
