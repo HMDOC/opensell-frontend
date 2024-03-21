@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import GlobalNavBar from "./GlobalNavBar.js";
 
 /** 
-    The catalog page that lets the user search and filter their results.
+    THIS IS UNFINISHED
     @author Davide
 */
 const ResultList = (): ReactElement => {
