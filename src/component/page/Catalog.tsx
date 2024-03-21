@@ -6,7 +6,7 @@ import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 
 /** 
-    THIS IS UNFINISHED
+    The catalog page that lets the user search and filter their results.
     @author Davide
 */
 const ResultList = () : ReactElement => {

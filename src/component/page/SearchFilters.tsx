@@ -2,6 +2,10 @@ import {ReactElement, useEffect, useState } from "react";
 import "../../css/component/page/SearchBar.css";
 import { getAllAdTypes } from "../../services/AdService";
 
+/** 
+    The component that holds all of the filter options.
+    @author Davide
+*/
 const SearchFilters = (props) : ReactElement =>{
     const filtersUpdated = (event) => props.filterUpdate(event);
 
