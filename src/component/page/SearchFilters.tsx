@@ -23,7 +23,7 @@ sortby
 
     const [adTypes, setAdTypes] = useState<Array<any>>(new Array());
     const adSortBy = [
-        {sortParam : "addedDate", sortVisual : "Added Date"},
+        {sortParam : "", sortVisual : "Added Date"},
         {sortParam : "title", sortVisual : "Title"},
         {sortParam : "price", sortVisual : "Price"}
     ]
