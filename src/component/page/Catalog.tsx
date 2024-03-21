@@ -5,23 +5,45 @@ import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 
-/*
+/** 
     THIS IS UNFINISHED
+    @author Davide
 */
-
 const ResultList = () : ReactElement => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
     const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
+
+    const [filtersUpdated, setFiltersUpdated] = useState();
+    const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
+
+    useEffect(() =>{
+        let tmpFilterOptions = {};
+        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
+            console.log(`${value?.name} - ${value?.value} - ${value?.defaultValue}`);
+            if ((value?.value!==value?.defaultValue) && (value?.value!=="")){
+                tmpFilterOptions[`${value?.name}`] = value.value;
+            }
+        });
+
+        console.log(tmpFilterOptions);
+
+        setFilterOptions(tmpFilterOptions);
+
+    }, [filtersUpdated]);
 
     useEffect( () => {
         searchBarRef.current.value = searchParams.get("query");
         let tmpFilterOptions = filterOptions;
         searchParams.forEach( (value, key) => {
             tmpFilterOptions[key] = value;
+            let element:any = document.querySelector(`#${key}`);
+            if (element!=null){
+                element.value = value
+            }
         });
         setFilterOptions(tmpFilterOptions);
     }, [searchParams]);
@@ -33,14 +55,17 @@ const ResultList = () : ReactElement => {
 
         let tmpQueryParams:any = filterOptions;
 
+        console.log(tmpQueryParams);
+
         setSearchParams(tmpQueryParams);
     }, [searchClick]);
+
 
     return (
         <>
             <div id="searchTop">
                 <h1>Catalog</h1>
-                <SearchBar reference={searchBarRef} click={setSearchClick} />
+                <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             
             <div id="searchResult">
@@ -58,7 +83,7 @@ const ResultList = () : ReactElement => {
                             firstImagePath={data?.adFirstImagePath}
                         />
                     )
-                } ) : <div className="searchEmpty">Nobody here but chickens!</div>}
+                } ) : <div className="searchEmpty">Nobody here but us script kitties!</div>}
             </div>
         </>
     )

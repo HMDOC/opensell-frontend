@@ -2,29 +2,12 @@ import { AxiosResponse } from "axios";
 import ModificationFeedback from "../../component/dto/ModificationFeedback";
 import http from "../../http-commons";
 import { RegexCode } from "./RegexService";
+import { formAttributes, inputValidation } from "./FormService";
 
 export const MAX_SOCIALS = 5;
 
-export type formAttributes = {
-    type?: string,
-    labelName: string,
-    name: string,
-    code?: RegexCode,
-    rows?: number,
-    cols?: number,
-    classList?: [],
-    id?: string,
-    isUnique: boolean
-}
-
-export type inputValidation = {
-    value: string,
-    isValid: boolean,
-    feedbackMessage: string
-}
-
-export var initialState: {[key:string]: inputValidation} = {
-    iconPath: {value: null, isValid: null, feedbackMessage: null},
+export const initialState: {[key:string]: inputValidation} = {
+    icon: {value: null, isValid: null, feedbackMessage: null},
     username: {value: null, isValid: null, feedbackMessage: null},
     firstName: {value: null, isValid: null, feedbackMessage: null},
     lastName: {value: null, isValid: null, feedbackMessage: null},
@@ -44,7 +27,7 @@ export var initialState: {[key:string]: inputValidation} = {
 export const formInformation: {[key:string]: formAttributes} = {
     icon: {type: "file", labelName: "ICON : ", name:"icon", isUnique: false},
     username: {type: "text", labelName: "Username : ", name:"username", code: RegexCode.USERNAME, id: "usernameInput", isUnique: true},
-    firstName: {type: "text", labelName: "First name : ", name:"firstName",code: RegexCode.FIRST_NAME, isUnique: false},
+    firstName: {type: "text", labelName: "First name : ", name:"firstName",code: RegexCode.FIRST_NAME, isUnique: false, id: "firstNameInput"},
     lastName: {type: "text", labelName: "Last name : ", name:"lastName", code: RegexCode.LAST_NAME, isUnique: false},
     exposedEmail: {type: "text", labelName: "Public Email : ", name:"exposedEmail", code: RegexCode.EMAIL, isUnique: true},
     primaryAddress: {type: "text", labelName: "Address : ", name:"primaryAddress", isUnique: false},
@@ -74,5 +57,15 @@ export const executeChanges = async (requests:string[]) => {
     }
     return resultArray;
 }
+
+// export const getImageFromFile = (file: File): string => {
+//     return URL.createObjectURL(file);
+// }
+
+// export const getImageFromURL = (link: string): string => {
+//     link = "http://dummyimage.com/116x100.png/dddddd/000000";
+   
+//     return null;
+// }
 
 

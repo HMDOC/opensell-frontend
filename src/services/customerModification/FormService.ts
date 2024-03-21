@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 import { verify, RegexCode } from "./RegexService";
 
 const INVALID_INPUT = "invalidInput";
@@ -22,10 +22,10 @@ const resetInputStyle = (inputElement: ChangeEvent<HTMLInputElement> | ChangeEve
 
 export const formatInputElement = (inputElement: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>, code: RegexCode, defaultValue: string, onInvalid: any): boolean => {
     const {name, value} = inputElement.target;
-    if (value == "" || value == defaultValue) {
+    if (value == "" || value == defaultValue) { //if the input is empty or is equal to its default value
         resetInputStyle(inputElement);
         return null;
-    } else if (!code && value !== defaultValue) {
+    } else if (!code && value !== defaultValue) { //if the input doesn't require validation and is different than default value
         validateInputStyle(inputElement);
         return true;
     } else if (verify(value, code)) {
@@ -47,4 +47,28 @@ export const formatCopyOfInput = (inputElement: ChangeEvent<HTMLInputElement>, a
     } else {
         invalidateInputStyle(inputElement);
     }
+}
+
+export type formAttributes = {
+    type?: string,
+    labelName: string,
+    name: string,
+    code?: RegexCode,
+    rows?: number,
+    cols?: number,
+    classList?: [],
+    id?: string,
+    isUnique: boolean
+}
+
+export type inputValidation = {
+    value: string,
+    isValid: boolean,
+    feedbackMessage: string
+}
+
+
+export const getFormData = (event: FormEvent<HTMLFormElement>): FormData => {
+    // @ts-ignore
+    return new FormData(event.target);
 }

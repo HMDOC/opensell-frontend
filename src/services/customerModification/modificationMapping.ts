@@ -8,7 +8,7 @@ const VALUE_REPLACE_STR = "{value}";
 const CUSTOMER_LINK_REPLACE_STR = "{customer_link}"; 
 
 export const changeMapping: {[key:string]:string} = {
-    icon: `${CHANGE_REQUEST_MAPPING}/change-iconPath?link=${CUSTOMER_LINK_REPLACE_STR}&iconPath=${VALUE_REPLACE_STR}`,
+    icon: `${CHANGE_REQUEST_MAPPING}/change-icon-path?link=${CUSTOMER_LINK_REPLACE_STR}&iconPath=${VALUE_REPLACE_STR}`,
     username: `${CHANGE_REQUEST_MAPPING}/change-username?link=${CUSTOMER_LINK_REPLACE_STR}&username=${VALUE_REPLACE_STR}`,
     firstName: `${CHANGE_REQUEST_MAPPING}/change-first-name?link=${CUSTOMER_LINK_REPLACE_STR}&firstName=${VALUE_REPLACE_STR}`,
     lastName: `${CHANGE_REQUEST_MAPPING}/change-last-name?link=${CUSTOMER_LINK_REPLACE_STR}&lastName=${VALUE_REPLACE_STR}`,
@@ -29,7 +29,7 @@ export const checkMapping: {[key:string]:string} = {
     username: `${CEHCK_REQUEST_MAPPING}/check-username?username=${VALUE_REPLACE_STR}`,
     exposedEmail: `${CEHCK_REQUEST_MAPPING}/check-public-email?email=${VALUE_REPLACE_STR}`,
     personalEmail: `${CEHCK_REQUEST_MAPPING}/check-private-email?email=${VALUE_REPLACE_STR}`,
-    phoneNumber: `${CEHCK_REQUEST_MAPPING}/check-phone-number?email=${VALUE_REPLACE_STR}`
+    phoneNumber: `${CEHCK_REQUEST_MAPPING}/check-phone-number?phoneNumber=${VALUE_REPLACE_STR}`
 }
 
 export const checkSamePwd = async(link: string, pwd: string):Promise<AxiosResponse<number>> => {
