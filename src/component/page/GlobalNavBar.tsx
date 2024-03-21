@@ -12,9 +12,15 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 
 
 export default function GlobalNavBar() {
+    /*
+<Navbar expand="lg" className="bg-primary">
+                <Container className='bg-black rounded-5 px-4 py-1'>
+                    <Navbar.Brand><Link to="/">OpenSell Inc.</Link></Navbar.Brand>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ filter: "brightness(600%)"} } />
+    */
     return (
         <>
-            <Navbar expand="lg" className="bg-body-tertiary">
+            <Navbar expand="lg" className="bg-body-tertiary mb-2">
                 <Container>
                     <Navbar.Brand><Link to="/">OpenSell Inc.</Link></Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
