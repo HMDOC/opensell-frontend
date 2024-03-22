@@ -1,0 +1,18 @@
+[
+    {
+        "path" : "/",
+        "label" : "Home"
+    },
+    {
+        "path" : "/catalog",
+        "label" : "Catalog"
+    },
+    {
+        "path" : "/login",
+        "label" : "Login"
+    },
+    {
+        "path" : "/signup",
+        "label" : "Register"
+    }
+]
