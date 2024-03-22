@@ -4,14 +4,31 @@ import { testImages } from "../../services/AdService";
 export default class FileUploader extends Component {
     public fileInputRef: RefObject<HTMLInputElement> = createRef();
     
-    public state: {customerImages: any} = {
+    public state = {
         customerImages: [],
     };
 
     public addFile = (e: ChangeEvent<HTMLInputElement>) => {
-        this.setState({
+        var reader = new FileReader();
+        var inputFiles = Array.from(this.fileInputRef.current.files);
+        var isLoading = false;
+
+        reader.onload = () => {
+            this.setState(
+                {customerImages : this.state.customerImages.concat(reader.result)}
+            );
+        }
+
+        for(var file of inputFiles) {
+            /*new Promise().then(
+
+            );*/
+            reader.readAsDataURL(file);
+        }
+        
+        /*this.setState({
             customerImages: this.state.customerImages.concat(Array.from(this.fileInputRef.current.files))
-        });
+        });*/
     }
 
     public submit() {
@@ -24,6 +41,7 @@ export default class FileUploader extends Component {
     }
 
     public componentDidUpdate(): void {
+        console.log(this.state.customerImages);
     }
 
     public render(): ReactNode {
@@ -32,7 +50,7 @@ export default class FileUploader extends Component {
                 <input ref={this.fileInputRef} onChange={this.addFile.bind(this)} type="file" multiple />
 
                 {this.state.customerImages.map((image, index) => (
-                    <img key={index} src={URL.createObjectURL(image)} />
+                    <img key={index} src={image} />
                 ))}
 
                 <button onClick={this.submit.bind(this)}>submit</button>

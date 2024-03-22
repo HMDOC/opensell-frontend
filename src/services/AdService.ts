@@ -1,4 +1,5 @@
-import { ModifType } from "../component/page/AdModification";
+import { ModifType } from "../component/shared/SharedAdPart";
+
 import http from "../http-commons";
 
 export const getAdByLink = async (link: string) => {
