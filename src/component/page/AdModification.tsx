@@ -1,9 +1,24 @@
 import { ChangeEvent, HTMLInputTypeAttribute, PureComponent, ReactElement, ReactNode, Ref, RefObject, createRef, useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { changeAd, getAdToModif } from "../../services/AdService";
+import { changeAd, getAdToModif, adModification } from "../../services/AdService";
 import Loading from "../part/Loading";
+import { HtmlCode } from "../../services/verification/HtmlCode";
 
 var a: Map<String, Object> = new Map<String, Object>();
+
+export enum ModifType {
+    TITLE,
+    REFERENCE,
+    PRICE,
+    AD_TYPE,
+    ADDRESS,
+    IS_SOLD,
+    DESCRIPTION,
+    AD_IMAGES,
+    AD_TAGS,
+    VISIBILITY,
+    SHAPE
+}
 
 interface InputReaderProps {
     label?: string;
@@ -15,7 +30,6 @@ interface InputReaderProps {
     value?: any;
     isTextArea?: boolean;
     isChecked?: boolean;
-    request?(): void
 }
 
 interface SelectorReaderProps {
@@ -260,63 +274,216 @@ class AdImages extends PureComponent<{ images: Array<ImageObject> }> {
     }
 }
 
+enum InputType {
+    DEFAULT,
+    ONE_CHECKBOX,
+    TEXTARIA
+}
+
 interface SimpleInputProps {
-    label: string;
+    idAd?: number;
     name: string;
-    type?: HTMLInputTypeAttribute;
-    value?: any;
-    isTextArea?: boolean;
-    isChecked?: boolean;
-    request(value: any): number;
+    type?: InputType;
+    modifType: ModifType;
+    defaultValue?: any;
+
     /**
-     * 
      * @return 0 if value is good other number if it is a bad value.
     */
     checkValue(value: any): number;
-    getErrorType(error: number): void;
+    getErrorType(error: number): string;
 }
+
+const SIMPLE: Array<SimpleInputProps> = [
+    {
+        name: "title",
+        type: InputType.DEFAULT,
+        modifType: ModifType.TITLE,
+        getErrorType(error) {
+            switch (error) {
+                case HtmlCode.SUCCESS: return "";
+                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
+                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
+            }
+        },
+        checkValue(value) {
+            // To check the errors.
+            if (true /* condition */) {
+                return 0;
+            }
+        }
+    }, {
+        name: "reference",
+        type: InputType.DEFAULT,
+        modifType: ModifType.REFERENCE,
+        getErrorType(error) {
+            switch (error) {
+                case HtmlCode.SUCCESS: return "";
+                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
+                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
+            }
+        },
+        checkValue(value) {
+            // To check the errors.
+            if (true /* condition */) {
+                return 0;
+            }
+        }
+    }, {
+        name: "price",
+        type: InputType.DEFAULT,
+        modifType: ModifType.PRICE,
+        getErrorType(error) {
+            switch (error) {
+                case HtmlCode.SUCCESS: return "";
+                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
+                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
+            }
+        },
+        checkValue(value) {
+            // To check the errors.
+            if (true /* condition */) {
+                return 0;
+            }
+        }
+    }, {
+        name: "adType (TO FINISH BACKEND)",
+        type: InputType.DEFAULT,
+        modifType: ModifType.AD_TYPE,
+        getErrorType(error) {
+            switch (error) {
+                case HtmlCode.SUCCESS: return "";
+                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
+                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
+            }
+        },
+        checkValue(value) {
+            // To check the errors.
+            if (true /* condition */) {
+                return 0;
+            }
+        }
+    }, {
+        name: "address",
+        type: InputType.DEFAULT,
+        modifType: ModifType.ADDRESS,
+        getErrorType(error) {
+            switch (error) {
+                case HtmlCode.SUCCESS: return "";
+                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
+                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
+            }
+        },
+        checkValue(value) {
+            // To check the errors.
+            if (true /* condition */) {
+                return 0;
+            }
+        }
+    }, {
+        name: "isSold",
+        type: InputType.ONE_CHECKBOX,
+        modifType: ModifType.IS_SOLD,
+        getErrorType(error) {
+            switch (error) {
+                case HtmlCode.SUCCESS: return "";
+                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
+                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
+            }
+        },
+        checkValue(value) {
+            // To check the errors.
+            if (true /* condition */) {
+                return 0;
+            }
+        }
+    },
+];
 
 class SimpleInput extends PureComponent<SimpleInputProps> {
     public oldValue: any;
 
-    public inputRef: RefObject<HTMLInputElement> = createRef();
-    public saveRef: RefObject<HTMLButtonElement> = createRef();
-    public cancelRef: RefObject<HTMLButtonElement> = createRef();
+    public inputRef = createRef<any>();
+    public saveRef = createRef<HTMLButtonElement>();
+    public cancelRef = createRef<HTMLButtonElement>();
 
     public state = {
         error: 0,
-        isEditing: false
+        isEditing: false,
     };
 
-    public handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        var error = this.props.checkValue(e.target.value);
+    public handleError(value: any): number {
+        var error = this.props.checkValue(value);
         if (error != this.state.error) this.setState({ error: error });
+        return error;
     }
 
-    public focusIn() {
+    public handleChange(e: ChangeEvent<any>): void {
+        this.handleError(e.target.value);
+    }
+
+    public focusInInput() {
         this.setState({ isEditing: true });
         this.oldValue = this.inputRef.current.value;
     }
 
     public cancel() {
-        this.setState({ isEditing: false });
+        this.setState({ isEditing: false, error: 0 });
         this.inputRef.current.value = this.oldValue;
     }
 
+    public checkedSave() {
+        adModification(this.props.modifType, this.inputRef.current.checked, this.props.idAd)
+            .then(res => {
+                if (res?.data === 200) {
+                    this.setState({ isEditing: false, error: res?.data });
+                } else this.setState({ error: res?.data });
+            });
+    }
+
     public save() {
-        this.setState({ isEditing : false });
-        var resultCode = this.props.request(this.inputRef.current.value);
-        if(resultCode != this.state.error) this.setState({error : resultCode});
+        if (this.oldValue == this.inputRef.current.value) {
+            this.setState({ error: HtmlCode.VALUE_AS_NOT_CHANGE });
+        }
+
+        else if (this.handleError(this.inputRef.current.value) == HtmlCode.SUCCESS) {
+            adModification(this.props.modifType, this.inputRef.current.value, this.props.idAd)
+                .then(res => {
+                    if (res?.data === 200) {
+                        this.setState({ isEditing: false, error: res?.data });
+                    } else this.setState({ error: res?.data });
+                });
+        }
     }
 
     public render(): ReactNode {
         return (
             <>
-                {this.state.error != 0 ? this.props.getErrorType(this.state.error) : this.props.label}
-                <br />
+                <label>{this.props.name} {this.state.error != 0 ? this.props.getErrorType(this.state.error) : ""}</label>
                 <div>
-                    <input ref={this.inputRef} onFocus={this.focusIn.bind(this)} name={this.props.name} onChange={this.handleChange.bind(this)} />
-                    {this.state.isEditing ?
+                    {this.props.type == InputType.TEXTARIA ?
+                        (
+                            <textarea onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />
+                        ) : (
+                            this.props.type == InputType.ONE_CHECKBOX ?
+                                (
+                                    <input
+                                        onClick={() => this.checkedSave()}
+                                        ref={this.inputRef}
+                                        type="checkbox"
+                                        name={this.props.name}
+                                        defaultChecked={this.props.defaultValue} />
+                                ) : (
+                                    <input
+                                        defaultValue={this.props.defaultValue}
+                                        ref={this.inputRef} onFocus={() => this.focusInInput()}
+                                        name={this.props.name}
+                                        onChange={(e) => this.handleChange(e)} />
+                                )
+                        )
+                    }
+
+                    {this.state.isEditing && this.props.type != InputType.ONE_CHECKBOX ?
                         (
                             <>
                                 <button ref={this.cancelRef} onClick={this.cancel.bind(this)}>x</button>
@@ -324,7 +491,7 @@ class SimpleInput extends PureComponent<SimpleInputProps> {
                             </>
                         ) : (
                             <>
-                            
+
                             </>
                         )
                     }
@@ -341,6 +508,7 @@ class SimpleInput extends PureComponent<SimpleInputProps> {
 export default function AdModification(): ReactElement {
     const { link } = useParams();
     const [isloading, setIsLoading] = useState<boolean>(true);
+    const [ad, setAd] = useState<AdModifView>(undefined);
     const navigate = useNavigate();
     const [adTagsStr, setAdTagsStr] = useState<Set<string>>();
     const [adImagesPath, setAdImagesPath] = useState<Array<string>>();
@@ -361,6 +529,7 @@ export default function AdModification(): ReactElement {
                 setIsLoading(false);
                 setAdTagsStr(res?.data?.adTags);
                 setAdImagesPath(res?.data?.adImagesPath);
+                setAd(res?.data);
             }
 
             else navigate("/not-found");
@@ -402,7 +571,17 @@ export default function AdModification(): ReactElement {
                     <Loading />
                 ) : (
                     <>
-                        <SimpleInput request={value => {console.log(value); return 0;}} name="test" checkValue={(value: any) => { return 0; }} getErrorType={() => { return "" }} label="test" />
+                        {SIMPLE.map(value => (
+                            <SimpleInput
+                                defaultValue={ad?.[value.name]}
+                                modifType={value.modifType}
+                                idAd={ad.idAd}
+                                name={value.name}
+                                type={value.type}
+                                checkValue={(value: any) => { if (value) return HtmlCode.SUCCESS; else if (!value) return HtmlCode.LENGTH_EMPTY; }}
+                                getErrorType={(error) => { if (error == 1) return " cannot be empty."; else if (error == 2054) return " is already in use with annother of your ad." }} />
+                        ))}
+
                         {
                             INPUTS.map((value, index) => (
                                 <InputReader
@@ -415,7 +594,6 @@ export default function AdModification(): ReactElement {
                                     otherHtml={value.otherHtml}
                                     isTextArea={value.isTextArea}
                                     isChecked={value.isChecked}
-                                // isFile={value.isFile}
                                 />
                             ))
                         }

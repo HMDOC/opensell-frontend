@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { executeChanges, formInformation, initialState, executeChange} from "../../services/customerModification/CustomerModificationService";
 import { formatCopyOfInput, formatInputElement, getFormData } from "../../services/customerModification/FormService";
 import { checkSamePwd, getCheckResult, getCustomerModificationView, getRequest } from "../../services/customerModification/modificationMapping";
-import { CustomerModificationView } from "../dto/CustomerModificationView";
+import { CustomerModificationView } from "../../entities/dto/CustomerModificationView";
 import { Messages as feedback} from '../../services/customerModification/FeedbackMessages';
 import Loading from "../part/Loading";
 

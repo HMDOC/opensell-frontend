@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { CustomerModificationView } from "../../component/dto/CustomerModificationView";
+import { CustomerModificationView } from "../../entities/dto/CustomerModificationView";
 import http from "../../http-commons";
 
 const CHANGE_REQUEST_MAPPING = "change";

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import ModificationFeedback from "../../component/dto/ModificationFeedback";
+import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 import http from "../../http-commons";
 import { RegexCode } from "./RegexService";
 import { formAttributes, inputValidation } from "./FormService";
