@@ -1,12 +1,11 @@
+body {
+  background-color: #24498E;
+}
+
 .navLinks {
   text-decoration: none;
   color: black;
 }
-
-/*.navLinks:active, .navLinks:hover {
-  text-decoration: underline;
-  text-decoration-color: red;
-}*/
 
 .pending {
   text-decoration: none;
@@ -14,14 +13,25 @@
 }
 
 .is-active {
-  color: black;
-  border: solid white;
-  background-color: white;
-  border-radius: 10%;
-  text-decoration: none;
+  color: white;
+  text-decoration: underline solid white;
 }
 
 .nav {
-  color: black;
+  color: white;
   text-decoration: none;
+  margin-bottom: -5px;
+}
+
+#basic-nav-dropdown {
+  color: white;
+  text-decoration: none;
+}
+
+.logo {
+  color: white;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  margin-top: -5px;
 }

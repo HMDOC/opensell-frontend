@@ -10,4 +10,5 @@
         // To delete the error when importing a JSON in Typescript
         "resolveJsonModule": true,
     }
+
 }

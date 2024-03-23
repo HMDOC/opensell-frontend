@@ -1,18 +1,30 @@
-[
-    {
-        "path" : "/",
-        "label" : "Home"
-    },
-    {
-        "path" : "/catalog",
-        "label" : "Catalog"
-    },
-    {
-        "path" : "/login",
-        "label" : "Login"
-    },
-    {
-        "path" : "/signup",
-        "label" : "Register"
-    }
-]
+{
+        "quickMenu": [
+        {
+            "path" : "/",
+            "label" : "Home"
+        },
+        {
+            "path" : "/about",
+            "label" : "About"
+        },
+        {
+            "path" : "/catalog",
+            "label" : "Catalog"
+        }
+    ],
+    "dropdownMenu": [
+        {
+            "path" : "/user/:link",
+            "label" : "My Profile"
+        },
+        {
+            "path" : "/user/:link",
+            "label" : "My Posts"
+        },
+        {
+            "path" : "/user/:link",
+            "label" : "Settings"
+        }
+    ]
+}
