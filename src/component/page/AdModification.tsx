@@ -1,10 +1,9 @@
 import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { changeAd, getAdToModif, adModification } from "../../services/AdService";
+import { getAdToModif, adModification } from "../../services/AdService";
 import Loading from "../part/Loading";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { InputType, ModifType, SelectorReader, SelectorReaderProps, SimpleInput, SimpleInputProps } from "../shared/SharedAdPart";
-import { AxiosResponse } from "axios";
 
 const SELECTS: Array<SelectorReaderProps> = [
     {

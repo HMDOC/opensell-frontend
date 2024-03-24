@@ -1,7 +1,14 @@
 import { ModifType } from "../component/shared/SharedAdPart";
+import { DisplayAdView } from "../entities/dto/DisplayAdView";
 
 import http from "../http-commons";
 
+/**
+ * Get part of an Ad to show and ad in a customer view.
+ * 
+ * @param link 
+ * @author Achraf
+ */
 export const getAdByLink = async (link: string) => {
     return await http.get<AdBuyerView>(`/ad/get-ad-buyer-view/${link}`);
 };
@@ -20,22 +27,38 @@ export const getAdBySearch = async (query: string, filters) => {
     return await http.get<AdSearchPreview[]>(`/ad/search`, { params })
 };
 
+// TO DELETE AFTER FILE UPLOADER
 export const testImages = async (formData: any) => {
     return await http.post<boolean>(`/ad/get-images`, formData);
 };
 
+/**
+ * Get all the content of an Ad that can be modifiable. It is for
+ * the modification page.
+ * 
+ * @param link
+ * @author Achraf
+ */
 export const getAdToModif = async (link: string) => {
     return await http.get<AdModifView>(`/ad/to-modify/${link}`);
 };
 
-export const changeAd = async (json: Map<String, Object>, idValue: number, imageDeal?: any) => {
-    return await http.post(`/ad/test-map-json`, {json : Object.fromEntries(json), imageDeal : imageDeal}, {params : {idValue}});
-};
-
+/**
+ * Modify a field of an Ad.
+ * 
+ * @param modifType The field we want to cahnge
+ * @param value The new value.
+ * @param idAd The id of the ad
+ * @author Achraf
+ */
 export const adModification = async (modifType: ModifType, value: any, idAd: number) => {
     return await http.patch("/ad/modification", null, {params : {modifType, value, idAd}});
 };
 
 export const getAllAdTypes = async () => {
     return await http.get("/ad/get-all-ad-type");
+};
+
+export const getCustomerAds = async (customerId: number) => {
+    return await http.get<Array<DisplayAdView>>(`/ad/get-customer-ads/${customerId}`);
 };

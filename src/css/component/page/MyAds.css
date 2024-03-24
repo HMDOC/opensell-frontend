@@ -1,0 +1,44 @@
+.display-ad {
+    display: flex;
+    background-color: #24498e;
+    color: white;
+    margin: 0 auto;
+    max-width: 1000px;
+    justify-content: space-between;
+}
+
+.display-ad p {
+    font-size: 18px;
+}
+
+.display-ad-img {
+    width: 320px;
+    height: 230px;
+    margin: 0;
+}
+
+.display-ad-is-sold {
+    width: 290px;
+    height: 60px;
+    margin: 0;
+    position: relative;
+    top: -145px;
+    rotate: -30deg;
+}
+
+.dislay-ad-img-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 240px;
+}
+
+.display-ad-options {
+    align-self: flex-start;
+    padding: 20px;
+}
+
+.display-ad-flex-with-img-desc {
+    display: flex;
+    align-items: center;
+}
