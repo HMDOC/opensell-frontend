@@ -6,6 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import "../../css/component/page/GlobalNavBar.css";
 import navLinks from "./Navbar.json";
 import Logo from "../page/opensell-logo.svg";
+
 /**
  * 
  * @author Quoc 
@@ -39,7 +40,6 @@ export default function GlobalNavBar(): ReactElement {
                                     Logout
                                 </NavDropdown.Item>
                             </NavDropdown>
-
                         </Nav>
                     </Navbar.Collapse>
             </Navbar>

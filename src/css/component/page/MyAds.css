@@ -1,6 +1,5 @@
 .display-ad {
     display: flex;
-    background-color: #24498e;
     color: white;
     margin: 0 auto;
     max-width: 1000px;
@@ -41,4 +40,9 @@
 .display-ad-flex-with-img-desc {
     display: flex;
     align-items: center;
+}
+
+.dropdown-link {
+    color: black;
+    text-decoration: none;
 }

@@ -1,20 +1,12 @@
 import { PureComponent, ReactNode } from "react";
 import "../../css/component/page/MyAds.css";
-import { ButtonToolbar, Dropdown, DropdownButton, DropdownItem, DropdownMenu, DropdownToggle, SplitButton } from "react-bootstrap";
-import { getCustomerAds } from "../../services/AdService";
+import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
+import { deleteAd, getCustomerAds } from "../../services/AdService";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
+import { Link } from "react-router-dom";
+import { createRandomKey } from "../../services/RandomKeys";
 
-interface DisplayAdProps {
-    visibility: number;
-    firstImage: string;
-    title: string;
-    description: string;
-    price: number;
-    isSold: boolean;
-    reference: string;
-}
-
-class DisplayAd extends PureComponent<DisplayAdProps> {
+class DisplayAd extends PureComponent<DisplayAdView> {
     public getDescriptionPart(): string {
         if (this.props.description.length > 70) {
             return this.props.description.slice(0, 70) + "...";
@@ -48,8 +40,8 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                     <div className="display-ad-options">
                         <Dropdown>
                             <SplitButton variant="dark" title="...">
-                                <DropdownItem onClick={() => console.log("MODIFY")}>Modify</DropdownItem>
-                                <DropdownItem onClick={() => console.log("DELETE")}>Delete</DropdownItem>
+                                <DropdownItem as={Link} to={`/ad/${this.props.link}`}>Modify</DropdownItem>
+                                <DropdownItem as={Button} className="dropdown-link" onClick={() => deleteAd(this.props.idAd).then(res => console.log(res?.data))}>Delete</DropdownItem>
                             </SplitButton>
                         </Dropdown>
                     </div>
@@ -81,6 +73,8 @@ export default class MyAds extends PureComponent {
             <>
                 {this.state.displayAds?.map(value => (
                     <DisplayAd
+                        key={createRandomKey()}
+                        idAd={value.idAd}
                         description={value.description}
                         firstImage={value.firstImage}
                         isSold={value.isSold}
@@ -88,6 +82,7 @@ export default class MyAds extends PureComponent {
                         reference={value.reference}
                         title={value.title}
                         visibility={value.visibility}
+                        link={value.link}
                     />
                 ))}
             </>

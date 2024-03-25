@@ -59,6 +59,22 @@ export const getAllAdTypes = async () => {
     return await http.get("/ad/get-all-ad-type");
 };
 
+/**
+ * Call the backend to get all the ad of a customer.
+ * 
+ * @param customerId
+ * @author Achraf
+ */
 export const getCustomerAds = async (customerId: number) => {
     return await http.get<Array<DisplayAdView>>(`/ad/get-customer-ads/${customerId}`);
 };
+
+/**
+ * To delete an Ad of an user.
+ * 
+ * @param idAd 
+ * @author Achraf
+ */
+export const deleteAd = async (idAd: number) => {
+    return await http.patch(`/ad/delete-ad/${idAd}`);
+}

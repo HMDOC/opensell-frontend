@@ -19,8 +19,8 @@
             "label" : "My Profile"
         },
         {
-            "path" : "/user/:link",
-            "label" : "My Posts"
+            "path" : "/my-ads",
+            "label" : "My Ads"
         },
         {
             "path" : "/user/:link",
