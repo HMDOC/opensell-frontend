@@ -17,6 +17,8 @@ const FileUploader = lazy(() => (import("./component/page/FileUploader")));
 const CustomerModification = lazy(() => (import("./component/page/CustomerModification")));
 const AdModification = lazy(() => (import("./component/page/AdModification")));
 const MyAds = lazy(() => (import("./component/page/MyAds")));
+const AdCreation = lazy(() => (import("./component/page/AdCreation")));
+
 
 export default function App() {
 	const [language, setLanguage] = useState(0);
@@ -36,6 +38,7 @@ export default function App() {
 					<Route path="/customer-modification/:link" element={<CustomerModification/>}></Route>
 					<Route path="/ad-modification/:link" element={<AdModification />}></Route>
 					<Route path="/my-ads/" element={<MyAds />}></Route>
+					<Route path="/ad-creation" element={<AdCreation />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>
