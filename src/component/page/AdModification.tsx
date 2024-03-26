@@ -343,7 +343,7 @@ export default function AdModification(): ReactElement {
 
                         <AdImages ref={adImagesRef} images={ImageObject.fromStringArray(adImagesPath)} />
 
-                        {/* <AdTags  /> */}
+                        <AdTags name="adTags"  /> 
 
                         {
                             SELECTS.map((value, index) => (
