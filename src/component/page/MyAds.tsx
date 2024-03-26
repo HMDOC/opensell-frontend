@@ -42,13 +42,13 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
     public render(): ReactNode {
         return (
             <>
-                <div className="display-ad">
-                    <div className="display-ad-flex-with-img-desc">
-                        <div className="dislay-ad-img-section">
-                            <img className="display-ad-img" src={this.props.firstImage} />
+                <div className="display-post">
+                    <div className="display-post-flex-with-img-desc">
+                        <div className="dislay-post-img-section">
+                            <img className="display-post-img" src={this.props.firstImage} />
                             {this.props.isSold ?
                                 (
-                                    <img className="display-ad-is-sold" src="./img/vendu.jpg" />
+                                    <img className="display-post-is-sold" src="./img/vendu.jpg" />
                                 ) : (
                                     <></>
                                 )
@@ -63,7 +63,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                         </div>
                     </div>
 
-                    <div className="display-ad-options">
+                    <div className="display-post-options">
                         <Dropdown>
                             <SplitButton variant="dark" title="...">
                                 <DropdownItem as={Link} to={`/ad-modification/${this.props.link}`}>Modify</DropdownItem>

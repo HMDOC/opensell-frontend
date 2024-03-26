@@ -1,4 +1,4 @@
-.display-ad {
+.display-post {
     display: flex;
     color: white;
     margin: 0 auto;
@@ -6,17 +6,17 @@
     justify-content: space-between;
 }
 
-.display-ad p {
+.display-post p {
     font-size: 18px;
 }
 
-.display-ad-img {
+.display-post-img {
     width: 320px;
     height: 230px;
     margin: 0;
 }
 
-.display-ad-is-sold {
+.display-post-is-sold {
     width: 290px;
     height: 60px;
     margin: 0;
@@ -25,19 +25,19 @@
     rotate: -30deg;
 }
 
-.dislay-ad-img-section {
+.dislay-post-img-section {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 240px;
 }
 
-.display-ad-options {
+.display-post-options {
     align-self: flex-start;
-    padding: 20px;
+    ppostding: 20px;
 }
 
-.display-ad-flex-with-img-desc {
+.display-post-flex-with-img-desc {
     display: flex;
     align-items: center;
 }
@@ -47,7 +47,7 @@
     text-decoration: none;
 }
 
-.no-ads-found {
+.no-posts-found {
    display: flex;
    flex-direction : column; 
    align-items : center;
@@ -56,6 +56,6 @@
    min-height: 82vh;
 }
 
-.no-ads-found button {
+.no-posts-found button {
     width: 120px;
 }
