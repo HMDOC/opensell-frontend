@@ -21,7 +21,7 @@ const AdPreview = (props) : ReactElement => {
     */
 
     const shapeIconList = [ 
-        faGrinStars,
+        faStar,
         faFaceSmileBeam, 
         faFaceSmile,
         faFaceMeh,
