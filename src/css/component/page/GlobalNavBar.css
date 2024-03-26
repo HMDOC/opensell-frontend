@@ -1,33 +1,43 @@
-.navLinks {
-  text-decoration: none;
-  color: black;
-}
-
 .pending {
   text-decoration: none;
   background-color: brown;
 }
 
+.me-auto {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  display: flex;
+}
+
 .is-active {
   color: white;
-  text-decoration: underline solid white;
 }
 
 .nav {
   color: white;
   text-decoration: none;
-  margin-bottom: -5px;
+}
+
+.nav * {
+  margin-right: 10px;
 }
 
 #basic-nav-dropdown {
+  float: right;
+  color: white;
+}
+
+.dropdownItems {
   color: white;
   text-decoration: none;
 }
 
 .logo {
   color: white;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
   margin-right: 10px;
-  margin-top: -5px;
+  margin-top: -1px;
 }

@@ -23,7 +23,7 @@
             "label" : "My Ads"
         },
         {
-            "path" : "/user/:link",
+            "path" : "/settings",
             "label" : "Settings"
         }
     ]

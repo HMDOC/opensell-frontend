@@ -64,7 +64,7 @@ const ResultList = () : ReactElement => {
     return (
         <>
             <div id="searchTop">
-                <h1>Catalog</h1>
+                <h2>Catalog</h2>
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             
