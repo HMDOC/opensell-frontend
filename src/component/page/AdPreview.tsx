@@ -53,7 +53,7 @@ const AdPreview = (props) : ReactElement => {
             <h3 className="adPreviewText"> {props?.title}</h3>
             <div className="adPreviewAlign">
                 <h4 className={"adPreviewText " + addSoldCSS("adSoldText")}>{props?.isSold ? "sold" : props?.price+"$"}</h4>
-                <h4 className="adPreviewText" title={getShapeName(props?.shape)}> {getShapeIcon(props?.shape)}</h4>
+                <h3 className="adPreviewText adShapeIcon" title={getShapeName(props?.shape)}> {getShapeIcon(props?.shape)}</h3>
             </div>
         </div>
     )

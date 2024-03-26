@@ -42,3 +42,10 @@
     flex-wrap: nowrap;
     justify-content: space-between;
 }
+
+
+.adShapeIcon{
+    position: relative;
+    width: 2rem;
+    bottom: -2px;
+}
