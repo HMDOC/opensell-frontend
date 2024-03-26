@@ -1,7 +1,7 @@
 
 .adPreview{
     color: black;
-    width: 170px;
+    width: 13.5em;
     padding-bottom: 5px;
     background-color: aliceblue;
     border-radius: 0.75em;
@@ -47,5 +47,6 @@
 .adShapeIcon{
     position: relative;
     width: 2rem;
-    bottom: -2px;
+    bottom: 1px;
+    right: 1px;
 }
