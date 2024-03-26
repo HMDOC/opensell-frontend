@@ -4,6 +4,7 @@ import { getAdToModif, adModification } from "../../services/AdService";
 import Loading from "../part/Loading";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { InputType, ModifType, SelectorReader, SelectorReaderProps, SimpleInput, SimpleInputProps } from "../shared/SharedAdPart";
+import "../../css/component/page/AdModif.css";
 
 const SELECTS: Array<SelectorReaderProps> = [
     {
@@ -321,33 +322,8 @@ export default function AdModification(): ReactElement {
 
     var adTagsRef: RefObject<HTMLInputElement> = createRef();
 
-    function handleClick(): void {
-        /*if (a.size !== 0) {
-            if (a.get("adImages")) {
-                let data = new FormData();
-                let adImagesObject = adImagesRef.current.getFiles();
-
-                if (adImagesObject != null) {
-                    for (let file of adImagesObject.multipartFiles) {
-                        data.append("multipartFiles", file);
-                    }
-
-                    console.log(adImagesObject.multipartFiles);
-
-                    // To deal with backend, to put in JpaJSON
-                    a.delete("adImages");
-
-                    changeAd(a, 1, { fileSpots: adImagesObject.fileSpots, oldImages: adImagesObject.oldImages, multipartFiles: data });
-                }
-
-            } else {
-                changeAd(a, 1);
-            }
-        }*/
-    }
-
     return (
-        <>
+        <div>
             {isloading ?
                 (
                     <Loading />
@@ -381,11 +357,9 @@ export default function AdModification(): ReactElement {
                                 />
                             ))
                         }
-
-                        <button onClick={handleClick}>submit</button>
                     </>
                 )
             }
-        </>
+        </div>
     );
 }

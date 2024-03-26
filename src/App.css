@@ -1,6 +1,13 @@
 @import "./css/component/page/AdView.css";
 @import "./css/component/page/CustomerModification.css";
 
+
+body {
+  background-color: #24498E;
+  color: white;
+
+}
+
 .App {
   text-align: center;
 }
