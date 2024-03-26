@@ -1,9 +1,5 @@
-img{
-    transform : scale(0.75);
-    width:75%;
+.loadingIcon{
+    padding: 60px;
     margin: auto;
-}
-
-#loadingIcon{
     display: flex;
 }
