@@ -206,8 +206,8 @@ export default function CustomerModification() {
                 (
                     (inAlternateForm ? 
                         (               
-                            <div className="cm-container">
-                                <div className="cm-container">                                
+                            <div className="">
+                                <div className="">
                                     <button onClick={handleAlternateForm}>SWITCH</button>                            
                                 </div>
 
@@ -218,7 +218,7 @@ export default function CustomerModification() {
                                         onChange={(inputElement) => handleBasicChange(inputElement)}/>
                                         <input type={personalEmail.type} name={personalEmail.name + copy_str} onChange={(inputElement) => handleCopyOfInputChange(inputElement, personalEmail.name)}/>
                                         <div>
-                                            <button type="submit" className="cm-save-button">{save_str}</button>
+                                            <button type="submit" className="">{save_str}</button>
                                         </div>
                                     </form>
                                     <p>{formValues.personalEmail?.feedbackMessage}</p>
@@ -231,7 +231,7 @@ export default function CustomerModification() {
                                         onChange={(inputElement) => handleBasicChange(inputElement)}/>
 
                                         <div>
-                                            <button type="submit" className="cm-save-button">{save_str}</button>
+                                            <button type="submit" className="">{save_str}</button>
                                         </div>
                                     </form>
                                     <p>{formValues.phoneNumber?.feedbackMessage}</p>
@@ -245,7 +245,7 @@ export default function CustomerModification() {
                                         <input type={pwd.type} name={pwd.name + copy_str} onChange={(inputElement) => handleCopyOfInputChange(inputElement, pwd.name)}/>
                                         
                                         <div>
-                                            <button type="submit" className="cm-save-button">{save_str}</button>
+                                            <button type="submit" className="">{save_str}</button>
                                         </div>
                                     </form>
                                     <p>{formValues.pwd?.feedbackMessage}</p>
@@ -258,14 +258,14 @@ export default function CustomerModification() {
                         ) 
                     : 
                         (
-                            <div className="cm-container">
-                                <div className="cm-container">
+                            <div className="">
+                                <div className="">
                                     <button onClick={handleAlternateForm}>SWITCH</button>
                                 </div>
                                 
                                 <div className="">
                                     <form onSubmit={(formElement) => saveIconChange(formElement)}>
-                                        <div className="cm-img-container">
+                                        <div className="">
                                             <img src={iconImage} alt=""/>
                                             <div className="">
                                                 <input type={icon.type} name={icon.name} onChange={(inputElement) => handleIconChange(inputElement)} accept="image/*"/>
@@ -273,7 +273,7 @@ export default function CustomerModification() {
                                         </div>
 
                                         <div>
-                                            <button type="submit" className="cm-save-button">{save_str}</button>
+                                            <button type="submit" className="">{save_str}</button>
                                         </div>
                                        
                                     </form>
@@ -356,7 +356,7 @@ export default function CustomerModification() {
                                         </div>
 
                                         <div>
-                                            <button type="submit" className="cm-save-button">{save_str}</button>
+                                            <button type="submit" className="">{save_str}</button>
                                         </div>
                                     </form>
                                 </div>
