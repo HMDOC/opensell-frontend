@@ -2,7 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     margin: auto;
-    justify-content: left;
+    justify-content: space-evenly;
+    gap: 2em 1.5em;
     width: 80%;
     align-items: center;
     align-self: center;
@@ -12,6 +13,12 @@
     align-items: center;
     margin: auto;
     width: 80%;
+    margin-bottom: 0.8em;
+}
+
+#searchTop h1{
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
 }
 
 .searchEmpty{
