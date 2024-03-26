@@ -8,14 +8,6 @@ body {
 
 }
 
-a {
-  color: #d7dce6;
-}
-
-a:visited{
-  color: cornflowerblue;
-}
-
 .App {
   text-align: center;
 }

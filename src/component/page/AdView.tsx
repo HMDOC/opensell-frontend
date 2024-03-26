@@ -4,6 +4,7 @@ import { getAdByLink } from "../../services/AdService";
 import content from "../../locales/ad.json";
 import { getLanguage } from "../../i18n/i18n";
 import Loading from "../part/Loading";
+import ProfilIcon from "./ProfilIcon";
 
 /**
  * Function that increase the index of the current picture
@@ -94,7 +95,7 @@ const AdView = (): ReactElement => {
                                 <h2>UserProfil: </h2>
                                 <div className="user-profil">
                                     <Link to={`/user/${adBuyerView?.userLink}`}>
-                                        <img className="user-profil-picture" src={adBuyerView?.userIcon} />
+                                        <ProfilIcon src={adBuyerView?.userIcon} />
                                     </Link>
 
                                     <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>

@@ -6,7 +6,7 @@ import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 
 /** 
-    THIS IS UNFINISHED
+    The catalog page and all of its important components
     @author Davide
 */
 const ResultList = () : ReactElement => {
@@ -64,7 +64,7 @@ const ResultList = () : ReactElement => {
     return (
         <>
             <div id="searchTop">
-                <h1>Catalog</h1>
+                <h2>Catalog</h2>
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             
