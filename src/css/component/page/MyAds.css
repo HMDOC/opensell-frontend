@@ -46,3 +46,16 @@
     color: black;
     text-decoration: none;
 }
+
+.no-ads-found {
+   display: flex;
+   flex-direction : column; 
+   align-items : center;
+   color: white;
+   justify-content: center;
+   min-height: 82vh;
+}
+
+.no-ads-found button {
+    width: 120px;
+}

@@ -3,14 +3,27 @@ import "../../css/component/page/MyAds.css";
 import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
 import { deleteAd, getCustomerAds } from "../../services/AdService";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createRandomKey } from "../../services/RandomKeys";
 
-class DisplayAd extends PureComponent<DisplayAdView> {
+interface DisplayAdProps extends DisplayAdView {
+    onDelete(idAd: number): void;
+}
+
+class DisplayAd extends PureComponent<DisplayAdProps> {
     public getDescriptionPart(): string {
         if (this.props.description.length > 70) {
             return this.props.description.slice(0, 70) + "...";
         } else return this.props.description;
+    }
+
+    public handleDelete(): void {
+        deleteAd(this.props.idAd)
+            .then(res => {
+                if (res?.data) {
+                    this.props.onDelete(this.props.idAd);
+                }
+            });
     }
 
     public render(): ReactNode {
@@ -40,8 +53,8 @@ class DisplayAd extends PureComponent<DisplayAdView> {
                     <div className="display-ad-options">
                         <Dropdown>
                             <SplitButton variant="dark" title="...">
-                                <DropdownItem as={Link} to={`/ad/${this.props.link}`}>Modify</DropdownItem>
-                                <DropdownItem as={Button} className="dropdown-link" onClick={() => deleteAd(this.props.idAd).then(res => console.log(res?.data))}>Delete</DropdownItem>
+                                <DropdownItem as={Link} to={`/ad-modification/${this.props.link}`}>Modify</DropdownItem>
+                                <DropdownItem as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                             </SplitButton>
                         </Dropdown>
                     </div>
@@ -51,11 +64,23 @@ class DisplayAd extends PureComponent<DisplayAdView> {
     }
 }
 
+const CreateAdButton = () => {
+    const navigate = useNavigate();
+    
+    return(
+        <Button onClick={() => navigate("/ad-creation")}>Create One</Button>
+    )
+};
+
 export default class MyAds extends PureComponent {
     public state = {
         displayAds: new Array<DisplayAdView>(),
         isNoAds: false
     };
+
+    public onDelete(idAd: number) {
+        this.setState({ displayAds: this.state.displayAds.filter(ad => ad.idAd != idAd) });
+    }
 
     public componentDidMount(): void {
         getCustomerAds(1)
@@ -71,20 +96,28 @@ export default class MyAds extends PureComponent {
     public render(): ReactNode {
         return (
             <>
-                {this.state.displayAds?.map(value => (
-                    <DisplayAd
-                        key={createRandomKey()}
-                        idAd={value.idAd}
-                        description={value.description}
-                        firstImage={value.firstImage}
-                        isSold={value.isSold}
-                        price={value.price}
-                        reference={value.reference}
-                        title={value.title}
-                        visibility={value.visibility}
-                        link={value.link}
-                    />
-                ))}
+                {this.state.displayAds.length > 0 ?
+                    (this.state.displayAds?.map(value => (
+                        <DisplayAd
+                            key={createRandomKey()}
+                            idAd={value.idAd}
+                            description={value.description}
+                            firstImage={value.firstImage}
+                            isSold={value.isSold}
+                            price={value.price}
+                            reference={value.reference}
+                            title={value.title}
+                            visibility={value.visibility}
+                            link={value.link}
+                            onDelete={(idAd) => this.onDelete(idAd)}
+                        />
+                    ))) : (
+                        <div className="no-ads-found">
+                            <h4>You have no ads.</h4>
+                            <CreateAdButton />
+                        </div>
+                    )
+                }
             </>
         );
     }
