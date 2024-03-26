@@ -3,7 +3,7 @@ import "../../css/component/page/LoadingIcon.css"
 const LoadingIcon = () : ReactElement => {
     return (
         <div id="loadingIcon">
-            <img  src="./img/loadingAnim.svg" />
+            <img className="loadingIcon" src="./img/loadingAnim.svg" />
         </div>
         
     );
