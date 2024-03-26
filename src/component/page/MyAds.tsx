@@ -5,6 +5,8 @@ import { deleteAd, getCustomerAds } from "../../services/AdService";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
 import { Link, useNavigate } from "react-router-dom";
 import { createRandomKey } from "../../services/RandomKeys";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -26,6 +28,17 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
             });
     }
 
+    public getVisibilityIcon(): ReactNode {
+        switch(this.props.visibility) {
+            case 0:
+                return <FontAwesomeIcon icon={faEarthAmericas} />;
+            case 1:
+                return <FontAwesomeIcon icon={faLock} />
+            case 2:
+                return <FontAwesomeIcon icon={faLink} />
+        }
+    }
+
     public render(): ReactNode {
         return (
             <>
@@ -43,7 +56,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                         </div>
 
                         <div>
-                            <h1>{this.props.visibility} {this.props.title}</h1>
+                            <h1>{this.getVisibilityIcon()} {this.props.title}</h1>
                             <p>REF : #{this.props.reference}</p>
                             <p>{this.getDescriptionPart()}</p>
                             <p>{this.props.price} $</p>
