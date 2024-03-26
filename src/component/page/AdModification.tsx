@@ -3,20 +3,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getAdToModif, adModification } from "../../services/AdService";
 import Loading from "../part/Loading";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { InputType, ModifType, SelectorReader, SelectorReaderProps, SimpleInput, SimpleInputProps } from "../shared/SharedAdPart";
+import {
+    InputType,
+    ModifType,
+    SelectorReader,
+    SelectorReaderProps, SHAPE_ARRAY,
+    SimpleInput,
+    SimpleInputProps, VISIBILITY_ARRAY,
+} from "../shared/SharedAdPart";
 import "../../css/component/page/AdModif.css";
 
 const SELECTS: Array<SelectorReaderProps> = [
     {
         name: "visibility", 
-        options: ["public", "private", "link only"],
+        options: VISIBILITY_ARRAY,
         request(value, idAd) {
             return adModification(ModifType.VISIBILITY, value, idAd)
         }
     },
     {
         name: "shape", 
-        options: ["new", "like new", "good", "usable", "bad", "unknow"], 
+        options: SHAPE_ARRAY,
         request(value, idAd) {
             return adModification(ModifType.SHAPE, value, idAd)
         }

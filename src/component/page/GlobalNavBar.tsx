@@ -6,6 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import "../../css/component/page/GlobalNavBar.css";
 import navLinks from "./Navbar.json";
 import Logo from "../page/opensell-logo.svg";
+import {createRandomKey} from "../../services/RandomKeys";
 
 /**
  * 
@@ -25,13 +26,13 @@ export default function GlobalNavBar(): ReactElement {
                         <Nav className="me-auto">
                             {navLinks.quickMenu.map((nav) =>
                             (
-                                <Nav.Link><NavLink className={b} to={nav.path}>{nav.label}</NavLink></Nav.Link>
+                                <Nav.Link key={createRandomKey()} as={NavLink} to={nav.path}>{nav.label}</Nav.Link>
                             ))}
 
                             <NavDropdown title="AccountName" id="basic-nav-dropdown">
                                 {navLinks.dropdownMenu.map((nav) =>
                                 (
-                                    <NavDropdown.Item><Link className='navLinks' to={nav.path}>{nav.label}</Link></NavDropdown.Item>
+                                    <NavDropdown.Item key={createRandomKey()}><Link className='navLinks' to={nav.path}>{nav.label}</Link></NavDropdown.Item>
                                 ))}
 
                                 <NavDropdown.Divider />
