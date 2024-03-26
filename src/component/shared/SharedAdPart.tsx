@@ -3,6 +3,9 @@ import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
 
+export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
+export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
+
 /**
  * To identify the field when we send the query to modify and Ad,
  * 
@@ -189,7 +192,7 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
         return (
             <>
                 <label>{this.props.name} : </label>
-                <select defaultValue={this.props.value} onChange={(e) => this.handleChange(e)}>
+                <select name={this.props.name} defaultValue={this.props.value} onChange={(e) => this.handleChange(e)} >
                     {
                         this.props.options.map((option, index) => (
                             <option key={`${this.props.name}-options-${index}`} value={`${index}`}>{option}</option>
