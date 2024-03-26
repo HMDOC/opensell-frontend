@@ -9,16 +9,6 @@ import { faBox, faBoxOpen, faDizzy, faEarthAmerica, faFaceGrin, faFaceMeh, faFac
 */
 const AdPreview = (props) : ReactElement => {
 
-    /*
-    const shapeIconList = [ 
-        faWandMagicSparkles, 
-        faBoxOpen,
-        faStar,
-        faStarHalfStroke,
-        ,
-        faQuestion
-    ];
-    */
 
     const shapeIconList = [ 
         faStar,
@@ -61,8 +51,10 @@ const AdPreview = (props) : ReactElement => {
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
             <img className="card-img-top" src={props?.firstImagePath} alt="The image cant load!"></img>
             <h3 className="adPreviewText"> {props?.title}</h3>
-            <h4 className={"adPreviewText " + addSoldCSS("adSoldText")}>{props?.isSold ? "sold" : props?.price+"$"}</h4>
-            <h5 className="adPreviewText" title={getShapeName(props?.shape)}> {getShapeIcon(props?.shape)}</h5>
+            <div className="adPreviewAlign">
+                <h4 className={"adPreviewText " + addSoldCSS("adSoldText")}>{props?.isSold ? "sold" : props?.price+"$"}</h4>
+                <h4 className="adPreviewText" title={getShapeName(props?.shape)}> {getShapeIcon(props?.shape)}</h4>
+            </div>
         </div>
     )
 }
