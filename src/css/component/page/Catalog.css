@@ -14,6 +14,11 @@
     width: 80%;
 }
 
+#searchTop h1{
+    padding-bottom: 0.5rem;
+    padding-left: 2rem;
+}
+
 .searchEmpty{
     text-align: center;
     margin: 1em auto;
