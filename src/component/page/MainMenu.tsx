@@ -15,10 +15,10 @@ export default function MainMenu(): ReactElement {
     return (
         <>
             <div className="searchBar">
-                <h1 className="main-title">OPENSELL INC.</h1><br />
-                <form onSubmit={getLink}>
-                    <input onChange={(e) => { search = e.target.value }} type="text" placeholder="Search" className="mainMenuInput" />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
+                <h1 id="mainTitle">Opensell Inc.</h1><br />
+                <form onSubmit={getLink} className="inputContainer">
+                    <input onChange={(e) => {search = e.target.value}} type="text" placeholder="Search" className="mainMenuInput" />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                 </form>
             </div>
         </>

@@ -13,26 +13,31 @@ body {
     margin-right: auto;
 }
 
-.main-title {
+#mainTitle {
     font-size: 75px;
     margin-bottom: -10px;
 }
 
-.mainMenuInput {
-    background-color: #F5F4F6;
+.inputContainer {
+    background-color: #D9D9D9;
     width: 30%;
-    height: 65px;
+    height: 45px;
     border-radius: 20px;
-    margin: 10px;
+    margin: auto;
 }
 
+.mainMenuInput{
+    width: calc(100% - 50px);
+    background: none;
+    border: none;
+    height: 100%;
+}
+
+.mainMenuInput:focus{
+    outline: none;
+}
 
 .icon {
-    position: absolute;
-    color: var(--sr2);
-    bottom: 39.5%;
-    right: 37%;
-    width: 25px;
-    height: 25px;
+    color: #24498E;
 }
 
