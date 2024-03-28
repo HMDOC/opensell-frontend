@@ -22,13 +22,18 @@ const ResultList = () : ReactElement => {
         cantConnect: [
             "No contact here but us script kitties!",
             "We were not able to connect with our servers. ",
-            "Purrhaps one of us tripped on the wires over there."
+            "Purrhaps one of us tripped on the faulty wiring backstage."
         ],
+        canceled: [
+            "No cancellation but us script kitties!",
+            "Looks like your request has somehow been cancelled.",
+            "Purrhaps you should try again?"
+        ] ,
         unknown: [
             "Unknown error by us script kitties!",
             "We REALLY don't know what happened!",
             "Purrhaps you should try again?"
-        ] 
+        ]
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -83,6 +88,9 @@ const ResultList = () : ReactElement => {
             switch(e.code){
                 case AxiosError.ERR_NETWORK:
                     setSearchError(errors.cantConnect);
+                break;
+                case AxiosError.ERR_CANCELED:
+                    setSearchError(errors.canceled);
                 break;
                 default:
                     setSearchError(errors.unknown);
