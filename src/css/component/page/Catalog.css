@@ -1,7 +1,7 @@
 #searchResult{
     display: flex;
     flex-wrap: wrap;
-    margin: auto;
+    margin: 1em auto 2em;
     justify-content: space-evenly;
     gap: 2em 1.5em;
     width: 80%;
@@ -22,6 +22,12 @@
 }
 
 .searchEmpty{
+    font-size: small;
     text-align: center;
     margin: 1em auto;
+}
+
+#errorTitle{
+    font-size: large;
+    font-weight: bold;
 }

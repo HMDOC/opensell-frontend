@@ -4,28 +4,33 @@
     margin-top: 17%;
 }
 
-h1 {
+#mainTitle {
     font-size: 75px;
     text-decoration: underline;
     text-decoration-thickness: 3px;
     margin-bottom: -10px;
 }
 
-.mainMenuInput {
+.inputContainer {
     background-color: #D9D9D9;
     width: 30%;
-    height: 65px;
+    height: 45px;
     border-radius: 20px;
-    margin: 10px;
+    margin: auto;
 }
 
+.mainMenuInput{
+    width: calc(100% - 50px);
+    background: none;
+    border: none;
+    height: 100%;
+}
+
+.mainMenuInput:focus{
+    outline: none;
+}
 
 .icon {
-    position: absolute;
     color: #24498E;
-    bottom: 48%;
-    right: 36%;
-    width: 25px;
-    height: 25px;
 }
 
