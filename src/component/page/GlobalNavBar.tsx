@@ -36,7 +36,7 @@ export default function GlobalNavBar(): ReactElement {
                                 <NavDropdown.Divider />
                                 {navLinks.dropdownMenu.map((nav) =>
                                 (
-                                    <NavDropdown.Item><NavLink className="dropdownItems" to={nav.path}>{nav.label}</NavLink></NavDropdown.Item>
+                                    <NavDropdown.Item><NavLink style={{color : "black"}} className="dropdownItems" to={nav.path}>{nav.label}</NavLink></NavDropdown.Item>
                                 ))}
                                 <NavDropdown.Item>
                                     Logout
