@@ -1,6 +1,5 @@
 .display-post {
     display: flex;
-    color: white;
     margin: 0 auto;
     max-width: 1000px;
     justify-content: space-between;

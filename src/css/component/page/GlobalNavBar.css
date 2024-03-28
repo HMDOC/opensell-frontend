@@ -11,21 +11,40 @@
 }
 
 .is-active {
-  color: white;
+  color: #133071;
 }
 
 .nav {
-  color: white;
+  color: #232751;
   text-decoration: none;
 }
 
+.nav-left * {
+  float: left;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-center {
+  position: absolute;
+  margin: auto;
+  right: 44%;
+}
+
+.nav-right {
+  float: right;
+  align-items: center;
+  justify-content: center;
+}
+
 .nav * {
+  position: relative;
   margin-right: 10px;
 }
 
 #basic-nav-dropdown {
   float: right;
-  color: white;
+  color: #133071;
 }
 
 .dropdownItems {
@@ -40,4 +59,6 @@
   margin-left: 10px;
   margin-right: 10px;
   margin-top: -1px;
+  background-color: #133071;
+  border-radius: 50%;
 }

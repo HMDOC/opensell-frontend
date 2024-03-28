@@ -1,11 +1,14 @@
 @import "./css/component/page/AdView.css";
 @import "./css/component/page/CustomerModification.css";
 
+:root {
+  --sr1: #DCE9FC;
+  --sr2: #232751;
+}
 
 body {
-  background-color: #24498E;
-  color: white;
-
+  background-color: var(--sr1);
+  color: var(--sr2);
 }
 
 .App {
