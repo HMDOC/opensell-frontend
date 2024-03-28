@@ -4,6 +4,8 @@ import AdPreview from "./AdPreview";
 import "../../css/component/page/Catalog.css"
 import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
+import LoadingIcon from "../part/LoadingIcon";
+import { AxiosError, AxiosStatic } from "axios";
 
 /** 
     The catalog page and all of its important components
@@ -11,10 +13,30 @@ import { useSearchParams } from "react-router-dom";
 */
 const ResultList = () : ReactElement => {
 
+    const errors = {
+        regular: [
+            `Nobody here but us script kitties!`,
+            "Your search query did not match any criteria.",
+            "Purrhaps try using criteria that is not as strict."
+        ],
+        cantConnect: [
+            "No contact here but us script kitties!",
+            "We were not able to connect with our servers. ",
+            "Purrhaps one of us tripped on the wires over there."
+        ],
+        unknown: [
+            "Unknown error by us script kitties!",
+            "We REALLY don't know what happened!",
+            "Purrhaps you should try again?"
+        ] 
+    }
+
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
-    const searchBarRef = useRef<HTMLInputElement>();
     const [searchClick, setSearchClick] = useState(false);
+    const searchBarRef = useRef<HTMLInputElement>();
+    const [isLoading, setLoading] = useState<boolean>();
+    const [searchError, setSearchError] = useState<string[]>(errors.regular);
 
     const [filtersUpdated, setFiltersUpdated] = useState();
     const filterRef = useRef<HTMLDivElement>();
@@ -30,7 +52,7 @@ const ResultList = () : ReactElement => {
         });
 
         console.log(tmpFilterOptions);
-
+        
         setFilterOptions(tmpFilterOptions);
 
     }, [filtersUpdated]);
@@ -49,15 +71,36 @@ const ResultList = () : ReactElement => {
     }, [searchParams]);
 
     useEffect(() => {
+        setLoading(true);
+
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
+            setSearchError(errors.regular);
+
             setListOfAds(res?.data);
-        }).catch(e => console.log(e));
+            setLoading(false);
+        }).catch((e:AxiosError) => {
+            //console.log(e);
+            switch(e.code){
+                case AxiosError.ERR_NETWORK:
+                    setSearchError(errors.cantConnect);
+                break;
+                default:
+                    setSearchError(errors.unknown);
+                break;
+            }
+            
+
+            setListOfAds( new Array<AdSearchPreview>() );
+            setLoading(false);
+        });
+
 
         let tmpQueryParams:any = filterOptions;
 
         console.log(tmpQueryParams);
 
         setSearchParams(tmpQueryParams);
+
     }, [searchClick]);
 
 
@@ -68,22 +111,36 @@ const ResultList = () : ReactElement => {
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             
-            <div id="searchResult">
-            {(listOfAds.length>0) ? listOfAds.map( (data : AdSearchPreview, i : number) => {
-                    //console.log(data);
-                    //console.log(i);
-                    return (
-                        <AdPreview
-                            key={`ad-preview-${i}`}
-                            link={data?.adLink}
-                            price={data?.adPrice}
-                            shape={data?.adShape}
-                            title={data?.adTitle}
-                            isSold={data?.isAdSold}
-                            firstImagePath={data?.adFirstImagePath}
-                        />
-                    )
-                } ) : <div className="searchEmpty">Nobody here but us script kitties!</div>}
+            <div id="searchResult" >
+            {
+                (isLoading) ? 
+                    <LoadingIcon/> :
+                (listOfAds.length>0) ? 
+                    listOfAds.map( (data : AdSearchPreview, i : number) => {
+                        //console.log(data);
+                        //console.log(i);
+                        return (
+                            <AdPreview
+                                key={`ad-preview-${i}`}
+                                link={data?.adLink}
+                                price={data?.adPrice}
+                                shape={data?.adShape}
+                                title={data?.adTitle}
+                                isSold={data?.isAdSold}
+                                firstImagePath={data?.adFirstImagePath}
+                            />
+                        )
+                    } ) : 
+                    <div className="searchEmpty">
+                        {searchError.map( (val, index) => {
+                            return (
+                                <div id={(index==0) ? "errorTitle" : ""}
+                                    key={`error${index}`}>
+                                        {val}
+                                </div>
+                            )
+                        })}
+                    </div>}
             </div>
         </>
     )

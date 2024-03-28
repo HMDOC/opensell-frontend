@@ -1,6 +1,7 @@
 import {ReactElement, useEffect, useState } from "react";
 import "../../css/component/page/SearchBar.css";
 import { getAllAdTypes } from "../../services/AdService";
+import { AxiosError } from "axios";
 
 /** 
     The component that holds all of the filter options.
@@ -23,6 +24,8 @@ const SearchFilters = (props) : ReactElement =>{
     useEffect( () => {
         getAllAdTypes().then(res => {
             setAdTypes(res?.data);
+        }).catch((e:AxiosError) => {
+            setAdTypes([{id_ad_type: 2, name:"No ad type found"}]);
         })
     }, [])
 
