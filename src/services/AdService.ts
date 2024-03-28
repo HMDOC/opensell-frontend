@@ -2,6 +2,7 @@ import { ModifType } from "../component/shared/SharedAdPart";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
 
 import http from "../http-commons";
+import { HtmlCode } from "./verification/HtmlCode";
 
 /**
  * Get part of an Ad to show and ad in a customer view.
@@ -52,7 +53,7 @@ export const getAdToModif = async (link: string) => {
  * @author Achraf
  */
 export const adModification = async (modifType: ModifType, value: any, idAd: number) => {
-    return await http.patch("/ad/modification", null, {params : {modifType, value, idAd}});
+    return await http.patch<HtmlCode>("/ad/modification", {value}, {params : {modifType, idAd}});
 };
 
 export const getAllAdTypes = async () => {
@@ -77,4 +78,13 @@ export const getCustomerAds = async (customerId: number) => {
  */
 export const deleteAd = async (idAd: number) => {
     return await http.patch(`/ad/delete-ad/${idAd}`);
-}
+};
+
+// GET THE AdPreview but ONLY FOR THE AD OWNER NOT FOR THE NORMAL USER
+export const getCustomerAdPreview = async (idAd: number) => {
+    return await http.get<AdBuyerView>(`/ad/get-ad-preview-for-customer/${idAd}`);
+};
+
+export const adModificationImageOrTags = async (tags: Array<string>, idAd: number, isImage: boolean) => {
+    return await http.patch<HtmlCode>(`/ad/modification/image-or-tags`, tags, {params : {idAd, isImage}});
+};

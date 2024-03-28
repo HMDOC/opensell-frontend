@@ -10,6 +10,6 @@ interface AdModifView {
     address: string;
     link: string
     adType: string;
-    adTags: Set<string>;
+    adTags: Array<string>;
     adImagesPath: Array<string>;
 }

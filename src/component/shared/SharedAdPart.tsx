@@ -19,8 +19,6 @@ export enum ModifType {
     ADDRESS,
     IS_SOLD,
     DESCRIPTION,
-    AD_IMAGES,
-    AD_TAGS,
     VISIBILITY,
     SHAPE
 }
@@ -87,7 +85,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     }
 
     public focusInInput() {
-        if(!this.state.isEditing) {
+        if (!this.state.isEditing) {
             this.setState({ isEditing: true });
             this.oldValue = this.inputRef.current.value;
         }
@@ -122,6 +120,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
         }
     }
 
+
     public render(): ReactNode {
         return (
             <>
@@ -149,7 +148,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                                 )
                         )
                     }
-
+                    
                     {this.state.isEditing && this.props.type != InputType.ONE_CHECKBOX ?
                         (
                             <>

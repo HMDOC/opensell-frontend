@@ -1,15 +1,18 @@
 import { PureComponent, ReactNode } from "react";
 import "../../css/component/page/MyAds.css";
 import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
-import { deleteAd, getCustomerAds } from "../../services/AdService";
+import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
 import { Link, useNavigate } from "react-router-dom";
 import { createRandomKey } from "../../services/RandomKeys";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
+import AdPreview from "./AdPreview";
+import { AdMapping } from "./AdView";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
+    seeAdPreview(idAd: number): void;
 }
 
 class DisplayAd extends PureComponent<DisplayAdProps> {
@@ -29,7 +32,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
     }
 
     public getVisibilityIcon(): ReactNode {
-        switch(this.props.visibility) {
+        switch (this.props.visibility) {
             case 0:
                 return <FontAwesomeIcon icon={faEarthAmericas} />;
             case 1:
@@ -67,6 +70,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                         <Dropdown>
                             <SplitButton variant="dark" title="...">
                                 <DropdownItem as={Link} to={`/ad-modification/${this.props.link}`}>Modify</DropdownItem>
+                                <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
                                 <DropdownItem as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                             </SplitButton>
                         </Dropdown>
@@ -79,8 +83,8 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
 
 const CreateAdButton = () => {
     const navigate = useNavigate();
-    
-    return(
+
+    return (
         <Button onClick={() => navigate("/ad-creation")}>Create One</Button>
     )
 };
@@ -88,11 +92,17 @@ const CreateAdButton = () => {
 export default class MyAds extends PureComponent {
     public state = {
         displayAds: new Array<DisplayAdView>(),
-        isNoAds: false
+        isNoAds: false,
+        isPreview: false,
+        currentPromise : undefined,
     };
 
     public onDelete(idAd: number) {
         this.setState({ displayAds: this.state.displayAds.filter(ad => ad.idAd != idAd) });
+    }
+
+    public getCurrentPromise(idAd: number) {
+        this.setState({currentPromise : getCustomerAdPreview(idAd), isPreview : true});
     }
 
     public componentDidMount(): void {
@@ -109,26 +119,32 @@ export default class MyAds extends PureComponent {
     public render(): ReactNode {
         return (
             <>
-                {this.state.displayAds.length > 0 ?
-                    (this.state.displayAds?.map(value => (
-                        <DisplayAd
-                            key={createRandomKey()}
-                            idAd={value.idAd}
-                            description={value.description}
-                            firstImage={value.firstImage}
-                            isSold={value.isSold}
-                            price={value.price}
-                            reference={value.reference}
-                            title={value.title}
-                            visibility={value.visibility}
-                            link={value.link}
-                            onDelete={(idAd) => this.onDelete(idAd)}
-                        />
-                    ))) : (
-                        <div className="no-ads-found">
-                            <h4>You have no ads.</h4>
-                            <CreateAdButton />
-                        </div>
+                {this.state.isPreview ?
+                    (
+                        <AdMapping request={this.state.currentPromise} />
+                    ) : (
+                        this.state.displayAds.length > 0 ?
+                        (this.state.displayAds?.map(value => (
+                            <DisplayAd
+                                key={createRandomKey()}
+                                idAd={value.idAd}
+                                description={value.description}
+                                firstImage={value.firstImage}
+                                isSold={value.isSold}
+                                price={value.price}
+                                reference={value.reference}
+                                title={value.title}
+                                visibility={value.visibility}
+                                link={value.link}
+                                onDelete={(idAd) => this.onDelete(idAd)}
+                                seeAdPreview={(idAd) => this.getCurrentPromise(idAd)}
+                            />
+                        ))) : (
+                            <div className="no-ads-found">
+                                <h4>You have no ads.</h4>
+                                <CreateAdButton />
+                            </div>
+                        )
                     )
                 }
             </>
