@@ -118,7 +118,7 @@ export default class MyAds extends PureComponent {
 
     public render(): ReactNode {
         return (
-            <>
+            <div className="main-background">
                 {this.state.isPreview ?
                     (
                         <AdMapping request={this.state.currentPromise} />
@@ -147,7 +147,7 @@ export default class MyAds extends PureComponent {
                         )
                     )
                 }
-            </>
+            </div>
         );
     }
 };

@@ -48,7 +48,7 @@ export function AdMapping(props: {request: Promise<AxiosResponse<AdBuyerView, an
     return (
         adBuyerView ?
         (
-            <>
+            <div className="main-background">
                 <div>
                     <h1>{adBuyerView?.adTitle}</h1>
                     {/* Image Section */}
@@ -89,12 +89,12 @@ export function AdMapping(props: {request: Promise<AxiosResponse<AdBuyerView, an
                         {adBuyerView?.username}
                     </Link>
                 </div>
-            </>
+            </div>
         ) : (
-            <>
+            <div className="main-background">
                 <p>The ad does not exists.</p>
                 <Link to="/">Main menu</Link>
-            </>
+            </div>
         ));
 }
 

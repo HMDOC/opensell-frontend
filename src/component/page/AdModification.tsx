@@ -407,7 +407,7 @@ export default function AdModification(): ReactElement {
     }
 
     return (
-        <div>
+        <div className="main-background">
             <>
                 {SIMPLE.map(value => (
                     <SimpleInput

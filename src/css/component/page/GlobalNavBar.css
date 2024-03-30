@@ -1,70 +1,49 @@
-.pending {
-  text-decoration: none;
-  background-color: brown;
-}
-
-.me-auto {
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  display: flex;
-}
-
-.is-active {
-  color: #133071;
-}
-
 .nav {
   color: #232751;
   text-decoration: none;
+  padding: 20px 100px 0px 100px;
+  font-weight: bold;
+  width: 95%;
 }
 
-.nav-left * {
-  float: left;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav-center {
-  position: absolute;
-  margin: auto;
-  right: 44%;
-}
-
-.nav-right {
-  float: right;
-  align-items: center;
-  justify-content: center;
-}
-
-.nav * {
-  position: relative;
+.brand-logo {
+  width: 50px;
+  height: 50px;
   margin-right: 10px;
-}
-
-#basic-nav-dropdown {
-  float: right;
-  color: #133071;
-}
-
-.dropdownItems {
-  text-decoration: none;
-}
-
-.logo {
-  width: 40px;
-  height: 40px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-top: -1px;
+  margin-top: -10px;
   background-color: #133071;
   border-radius: 50%;
 }
 
-.navbar-div {
-  width: 75%;
-  margin: 20px auto auto auto;
-  align-items: center;
-  text-align: center;
-  justify-content: center;;
+.nav-title * {
+  display: inline;
+  color: #232751;
+  text-decoration: none;
+}
+
+.nav-left {
+  width: 37%;
+  margin-left: 5%;
+}
+
+.is-active {
+  font-size: 22px;
+  color: var(--sr2);
+  margin-right: 5%;
+  padding: 10px 30px 10px 30px;
+  background-color: white;
+  border-radius: 10%;
+  text-decoration: none;
+}
+
+.center-items {
+  font-size: 22px;
+  color: var(--sr2);
+  margin-right: 5%;
+  padding: 10px 30px 10px 30px;
+  text-decoration: none;
+}
+
+#basic-nav-dropdown {
+  color: var(--sr2);
 }

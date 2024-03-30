@@ -44,7 +44,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
     render(): ReactNode {
         return(
-            <div>
+            <div className="main-background">
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
 
                     <SelectorAdCreation name="visibility" options={VISIBILITY_ARRAY}></SelectorAdCreation>

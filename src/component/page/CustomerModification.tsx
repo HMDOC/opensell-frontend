@@ -201,7 +201,7 @@ export default function CustomerModification() {
     }
 
     return(
-        <>
+        <div className="main-background">
             {isLoading ? <Loading/> : 
                 (
                     (inAlternateForm ? 
@@ -369,6 +369,6 @@ export default function CustomerModification() {
                     )
                 )
             }
-        </>
+        </div>
     )
 }

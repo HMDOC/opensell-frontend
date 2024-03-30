@@ -8,7 +8,17 @@
 
 body {
   background-color: var(--sr1);
+
   color: var(--sr2);
+}
+
+.main-background {
+  width: 95%;
+  min-height: 1100px;
+  margin: 30px auto auto auto;
+  background-color: white;
+  border-radius: 20px;
+  padding: 50px 10px 50px 10px;
 }
 
 .App {

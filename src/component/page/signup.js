@@ -75,7 +75,7 @@ export default function Signup() {
     }
     
     return (
-        <div>
+        <div className="main-background">
             {isAuthentified ? (<Verification email={infos.email} />) : (
                 <div>
                 <h1>Sign up</h1>

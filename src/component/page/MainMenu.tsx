@@ -13,7 +13,7 @@ export default function MainMenu(): ReactElement {
         navigate(`/catalog?query=${search}`);
     }
     return (
-        <>
+        <div className="main-background">
             <div className="searchBar">
                 <h1 id="mainTitle">OPENSELL INC.</h1><br />
                 <form onSubmit={getLink} className="inputContainer">
@@ -21,6 +21,6 @@ export default function MainMenu(): ReactElement {
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                 </form>
             </div>
-        </>
+        </div>
     );
 }

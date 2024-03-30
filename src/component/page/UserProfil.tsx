@@ -18,7 +18,7 @@ export default function UserProfil(): ReactElement {
         })
     });
     return(
-        <>
+        <div className="main-background">
             <img width="125px" height="125px" style={{borderRadius: 100}} src={customerInfo?.iconPath}></img>
             <p>{customerInfo?.firstName} {customerInfo?.lastName}</p>
             <p>{customerInfo?.phoneNumber}</p>
@@ -42,6 +42,6 @@ export default function UserProfil(): ReactElement {
                 } ) : <div className="searchEmpty">No ads posted, yet</div>}
             </div>
 
-        </>
+        </div>
     );
 }

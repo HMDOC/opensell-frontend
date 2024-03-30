@@ -113,7 +113,7 @@ const ResultList = () : ReactElement => {
 
 
     return (
-        <>
+        <div className="main-background">
             <div id="searchTop">
                 <h2>Catalog</h2>
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
@@ -150,7 +150,7 @@ const ResultList = () : ReactElement => {
                         })}
                     </div>}
             </div>
-        </>
+        </div>
     )
 }
 

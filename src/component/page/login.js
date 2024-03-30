@@ -37,7 +37,7 @@ export default function Login() {
     };
 
     return (
-        <div>
+        <div className="main-background">
             <h1>Login</h1>
             <form id="form">
                 <label>Email or username:</label><br />

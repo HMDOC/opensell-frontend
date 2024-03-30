@@ -46,7 +46,7 @@ export default class FileUploader extends Component {
 
     public render(): ReactNode {
         return (
-            <>
+            <div className="main-background">
                 <input ref={this.fileInputRef} onChange={this.addFile.bind(this)} type="file" multiple />
 
                 {this.state.customerImages.map((image, index) => (
@@ -54,7 +54,7 @@ export default class FileUploader extends Component {
                 ))}
 
                 <button onClick={this.submit.bind(this)}>submit</button>
-            </>
+            </div>
         );
     }
 }
