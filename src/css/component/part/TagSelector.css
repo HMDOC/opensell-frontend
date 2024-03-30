@@ -1,0 +1,39 @@
+
+/* @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    100% { opacity: 1; }
+    0% { opacity: 0; }
+} */
+
+.tag-catalog {
+    padding: 5px;
+    max-width: 30vw;
+    background-color: green;
+    /* animation: fadeIn 3s, fadeOut 3s; */
+}
+
+/* .fadeIn {
+    display: block;
+} */
+
+.hidden {
+   display: none;
+}
+
+.tag-display {
+    max-width: 5vw;
+    margin: 5px;
+    background-color: red;
+}
+
+.tag-display:hover {
+    background-color: aquamarine;
+}
+
+.tag-display-selected {
+    background-color: purple;
+}
