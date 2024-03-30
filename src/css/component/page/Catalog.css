@@ -1,24 +1,21 @@
 #searchResult{
     display: flex;
     flex-wrap: wrap;
-    margin: 1em auto 2em;
-    justify-content: space-evenly;
+    margin: 5em auto 2em auto;
     gap: 2em 1.5em;
-    width: 80%;
-    align-items: center;
-    align-self: center;
+    width: 95%;
+    justify-content: center;
 }
 
-#searchTop{
-    align-items: center;
+.catTop {
     margin: auto;
-    width: 80%;
-    margin-bottom: 0.8em;
+    text-align: center;
+    width: 100%;
 }
 
-#searchTop h1{
-    padding-bottom: 0.5rem;
-    padding-left: 2rem;
+.catTop>h2 {
+    text-align: left;
+    margin-left: 8%;
 }
 
 .searchEmpty{

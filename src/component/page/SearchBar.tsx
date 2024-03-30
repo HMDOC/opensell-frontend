@@ -2,7 +2,6 @@ import { Component, ReactNode, ReactElement, useRef } from "react";
 import "../../css/component/page/SearchBar.css";
 import SearchFilters from "./SearchFilters";
 
-
 /** 
     The component for the filter.
     @author Davide
@@ -38,14 +37,14 @@ const SearchBar = (props) : ReactElement => {
 
 
     return (
-        <>
-            <div id="searchBar">
-                <input ref={props.reference} onKeyDown={searchBarPress} placeholder="what are you looking for?" />
+        <div className="catSearchBar">
+            <div className="catInputContainer">
+                <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="What are you looking for?" />
                 <FilterToggle filterRef={props.filters} />
                 <button onClick={props.click}>Search</button>
             </div>
             <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
-        </>
+        </div>
         
     )
 }

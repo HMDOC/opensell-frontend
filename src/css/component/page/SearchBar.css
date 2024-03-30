@@ -1,13 +1,20 @@
-#searchBar{
-    width: min-content;
+.catInputContainer {
+    background-color: #D9D9D9;
+    width: 20%;
+    height: 50px;
+    border-radius: 20px;
     margin: auto;
-    display: flex;
 }
 
-#searchBar input{
-    display: flex;
-    min-width: 200px;
-    max-width: 600px;
+.catMainMenuInput{
+    width: calc(100% - 50px);
+    background: none;
+    border: none;
+    height: 100%;
+}
+
+.catMainMenuInput:focus {
+    outline: none;
 }
 
 input[type="number"]{

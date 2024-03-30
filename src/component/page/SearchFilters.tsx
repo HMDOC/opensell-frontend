@@ -31,9 +31,7 @@ const SearchFilters = (props) : ReactElement =>{
 
     // {adTypes.forEach( (value, key) => {} )}
     return (
-        <div onChange={filtersUpdated} hidden>
-            <h2>Filters</h2>
-            
+        <div onChange={filtersUpdated} hidden>            
             <div id="fitlerContainer" ref={props.filterElementRef}>
                 <input type="range" name="priceMin" id="priceMin"
                     min={0} max={priceMax} defaultValue={0} step={10}/>

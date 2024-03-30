@@ -1,7 +1,8 @@
 .nav {
   color: #232751;
   text-decoration: none;
-  padding: 20px 100px 0px 100px;
+  padding: 20px 8% 0px 8%;
+  margin: auto;
   font-weight: bold;
   width: 95%;
 }
@@ -23,7 +24,6 @@
 
 .nav-left {
   width: 37%;
-  margin-left: 5%;
 }
 
 .is-active {
@@ -32,7 +32,7 @@
   margin-right: 5%;
   padding: 10px 30px 10px 30px;
   background-color: white;
-  border-radius: 10%;
+  border-radius: 10px;
   text-decoration: none;
 }
 

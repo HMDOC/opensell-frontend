@@ -11,7 +11,7 @@ import { AxiosError, AxiosStatic } from "axios";
     The catalog page and all of its important components
     @author Davide
 */
-const ResultList = () : ReactElement => {
+const ResultList = (): ReactElement => {
 
     const errors = {
         regular: [
@@ -28,7 +28,7 @@ const ResultList = () : ReactElement => {
             "No cancellation but us script kitties!",
             "Looks like your request has somehow been cancelled.",
             "Purrhaps you should try again?"
-        ] ,
+        ],
         unknown: [
             "Unknown error by us script kitties!",
             "We REALLY don't know what happened!",
@@ -37,7 +37,7 @@ const ResultList = () : ReactElement => {
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>( [] );
+    const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>([]);
     const [searchClick, setSearchClick] = useState(false);
     const searchBarRef = useRef<HTMLInputElement>();
     const [isLoading, setLoading] = useState<boolean>();
@@ -47,28 +47,28 @@ const ResultList = () : ReactElement => {
     const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
 
-    useEffect(() =>{
+    useEffect(() => {
         let tmpFilterOptions = {};
-        filterRef.current.childNodes.forEach( (value:HTMLInputElement, key:number) => {
+        filterRef.current.childNodes.forEach((value: HTMLInputElement, key: number) => {
             console.log(`${value?.name} - ${value?.value} - ${value?.defaultValue}`);
-            if ((value?.value!==value?.defaultValue) && (value?.value!=="")){
+            if ((value?.value !== value?.defaultValue) && (value?.value !== "")) {
                 tmpFilterOptions[`${value?.name}`] = value.value;
             }
         });
 
         console.log(tmpFilterOptions);
-        
+
         setFilterOptions(tmpFilterOptions);
 
     }, [filtersUpdated]);
 
-    useEffect( () => {
+    useEffect(() => {
         searchBarRef.current.value = searchParams.get("query");
         let tmpFilterOptions = filterOptions;
-        searchParams.forEach( (value, key) => {
+        searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
-            let element:any = document.querySelector(`#${key}`);
-            if (element!=null){
+            let element: any = document.querySelector(`#${key}`);
+            if (element != null) {
                 element.value = value
             }
         });
@@ -83,27 +83,27 @@ const ResultList = () : ReactElement => {
 
             setListOfAds(res?.data);
             setLoading(false);
-        }).catch((e:AxiosError) => {
+        }).catch((e: AxiosError) => {
             //console.log(e);
-            switch(e.code){
+            switch (e.code) {
                 case AxiosError.ERR_NETWORK:
                     setSearchError(errors.cantConnect);
-                break;
+                    break;
                 case AxiosError.ERR_CANCELED:
                     setSearchError(errors.canceled);
-                break;
+                    break;
                 default:
                     setSearchError(errors.unknown);
-                break;
+                    break;
             }
-            
 
-            setListOfAds( new Array<AdSearchPreview>() );
+
+            setListOfAds(new Array<AdSearchPreview>());
             setLoading(false);
         });
 
 
-        let tmpQueryParams:any = filterOptions;
+        let tmpQueryParams: any = filterOptions;
 
         console.log(tmpQueryParams);
 
@@ -114,41 +114,38 @@ const ResultList = () : ReactElement => {
 
     return (
         <div className="main-background">
-            <div id="searchTop">
+            <div className="catTop">
                 <h2>Catalog</h2>
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
-            
             <div id="searchResult" >
-            {
-                (isLoading) ? 
-                    <LoadingIcon/> :
-                (listOfAds.length>0) ? 
-                    listOfAds.map( (data : AdSearchPreview, i : number) => {
-                        //console.log(data);
-                        //console.log(i);
-                        return (
-                            <AdPreview
-                                key={`ad-preview-${i}`}
-                                link={data?.adLink}
-                                price={data?.adPrice}
-                                shape={data?.adShape}
-                                title={data?.adTitle}
-                                isSold={data?.isAdSold}
-                                firstImagePath={data?.adFirstImagePath}
-                            />
-                        )
-                    } ) : 
-                    <div className="searchEmpty">
-                        {searchError.map( (val, index) => {
-                            return (
-                                <div id={(index==0) ? "errorTitle" : ""}
-                                    key={`error${index}`}>
-                                        {val}
-                                </div>
-                            )
-                        })}
-                    </div>}
+                {
+                    (isLoading) ?
+                        <LoadingIcon /> :
+                        (listOfAds.length > 0) ?
+                            listOfAds.map((data: AdSearchPreview, i: number) => {
+                                return (
+                                    <AdPreview
+                                        key={`ad-preview-${i}`}
+                                        link={data?.adLink}
+                                        price={data?.adPrice}
+                                        shape={data?.adShape}
+                                        title={data?.adTitle}
+                                        isSold={data?.isAdSold}
+                                        firstImagePath={data?.adFirstImagePath}
+                                    />
+                                )
+                            }) :
+                            <div className="searchEmpty">
+                                {searchError.map((val, index) => {
+                                    return (
+                                        <div id={(index == 0) ? "errorTitle" : ""}
+                                            key={`error${index}`}>
+                                            {val}
+                                        </div>
+                                    )
+                                })}
+                            </div>}
             </div>
         </div>
     )
