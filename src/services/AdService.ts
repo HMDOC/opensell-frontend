@@ -1,4 +1,6 @@
 import { ModifType } from "../component/shared/SharedAdPart";
+import { AdTag } from "../entities/dto/AdTag";
+import { AdType } from "../entities/dto/AdType";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
 
 import http from "../http-commons";
@@ -57,7 +59,11 @@ export const adModification = async (modifType: ModifType, value: any, idAd: num
 };
 
 export const getAllAdTypes = async () => {
-    return await http.get("/ad/get-all-ad-type");
+    return await http.get<Array<AdType>>("/ad/get-all-ad-type");
+};
+
+export const getAllAdTags = async () => {
+    return await http.get<Array<AdTag>>("/ad/get-all-ad-tag");
 };
 
 /**

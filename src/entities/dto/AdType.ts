@@ -4,7 +4,7 @@
  * @author Davide
  */
 
-interface AdSearchPreview {
+export interface AdType {
     idAdType? :number;
     name? :string;
 }

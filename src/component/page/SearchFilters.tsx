@@ -2,6 +2,7 @@ import {ReactElement, useEffect, useState } from "react";
 import "../../css/component/page/SearchBar.css";
 import { getAllAdTypes } from "../../services/AdService";
 import { AxiosError } from "axios";
+import { AdType } from "../../entities/dto/AdType";
 
 /** 
     The component that holds all of the filter options.
@@ -14,7 +15,7 @@ const SearchFilters = (props) : ReactElement =>{
     const dateMin = "2020-01-01";
     const dateMax = "3000-01-01";
 
-    const [adTypes, setAdTypes] = useState<Array<any>>(new Array());
+    const [adTypes, setAdTypes] = useState<Array<AdType>>(new Array());
     const adSortBy = [
         {sortParam : "", sortVisual : "Added Date"},
         {sortParam : "title", sortVisual : "Title"},
@@ -25,7 +26,7 @@ const SearchFilters = (props) : ReactElement =>{
         getAllAdTypes().then(res => {
             setAdTypes(res?.data);
         }).catch((e:AxiosError) => {
-            setAdTypes([{id_ad_type: 2, name:"No ad type found"}]);
+            setAdTypes([{idAdType: 2, name:"No ad type found"}]);
         })
     }, [])
 
