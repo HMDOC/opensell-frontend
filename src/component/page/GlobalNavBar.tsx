@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "../../css/component/page/GlobalNavBar.css";
 import navLinks from "./Navbar.json";
-import { NavItem } from 'react-bootstrap';
+import { Button, NavItem } from 'react-bootstrap';
 import ProfilIcon from './ProfilIcon';
 
 /**
@@ -40,7 +40,7 @@ export default function GlobalNavBar(): ReactElement {
                     <NavDropdown.Divider />
                     {navLinks.dropdownMenu.map((nav) =>
                     (
-                        <NavDropdown.Item><NavLink style={{ color: "black" }} className="dropdownItems" to={nav.path}>{nav.label}</NavLink></NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={nav.path} className="dropdownItems">{nav.label}</NavDropdown.Item>
                     ))}
                     <NavDropdown.Item>
                         Logout
