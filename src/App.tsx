@@ -26,7 +26,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-				<GlobalNavBar/>
+				<GlobalNavBar />
 				<Routes>
 					<Route path="/" element={<MainMenu />}></Route>
 					<Route path="/signup" element={<Signup />}></Route>

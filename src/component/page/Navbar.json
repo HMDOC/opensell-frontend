@@ -15,7 +15,7 @@
     ],
     "dropdownMenu": [
         {
-            "path" : "/user/:link",
+            "path" : "/user/1",
             "label" : "My Profile"
         },
         {

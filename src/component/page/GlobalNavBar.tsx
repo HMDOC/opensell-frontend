@@ -5,8 +5,8 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "../../css/component/page/GlobalNavBar.css";
 import navLinks from "./Navbar.json";
-import { Button, NavItem } from 'react-bootstrap';
 import ProfilIcon from './ProfilIcon';
+import { createRandomKey } from '../../services/RandomKeys';
 
 /**
  * 
@@ -21,14 +21,14 @@ export default function GlobalNavBar(): ReactElement {
         <>
             <Navbar expand="lg" className="mb-2 nav">
                 <div className='nav-left'>
-                    <Navbar.Brand className='nav-title'><NavLink to="/"><img src="./img/opensell-logo.svg" alt="Opensell logo" className="brand-logo" /><h2>OpenSell Inc.</h2></NavLink></Navbar.Brand>
+                    <Navbar.Brand className='nav-title'><NavLink to="/"><img src="./img/loadingAnim.svg" alt="Opensell logo" className="brand-logo" /><h2>OpenSell Inc.</h2></NavLink></Navbar.Brand>
                 </div>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
                         {navLinks.quickMenu.map((nav) =>
                         (
-                            <NavLink className={b} to={nav.path}>{nav.label}</NavLink>
+                            <NavLink key={createRandomKey()} className={b} to={nav.path}>{nav.label}</NavLink>
                         ))}
                     </Nav>
                     <NavDropdown title={<ProfilIcon src='http://dummyimage.com/124x100.png/ff4444/ffffff' />} id='basic-nav-dropdown'>
@@ -36,7 +36,7 @@ export default function GlobalNavBar(): ReactElement {
                         <NavDropdown.Divider />
                         {navLinks.dropdownMenu.map((nav) =>
                         (
-                            <NavDropdown.Item as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
+                            <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
                         ))}
                         <NavDropdown.Item>
                             Logout

@@ -5,6 +5,8 @@ import TagSelector from "./TagSelector";
 import { AdTag } from "../../entities/dto/AdTag";
 import {AdType} from "../../entities/dto/AdType";
 import { getAllAdTags, getAllAdTypes } from "../../services/AdService";
+import { AdTags } from "../shared/AdTags";
+import { HtmlCode } from "../../services/verification/HtmlCode";
 
 /**
  * @author Olivier Mansuy
@@ -12,13 +14,13 @@ import { getAllAdTags, getAllAdTypes } from "../../services/AdService";
 const TEMPORARY_ID: number = 20;
 
 interface AdCreationpProperties {
-
 }
 
 interface AdCreationState {
-    errorMessage: string,
-    tagArray: AdTag[]
-    typeArray: AdType[]
+    errorMessage: string;
+    tagArray: AdTag[];
+    typeArray: AdType[];
+    adTags: string[];
 }
 
 interface AdCreationInputProperties {
@@ -55,9 +57,8 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
 }
 
 class SelectorAdCreation extends SelectorReader {
-
     public handleChange(e: ChangeEvent<HTMLSelectElement>): void {
-        //
+        
     }
 }
 
@@ -67,7 +68,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         this.state = {
             errorMessage: "",
             tagArray: [],
-            typeArray: []
+            typeArray: [],
+            adTags : [],
         }
     }
 
@@ -133,6 +135,12 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <SelectorAdCreation name="shape" options={SHAPE_ARRAY}></SelectorAdCreation>
                     <TagSelector tagArray={this.getStringTagList()} showCatalogButtonText="Show tags" inputNameAttribute="tags"/>
                     <TagSelector tagArray={this.getStringTypeList()} showCatalogButtonText="Show types" inputNameAttribute="type" selectedTagsLimit={1}/>
+
+                    <AdTags 
+                        addTag={(tag) => this.setState({adTags: [...this.state.adTags, tag]})}
+                        deleteTag={(tag) => this.setState({adTags: this.state.adTags.filter(t => t != tag)})}
+                        tags={this.state.adTags}
+                    />
 
                     <div><span>{this.state.errorMessage}</span></div>
                     <button type="submit">Send</button>

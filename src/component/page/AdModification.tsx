@@ -12,7 +12,6 @@ import {
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
 
-
 const SIMPLE: Array<SimpleInputProps> = [
     {
         name: "title",
@@ -176,7 +175,9 @@ class AdTags extends PureComponent<AdTagsProps> {
     };
 
     public changeAsUserChangeAd(value: boolean) {
-        if(value != this.asUserChangeAd) this.asUserChangeAd = value;
+        if(value != this.asUserChangeAd) {
+            this.asUserChangeAd = value;
+        }
     }
 
     public changeIsEditing(value: boolean) {
