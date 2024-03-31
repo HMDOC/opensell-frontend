@@ -1,4 +1,4 @@
-import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, useEffect, useRef, useState } from "react";
+import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, memo, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getAdToModif, adModification, adModificationImageOrTags } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
@@ -11,6 +11,7 @@ import {
     SimpleInput,
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
+import { AdTags } from "../shared/AdTags";
 
 const SIMPLE: Array<SimpleInputProps> = [
     {
@@ -161,120 +162,6 @@ interface AdTagsProps {
     reset(tags: Array<string>): void;
 }
 
-// Faire un gros map avec ton les types d'inputs et il va avoir un if terner pour savoir est-ce que c'est un selector, un input ou autres
-class AdTags extends PureComponent<AdTagsProps> {
-    // These two field are to save the old value for when we trying to reset.
-    public isFirstChange: boolean = true;
-    public tagSaveForReset: Array<string> = [];
-    
-    public asUserChangeAd = false;
-
-    public state = {
-        error: HtmlCode.SUCCESS,
-        isEditing: false
-    };
-
-    public changeAsUserChangeAd(value: boolean) {
-        if(value != this.asUserChangeAd) {
-            this.asUserChangeAd = value;
-        }
-    }
-
-    public changeIsEditing(value: boolean) {
-        if(this.state.isEditing != value) this.setState({isEditing : value});
-    }
-
-    public inputChange(e: any): void {
-        if (this.isFirstChange) {
-            this.isFirstChange = false;
-            this.tagSaveForReset = this.props.tags;
-        }
-
-        if (!e.currentTarget.value) {
-            if (this.state.error !== HtmlCode.LENGTH_EMPTY) this.setState({ error: HtmlCode.LENGTH_EMPTY });
-        }
-
-        else {
-            if (!this.props.tags.includes(e.currentTarget.value)) {
-                this.setState({ error: HtmlCode.SUCCESS });
-                this.props.add(e.target.value);
-                this.changeAsUserChangeAd(true);
-            } else {
-                if (this.state.error !== HtmlCode.UNIQUE_FAILED) this.setState({ error: HtmlCode.UNIQUE_FAILED });
-            }
-        }
-
-        e.currentTarget.value = "";
-    }
-
-    public save() {
-        if(this.asUserChangeAd) {
-            adModificationImageOrTags(this.props.tags, this.props.idAd, false).then(res => {
-                if (res?.data == HtmlCode.SUCCESS) {
-                    this.tagSaveForReset = this.props.tags;
-                    this.reset();
-                }
-            });
-        } else {
-            this.setState({error : HtmlCode.VALUE_AS_NOT_CHANGE})
-        }
-    }
-
-    public reset() {
-        this.props.reset(this.tagSaveForReset);
-        this.isFirstChange = true;
-        this.changeIsEditing(false);
-        this.changeAsUserChangeAd(false);
-        this.setState({error : HtmlCode.SUCCESS});
-    }
-
-    public deleteTag(tag: string) {
-        this.changeIsEditing(true);
-        this.props.delete(tag);
-        this.changeAsUserChangeAd(true);
-    }
-
-    public getError(): string {
-        switch (this.state.error) {
-            case HtmlCode.LENGTH_EMPTY: return " cannot be empty";
-            case HtmlCode.UNIQUE_FAILED: return " already exists";
-            case HtmlCode.VALUE_AS_NOT_CHANGE: return " as no value changed."
-        }
-    }
-
-    public render(): ReactNode {
-        return (
-            <>
-                <label>{"adTags"} {this.getError()}</label>
-                <br />
-
-                <input onFocus={() => this.changeIsEditing(true)} onDoubleClick={(e) => this.inputChange(e)} name="adTags" />
-                <br />
-                <br />
-
-                {this.props.tags?.map((value, index) => (
-                    <button onDoubleClick={() => { this.deleteTag(value) }} key={`${index}`}>{value}</button>
-                ))}
-                <br />
-                <br />
-
-                {this.state.isEditing ?
-                    (
-                        <>
-                            <button onClick={() => this.save()}>save</button>
-                            <button onClick={() => this.reset()}>cancel</button>
-                        </>
-                    ) : (
-                        <></>
-                    )
-                }
-                <br />
-                <br />
-            </>
-        );
-    }
-}
-
 class ImageObject {
     public isPath: boolean;
     public object: any;
@@ -381,6 +268,12 @@ export default function AdModification(): ReactElement {
     const [adImagesPath, setAdImagesPath] = useState<Array<string>>();
     var adImagesRef: RefObject<AdImages> = useRef(null);
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
+    const [error, setError] = useState<HtmlCode>(HtmlCode.SUCCESS);
+
+    const [oldTags, setOldTags] = useState({
+        isOldValueSaved : false,
+        tagsForReset: []
+    });
 
     useEffect(() => {
         getAdToModif(link).then(res => {
@@ -395,16 +288,39 @@ export default function AdModification(): ReactElement {
         });
     }, []);
 
-    function deleteElement(value: string) {
-        setAdTags(adTags.filter((tag) => tag !== value));
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    function registerOldTags() {
+        if (!oldTags.isOldValueSaved) {
+            setOldTags({tagsForReset : adTags, isOldValueSaved : true});
+            console.log(oldTags);
+        }
+
+        if (!isEditing) setIsEditing(true);
     }
 
-    function addElement(value: string) {
-        setAdTags([...adTags, value]);
+    function reset(isReset: boolean = true) {
+        setOldTags({...oldTags, isOldValueSaved : false});
+        if(isReset) setAdTags(oldTags.tagsForReset);
+        setIsEditing(false);
+        setError(HtmlCode.SUCCESS);
     }
 
-    function resetAdTagsState(tags: Array<string>) {
-        setAdTags(tags);
+    function save() {
+        adModificationImageOrTags(adTags, ad?.idAd, false).then(res => {
+            if (res?.data == HtmlCode.SUCCESS) {
+                reset(false);
+            }
+        });
+    }
+
+    function addEvent(tag: string) {
+        registerOldTags();
+        setAdTags([...adTags, tag]);
+    }
+
+    function deleteEvent(tag: string) {
+        registerOldTags();
+        setAdTags(adTags.filter(t => t != tag));
     }
 
     return (
@@ -424,7 +340,25 @@ export default function AdModification(): ReactElement {
 
                 <AdImages ref={adImagesRef} images={ImageObject.fromStringArray(adImagesPath)} />
 
-                <AdTags add={addElement} delete={deleteElement} idAd={ad?.idAd} tags={adTags} reset={resetAdTagsState} />
+                <AdTags
+                    error={error}
+                    setError={setError}
+                    tags={adTags}
+                    addTag={addEvent}
+                    deleteTag={deleteEvent}
+                />
+
+                {isEditing ?
+                    (
+                        <>
+                            <button onClick={save}>save</button>
+                            <button onClick={() => reset()}>cancel</button>
+                            <br />
+                            <br />
+                        </>
+                    ) : (<></>)
+
+                }
 
                 {
                     SELECTS.map((value, index) => (

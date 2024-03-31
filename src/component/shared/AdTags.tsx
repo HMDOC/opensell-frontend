@@ -1,8 +1,14 @@
-import { ReactElement, ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 
 interface AdTagsProps {
+    /**
+     * Error are handled at distance.
+     */
+    error: HtmlCode;
+    setError(error: HtmlCode): void;
+
     /**
      * @brief
      * Extarnal state that will be modified by the function deleteTag and addTag.
@@ -37,8 +43,6 @@ interface AdTagsProps {
  * @returns 
  */
 export function AdTags(props: AdTagsProps): ReactElement {
-    const [error, setError] = useState<HtmlCode>(HtmlCode.SUCCESS);
-
     /**
      * @brief
      * Check if the new tag have an error before putting it in the list.
@@ -55,16 +59,19 @@ export function AdTags(props: AdTagsProps): ReactElement {
     }
 
     const addEvent = (e: any): void => {
-        let addError = verifyTag(e.target.value);
+        if (props.tags) {
 
-        if (addError != HtmlCode.SUCCESS) {
-            setError(addError);
-        } else {
-            props.addTag(e.target.value);
-            if (error != HtmlCode.SUCCESS) setError(HtmlCode.SUCCESS);
+            let addError = verifyTag(e.target.value);
+
+            if (addError != HtmlCode.SUCCESS) {
+                props.setError(addError);
+            } else {
+                props.addTag(e.target.value);
+                if (props.error != HtmlCode.SUCCESS) props.setError(HtmlCode.SUCCESS);
+            }
+
+            e.target.value = "";
         }
-
-        e.target.value = "";
     };
 
 
@@ -75,7 +82,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
      * @return The string representation of the error.
     */
     const getErrorValue = (): string => {
-        switch (error) {
+        switch (props.error) {
             case HtmlCode.LENGTH_EMPTY: return " cannot be empty";
             case HtmlCode.UNIQUE_FAILED: return " already exists";
             case HtmlCode.VALUE_AS_NOT_CHANGE: return " as no value changed."
@@ -84,7 +91,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
     const deleteEvent = (tag: string): void => {
         props.deleteTag(tag);
-        setError(HtmlCode.SUCCESS);
+        props.setError(HtmlCode.SUCCESS);
     }
 
     return (

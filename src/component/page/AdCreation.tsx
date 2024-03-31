@@ -21,6 +21,7 @@ interface AdCreationState {
     tagArray: AdTag[];
     typeArray: AdType[];
     adTags: string[];
+    errorAdTags: HtmlCode;
 }
 
 interface AdCreationInputProperties {
@@ -70,6 +71,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             tagArray: [],
             typeArray: [],
             adTags : [],
+            errorAdTags: HtmlCode.SUCCESS
         }
     }
 
@@ -136,7 +138,9 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <TagSelector tagArray={this.getStringTagList()} showCatalogButtonText="Show tags" inputNameAttribute="tags"/>
                     <TagSelector tagArray={this.getStringTypeList()} showCatalogButtonText="Show types" inputNameAttribute="type" selectedTagsLimit={1}/>
 
-                    <AdTags 
+                    <AdTags
+                        error={this.state.errorAdTags}
+                        setError={(error) => this.setState({errorAdTags: error})}
                         addTag={(tag) => this.setState({adTags: [...this.state.adTags, tag]})}
                         deleteTag={(tag) => this.setState({adTags: this.state.adTags.filter(t => t != tag)})}
                         tags={this.state.adTags}
