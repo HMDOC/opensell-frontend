@@ -29,6 +29,16 @@ const ResultList = (): ReactElement => {
             "Looks like your request has somehow been cancelled.",
             "Purrhaps you should try again?"
         ],
+        badrequest: [
+            "No requests but us script kitties!",
+            "Looks like the syntax in your request is somehow invalid.",
+            "Purrhaps you used unsupported parameters?"
+        ],
+        toomanyrequests: [
+            "No requests but us script kitties!",
+            "Looks like youre sending too many requests.",
+            "Purrhaps you can take a break and touch grass?"
+        ],
         unknown: [
             "Unknown error by us script kitties!",
             "We REALLY don't know what happened!",
@@ -84,7 +94,6 @@ const ResultList = (): ReactElement => {
             setListOfAds(res?.data);
             setLoading(false);
         }).catch((e: AxiosError) => {
-            //console.log(e);
             switch (e.code) {
                 case AxiosError.ERR_NETWORK:
                     setSearchError(errors.cantConnect);
@@ -92,8 +101,15 @@ const ResultList = (): ReactElement => {
                 case AxiosError.ERR_CANCELED:
                     setSearchError(errors.canceled);
                     break;
+                case AxiosError.ERR_BAD_REQUEST:
+                    setSearchError(errors.badrequest);
+                    break;
+                case AxiosError.ERR_NOT_SUPPORT:
+                    setSearchError(errors.toomanyrequests);
+                    break;
                 default:
                     setSearchError(errors.unknown);
+                    console.log(e);
                     break;
             }
 
