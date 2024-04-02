@@ -16,7 +16,7 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const errors = {username: "", password: ""};
+        const errors = { username: "", password: "" };
         if (!username.current.value) {
             errors.username = "Required";
             setErrors(errors);

@@ -28,7 +28,7 @@ export default function Verification(props: {email: string}) {
         });
     }
     return (
-        <div className="main-background">
+        <div>
             <h1>Verify your account</h1>
             <input type="text" id="vefcode" onChange={handleChange}></input>
             <button onClick={handleCode}>Submit</button>&nbsp;{message}

@@ -48,7 +48,7 @@ export function AdMapping(props: {request: Promise<AxiosResponse<AdBuyerView, an
     return (
         adBuyerView ?
         (
-            <div className="main-background">
+            <div>
                 <div>
                     <h1>{adBuyerView?.adTitle}</h1>
                     {/* Image Section */}
@@ -107,9 +107,9 @@ const AdView = (): ReactElement => {
     const { link } = useParams();
 
     return (
-        <>
+        <div className="main-background">
             <AdMapping request={getAdByLink(link)} />
-        </>
+        </div>
     );
 }
 
