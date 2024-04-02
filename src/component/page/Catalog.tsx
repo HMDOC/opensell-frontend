@@ -30,12 +30,12 @@ const ResultList = (): ReactElement => {
             "Purrhaps you should try again?"
         ],
         badrequest: [
-            "No requests but us script kitties!",
-            "Looks like the syntax in your request is somehow invalid.",
-            "Purrhaps you used unsupported parameters?"
+            "No requests by us script kitties!",
+            "Looks like your request is somehow invalid.",
+            "Purrhaps you used unsupported parameters or the syntax is invalid?"
         ],
         toomanyrequests: [
-            "No requests but us script kitties!",
+            "No requests by us script kitties!",
             "Looks like youre sending too many requests.",
             "Purrhaps you can take a break and touch grass?"
         ],
