@@ -2,7 +2,7 @@
 .adPreview{
     transition: background-color 0.2s;
     color: black;
-    width: 30.5em;
+    width: 8cm;
     padding-bottom: 5px;
     background-color: white;
     border-radius: 20px;
@@ -32,8 +32,7 @@
 
 .adPreview img {
     width: 100%;
-    max-height: 300px;
-    min-height: 300px;
+    height: 4cm;
     object-fit: cover; /* le morceau important */
     object-position: 50% 50%; /* pour mieux aligner l'image */
     border: thick double black;

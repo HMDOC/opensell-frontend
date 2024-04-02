@@ -22,11 +22,13 @@ const SearchBar = (props) : ReactElement => {
     return (
         <div className="catSearchBar">
             <div className="catInputContainer">
-                <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="What are you looking for?" />
+                <div>
+                    <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="Search" />
+                    <button className="catSearchButton" onClick={props.click}>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                    </button>
+                </div>
                 <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
-                <button className="catSearchButton" onClick={props.click}>
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
-                </button>
             </div>
         </div>
         

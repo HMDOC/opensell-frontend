@@ -37,24 +37,42 @@ const AdPreview = (props) : ReactElement => {
         return (props?.isSold ? style : "");
     }
 
-    const getShapeIcon = (shape:number) => {
+    const getShapeIcon = () => {
         return (
-            <FontAwesomeIcon icon={shapeIconList[shape]}/>
+            <FontAwesomeIcon icon={shapeIconList[props?.shape]}/>
         )
     }
 
-    const getShapeName = (shape:number) => {
-        return shapeTextList[shape]
+    const getShapeName = () => {
+        return shapeTextList[props?.shape]
+    }
+
+    const showPrice = () =>{
+        return `${props?.price.toFixed(2)}$`;
     }
 
     return (
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
-            <img className="card-img-top" src={props?.firstImagePath} alt="The image cant load!"></img>
+            <img className="card-img-top" 
+                src={props?.firstImagePath} 
+                alt="The image cant load!"></img>
             <hr />
             <h3 className="adPreviewText"> {props?.title}</h3>
             <div className="adPreviewAlign">
-                <h4 className={"adPreviewText " + addSoldCSS("adSoldText")}>{props?.isSold ? "sold" : props?.price+"$"}</h4>
-                <h3 className="adPreviewText adShapeIcon" title={getShapeName(props?.shape)}> {getShapeIcon(props?.shape)}</h3>
+                {props?.isSold ? (
+                    <h5 className={"adPreviewText adSoldText"}>
+                        {`SOLD (${showPrice()})`}
+                    </h5>
+                ) : (
+                    <h4 className="adPreviewText">
+                        {showPrice()}
+                    </h4>
+                )}
+                <h3 className="adPreviewText adShapeIcon" 
+                    title={getShapeName()}> 
+
+                    {getShapeIcon()}
+                </h3>
             </div>
         </div>
     )

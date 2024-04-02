@@ -22,6 +22,15 @@ const SearchFilters = (props) : ReactElement =>{
         {sortParam : "price", sortVisual : "Price"}
     ]
 
+    const shapeTextList = [
+        "Brand New", 
+        "Opened", 
+        "Barely Used", 
+        "Used", 
+        "Bad", 
+        "Unknown"
+    ]
+
     useEffect( () => {
         getAllAdTypes().then(res => {
             setAdTypes(res?.data);
@@ -34,16 +43,20 @@ const SearchFilters = (props) : ReactElement =>{
     return (
         <div onChange={filtersUpdated}>            
             <div id="filterContainer" ref={props.filterElementRef}>
+                <h5>Price</h5>
                 <input type="range" name="priceMin" id="priceMin"
                     min={0} max={priceMax} defaultValue={0} step={10}/>
-                <input type="range" name="priceMax" id="priceMax" 
+
+                <input type="range" name="priceMax" id="priceMax"
                     min={0} max={priceMax} defaultValue={priceMax} step={10} />
                 
+                <h5>Date</h5>
                 <input type="date" name="dateMin" id="dateMin"
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 <input type="date" name="dateMax" id="dateMax"
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
+                <h5>Category</h5>
                 <select name="typeId" id="typeId">
                     <option value={""}> no category </option>
                     {adTypes.map( (value, key) => {
@@ -51,21 +64,34 @@ const SearchFilters = (props) : ReactElement =>{
                     } )}
                 </select>
 
+                <h5>Sorting</h5>
                 <select name="sortBy" id="sortBy">
                     {adSortBy.map( (value, key) => {
                         return (<option value={value?.sortParam} key={key}> { value?.sortVisual } </option>)
                     } )}
                 </select>
+                
                 <input type="range" name="reverseSort" id="reverseSort" 
                     min={0} max={1} defaultValue={0}/>
                 
+                <h5>Tags</h5>
                 <input type="text" name="tagListId" id="tagListId"
                     placeholder="list all tags (by id)" defaultValue={""} />
 
-                <input type="number" name="shapeId" id="shapeId" 
-                    min={0} max={5} defaultValue={""} placeholder="Shape"/>
-                <input type="number" name="filterSold" id="filterSold"
-                    min={0} max={1} defaultValue={""} placeholder="Sold"/>
+                <h5>Shape</h5>
+                <select name="shapeId" id="shapeId">
+                    <option value=""> All </option>
+                    {shapeTextList.map( (value, key) => {
+                        return (<option value={key} key={key}> { value } </option>)
+                    } )}
+                </select>
+
+                <h5>Sold</h5>
+                <select name="filterSold" id="filterSold">
+                    <option value=""> All </option>
+                    <option value={0}> Only On Sale </option>
+                    <option value={1}> Only Sold </option>
+                </select>
             </div>
             
         </div>

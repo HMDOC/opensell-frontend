@@ -5,13 +5,21 @@
 
 #searchResult{
     display: flex;
+    width: 100%;
     flex-wrap: wrap;
-    gap: 2em 2em;
+    gap: 1.25em 1.75em;
+}
+
+.searchEmpty{
+    position: fixed;
+    font-size: small;
+    text-align: center;
+    margin: 2em auto;
 }
 
 .div-filters {
-    width: 300px;
-    height: 400px;
+    width: 8.5cm;
+    height: 600px;
     background: white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     border-radius: 20px;
@@ -21,12 +29,6 @@
 .catTop>h2 {
     text-align: left;
     margin-left: 8%;
-}
-
-.searchEmpty{
-    font-size: small;
-    text-align: center;
-    margin: 2em 0px 0px 31%;
 }
 
 #errorTitle{

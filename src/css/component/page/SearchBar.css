@@ -3,20 +3,24 @@
     width: 75%;
     height: 50px;
     border-radius: 20px;
-    margin: 25px auto auto auto;
+    margin: 25px auto 25px auto;
+    padding: 0;
 }
 
 .catMainMenuInput{
     width: calc(100% - 50px);
-    height: 50px;
     background: none;
     border: none;
+    height: 100%;
+    margin-left: 10px;
 }
 
 .catSearchButton{
-    margin: 0 1rem;
     background: none;
+    width: 20%;
+    height: 50px;
     border: none;
+    margin: auto;
 }
 
 #filterContainer{
@@ -35,10 +39,21 @@
     outline: none;
 }
 
-input[type="number"]{
-    width: 66px;
+#priceMin{ position: relative; }
+
+#priceMax{ position: static; }
+
+input{
+    width: 100%;
 }
 
-#reverseSort{
-    width: 30px;
+select{
+    width: 100%;
+}
+
+#sortBy{ width: calc(100% - 30px); }
+#reverseSort{ width: 24px; margin-left: 5px;}
+
+#tagListId{
+    width: 100%;
 }
