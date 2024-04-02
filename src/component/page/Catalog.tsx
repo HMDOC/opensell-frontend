@@ -29,6 +29,27 @@ const ResultList = (): ReactElement => {
             "Looks like your request has somehow been cancelled.",
             "Purrhaps you should try again?"
         ],
+        badrequest: [
+            "No requests but us script kitties!",
+            "Looks like your request is somehow invalid.",
+            "Purrhaps you used unsupported parameters or the syntax is invalid?"
+        ],
+        badresponse: [
+            "No response but us script kitties!",
+            "Looks like our response is somehow invalid.",
+            "It's unlikely, due the error type," +
+            "but purrhaps you did something that caused this?"
+        ],
+        toomanyrequests: [
+            "No requests but us script kitties!",
+            "Looks like youre sending too many requests.",
+            "Purrhaps you can take a break and touch grass?"
+        ],
+        deprecated: [
+            "Nothing but us script kitties!",
+            "Looks like youre trying to use something thats deprecated.",
+            "Purrhaps you can navigate elsewhere?"
+        ],
         unknown: [
             "Unknown error by us script kitties!",
             "We REALLY don't know what happened!",
@@ -84,7 +105,6 @@ const ResultList = (): ReactElement => {
             setListOfAds(res?.data);
             setLoading(false);
         }).catch((e: AxiosError) => {
-            //console.log(e);
             switch (e.code) {
                 case AxiosError.ERR_NETWORK:
                     setSearchError(errors.cantConnect);
@@ -92,11 +112,24 @@ const ResultList = (): ReactElement => {
                 case AxiosError.ERR_CANCELED:
                     setSearchError(errors.canceled);
                     break;
+                case AxiosError.ERR_BAD_REQUEST:
+                    setSearchError(errors.badrequest);
+                    break;
+                case AxiosError.ERR_BAD_RESPONSE:
+                    setSearchError(errors.badresponse);
+                    break;
+                case AxiosError.ERR_NOT_SUPPORT:
+                    setSearchError(errors.toomanyrequests);
+                    break;
+                case AxiosError.ERR_DEPRECATED:
+                    setSearchError(errors.deprecated);
+                    break;
                 default:
                     setSearchError(errors.unknown);
                     break;
             }
 
+            console.log(e);
 
             setListOfAds(new Array<AdSearchPreview>());
             setLoading(false);
@@ -144,7 +177,8 @@ const ResultList = (): ReactElement => {
                                         </div>
                                     )
                                 })}
-                            </div>}
+                            </div>
+                }
             </div>
         </div>
     )
