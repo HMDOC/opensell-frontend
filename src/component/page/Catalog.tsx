@@ -113,9 +113,8 @@ const ResultList = (): ReactElement => {
 
 
     return (
-        <div className="main-background">
-            <div className="catTop">
-                <h2>Catalog</h2>
+        <div className="catalog-div">
+            <div className="div-filters">
                 <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
             </div>
             <div id="searchResult" >

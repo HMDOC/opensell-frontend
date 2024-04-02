@@ -50,6 +50,7 @@ const AdPreview = (props) : ReactElement => {
     return (
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
             <img className="card-img-top" src={props?.firstImagePath} alt="The image cant load!"></img>
+            <hr />
             <h3 className="adPreviewText"> {props?.title}</h3>
             <div className="adPreviewAlign">
                 <h4 className={"adPreviewText " + addSoldCSS("adSoldText")}>{props?.isSold ? "sold" : props?.price+"$"}</h4>

@@ -4,22 +4,25 @@
     color: black;
     width: 30.5em;
     padding-bottom: 5px;
-    background-color: aliceblue;
-    border-radius: 0.75em;
+    background-color: white;
+    border-radius: 20px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 15px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+
 }
 
 .adPreview:hover{
     transition: background-color 0.2s;
-    background-color: #3c7bf0;
+    background-color: darkblue;
     color: white;
 }
 
 .adSold{
-    background-color: lavender;
+    filter: brightness(85%);
     /*text-decoration: line-through;*/
 }
 
@@ -33,8 +36,8 @@
     min-height: 300px;
     object-fit: cover; /* le morceau important */
     object-position: 50% 50%; /* pour mieux aligner l'image */
-    border-bottom: thick double;
-    border-color: black;
+    border: thick double black;
+    border-width: 2px;
 }
 
 .adPreviewText{

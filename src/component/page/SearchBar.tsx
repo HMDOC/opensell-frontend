@@ -15,7 +15,7 @@ const FilterToggle = (props) : ReactElement => {
     }
 
     return (
-        <div id="filter">
+        <div id="filter" style={{display : 'inline'}}>
             <button onClick={toggleFilters}>F</button>
         </div>
     )
@@ -41,7 +41,7 @@ const SearchBar = (props) : ReactElement => {
             <div className="catInputContainer">
                 <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="What are you looking for?" />
                 <FilterToggle filterRef={props.filters} />
-                <button onClick={props.click}>Search</button>
+                <button style={{marginTop: "50%"}} onClick={props.click}>Search</button>
             </div>
             <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
         </div>

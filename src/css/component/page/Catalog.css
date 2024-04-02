@@ -1,16 +1,22 @@
+.catalog-div {
+    display: grid;
+    grid-template-columns: 15% 90%;
+    margin: 2em auto auto auto;
+}
+
 #searchResult{
     display: flex;
     flex-wrap: wrap;
-    margin: 5em auto 2em auto;
-    gap: 2em 1.5em;
-    width: 95%;
-    justify-content: center;
+    gap: 2em 2em;
 }
 
-.catTop {
-    margin: auto;
-    text-align: center;
-    width: 100%;
+.div-filters {
+    width: 85%;
+    height: 250px;
+    background: white;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    border-radius: 20px;
+    margin: 0px 2em 0px 2em;
 }
 
 .catTop>h2 {
@@ -21,7 +27,7 @@
 .searchEmpty{
     font-size: small;
     text-align: center;
-    margin: 1em auto;
+    margin: 2em 0px 0px 31%;
 }
 
 #errorTitle{
