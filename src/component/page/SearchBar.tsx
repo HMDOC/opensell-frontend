@@ -1,25 +1,8 @@
 import { Component, ReactNode, ReactElement, useRef } from "react";
 import "../../css/component/page/SearchBar.css";
 import SearchFilters from "./SearchFilters";
-
-/** 
-    The component for the filter.
-    @author Davide
-*/
-const FilterToggle = (props) : ReactElement => {
-    
-    const filterRef = props.filterRef;
-
-    const toggleFilters = () => {
-        filterRef.current.parentElement.hidden = !filterRef.current.parentElement.hidden;
-    }
-
-    return (
-        <div id="filter" style={{display : 'inline'}}>
-            <button onClick={toggleFilters}>F</button>
-        </div>
-    )
-}
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 /** 
     The component for the search bar.
@@ -40,10 +23,11 @@ const SearchBar = (props) : ReactElement => {
         <div className="catSearchBar">
             <div className="catInputContainer">
                 <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="What are you looking for?" />
-                <FilterToggle filterRef={props.filters} />
-                <button style={{marginTop: "50%"}} onClick={props.click}>Search</button>
+                <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
+                <button className="catSearchButton" onClick={props.click}>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                </button>
             </div>
-            <SearchFilters filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
         </div>
         
     )

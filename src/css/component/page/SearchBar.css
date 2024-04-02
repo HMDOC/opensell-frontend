@@ -8,9 +8,23 @@
 
 .catMainMenuInput{
     width: calc(100% - 50px);
+    height: 50px;
     background: none;
     border: none;
-    height: 100%;
+}
+
+.catSearchButton{
+    margin: 0 1rem;
+    background: none;
+    border: none;
+}
+
+#filterContainer{
+    margin: 0.75em 0.5em;
+}
+
+#filterContainer * {
+    margin: 3px 0;
 }
 
 .catSearchBar {
