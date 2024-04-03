@@ -1,5 +1,4 @@
 import { Component, ReactNode, ChangeEvent, RefObject, createRef } from "react";
-import { adR, testImages } from "../../services/AdService";
 
 export default class FileUploader extends Component {
     public fileInputRef: RefObject<HTMLInputElement> = createRef();
@@ -10,18 +9,14 @@ export default class FileUploader extends Component {
 
     public addFile = (e: ChangeEvent<HTMLInputElement>) => {
         var inputFiles = Array.from(this.fileInputRef.current.files);
-        console.log(adR(inputFiles[0]));
-        //console.log(inputFiles[0].arrayBuffer().then(res => adR(res)));
+        console.log("PATH : "+inputFiles[0].type);
+        //inputFiles[0].text().then(res => adR(res));
         this.setState({customerImages: inputFiles})
     }
 
     public submit() {
         let formData: FormData = new FormData();
         for (let file of this.state.customerImages) formData.append("files", file);
-
-        testImages(formData).then(res =>
-            console.log(res)
-        );
     }
 
     public componentDidUpdate(): void {
