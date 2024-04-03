@@ -2,7 +2,6 @@ import { ModifType } from "../component/shared/SharedAdPart";
 import { AdTag } from "../entities/dto/AdTag";
 import { AdType } from "../entities/dto/AdType";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
-
 import http from "../http-commons";
 import { HtmlCode } from "./verification/HtmlCode";
 
@@ -28,11 +27,6 @@ export const getAdBySearch = async (query: string, filters) => {
     let params = filters;
 
     return await http.get<AdSearchPreview[]>(`/ad/search`, { params })
-};
-
-// TO DELETE AFTER FILE UPLOADER
-export const testImages = async (formData: any) => {
-    return await http.post<boolean>(`/ad/get-images`, formData);
 };
 
 /**
@@ -93,4 +87,10 @@ export const getCustomerAdPreview = async (idAd: number) => {
 
 export const adModificationImageOrTags = async (tags: Array<string>, idAd: number, isImage: boolean) => {
     return await http.patch<HtmlCode>(`/ad/modification/image-or-tags`, tags, {params : {idAd, isImage}});
+};
+
+export const saveAdImages = async (images: Array<File>) => {
+    let imagesFormData = new FormData();
+    images.forEach(img => imagesFormData.append("adImages", img));
+    return await http.post("/save-ad-images", imagesFormData);
 };

@@ -162,35 +162,8 @@ interface AdTagsProps {
     reset(tags: Array<string>): void;
 }
 
-class ImageObject {
-    public isPath: boolean;
-    public object: any;
 
-    constructor(object: any, isPath: boolean) {
-        this.object = object;
-        this.isPath = isPath;
-    }
-
-    public static fromPath(filePath: string): ImageObject {
-        return new ImageObject(filePath, true);
-    }
-
-    public static fromFile(file: File): ImageObject {
-        return new ImageObject(file, false);
-    }
-
-    public static fromMultipleFile(fileList: FileList): Array<ImageObject> {
-        let fileArray = Array.from(fileList);
-        return fileArray?.map(file => ImageObject.fromFile(file));
-
-    }
-
-    public static fromStringArray(imagesLink?: Array<string>) {
-        return imagesLink?.map(link => ImageObject.fromPath(link));
-    }
-}
-
-class AdImages extends PureComponent<{ images: Array<ImageObject> }> {
+class AdImages extends PureComponent<{ images: Array<string> }> {
     public objectUrls: Array<string> = [];
 
     public addUrl(file: any): any {
@@ -208,30 +181,9 @@ class AdImages extends PureComponent<{ images: Array<ImageObject> }> {
     }
 
     public handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        this.setState({ images: this.state.images.concat(ImageObject.fromMultipleFile(e.target.files)) });
+        // this.setState({ images: this.state.images.concat(Array.from(e.target.files)) });
         e.target.value = null;
     }
-
-    public getFiles(): { multipartFiles: Array<File>, fileSpots: Array<number>, oldImages: Array<{ path: string, spot: number }> } {
-        let fileSpots = [];
-        let oldImages = [];
-        let multipartFiles = [];
-
-        let positionCounter = 0;
-        this.state.images.forEach(image => {
-            if (image.isPath) {
-                oldImages.push({ path: image.object, spot: positionCounter });
-            } else {
-                multipartFiles.push(image.object);
-                fileSpots.push(positionCounter);
-            }
-
-            positionCounter++;
-        });
-
-        return { multipartFiles, fileSpots, oldImages };
-    }
-
     // Dealing with Image
     public render(): ReactNode {
         console.log(this.state.images)
@@ -242,7 +194,7 @@ class AdImages extends PureComponent<{ images: Array<ImageObject> }> {
                 <input onChange={(e) => this.handleChange(e)} type="file" multiple />
                 <br />
                 <br />
-                {this.state.images?.map((image, index) => (
+                {/* {this.state.images?.map((image, index) => (
                     image.isPath ?
                         (
                             <img style={{ width: "250px" }} key={`image-${index}`} src={image.object} />
@@ -250,7 +202,7 @@ class AdImages extends PureComponent<{ images: Array<ImageObject> }> {
                         ) : (
                             <img style={{ width: "250px" }} key={`image-${index}`} src={this.addUrl(image.object)} />
                         )
-                ))}
+                ))} */}
                 <br />
                 <br />
 
@@ -338,7 +290,7 @@ export default function AdModification(): ReactElement {
                         getErrorType={(error) => { if (error == 1) return " cannot be empty."; else if (error == 2054) return " is already in use with annother of your ad." }} />
                 ))}
 
-                <AdImages ref={adImagesRef} images={ImageObject.fromStringArray(adImagesPath)} />
+                <AdImages ref={adImagesRef} images={adImagesPath} />
 
                 <AdTags
                     error={error}
