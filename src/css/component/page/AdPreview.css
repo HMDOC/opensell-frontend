@@ -12,7 +12,7 @@
     justify-content: space-between;
     padding: 15px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    max-height: 310px;
+    max-height: 320px;
 }
 
 .adPreview:hover{
@@ -45,7 +45,8 @@
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 0;
-    margin: 2px 4px;
+    margin: 0px 4px;
+    padding-bottom: 3px;
 }
 
 .adPreviewAlign{
@@ -54,6 +55,9 @@
     justify-content: space-between;
 }
 
+hr{
+    margin: 10px 0;
+}
 
 .adShapeIcon{
     position: relative;
