@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
 import { useNavigate } from "react-router-dom";
+import { getToken } from "../../services/auth/getToken";
+import getPayload from "../../services/auth/getPayload";
 
 export default function Login() {
     const username = useRef(null);
@@ -27,6 +29,9 @@ export default function Login() {
             checkLogin(username.current.value, password.current.value).then(res => {
                 if (res?.data === 1) {
                     naviguate("/");
+                    localStorage.setItem("token", getToken);
+                    console.log(getPayload(localStorage.getItem("token")));
+                    console.log(localStorage.getItem("token"));
                     console.log("Login successful");
                 } else {
                     errors.creds = "Username or password is incorrect";
