@@ -1,19 +1,25 @@
 import { Component, ReactElement, ReactNode, RefObject, createRef} from "react";
 
+//needs array as props 
 interface TagSelectorProperties {
+    /**
+     * @Note initial string array
+     */
     tagArray: string[],
     selectedTagsLimit?: number,
     tagCatalogLabel?: string,
     showCatalogButtonText?: string,
-    inputNameAttribute: string
+    inputNameAttribute: string,
 }
 
 interface TagSelectorState {
     selectedTags: string[],
     hiddenInputRef: RefObject<HTMLInputElement>,
+    displayedTagArray: string[],
     catalogRef: RefObject<HTMLDivElement>,
     catalogIsHidden: boolean,
-    selectedTagsLimit: number
+    selectedTagsLimit: number,
+    searchInputRef: RefObject<HTMLInputElement>
 }
 
 /**
@@ -30,9 +36,14 @@ export default class TagSelector extends Component<TagSelectorProperties, TagSel
         this.state = {
             selectedTags: [],
             hiddenInputRef: createRef(),
+            /**
+             * @Note props issue
+             */
+            displayedTagArray: [],
             catalogRef: createRef(),
             catalogIsHidden: false,
-            selectedTagsLimit: this.props.selectedTagsLimit && this.props.selectedTagsLimit > 0 ? this.props.selectedTagsLimit : -1
+            selectedTagsLimit: this.props.selectedTagsLimit && this.props.selectedTagsLimit > 0 ? this.props.selectedTagsLimit : -1,
+            searchInputRef: createRef()
         }
     }
 
@@ -48,6 +59,9 @@ export default class TagSelector extends Component<TagSelectorProperties, TagSel
         });
     }
 
+    /**
+     * @Note doesn't work
+     */
     private onCatalogStateSwitch() {
         if (this.state.catalogIsHidden) {
             this.state.catalogRef.current.classList.replace("hidden", "fadeIn");
@@ -62,11 +76,23 @@ export default class TagSelector extends Component<TagSelectorProperties, TagSel
         this.state.hiddenInputRef.current.value = this.state.selectedTags.toString();
     }
 
+    private updateDisplayedTags() {
+        let value: string = this.state.searchInputRef.current.value.toLowerCase(); 
+        this.setState({
+            ...this.state,
+            displayedTagArray: this.props.tagArray.filter((elem) => elem.toLowerCase().includes(value))
+        })
+    }
+
+    componentDidMount(): void {
+        //console.log("DEBUG - MOUNT")
+    }
+
     //
     componentDidUpdate(prevProps: Readonly<TagSelectorProperties>, prevState: Readonly<TagSelectorState>, snapshot?: any): void {
+        //console.log("DEBUG - UPDATE")
         this.onSelectedTagsChange();
         this.onCatalogStateSwitch();
-
     }
 
     //
@@ -122,15 +148,19 @@ export default class TagSelector extends Component<TagSelectorProperties, TagSel
                 </div>
 
                 <div className="tag-catalog hidden" ref={this.state.catalogRef}>
-                    <label>{this.props.tagCatalogLabel ? this.props.tagCatalogLabel : TagSelector.DEFAULT_CATALOG_LABEL}</label>
-                    {this.props.tagArray.map((elem) => (
+                    <div>
+                        <label>{this.props.tagCatalogLabel ? this.props.tagCatalogLabel : TagSelector.DEFAULT_CATALOG_LABEL}</label>
+                        <input type="text" name="tagSearch" ref={this.state.searchInputRef}/>
+                        <button type="button" onClick={() => this.updateDisplayedTags()}>Search</button>
+                    </div>
+                    {this.state.displayedTagArray.map((elem) => (
                         <div id={elem} className="tag-display" key={elem} onClick={(divElement) => this.tagOnClick(divElement)}>
                             <span>{elem}</span>
                         </div>
                     ))}
                 </div>
                 
-                <input type="text" name={this.props.inputNameAttribute} hidden ref={this.state.hiddenInputRef}/>
+                <input type="text" name={this.props.inputNameAttribute} hidden ref={this.state.hiddenInputRef} readOnly={true} onChange={(elem) => {elem.preventDefault()}}/>
             </div>
         )
     }
