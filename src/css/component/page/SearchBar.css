@@ -8,7 +8,7 @@
 }
 
 .catMainMenuInput{
-    width: calc(100% - 50px);
+    width: calc(100% - 48px);
     background: none;
     border: none;
     height: 100%;
@@ -17,7 +17,6 @@
 
 .catSearchButton{
     background: none;
-    width: 20%;
     height: 50px;
     border: none;
     margin: auto;
