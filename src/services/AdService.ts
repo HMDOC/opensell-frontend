@@ -85,12 +85,12 @@ export const getCustomerAdPreview = async (idAd: number) => {
     return await http.get<AdBuyerView>(`/ad/get-ad-preview-for-customer/${idAd}`);
 };
 
-export const adModificationImageOrTags = async (tags: Array<string>, idAd: number, isImage: boolean) => {
-    return await http.patch<HtmlCode>(`/ad/modification/image-or-tags`, tags, {params : {idAd, isImage}});
+export const adModificationTags = async (tags: Array<string>, idAd: number) => {
+    return await http.patch<HtmlCode>(`/ad/modification/tags`, tags, {params : {idAd}});
 };
 
-export const saveAdImages = async (images: Array<File>) => {
+export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: string = null) => {
     let imagesFormData = new FormData();
     images.forEach(img => imagesFormData.append("adImages", img));
-    return await http.post("/save-ad-images", imagesFormData);
+    return await http.post("/save-ad-images", imagesFormData, {params : {idAd, isModif, idsToDelete}});
 };

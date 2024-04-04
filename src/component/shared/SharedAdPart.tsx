@@ -2,6 +2,7 @@ import { ChangeEvent, createRef, PureComponent, ReactNode } from "react";
 import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
+import { createRandomKey } from "../../services/RandomKeys";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
@@ -174,15 +175,11 @@ export interface SelectorReaderProps extends AdInputProps {
     idAd?: number;
     name: string;
     options: Array<String>;
-    value?: string;
+    defaultValue?: string;
     request?(value: any, idAd: number): Promise<AxiosResponse<any, any>>;
 }
 
 export class SelectorReader extends PureComponent<SelectorReaderProps> {
-    public state = {
-        value: undefined
-    };
-
     public handleChange(e: ChangeEvent<HTMLSelectElement>) {
         this.props.request?.(e.target.value, this.props.idAd);
     }
@@ -191,10 +188,10 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
         return (
             <>
                 <label>{this.props.name} : </label>
-                <select name={this.props.name} defaultValue={this.props.value} onChange={(e) => this.handleChange(e)} >
+                <select name={this.props.name} defaultValue={this.props.defaultValue} onChange={(e) => this.handleChange(e)} >
                     {
                         this.props.options.map((option, index) => (
-                            <option key={`${this.props.name}-options-${index}`} value={`${index}`}>{option}</option>
+                            <option key={createRandomKey()} value={`${index}`}>{option}</option>
                         ))
                     }
                 </select>

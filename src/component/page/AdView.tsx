@@ -39,7 +39,7 @@ export function AdMapping(props: {request: Promise<AxiosResponse<AdBuyerView, an
     }, []);
 
     const nextOrPrevious = (isNext: boolean) => {
-        let newIndex = changePicture(isNext, currentPicture, adBuyerView?.adImagesPath?.length);
+        let newIndex = changePicture(isNext, currentPicture, adBuyerView?.adImages?.length);
         if (newIndex != currentPicture) {
             setCurrentPicture(newIndex);
         }
@@ -52,11 +52,11 @@ export function AdMapping(props: {request: Promise<AxiosResponse<AdBuyerView, an
                 <div>
                     <h1>{adBuyerView?.adTitle}</h1>
                     {/* Image Section */}
-                    <img className="first-image-of-list" src={adBuyerView?.adImagesPath?.[currentPicture]} />
+                    <img className="first-image-of-list" src={adBuyerView?.adImages?.[currentPicture].path} />
 
                     <div style={{ display: "flex" }}>
                         <button onClick={() => nextOrPrevious(false)}>previous</button>
-                        <p>{currentPicture + 1} / {adBuyerView?.adImagesPath?.length}</p>
+                        <p>{currentPicture + 1} / {adBuyerView?.adImages?.length}</p>
                         <button onClick={() => nextOrPrevious(true)}>next</button>
                     </div>
 

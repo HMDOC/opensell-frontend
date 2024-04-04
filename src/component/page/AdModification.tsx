@@ -1,6 +1,6 @@
 import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, memo, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAdToModif, adModification, adModificationImageOrTags } from "../../services/AdService";
+import { getAdToModif, adModification, adModificationTags } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import "../../css/component/page/AdModif.css";
 import {
@@ -12,10 +12,11 @@ import {
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
 import { AdTags } from "../shared/AdTags";
+import { createRandomKey } from "../../services/RandomKeys";
 
 const SIMPLE: Array<SimpleInputProps> = [
     {
-        name: "title",
+        name: "adTitle",
         type: InputType.DEFAULT,
         modifType: ModifType.TITLE,
         getErrorType(error) {
@@ -49,7 +50,7 @@ const SIMPLE: Array<SimpleInputProps> = [
             }
         }
     }, {
-        name: "price",
+        name: "adPrice",
         type: InputType.DEFAULT,
         modifType: ModifType.PRICE,
         isNumber: true,
@@ -67,7 +68,7 @@ const SIMPLE: Array<SimpleInputProps> = [
             }
         }
     }, {
-        name: "adType",
+        name: "adTypeName",
         type: InputType.DEFAULT,
         modifType: ModifType.AD_TYPE,
         getErrorType(error) {
@@ -84,7 +85,7 @@ const SIMPLE: Array<SimpleInputProps> = [
             }
         }
     }, {
-        name: "address",
+        name: "adAddress",
         type: InputType.DEFAULT,
         modifType: ModifType.ADDRESS,
         getErrorType(error) {
@@ -101,7 +102,7 @@ const SIMPLE: Array<SimpleInputProps> = [
             }
         }
     }, {
-        name: "isSold",
+        name: "isAdSold",
         type: InputType.ONE_CHECKBOX,
         modifType: ModifType.IS_SOLD,
         getErrorType(error) {
@@ -118,7 +119,7 @@ const SIMPLE: Array<SimpleInputProps> = [
             }
         }
     }, {
-        name: "description",
+        name: "adDescription",
         type: InputType.TEXTARIA,
         modifType: ModifType.DESCRIPTION,
         getErrorType(error) {
@@ -139,14 +140,14 @@ const SIMPLE: Array<SimpleInputProps> = [
 
 const SELECTS: Array<SelectorReaderProps> = [
     {
-        name: "visibility",
+        name: "adVisibility",
         options: VISIBILITY_ARRAY,
         request(value, idAd) {
             return adModification(ModifType.VISIBILITY, value, idAd)
         }
     },
     {
-        name: "shape",
+        name: "adShape",
         options: SHAPE_ARRAY,
         request(value, idAd) {
             return adModification(ModifType.SHAPE, value, idAd)
@@ -154,39 +155,68 @@ const SELECTS: Array<SelectorReaderProps> = [
     },
 ];
 
-interface AdTagsProps {
-    tags: Array<string>;
-    idAd: number;
-    delete(tag: string): void;
-    add(tag: string): void;
-    reset(tags: Array<string>): void;
-}
-
-
-class AdImages extends PureComponent<{ images: Array<string> }> {
-    public objectUrls: Array<string> = [];
-
-    public addUrl(file: any): any {
-        let url = URL.createObjectURL(file);
-        this.objectUrls.push(url);
-        return url;
-    }
-
+class AdImages extends PureComponent<{ images: Array<AdImage>, removeImage(url: string): void, idAd: number }> {
     public state = {
-        images: this.props.images
+        imgsToSend: [],
+        imgsToDelete: "",
+        temporaryFileUrls: new Array<{path: string, isOldImg: boolean}>()
     };
 
+    public addUrls(files: Array<File>): void {
+        let imgObjects = [];
+        
+        files.forEach(file => {
+            imgObjects.push({path: URL.createObjectURL(file), isOldImg: false});
+        });
+
+        this.setState({temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects]})
+    }
+
+    public getUrls = (): Array<{path: string, isOldImg: boolean}> => {
+        let urlArray = [];
+        
+        this.props.images.forEach(img => {
+            urlArray.push({path: img.path, isOldImg: true});
+        })
+
+        return [...urlArray, ...this.state.temporaryFileUrls];
+    }
+
     public componentWillUnmount(): void {
-        for (let url of this.objectUrls) URL.revokeObjectURL(url);
+        for (let url of this.state.temporaryFileUrls) URL.revokeObjectURL(url.path);
     }
 
     public handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        // this.setState({ images: this.state.images.concat(Array.from(e.target.files)) });
+        let currentFiles: Array<File> = Array.from(e.target.files);
+        this.setState({imgsToSend: this.state.imgsToSend.concat(currentFiles)});
+    
+        this.addUrls(currentFiles);
         e.target.value = null;
     }
+
+    public deleteImg(currentImg: {path: string, isOldImg: boolean}): void {
+        if(currentImg.isOldImg) {
+            let completeImg = this.props.images.find(img => img.path == currentImg.path);
+            this.props.removeImage(completeImg.path);
+
+            this.setState({imgsToDelete : this.state.imgsToDelete.concat(
+                `${this.props.images.find(img => img.path == currentImg.path).idAdImage},`
+            )});
+        }
+
+        else {
+            let imgDelete = this.state.temporaryFileUrls.find(img => img.path == currentImg.path);
+
+            this.setState({temporaryFileUrls: this.state.temporaryFileUrls.filter(img => img != imgDelete)})
+
+            URL.revokeObjectURL(imgDelete.path);
+        }
+    }
+
     // Dealing with Image
     public render(): ReactNode {
-        console.log(this.state.images)
+        console.log(this.state.imgsToDelete);
+
         return (
             <>
                 <label>adImages:</label>
@@ -194,15 +224,9 @@ class AdImages extends PureComponent<{ images: Array<string> }> {
                 <input onChange={(e) => this.handleChange(e)} type="file" multiple />
                 <br />
                 <br />
-                {/* {this.state.images?.map((image, index) => (
-                    image.isPath ?
-                        (
-                            <img style={{ width: "250px" }} key={`image-${index}`} src={image.object} />
-
-                        ) : (
-                            <img style={{ width: "250px" }} key={`image-${index}`} src={this.addUrl(image.object)} />
-                        )
-                ))} */}
+                {this.getUrls()?.map(img => (
+                    <img onDoubleClick={() => this.deleteImg(img)} style={{ width: "250px" }} key={createRandomKey()} src={img.path} />
+                ))}
                 <br />
                 <br />
 
@@ -217,10 +241,9 @@ export default function AdModification(): ReactElement {
     const { link } = useParams();
     const [ad, setAd] = useState<AdModifView>(undefined);
     const navigate = useNavigate();
-    const [adImagesPath, setAdImagesPath] = useState<Array<string>>();
-    var adImagesRef: RefObject<AdImages> = useRef(null);
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
     const [error, setError] = useState<HtmlCode>(HtmlCode.SUCCESS);
+    const [adImages, setAdImages] = useState<Array<AdImage>>([]);
 
     const [oldTags, setOldTags] = useState({
         isOldValueSaved : false,
@@ -231,15 +254,15 @@ export default function AdModification(): ReactElement {
         getAdToModif(link).then(res => {
             // il faut aussi gérer les anciens images.
             if (res?.data) {
-                setAdImagesPath(res?.data?.adImagesPath);
                 setAd(res?.data);
-                setAdTags(res?.data.adTags);
+                setAdTags(res?.data.adTagsName);
+                setAdImages(res?.data.adImages);
             }
 
             else navigate("/not-found");
         });
     }, []);
-
+    
     const [isEditing, setIsEditing] = useState<boolean>(false);
     function registerOldTags() {
         if (!oldTags.isOldValueSaved) {
@@ -258,7 +281,7 @@ export default function AdModification(): ReactElement {
     }
 
     function save() {
-        adModificationImageOrTags(adTags, ad?.idAd, false).then(res => {
+        adModificationTags(adTags, ad?.idAd).then(res => {
             if (res?.data == HtmlCode.SUCCESS) {
                 reset(false);
             }
@@ -290,7 +313,11 @@ export default function AdModification(): ReactElement {
                         getErrorType={(error) => { if (error == 1) return " cannot be empty."; else if (error == 2054) return " is already in use with annother of your ad." }} />
                 ))}
 
-                <AdImages ref={adImagesRef} images={adImagesPath} />
+                <AdImages
+                    idAd={ad?.idAd}
+                    images={adImages}
+                    removeImage={(path) => setAdImages(adImages.filter(img => img.path != path))}
+                />
 
                 <AdTags
                     error={error}
@@ -313,11 +340,11 @@ export default function AdModification(): ReactElement {
                 }
 
                 {
-                    SELECTS.map((value, index) => (
+                    SELECTS.map(value => (
                         <SelectorReader
-                            key={`select-${index}`}
+                            key={createRandomKey()}
                             idAd={ad?.idAd}
-                            value={ad?.[value?.name]}
+                            defaultValue={ad?.[value?.name]}
                             name={value?.name}
                             options={value?.options}
                             request={value?.request}
