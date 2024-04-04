@@ -1,12 +1,11 @@
-import { ChangeEvent, Component, FormEvent, ReactNode, createRef} from "react";
-import {SelectorReader, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
-import {getFormData} from "../../services/customerModification/FormService";
-import TagSelector from "./TagSelector";
-import {AdType} from "../../entities/dto/AdType";
+import {Component, FormEvent, ReactNode} from "react";
+import {SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
+import {getFormData, getFormDataAsArray} from "../../services/customerModification/FormService";
 import { getAllAdTypes } from "../../services/AdService";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, SelectorAdCreation, isBetween } from "../../services/AdCreationService";
+import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, SelectorAdCreation, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
+import { AdCreationData } from "../../entities/dto/adCreation/AdCreationData";
 
 /**
  * @author Olivier Mansuy
@@ -43,24 +42,14 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         this.state = {
             globalErrorMessage: "",
             typeArray: [],
-            adTags : [],
             errorAdTags: HtmlCode.SUCCESS,
-            title: {errorMessage: "Title must be between 1 and 80 characters!", inputRef: createRef<HTMLInputElement>(), isValid: (value: string) => {return isBetween(value, 1, 80)}},
-            description: {errorMessage: "Description can't be empty (5000 characters max)!", inputRef: createRef<HTMLTextAreaElement>(), isValid: (value: string) => {return isBetween(value, 1, 5000)}},
-            price: {errorMessage: "Price can't negative!", inputRef: createRef<HTMLInputElement>(), isValid: (value: number) => {return value > 0}},
-            address: {errorMessage: "Address can't be empty (80 characters)!", inputRef: createRef<HTMLInputElement>(), isValid: (value: string) => {return isBetween(value, 1, 80)}},
-            reference: {errorMessage: "Too many characters!", inputRef: createRef<HTMLInputElement>(), isValid: (value: string) => {return value == null || value?.length < 80}},
-            images: {errorMessage: "At least 1 image.", inputRef: createRef<HTMLInputElement>(), isValid: (value: []) => {return true}, isFileInput: true}
-
+            selectedTags: []
         }
     }
 
-    getTypesAsStringList(): Array<string> {
-        let types: string[] = [];
-        for (let type of this.state.typeArray) types.push(type.name);
-        return types;
+    setGlobalErrorMessage(error?: string) {
+        this.setState({...this.state, globalErrorMessage: error ? error : ""});
     }
-
 
     componentDidMount(): void {
         getAllAdTypes().then((rep) => {
@@ -72,25 +61,36 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
-        
+        //...
     }
 
-    formIsValid(): boolean {
-        
-        return true;
-    }
-
-    saveAd(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-        if (window.confirm("SEND?")) {
-            if (this.formIsValid()) {
-                // let formData = getFormData(event);
-                // formData.forEach((value: string, key: string) => {
-                //     console.log(key + " : " + value);
-                // })
-            }
+    formIsValid(formData: FormData): boolean {
+        //forEach of formData only returns undefined...
+        let tempData: {key:string, value:string}[] = getFormDataAsArray(formData);
+        for (let elem of tempData) {
+            const {key, value} = elem;
+            let result: boolean = formValidation?.[key]?.isValid(value);
+            if (result) {
+            } else if (result === false) {
+                console.log(formValidation?.[key]?.isValid(value));
+                this.setGlobalErrorMessage(formValidation?.[key]?.errorMessage);
+                return false;
+            } 
         }
+        this.setGlobalErrorMessage();
+        return true
+    }
 
+    async saveAd(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        let formData = getFormData(event);
+        if (window.confirm("Are you sure?") && this.formIsValid(formData)) {
+            await createAd(formatCreationData(formData, this.state.selectedTags, TEMPORARY_ID)).then((rep) => {
+                const {code, errorMessage, result} = rep?.data;
+                if (result == 0) this.setGlobalErrorMessage(errorMessage);
+                else this.setGlobalErrorMessage("? : " + result);
+            })
+        } 
     }
 
     render(): ReactNode {
@@ -99,35 +99,36 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
 
                     <AdCreationInput labelText="Title : " name="title" type="text" required={true}/>
-                    <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={true}/>
-                    <AdCreationInput labelText="Address : " name="address" type="text" required={true}/>
-                    <AdCreationInput labelText="Reference : " name="reference" type="text" required={false}/>
+                    <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={true} />
+                    <AdCreationInput labelText="Address : " name="address" type="text" required={true} />
+                    <AdCreationInput labelText="Reference : " name="reference" type="text" required={false} />
                     <div>
                         <label htmlFor="description">Destription : </label>
                         <textarea name="description" id="description" cols={30} rows={10} required={true}></textarea>
                     </div>
                     <SelectorAdCreation name="visibility" options={VISIBILITY_ARRAY}></SelectorAdCreation>
                     <SelectorAdCreation name="shape" options={SHAPE_ARRAY}></SelectorAdCreation>
-                    <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/>
 
-                    <TagSelector 
-                        tagArray={this.getTypesAsStringList()} 
-                        showCatalogButtonText="Show types" 
-                        inputNameAttribute="type" 
-                        selectedTagsLimit={1} 
-                        tagCatalogLabel="Types"
-                    />
+                    <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/>
+                    <div>
+                        <label htmlFor="type">Type : </label>
+                        <select name="type">
+                            {this.state.typeArray.map((elem, key) => (
+                                <option value={elem.idAdType} key={key}>{elem.name}</option>
+                            ))}
+                        </select>
+                    </div>
 
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({errorAdTags: error})}
-                        addTag={(tag) => this.setState({adTags: [...this.state.adTags, tag]})}
-                        deleteTag={(tag) => this.setState({adTags: this.state.adTags.filter(t => t != tag)})}
-                        tags={this.state.adTags}
+                        addTag={(tag) => {this.setState({selectedTags: [...this.state.selectedTags, tag]})}}
+                        deleteTag={(tag) => {this.setState({selectedTags: [...this.state.selectedTags.filter(elem => elem != tag)]})}}
+                        tags={this.state.selectedTags}
                     />
 
                     <div><span>{this.state.globalErrorMessage}</span></div>
-                    <button type="submit">Send</button>
+                    <button type="submit">Create</button>
                 </form>
             </div>
         )

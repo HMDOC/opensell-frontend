@@ -10,7 +10,7 @@ export interface AdCreationData {
     description: string, //
     address: string, //
     reference: string, //
-    tagIds: number[], //
+    tags: string[], //
     imageData: AdCreationImageData[]
 
 }

@@ -72,3 +72,9 @@ export const getFormData = (event: FormEvent<HTMLFormElement>): FormData => {
     // @ts-ignore
     return new FormData(event.target);
 }
+
+export const getFormDataAsArray = (formData: FormData): {key:string, value:string}[] => {
+    let tempData: {key:string, value:string}[] = [];
+    formData.forEach((value: string, key: string) => { tempData.push({key: key, value: value});})
+    return tempData;
+}
