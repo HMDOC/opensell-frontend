@@ -1,11 +1,12 @@
 import {Component, FormEvent, ReactNode} from "react";
-import {SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
+import {MAX_PRICE, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
 import {getFormData, getFormDataAsArray} from "../../services/customerModification/FormService";
 import { getAllAdTypes } from "../../services/AdService";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, SelectorAdCreation, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
 import { AdCreationData } from "../../entities/dto/adCreation/AdCreationData";
+import AdTypeSelect from "../shared/AdTypeSelect";
 
 /**
  * @author Olivier Mansuy
@@ -43,7 +44,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             globalErrorMessage: "",
             typeArray: [],
             errorAdTags: HtmlCode.SUCCESS,
-            selectedTags: []
+            selectedTags: [],
         }
     }
 
@@ -60,19 +61,14 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         })
     }
 
-    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any): void {
-        //...
-    }
-
     formIsValid(formData: FormData): boolean {
         //forEach of formData only returns undefined...
         let tempData: {key:string, value:string}[] = getFormDataAsArray(formData);
         for (let elem of tempData) {
             const {key, value} = elem;
             let result: boolean = formValidation?.[key]?.isValid(value);
-            if (result) {
-            } else if (result === false) {
-                console.log(formValidation?.[key]?.isValid(value));
+            console.log(key + " " + result + " VALUE : " + value)
+            if (result === false) {
                 this.setGlobalErrorMessage(formValidation?.[key]?.errorMessage);
                 return false;
             } 
@@ -88,7 +84,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             await createAd(formatCreationData(formData, this.state.selectedTags, TEMPORARY_ID)).then((rep) => {
                 const {code, errorMessage, result} = rep?.data;
                 if (result == 0) this.setGlobalErrorMessage(errorMessage);
-                else this.setGlobalErrorMessage("? : " + result);
+                else this.setGlobalErrorMessage("LOG(TEST) : Fields inserted : " + result);
             })
         } 
     }
@@ -98,13 +94,13 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             <div className="main-background">
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
 
-                    <AdCreationInput labelText="Title : " name="title" type="text" required={true}/>
-                    <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={true} />
-                    <AdCreationInput labelText="Address : " name="address" type="text" required={true} />
+                    <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
+                    <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
+                    <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
                     <AdCreationInput labelText="Reference : " name="reference" type="text" required={false} />
                     <div>
                         <label htmlFor="description">Destription : </label>
-                        <textarea name="description" id="description" cols={30} rows={10} required={true}></textarea>
+                        <textarea name="description" id="description" cols={30} rows={10} required={false}></textarea>
                     </div>
                     <SelectorAdCreation name="visibility" options={VISIBILITY_ARRAY}></SelectorAdCreation>
                     <SelectorAdCreation name="shape" options={SHAPE_ARRAY}></SelectorAdCreation>
@@ -112,11 +108,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/>
                     <div>
                         <label htmlFor="type">Type : </label>
-                        <select name="type">
-                            {this.state.typeArray.map((elem, key) => (
-                                <option value={elem.idAdType} key={key}>{elem.name}</option>
-                            ))}
-                        </select>
+                        <AdTypeSelect inputName="type" inputId="type"/>
                     </div>
 
                     <AdTags

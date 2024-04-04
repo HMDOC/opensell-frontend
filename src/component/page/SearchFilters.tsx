@@ -3,6 +3,8 @@ import "../../css/component/page/SearchBar.css";
 import { getAllAdTypes } from "../../services/AdService";
 import { AxiosError } from "axios";
 import { AdType } from "../../entities/dto/AdType";
+import { MAX_PRICE, SHAPE_ARRAY } from "../shared/SharedAdPart";
+import AdTypeSelect from "../shared/AdTypeSelect";
 
 /** 
     The component that holds all of the filter options.
@@ -11,33 +13,14 @@ import { AdType } from "../../entities/dto/AdType";
 const SearchFilters = (props) : ReactElement =>{
     const filtersUpdated = (event) => props.filterUpdate(event);
 
-    const priceMax = 99990;
     const dateMin = "2020-01-01";
     const dateMax = "3000-01-01";
 
-    const [adTypes, setAdTypes] = useState<Array<AdType>>(new Array());
     const adSortBy = [
         {sortParam : "", sortVisual : "Added Date"},
         {sortParam : "title", sortVisual : "Title"},
         {sortParam : "price", sortVisual : "Price"}
     ]
-
-    const shapeTextList = [
-        "Brand New", 
-        "Opened", 
-        "Barely Used", 
-        "Used", 
-        "Bad", 
-        "Unknown"
-    ]
-
-    useEffect( () => {
-        getAllAdTypes().then(res => {
-            setAdTypes(res?.data);
-        }).catch((e:AxiosError) => {
-            setAdTypes([{idAdType: 2, name:"No ad type found"}]);
-        })
-    }, [])
 
     // {adTypes.forEach( (value, key) => {} )}
     return (
@@ -45,10 +28,10 @@ const SearchFilters = (props) : ReactElement =>{
             <div id="filterContainer" ref={props.filterElementRef}>
                 <h5>Price</h5>
                 <input type="range" name="priceMin" id="priceMin"
-                    min={0} max={priceMax} defaultValue={0} step={10}/>
+                    min={0} max={MAX_PRICE} defaultValue={0} step={10}/>
 
                 <input type="range" name="priceMax" id="priceMax"
-                    min={0} max={priceMax} defaultValue={priceMax} step={10} />
+                    min={0} max={MAX_PRICE} defaultValue={MAX_PRICE} step={10} />
                 
                 <h5>Date</h5>
                 <input type="date" name="dateMin" id="dateMin"
@@ -57,12 +40,7 @@ const SearchFilters = (props) : ReactElement =>{
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
                 <h5>Category</h5>
-                <select name="typeId" id="typeId">
-                    <option value={""}> no category </option>
-                    {adTypes.map( (value, key) => {
-                        return (<option value={value?.idAdType} key={key}> { value?.name } </option>)
-                    } )}
-                </select>
+                <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="No category" defaultOptionValue={""}/>
 
                 <h5>Sorting</h5>
                 <select name="sortBy" id="sortBy">
@@ -81,7 +59,7 @@ const SearchFilters = (props) : ReactElement =>{
                 <h5>Shape</h5>
                 <select name="shapeId" id="shapeId">
                     <option value=""> All </option>
-                    {shapeTextList.map( (value, key) => {
+                    {SHAPE_ARRAY.map( (value, key) => {
                         return (<option value={key} key={key}> { value } </option>)
                     } )}
                 </select>
