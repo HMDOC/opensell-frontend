@@ -29,8 +29,6 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
         this.state = {
             typeArray: []
         }
-
-        console.log("A : "+this.props.externalTypeValue);
     }
 
     //ad modif
