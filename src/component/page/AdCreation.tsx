@@ -5,7 +5,6 @@ import { getAllAdTypes } from "../../services/AdService";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, SelectorAdCreation, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
-import { AdCreationData } from "../../entities/dto/adCreation/AdCreationData";
 import AdTypeSelect from "../shared/AdTypeSelect";
 
 /**
@@ -44,7 +43,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             globalErrorMessage: "",
             typeArray: [],
             errorAdTags: HtmlCode.SUCCESS,
-            selectedTags: [],
+            selectedTags: []
         }
     }
 

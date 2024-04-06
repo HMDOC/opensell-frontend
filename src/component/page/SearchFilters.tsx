@@ -40,7 +40,7 @@ const SearchFilters = (props) : ReactElement =>{
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
                 <h5>Category</h5>
-                <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="No category" defaultOptionValue={""}/>
+                <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="No category"/>
 
                 <h5>Sorting</h5>
                 <select name="sortBy" id="sortBy">
