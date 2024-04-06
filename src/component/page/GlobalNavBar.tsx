@@ -12,7 +12,7 @@ import { createRandomKey } from '../../services/RandomKeys';
  * 
  * @author Quoc 
  */
-export default function GlobalNavBar(): ReactElement {
+export default function GlobalNavBar(props): ReactElement {
     const b = ({ isActive }) => {
         return isActive ? "is-active" : "center-items"
     };
@@ -32,7 +32,7 @@ export default function GlobalNavBar(): ReactElement {
                         ))}
                     </Nav>
                     <NavDropdown title={<ProfilIcon src='http://dummyimage.com/124x100.png/ff4444/ffffff' />} id='basic-nav-dropdown'>
-                        <NavDropdown.Item>John Doe</NavDropdown.Item>
+                        <NavDropdown.Item>{props.firstName}</NavDropdown.Item>
                         <NavDropdown.Divider />
                         {navLinks.dropdownMenu.map((nav) =>
                         (

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
 import { useNavigate } from "react-router-dom";
-import Verification from "./Verification.tsx";
+import Verification from "./Verification";
 
 export default function Signup() {
     const naviguate = useNavigate();
@@ -62,9 +62,9 @@ export default function Signup() {
         if (getError()) {
             checkSignup(infos.email, infos.username, infos.password).then(res => {
                 if (res?.data === 1) {
-                    setEErrors({email : "Email already exists"});
+                    setEErrors({...eErrors, email: "Email already exists"});
                 } else if (res?.data === 2) {
-                    setEErrors({username : "Username already exists"});
+                    setEErrors({...eErrors, username : "Username already exists"});
                     } else if (res?.data === 3) {
                         setIsAuthentified(true);
                     } else {

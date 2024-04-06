@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import getUserInfos from "../../services/GetUser";
+import { CustomerInfoView } from "../../entities/dto/CustomerInfo";
 export default function MainMenu(): ReactElement {
+
     var search = "";
     const navigate = useNavigate();
 
