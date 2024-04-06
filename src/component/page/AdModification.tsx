@@ -240,8 +240,10 @@ class AdImages extends PureComponent<AdImagesProps> {
     }
 
     public cancel() {
-        this.props.reset(this.backup);
-        this.setState({temporaryFileUrls: [], imgsToDelete: ""});
+        if(this.backup) {
+            this.props.reset(this.backup);
+            this.setState({temporaryFileUrls: [], imgsToDelete: ""});
+        }
     }
 
     // Dealing with Image
@@ -293,8 +295,6 @@ export default function AdModification(): ReactElement {
         tagsForReset: []
     });
 
-    const [adType, setAdType] = useState<AdType>({name : "1", idAdType : 1}); 
-
     useEffect(() => {
         getAdToModif(link).then(res => {
             // il faut aussi gérer les anciens images.
@@ -302,7 +302,6 @@ export default function AdModification(): ReactElement {
                 setAd(res?.data);
                 setAdTags(res?.data.adTagsName);
                 setAdImages(res?.data.adImages);
-                setAdType(res?.data.adType);
             }
 
             else navigate("/not-found");
@@ -343,8 +342,6 @@ export default function AdModification(): ReactElement {
         registerOldTags();
         setAdTags(adTags.filter(t => t != tag));
     }
-
-    console.log(adType);
 
     return (
         <div className="main-background">
@@ -389,12 +386,16 @@ export default function AdModification(): ReactElement {
 
                 }
 
+                <label>AdType: </label>
                 <AdTypeSelect 
                     inputName="AdType" 
-                    inputId="adf" 
-                    externalTypeValue={adType} 
-                    externalOnChange={(type) => console.log("salut : "+type)} />
-
+                    inputId="adf"
+                    isModification
+                    selectedIndex={ad?.adType?.idAdType}
+                    externalOnChange={(type) => console.log(ad?.adType?.idAdType)} />
+                <br />
+                <br />
+                
                 {
                     SELECTS.map(value => (
                         <SelectorReader
