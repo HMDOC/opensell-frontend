@@ -1,4 +1,4 @@
-import { Component, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import { Component, ReactElement, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import SearchBar from "./SearchBar";
 import AdPreview from "./AdPreview";
 import "../../css/component/page/Catalog.css"
@@ -6,6 +6,7 @@ import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 import LoadingIcon from "../part/LoadingIcon";
 import { AxiosError, AxiosStatic } from "axios";
+import { HtmlCode } from "../../services/verification/HtmlCode";
 
 /** 
     The catalog page and all of its important components
@@ -67,7 +68,10 @@ const ResultList = (): ReactElement => {
     const [filtersUpdated, setFiltersUpdated] = useState();
     const filterRef = useRef<HTMLDivElement>();
     const [filterOptions, setFilterOptions] = useState({});
-
+    
+    // AdTags
+    const [searchTags, setSearchTags] = useState<Array<string>>([]);
+    
     useEffect(() => {
         let tmpFilterOptions = {};
         filterRef.current.childNodes.forEach((value: HTMLInputElement, key: number) => {
@@ -77,10 +81,7 @@ const ResultList = (): ReactElement => {
             }
         });
 
-        console.log(tmpFilterOptions);
-
         setFilterOptions(tmpFilterOptions);
-
     }, [filtersUpdated]);
 
     useEffect(() => {
@@ -93,13 +94,14 @@ const ResultList = (): ReactElement => {
                 element.value = value
             }
         });
+
         setFilterOptions(tmpFilterOptions);
     }, [searchParams]);
 
     useEffect(() => {
         setLoading(true);
 
-        getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
+        getAdBySearch(searchTags, searchBarRef.current.value, filterOptions).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
@@ -138,8 +140,6 @@ const ResultList = (): ReactElement => {
 
         let tmpQueryParams: any = filterOptions;
 
-        console.log(tmpQueryParams);
-
         setSearchParams(tmpQueryParams);
 
     }, [searchClick]);
@@ -148,7 +148,13 @@ const ResultList = (): ReactElement => {
     return (
         <div className="catalog-div">
             <div className="div-filters">
-                <SearchBar filterUpdate={setFiltersUpdated} filters={filterRef} reference={searchBarRef} click={setSearchClick} />
+                <SearchBar 
+                    filterUpdate={setFiltersUpdated} 
+                    filters={filterRef} 
+                    reference={searchBarRef} 
+                    click={setSearchClick} 
+                    searchTags={searchTags} 
+                    setSearchTags={setSearchTags} />
             </div>
             <div id="searchResult" >
                 {

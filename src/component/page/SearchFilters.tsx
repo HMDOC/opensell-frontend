@@ -6,6 +6,7 @@ import { AdType } from "../../entities/dto/AdType";
 import { MAX_PRICE, SHAPE_ARRAY } from "../shared/SharedAdPart";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import { AdTags } from "../shared/AdTags";
+import { HtmlCode } from "../../services/verification/HtmlCode";
 
 /** 
     The component that holds all of the filter options.
@@ -21,7 +22,10 @@ const SearchFilters = (props) : ReactElement =>{
         {sortParam : "", sortVisual : "Added Date"},
         {sortParam : "title", sortVisual : "Title"},
         {sortParam : "price", sortVisual : "Price"}
-    ]
+    ];
+
+    // Tag error and emplacement container
+    const [searchTagsError, setSearchTagsError] = useState<HtmlCode>(HtmlCode.SUCCESS);
 
     // {adTypes.forEach( (value, key) => {} )}
     return (
@@ -53,11 +57,20 @@ const SearchFilters = (props) : ReactElement =>{
                 <input type="range" name="reverseSort" id="reverseSort" 
                     min={0} max={1} defaultValue={0}/>
                 
-                <h5>Tags</h5>
-                <input type="text" name="tagListId" id="tagListId"
-                    placeholder="list all tags (by id)" defaultValue={""} />
+                {/*<h5>Tags</h5>
+                 <input type="text" name="tagListId" id="tagListId"
+                    placeholder="list all tags (by id)" defaultValue={""} /> */}
 
-                {/* <AdTags addTag={} /> */}
+                <div>
+                    <AdTags 
+                        addTag={(tag) => props.setSearchTags([...props.searchTags, tag])}
+                        deleteTag={(tag) => props.setSearchTags(props.searchTags.filter(adTags => adTags != tag))}
+                        isSearch
+                        tags={props.searchTags}
+                        error={searchTagsError}
+                        setError={setSearchTagsError} 
+                        placeholder={"list all tags"} />
+                </div>
                 
                 <h5>Shape</h5>
                 <select name="shapeId" id="shapeId">

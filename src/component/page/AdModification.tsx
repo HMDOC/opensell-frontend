@@ -72,23 +72,6 @@ const SIMPLE: Array<SimpleInputProps> = [
             }
         }
     }, {
-        name: "adTypeName",
-        type: InputType.DEFAULT,
-        modifType: ModifType.AD_TYPE,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
-    }, {
         name: "adAddress",
         type: InputType.DEFAULT,
         modifType: ModifType.ADDRESS,
@@ -252,7 +235,7 @@ class AdImages extends PureComponent<AdImagesProps> {
 
         return (
             <>
-                <label>adImages:</label>
+                <label>adImages :</label>
                 <br />
                 <input onChange={(e) => this.handleChange(e)} type="file" multiple />
                 <br />
@@ -386,7 +369,7 @@ export default function AdModification(): ReactElement {
 
                 }
 
-                <label>AdType: </label>
+                <label>AdType :</label>
                 <AdTypeSelect 
                     inputName="AdType" 
                     inputId="adf"

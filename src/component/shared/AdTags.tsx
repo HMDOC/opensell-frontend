@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 
@@ -32,6 +32,7 @@ interface AdTagsProps {
      */
     addTag(tag: string): void;
     isSearch?: boolean;
+    placeholder?: string;
 };
 
 /**
@@ -100,26 +101,40 @@ export function AdTags(props: AdTagsProps): ReactElement {
             {props.isSearch ?
                 (
                     <>
-                    <h5></h5>
-                    {props.error != HtmlCode.SUCCESS ?
-                        <p>Tag {getErrorValue()}</p> : <></>             
-                    }
+                        <h5>Tags</h5>
+                        {props.error != HtmlCode.SUCCESS ?
+                            <p style={{ color: "red" }}>Tag {getErrorValue()}</p> : <></>
+                        }
                     </>
                 ) : (
-                    <label>{"adTags"} {getErrorValue()}</label>
+                    <>
+                        <label>{"adTags"} <span style={{ color: "red" }}>{getErrorValue()}</span></label>
+                        <br />
+                    </>
                 )
             }
-            <br />
 
-            <input onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
+            <input placeholder={props.placeholder} onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
             <br />
-            <br />
+            {!props.isSearch ?
+                <br /> : <></>
+            }
 
             {props.tags?.map(value => (
                 <button type="button" onDoubleClick={() => deleteEvent(value)} key={createRandomKey()}>{value}</button>
             ))}
-            <br />
-            <br />
+            {!props.isSearch ?
+                (
+                    <>
+                        <br />
+                        <br />
+                    </>
+                ) : (
+                    <></>
+                )
+
+            }
+
         </>
     );
 }
