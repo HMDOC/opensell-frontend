@@ -5,6 +5,7 @@ import { AxiosError } from "axios";
 import { AdType } from "../../entities/dto/AdType";
 import { MAX_PRICE, SHAPE_ARRAY } from "../shared/SharedAdPart";
 import AdTypeSelect from "../shared/AdTypeSelect";
+import { AdTags } from "../shared/AdTags";
 
 /** 
     The component that holds all of the filter options.
@@ -40,7 +41,7 @@ const SearchFilters = (props) : ReactElement =>{
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
                 <h5>Category</h5>
-                <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="No category" defaultOptionValue={""}/>
+                <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="No category"/>
 
                 <h5>Sorting</h5>
                 <select name="sortBy" id="sortBy">
@@ -56,6 +57,8 @@ const SearchFilters = (props) : ReactElement =>{
                 <input type="text" name="tagListId" id="tagListId"
                     placeholder="list all tags (by id)" defaultValue={""} />
 
+                {/* <AdTags addTag={} /> */}
+                
                 <h5>Shape</h5>
                 <select name="shapeId" id="shapeId">
                     <option value=""> All </option>

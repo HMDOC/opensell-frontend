@@ -1,9 +1,11 @@
+import { AdType } from "./AdType";
+
 /**
  * Same as the one in backend.
  * 
  * @author Achraf
  */
-interface AdImage {
+export interface AdImage {
     idAdImage: number;
     path: string; 
     spot: number; 
@@ -16,7 +18,7 @@ interface AdImage {
  * 
  * @author Achraf
  */
-interface AdBuyerView {
+export interface AdBuyerView {
     adTitle?: string;
     adPrice?: number;
     adAddedDate?: Date;
@@ -25,7 +27,7 @@ interface AdBuyerView {
     adVisibility?: number;
     adDescription?: string;
     adAddress?: string;
-    adTypeName?: string;
+    adType?: AdType;
     adTagsName?: Array<string>;
     adImages?: Array<AdImage>;
     username?: string;

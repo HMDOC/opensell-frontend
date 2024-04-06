@@ -4,16 +4,16 @@ import { getAllAdTypes } from "../../services/AdService";
 import { AxiosError } from "axios";
 
 interface AdTypeSelectProperties {
-    inputId: string,
-    inputName: string,
-    defaultOptionText?: string,
-    defaultOptionValue?: any,
-
+    inputId: string;
+    inputName: string;
+    defaultOptionText?: string;
+    
     /**
      * @Note ad modif 
      */
-    externalTypeValue?: AdType
-    externalOnChange?(adType: AdType): void
+    isModification?: boolean;
+    selectedIndex?: number;
+    externalOnChange?(adType: AdType): void;
 }
 
 interface AdTypeSelectState {
@@ -28,7 +28,7 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
         super(properties)
         this.state = {
             typeArray: []
-        } 
+        }
     }
 
     //ad modif
@@ -51,15 +51,17 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
     }
 
     render(): ReactNode {
+        console.log(this.props.selectedIndex);
         return(
             <select 
             id={this.props.inputId} 
-            name={this.props.inputName} 
-            onChange={this.props.externalTypeValue ? (event: ChangeEvent<HTMLSelectElement>) => {this.handleChange(event)} : null}>
+            name={this.props.inputName}
+            defaultValue={this.props.selectedIndex}
+            onChange={this.props.isModification ? (event: ChangeEvent<HTMLSelectElement>) => {this.handleChange(event)} : null}>
 
-                {this.props.defaultOptionText ? <option value={this.props.defaultOptionValue} selected>{this.props.defaultOptionText}</option> : null}
+                {this.props.defaultOptionText ? <option selected value={""}>{this.props.defaultOptionText}</option> : <></>}
                 {this.state.typeArray.map((type, key) => (
-                    <option value={type.idAdType} key={key}>{type.name}</option>
+                    <option selected={this.props.selectedIndex === type.idAdType} value={type.idAdType} key={key}>{type.name}</option>
                 ))}
 
             </select>

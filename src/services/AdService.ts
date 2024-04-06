@@ -1,4 +1,6 @@
 import { ModifType } from "../component/shared/SharedAdPart";
+import { AdBuyerView } from "../entities/dto/AdBuyerView";
+import { AdModifView } from "../entities/dto/AdModifView";
 import { AdTag } from "../entities/dto/AdTag";
 import { AdType } from "../entities/dto/AdType";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
@@ -92,5 +94,5 @@ export const adModificationTags = async (tags: Array<string>, idAd: number) => {
 export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: string = null) => {
     let imagesFormData = new FormData();
     images.forEach(img => imagesFormData.append("adImages", img));
-    return await http.post("/save-ad-images", imagesFormData, {params : {idAd, isModif, idsToDelete}});
+    return await http.post("/ad/save-ad-images", imagesFormData, {params : {idAd, isModif, idsToDelete}});
 };

@@ -29,7 +29,6 @@ export interface AdCreationState {
     errorAdTags: HtmlCode,
     typeArray: AdType[],
     selectedTags: string[]
-   
 }
 
 export interface AdCreationInputProperties {
