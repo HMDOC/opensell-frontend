@@ -375,7 +375,7 @@ export default function AdModification(): ReactElement {
                     inputId="adf"
                     isModification
                     selectedIndex={ad?.adType?.idAdType}
-                    externalOnChange={(type) => console.log(ad?.adType?.idAdType)} />
+                    externalOnChange={(type) => adModification(ModifType.AD_TYPE, type, ad?.idAd)} />
                 <br />
                 <br />
                 
