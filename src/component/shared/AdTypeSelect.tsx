@@ -7,12 +7,12 @@ interface AdTypeSelectProperties {
     inputId: string,
     inputName: string,
     defaultOptionText?: string,
-    defaultOptionValue?: any,
-
+    
     /**
      * @Note ad modif 
      */
-    externalTypeValue?: AdType
+    isModification?: boolean
+    selectedIndex?: string
     externalOnChange?(adType: AdType): void
 }
 
@@ -57,9 +57,9 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
             <select 
             id={this.props.inputId} 
             name={this.props.inputName} 
-            onChange={this.props.externalTypeValue ? (event: ChangeEvent<HTMLSelectElement>) => {this.handleChange(event)} : () => console.log("Clear clear")}>
+            onChange={this.props.isModification ? (event: ChangeEvent<HTMLSelectElement>) => {this.handleChange(event)} : null} defaultValue={this.props.selectedIndex}>
 
-                {this.props.defaultOptionText ? <option value={this.props.defaultOptionValue} selected>{this.props.defaultOptionText}</option> : null}
+                {this.props.defaultOptionText ? <option selected value={""}>{this.props.defaultOptionText}</option> : null}
                 {this.state.typeArray.map((type, key) => (
                     <option value={type.idAdType} key={key}>{type.name}</option>
                 ))}
