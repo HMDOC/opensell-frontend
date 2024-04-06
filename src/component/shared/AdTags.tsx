@@ -31,6 +31,7 @@ interface AdTagsProps {
      * @void
      */
     addTag(tag: string): void;
+    isSearch?: boolean;
 };
 
 /**
@@ -96,7 +97,18 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
     return (
         <>
-            <label>{"adTags"} {getErrorValue()}</label>
+            {props.isSearch ?
+                (
+                    <>
+                    <h5></h5>
+                    {props.error != HtmlCode.SUCCESS ?
+                        <p>Tag {getErrorValue()}</p> : <></>             
+                    }
+                    </>
+                ) : (
+                    <label>{"adTags"} {getErrorValue()}</label>
+                )
+            }
             <br />
 
             <input onDoubleClick={(e: any) => addEvent(e)} name="adTags" />

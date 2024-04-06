@@ -6,6 +6,7 @@ import { getLanguage } from "../../i18n/i18n";
 import Loading from "../part/Loading";
 import ProfilIcon from "./ProfilIcon";
 import { AxiosPromise, AxiosResponse } from "axios";
+import { AdBuyerView } from "../../entities/dto/AdBuyerView";
 
 /**
  * Function that increase the index of the current picture
@@ -69,7 +70,7 @@ export function AdMapping(props: {request: Promise<AxiosResponse<AdBuyerView, an
                     <p>{adBuyerView?.adDescription}</p>
                     <p><b>Added Date : </b>{adBuyerView?.adAddedDate?.toString()}</p>
                     <p><b>Address : </b>{adBuyerView?.adAddress}</p>
-                    <p><b>Type : </b>{adBuyerView?.adTypeName}</p>
+                    <p><b>Type : </b>{adBuyerView?.adType?.name}</p>
 
                     <h2>Tags: </h2>
                     {adBuyerView?.adTagsName?.map(value => (

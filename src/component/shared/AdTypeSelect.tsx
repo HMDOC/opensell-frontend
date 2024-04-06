@@ -28,7 +28,9 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
         super(properties)
         this.state = {
             typeArray: []
-        } 
+        }
+
+        console.log("A : "+this.props.externalTypeValue);
     }
 
     //ad modif
@@ -55,7 +57,7 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
             <select 
             id={this.props.inputId} 
             name={this.props.inputName} 
-            onChange={this.props.externalTypeValue ? (event: ChangeEvent<HTMLSelectElement>) => {this.handleChange(event)} : null}>
+            onChange={this.props.externalTypeValue ? (event: ChangeEvent<HTMLSelectElement>) => {this.handleChange(event)} : () => console.log("Clear clear")}>
 
                 {this.props.defaultOptionText ? <option value={this.props.defaultOptionValue} selected>{this.props.defaultOptionText}</option> : null}
                 {this.state.typeArray.map((type, key) => (

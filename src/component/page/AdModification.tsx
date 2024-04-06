@@ -1,6 +1,6 @@
-import { ChangeEvent, PureComponent, ReactElement, ReactNode, RefObject, createRef, memo, useEffect, useRef, useState } from "react";
+import { ChangeEvent, PureComponent, ReactElement, ReactNode, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAdToModif, adModification, adModificationTags } from "../../services/AdService";
+import { getAdToModif, adModification, adModificationTags, saveAdImages } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import "../../css/component/page/AdModif.css";
 import {
@@ -13,6 +13,10 @@ import {
 } from "../shared/SharedAdPart";
 import { AdTags } from "../shared/AdTags";
 import { createRandomKey } from "../../services/RandomKeys";
+import AdTypeSelect from "../shared/AdTypeSelect";
+import { AdModifView } from "../../entities/dto/AdModifView";
+import { AdImage } from "../../entities/dto/AdBuyerView";
+import { AdType } from "../../entities/dto/AdType";
 
 const SIMPLE: Array<SimpleInputProps> = [
     {
@@ -155,18 +159,28 @@ const SELECTS: Array<SelectorReaderProps> = [
     },
 ];
 
-class AdImages extends PureComponent<{ images: Array<AdImage>, removeImage(url: string): void, idAd: number }> {
+interface AdImagesProps {
+    images: Array<AdImage>;
+    removeImage(url: string): void;
+    idAd: number;
+    isModification?: boolean;
+    reset(backup: Array<AdImage>): void;
+
+}
+
+class AdImages extends PureComponent<AdImagesProps> {
+    public backup: Array<AdImage> = undefined;
+    
     public state = {
-        imgsToSend: [],
         imgsToDelete: "",
-        temporaryFileUrls: new Array<{path: string, isOldImg: boolean}>()
+        temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>()
     };
 
     public addUrls(files: Array<File>): void {
         let imgObjects = [];
         
         files.forEach(file => {
-            imgObjects.push({path: URL.createObjectURL(file), isOldImg: false});
+            imgObjects.push({path: URL.createObjectURL(file), isOldImg: false, file: file});
         });
 
         this.setState({temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects]})
@@ -175,7 +189,7 @@ class AdImages extends PureComponent<{ images: Array<AdImage>, removeImage(url: 
     public getUrls = (): Array<{path: string, isOldImg: boolean}> => {
         let urlArray = [];
         
-        this.props.images.forEach(img => {
+        this.props.images?.forEach(img => {
             urlArray.push({path: img.path, isOldImg: true});
         })
 
@@ -187,14 +201,16 @@ class AdImages extends PureComponent<{ images: Array<AdImage>, removeImage(url: 
     }
 
     public handleChange(e: ChangeEvent<HTMLInputElement>): void {
+        this.saveBackup();
+
         let currentFiles: Array<File> = Array.from(e.target.files);
-        this.setState({imgsToSend: this.state.imgsToSend.concat(currentFiles)});
-    
         this.addUrls(currentFiles);
         e.target.value = null;
     }
 
     public deleteImg(currentImg: {path: string, isOldImg: boolean}): void {
+        this.saveBackup();
+
         if(currentImg.isOldImg) {
             let completeImg = this.props.images.find(img => img.path == currentImg.path);
             this.props.removeImage(completeImg.path);
@@ -213,6 +229,21 @@ class AdImages extends PureComponent<{ images: Array<AdImage>, removeImage(url: 
         }
     }
 
+    public save() {
+        saveAdImages(this.state.temporaryFileUrls.map(img => img.file), this.props.idAd, true, this.state.imgsToDelete);
+    }
+
+    public saveBackup() {
+        if(!this.backup) {
+            this.backup = this.props.images;
+        }
+    }
+
+    public cancel() {
+        this.props.reset(this.backup);
+        this.setState({temporaryFileUrls: [], imgsToDelete: ""});
+    }
+
     // Dealing with Image
     public render(): ReactNode {
         console.log(this.state.imgsToDelete);
@@ -229,7 +260,19 @@ class AdImages extends PureComponent<{ images: Array<AdImage>, removeImage(url: 
                 ))}
                 <br />
                 <br />
-
+                
+                {this.props.isModification ?
+                    (
+                        <>
+                            <button onClick={() => this.save()}>save</button>
+                            <button onClick={() => this.cancel()}>cancel</button>
+                            <br />
+                            <br />
+                        </>
+                    ) : (
+                        <></>
+                    )
+                }
             </>
         );
     }
@@ -250,6 +293,8 @@ export default function AdModification(): ReactElement {
         tagsForReset: []
     });
 
+    const [adType, setAdType] = useState<AdType>({name : "1", idAdType : 1}); 
+
     useEffect(() => {
         getAdToModif(link).then(res => {
             // il faut aussi gérer les anciens images.
@@ -257,6 +302,7 @@ export default function AdModification(): ReactElement {
                 setAd(res?.data);
                 setAdTags(res?.data.adTagsName);
                 setAdImages(res?.data.adImages);
+                setAdType(res?.data.adType);
             }
 
             else navigate("/not-found");
@@ -298,6 +344,8 @@ export default function AdModification(): ReactElement {
         setAdTags(adTags.filter(t => t != tag));
     }
 
+    console.log(adType);
+
     return (
         <div className="main-background">
             <>
@@ -316,7 +364,9 @@ export default function AdModification(): ReactElement {
                 <AdImages
                     idAd={ad?.idAd}
                     images={adImages}
+                    reset={(backup) => setAdImages(backup)}
                     removeImage={(path) => setAdImages(adImages.filter(img => img.path != path))}
+                    isModification={true}
                 />
 
                 <AdTags
@@ -338,6 +388,12 @@ export default function AdModification(): ReactElement {
                     ) : (<></>)
 
                 }
+
+                <AdTypeSelect 
+                    inputName="AdType" 
+                    inputId="adf" 
+                    externalTypeValue={adType} 
+                    externalOnChange={(type) => console.log("salut : "+type)} />
 
                 {
                     SELECTS.map(value => (
