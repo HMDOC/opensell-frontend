@@ -18,12 +18,13 @@ interface AdImagesProps {
 
     // Only for Creation
     creationImages?: Array<CreationImage>;
-    updateCreationImages?(id: string, isDelete: boolean, file?: File): void;
+    updateCreationImages?(creationImages: Array<CreationImage>, isDelete?: boolean): void;
 }
 
 export class AdImages extends PureComponent<AdImagesProps> {
     public backup: Array<AdImage> = undefined;
-    
+    public urlToDelete: Set<string> = new Set();
+
     public state = {
         imgsToDelete: "",
         temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>()
@@ -31,16 +32,20 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
     public addUrls(files: Array<File>): void {
         let imgObjects = [];
+        let tmpCreationImage: Array<CreationImage> = [];
+
         files.forEach(file => {
             let url = URL.createObjectURL(file);
             imgObjects.push({path: url, isOldImg: false, file: file});
 
             if(!this.props.isModification) {
-                this.props.updateCreationImages(url, false, file);
+                tmpCreationImage.push({file: file, id: url});
             }
         });
 
-       
+        if(!this.props.isModification) {
+            this.props.updateCreationImages(tmpCreationImage, false);
+        }
 
         this.setState({temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects]})
     }
@@ -62,7 +67,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
     }
 
     public componentWillUnmount(): void {
-        for (let url of this.state.temporaryFileUrls) URL.revokeObjectURL(url.path);
+        for (let url of Array.from(this.urlToDelete)) URL.revokeObjectURL(url);
     }
 
     public handleChange(e: ChangeEvent<HTMLInputElement>): void {
@@ -92,10 +97,10 @@ export class AdImages extends PureComponent<AdImagesProps> {
             this.setState({temporaryFileUrls: this.state.temporaryFileUrls.filter(img => img != imgDelete)})
 
             if(!this.props.isModification) {
-                this.props.updateCreationImages(currentImg.path, true)
+                this.props.updateCreationImages([{file : null, id : currentImg.path}], true)
             }
 
-            URL.revokeObjectURL(imgDelete.path);
+            this.urlToDelete.add(currentImg.path);
         }
     }
 

@@ -6,7 +6,7 @@ import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
 import AdTypeSelect from "../shared/AdTypeSelect";
-import { AdImages } from "../shared/AdImages";
+import { AdImages, CreationImage } from "../shared/AdImages";
 
 /**
  * @author Olivier Mansuy
@@ -110,11 +110,11 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     {/* <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/> */}
                     <AdImages 
                         creationImages={this.state.images}
-                        updateCreationImages={(id, isDeleted, file?) => {
-                            if(isDeleted) {
-                                this.setState({images : this.state.images.filter(img => img.id == id)})
+                        updateCreationImages={(creationImages, isDelete?: boolean) => {
+                            if(isDelete) {
+                                this.setState({images : this.state.images.filter(img => img.id != creationImages[0].id)})
                             } else {
-                                this.setState({images : [...this.state.images, {file, id}]})
+                                this.setState({images : [...this.state.images, ...creationImages]})
                             }
                         }}
 
