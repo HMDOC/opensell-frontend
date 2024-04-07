@@ -29,15 +29,25 @@ const SearchFilters = (props) : ReactElement =>{
 
     // {adTypes.forEach( (value, key) => {} )}
     return (
-        <div onChange={filtersUpdated}>            
-            <div id="filterContainer" ref={props.filterElementRef}>
+        <>            
+            <div id="filterContainer" ref={props.filterElementRef} onChange={filtersUpdated}>
                 <h5>Price</h5>
-                <input type="range" name="priceMin" id="priceMin"
-                    min={0} max={MAX_PRICE} defaultValue={0} step={10}/>
+                <input type="number" name="priceMin" id="priceMin" 
+                    className="smallInput" min={0} max={MAX_PRICE} 
+                    defaultValue={0} placeholder={`${0}$`} step={25}/>
 
-                <input type="range" name="priceMax" id="priceMax"
-                    min={0} max={MAX_PRICE} defaultValue={MAX_PRICE} step={10} />
-                
+                <span className="smallInputLabel">
+                    min
+                </span>
+
+                <input type="number" name="priceMax" id="priceMax" 
+                    className="smallInput" min={0} max={MAX_PRICE} 
+                    defaultValue={MAX_PRICE} 
+                    placeholder={`${MAX_PRICE}$`} step={25}/>
+                <span className="smallInputLabel">
+                    max
+                </span>
+
                 <h5>Date</h5>
                 <input type="date" name="dateMin" id="dateMin"
                     min={dateMin} max={dateMax} defaultValue={null}/>
@@ -88,7 +98,7 @@ const SearchFilters = (props) : ReactElement =>{
                 </select>
             </div>
             
-        </div>
+        </>
     )
 }
 

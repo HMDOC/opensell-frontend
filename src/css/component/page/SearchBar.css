@@ -23,7 +23,8 @@
 }
 
 #filterContainer{
-    margin: 0.75em 0.5em;
+    margin: 0.75em 1.5em;
+    margin-bottom: 1.2em;
 }
 
 #filterContainer * {
@@ -38,16 +39,32 @@
     outline: none;
 }
 
-#priceMin{ position: relative; }
+.smallInput{
+    width: 30%;
+}
 
-#priceMax{ position: static; }
+.smallInputLabel{
+    width: 3%;
+    padding-right: 1px;
+}
 
 input{
     width: 100%;
+    padding-left: 4px;
 }
 
 select{
     width: 100%;
+    padding-left: 4px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
 
 #sortBy{ width: calc(100% - 30px); }

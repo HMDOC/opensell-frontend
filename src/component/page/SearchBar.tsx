@@ -28,8 +28,8 @@ const SearchBar = (props) : ReactElement => {
                         <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
                     </button>
                 </div>
-                <SearchFilters searchTags={props.searchTags} setSearchTags={props.setSearchTags} filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
             </div>
+            <SearchFilters searchTags={props.searchTags} setSearchTags={props.setSearchTags} filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
         </div>
         
     )

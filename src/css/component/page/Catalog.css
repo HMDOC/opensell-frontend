@@ -19,11 +19,11 @@
 
 .div-filters {
     width: 8.5cm;
-    height: 621px;
+    height: max-content;
     background: white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     border-radius: 20px;
-    margin: 0px 2em 0px 2em;
+    margin: 0 2em;
 }
 
 .catTop>h2 {
