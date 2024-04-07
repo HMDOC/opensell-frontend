@@ -1,7 +1,7 @@
 import {Component, FormEvent, ReactNode} from "react";
 import {MAX_PRICE, SelectorReader, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
 import {getFormData, getFormDataAsArray} from "../../services/customerModification/FormService";
-import { getAllAdTypes } from "../../services/AdService";
+import { getAllAdTypes, saveAdImages } from "../../services/AdService";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
@@ -83,9 +83,17 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         let formData = getFormData(event);
         if (window.confirm("Are you sure?") && this.formIsValid(formData)) {
             await createAd(formatCreationData(formData, this.state.selectedTags, TEMPORARY_ID)).then((rep) => {
-                const {code, errorMessage, result} = rep?.data;
+                const {code, errorMessage, result, adId} = rep?.data;
                 if (result == 0) this.setGlobalErrorMessage(errorMessage);
-                else this.setGlobalErrorMessage("LOG(TEST) : Fields inserted : " + result);
+                else {
+                    let fileArray: File[] = []
+                    this.state.images.map(elem => {
+                        fileArray.push(elem.file);
+                    }) 
+                    console.log(fileArray);
+                    saveAdImages(fileArray, adId);
+                    this.setGlobalErrorMessage("LOG(TEST) : CREATED");
+                }
             })
         }
     }

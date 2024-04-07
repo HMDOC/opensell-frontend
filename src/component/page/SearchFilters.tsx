@@ -1,8 +1,5 @@
 import {ReactElement, useEffect, useState } from "react";
 import "../../css/component/page/SearchBar.css";
-import { getAllAdTypes } from "../../services/AdService";
-import { AxiosError } from "axios";
-import { AdType } from "../../entities/dto/AdType";
 import { MAX_PRICE, SHAPE_ARRAY } from "../shared/SharedAdPart";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import { AdTags } from "../shared/AdTags";

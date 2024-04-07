@@ -2,5 +2,6 @@
 export interface AdCreationFeedback {
     code: number,
     result: number,
-    errorMessage: string
+    errorMessage: string,
+    adId: number
 }
