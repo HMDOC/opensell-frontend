@@ -1,10 +1,10 @@
 import {Component, FormEvent, ReactNode} from "react";
-import {MAX_PRICE, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
+import {MAX_PRICE, SelectorReader, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
 import {getFormData, getFormDataAsArray} from "../../services/customerModification/FormService";
 import { getAllAdTypes } from "../../services/AdService";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, SelectorAdCreation, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
+import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
 import AdTypeSelect from "../shared/AdTypeSelect";
 
 /**
@@ -101,8 +101,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         <label htmlFor="description">Destription : </label>
                         <textarea name="description" id="description" cols={30} rows={10} required={false}></textarea>
                     </div>
-                    <SelectorAdCreation name="visibility" options={VISIBILITY_ARRAY}></SelectorAdCreation>
-                    <SelectorAdCreation name="shape" options={SHAPE_ARRAY}></SelectorAdCreation>
+                    <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
+                    <SelectorReader name="shape" options={SHAPE_ARRAY} />
 
                     <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/>
                     <div>

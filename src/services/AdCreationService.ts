@@ -47,12 +47,6 @@ export interface AdCreationpProperties {
 
 }
 
-export class SelectorAdCreation extends SelectorReader {
-    public handleChange(e: ChangeEvent<HTMLSelectElement>): void {
-        
-    }
-}
-
 export const createAd = async (data: AdCreationData):Promise<AxiosResponse<AdCreationFeedback>> => {
     return await http.post<AdCreationFeedback>('ad/create-ad', data);
 }

@@ -189,7 +189,7 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
         return (
             <>
                 <label>{this.props.name} : </label>
-                <select name={this.props.name} defaultValue={this.props.defaultValue} onChange={(e) => this.handleChange(e)} >
+                <select name={this.props.name} defaultValue={this.props.defaultValue} onChange={this.props.request ? (e) => this.handleChange(e) : null} >
                     {
                         this.props.options.map((option, index) => (
                             <option key={createRandomKey()} value={`${index}`}>{option}</option>
