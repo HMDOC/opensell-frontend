@@ -6,6 +6,7 @@ import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
 import AdTypeSelect from "../shared/AdTypeSelect";
+import { AdImages } from "../shared/AdImages";
 
 /**
  * @author Olivier Mansuy
@@ -20,17 +21,17 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
         return(
             <div className="">
                 <label htmlFor={this.props.name} className="">{this.props.labelText}</label>
-                <input 
+                <input
                 className=""
-                type={this.props.type} 
-                min={this.props.min} 
-                max={this.props.max} 
-                name={this.props.name} 
-                id={this.props.name} 
+                type={this.props.type}
+                min={this.props.min}
+                max={this.props.max}
+                name={this.props.name}
+                id={this.props.name}
                 step={this.props.step}
                 accept={this.props.accept}
                 required={this.props.required}
-                />                
+                />
             </div>
         )
     }
@@ -43,7 +44,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             globalErrorMessage: "",
             typeArray: [],
             errorAdTags: HtmlCode.SUCCESS,
-            selectedTags: []
+            selectedTags: [],
+            images : []
         }
     }
 
@@ -70,7 +72,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             if (result === false) {
                 this.setGlobalErrorMessage(formValidation?.[key]?.errorMessage);
                 return false;
-            } 
+            }
         }
         this.setGlobalErrorMessage();
         return true
@@ -85,10 +87,11 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                 if (result == 0) this.setGlobalErrorMessage(errorMessage);
                 else this.setGlobalErrorMessage("LOG(TEST) : Fields inserted : " + result);
             })
-        } 
+        }
     }
 
     render(): ReactNode {
+        console.log("The ad images : "+this.state.images.length)
         return(
             <div className="main-background">
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
@@ -104,7 +107,19 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
 
-                    <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/>
+                    {/* <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/> */}
+                    <AdImages 
+                        creationImages={this.state.images}
+                        updateCreationImages={(id, isDeleted, file?) => {
+                            if(isDeleted) {
+                                this.setState({images : this.state.images.filter(img => img.id == id)})
+                            } else {
+                                this.setState({images : [...this.state.images, {file, id}]})
+                            }
+                        }}
+
+
+                    />
                     <div>
                         <label htmlFor="type">Type : </label>
                         <AdTypeSelect inputName="type" inputId="type"/>

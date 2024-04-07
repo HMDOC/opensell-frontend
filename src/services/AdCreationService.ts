@@ -6,6 +6,8 @@ import { AxiosResponse } from "axios";
 import { AdCreationFeedback } from "../entities/dto/adCreation/AdCreationFeedback";
 import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
 import http from "../../src/http-commons";
+import { AdImage } from "../entities/dto/AdBuyerView";
+import { CreationImage } from "../component/shared/AdImages";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -28,7 +30,8 @@ export interface AdCreationState {
     globalErrorMessage: string,
     errorAdTags: HtmlCode,
     typeArray: AdType[],
-    selectedTags: string[]
+    selectedTags: string[],
+    images: Array<CreationImage>
 }
 
 export interface AdCreationInputProperties {

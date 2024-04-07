@@ -17,6 +17,7 @@ import AdTypeSelect from "../shared/AdTypeSelect";
 import { AdModifView } from "../../entities/dto/AdModifView";
 import { AdImage } from "../../entities/dto/AdBuyerView";
 import { AdType } from "../../entities/dto/AdType";
+import { AdImages } from "../shared/AdImages";
 
 const SIMPLE: Array<SimpleInputProps> = [
     {
@@ -141,128 +142,6 @@ const SELECTS: Array<SelectorReaderProps> = [
         }
     },
 ];
-
-interface AdImagesProps {
-    images: Array<AdImage>;
-    removeImage(url: string): void;
-    idAd: number;
-    isModification?: boolean;
-    reset(backup: Array<AdImage>): void;
-
-}
-
-class AdImages extends PureComponent<AdImagesProps> {
-    public backup: Array<AdImage> = undefined;
-    
-    public state = {
-        imgsToDelete: "",
-        temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>()
-    };
-
-    public addUrls(files: Array<File>): void {
-        let imgObjects = [];
-        
-        files.forEach(file => {
-            imgObjects.push({path: URL.createObjectURL(file), isOldImg: false, file: file});
-        });
-
-        this.setState({temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects]})
-    }
-
-    public getUrls = (): Array<{path: string, isOldImg: boolean}> => {
-        let urlArray = [];
-        
-        this.props.images?.forEach(img => {
-            urlArray.push({path: img.path, isOldImg: true});
-        })
-
-        return [...urlArray, ...this.state.temporaryFileUrls];
-    }
-
-    public componentWillUnmount(): void {
-        for (let url of this.state.temporaryFileUrls) URL.revokeObjectURL(url.path);
-    }
-
-    public handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        this.saveBackup();
-
-        let currentFiles: Array<File> = Array.from(e.target.files);
-        this.addUrls(currentFiles);
-        e.target.value = null;
-    }
-
-    public deleteImg(currentImg: {path: string, isOldImg: boolean}): void {
-        this.saveBackup();
-
-        if(currentImg.isOldImg) {
-            let completeImg = this.props.images.find(img => img.path == currentImg.path);
-            this.props.removeImage(completeImg.path);
-
-            this.setState({imgsToDelete : this.state.imgsToDelete.concat(
-                `${this.props.images.find(img => img.path == currentImg.path).idAdImage},`
-            )});
-        }
-
-        else {
-            let imgDelete = this.state.temporaryFileUrls.find(img => img.path == currentImg.path);
-
-            this.setState({temporaryFileUrls: this.state.temporaryFileUrls.filter(img => img != imgDelete)})
-
-            URL.revokeObjectURL(imgDelete.path);
-        }
-    }
-
-    public save() {
-        saveAdImages(this.state.temporaryFileUrls.map(img => img.file), this.props.idAd, true, this.state.imgsToDelete);
-    }
-
-    public saveBackup() {
-        if(!this.backup) {
-            this.backup = this.props.images;
-        }
-    }
-
-    public cancel() {
-        if(this.backup) {
-            this.props.reset(this.backup);
-            this.setState({temporaryFileUrls: [], imgsToDelete: ""});
-        }
-    }
-
-    // Dealing with Image
-    public render(): ReactNode {
-        console.log(this.state.imgsToDelete);
-
-        return (
-            <>
-                <label>adImages :</label>
-                <br />
-                <input onChange={(e) => this.handleChange(e)} type="file" multiple />
-                <br />
-                <br />
-                {this.getUrls()?.map(img => (
-                    <img onDoubleClick={() => this.deleteImg(img)} style={{ width: "250px" }} key={createRandomKey()} src={img.path} />
-                ))}
-                <br />
-                <br />
-                
-                {this.props.isModification ?
-                    (
-                        <>
-                            <button onClick={() => this.save()}>save</button>
-                            <button onClick={() => this.cancel()}>cancel</button>
-                            <br />
-                            <br />
-                        </>
-                    ) : (
-                        <></>
-                    )
-                }
-            </>
-        );
-    }
-}
-
 
 // { name: "images", multiple: true, reference: createRef(), isFile: true },
 export default function AdModification(): ReactElement {
