@@ -6,7 +6,7 @@ import { createRandomKey } from "../../services/RandomKeys";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
-export const MAX_PRICE = 999999;
+export const MAX_PRICE = 999990;
 
 /**
  * To identify the field when we send the query to modify and Ad,
