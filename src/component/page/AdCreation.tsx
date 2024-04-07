@@ -107,7 +107,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
 
-                    {/* <AdCreationInput labelText="Images : " name="images" type="file" accept="image/*" required={false}/> */}
                     <AdImages 
                         creationImages={this.state.images}
                         updateCreationImages={(creationImages, isDelete?: boolean) => {
@@ -117,8 +116,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                                 this.setState({images : [...this.state.images, ...creationImages]})
                             }
                         }}
-
-
                     />
                     <div>
                         <label htmlFor="type">Type : </label>

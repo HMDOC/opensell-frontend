@@ -27,7 +27,8 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
     public state = {
         imgsToDelete: "",
-        temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>()
+        temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>(),
+        isEditing: false
     };
 
     public addUrls(files: Array<File>): void {
@@ -70,7 +71,14 @@ export class AdImages extends PureComponent<AdImagesProps> {
         for (let url of Array.from(this.urlToDelete)) URL.revokeObjectURL(url);
     }
 
+    public setIsEditing(isEditing: boolean = true): void {
+        if(this.state.isEditing != isEditing) {
+            this.setState({isEditing});
+        }
+    }
+
     public handleChange(e: ChangeEvent<HTMLInputElement>): void {
+        this.setIsEditing();
         this.saveBackup();
 
         let currentFiles: Array<File> = Array.from(e.target.files);
@@ -80,6 +88,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
     }
 
     public deleteImg(currentImg: {path: string, isOldImg: boolean}): void {
+        this.setIsEditing();
         this.saveBackup();
 
         if(currentImg.isOldImg) {
@@ -105,12 +114,20 @@ export class AdImages extends PureComponent<AdImagesProps> {
     }
 
     public save() {
-        saveAdImages(this.state.temporaryFileUrls.map(img => img.file), this.props.idAd, true, this.state.imgsToDelete);
+        saveAdImages(this.state.temporaryFileUrls.map(img => img.file), 
+                     this.props.idAd, 
+                     true, this.state.imgsToDelete).then(res => {
+                        if(res?.data) {
+                            this.props.reset(res?.data);
+                            this.saveBackup(res?.data, true)
+                            this.setState({temporaryFileUrls: [], isEditing: false});
+                        }
+                     });
     }
 
-    public saveBackup() {
-        if(this.props.isModification && !this.backup) {
-            this.backup = this.props.images;
+    public saveBackup(backup: Array<AdImage> = this.props.images, saved: boolean = false) {
+        if(this.props.isModification && (!this.backup || saved)) {
+            this.backup = backup;
         }
     }
 
@@ -118,13 +135,12 @@ export class AdImages extends PureComponent<AdImagesProps> {
         if(this.backup) {
             this.props.reset(this.backup);
             this.setState({temporaryFileUrls: [], imgsToDelete: ""});
+            this.setIsEditing(false);
         }
     }
 
     // Dealing with Image
     public render(): ReactNode {
-        console.log(this.state.imgsToDelete);
-
         return (
             <>
                 <label>adImages :</label>
@@ -138,7 +154,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
                 <br />
                 <br />
                 
-                {this.props.isModification ?
+                {this.props.isModification && this.state.isEditing ?
                     (
                         <>
                             <button onClick={() => this.save()}>save</button>
