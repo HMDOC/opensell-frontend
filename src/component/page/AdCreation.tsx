@@ -11,7 +11,6 @@ import { AdImages, CreationImage } from "../shared/AdImages";
 /**
  * @author Olivier Mansuy
  */
-const TEMPORARY_ID: number = 20;
 
 class AdCreationInput extends Component<AdCreationInputProperties, any> {
     constructor(properties: AdCreationInputProperties) {
@@ -82,7 +81,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         event.preventDefault();
         let formData = getFormData(event);
         if (window.confirm("Are you sure?") && this.formIsValid(formData)) {
-            await createAd(formatCreationData(formData, this.state.selectedTags, TEMPORARY_ID)).then((rep) => {
+            await createAd(formatCreationData(formData, this.state.selectedTags, this.props.idCustomer)).then((rep) => {
                 const {code, errorMessage, result, adId} = rep?.data;
                 if (result == 0) this.setGlobalErrorMessage(errorMessage);
                 else {

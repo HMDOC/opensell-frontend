@@ -1,9 +1,10 @@
-export interface CustomerInfoView {
+export interface CustomerInfo {
+    idCustomerInfo? : number;
     firstName? : string;
     lastName? : string;
-    iconPath? : string;
+    exposedEmail? : string;
     phoneNumber? : string;
     primaryAddress? : string;
-    exposedEmail? : string;
     bio? : string;
+    iconPath? : string;
 }

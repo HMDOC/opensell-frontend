@@ -1,13 +1,13 @@
 import { Component, ReactElement, ReactNode, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getCustomerInfo, getPublicUserAds } from "../../services/CustomerInfo";
-import { CustomerInfoView } from "../../entities/dto/CustomerInfo";
+import { CustomerInfo } from "../../entities/dto/CustomerInfo";
 import AdPreview from "./AdPreview";
 import "../../css/component/page/Catalog.css"
 
 export default function UserProfil(): ReactElement {
     const { link } = useParams();
-    const [customerInfo, setCustomerInfo] = useState<CustomerInfoView>();
+    const [customerInfo, setCustomerInfo] = useState<CustomerInfo>();
     const [publicUserAds, setPublicUserAds] = useState<AdSearchPreview[]>([]);
     useState(() => {
         getCustomerInfo(link).then(res => {

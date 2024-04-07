@@ -1,4 +1,4 @@
-import { PureComponent, ReactNode } from "react";
+import { Component, PureComponent, ReactNode } from "react";
 import "../../css/component/page/MyAds.css";
 import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
 import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
@@ -9,6 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 import AdPreview from "./AdPreview";
 import { AdMapping } from "./AdView";
+
+interface MyAdsProps {
+    customerId: number;
+}
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -89,7 +93,7 @@ const CreateAdButton = () => {
     )
 };
 
-export default class MyAds extends PureComponent {
+export default class MyAds extends Component<{customerId: number}> {
     public state = {
         displayAds: new Array<DisplayAdView>(),
         isNoAds: false,
@@ -106,7 +110,7 @@ export default class MyAds extends PureComponent {
     }
 
     public componentDidMount(): void {
-        getCustomerAds(1)
+        getCustomerAds(this.props.customerId)
             .then(res => {
                 if (res?.data) {
                     this.setState({ displayAds: res?.data });

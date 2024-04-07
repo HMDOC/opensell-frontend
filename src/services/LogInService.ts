@@ -7,3 +7,11 @@ export const checkLogin = async (username? : string, pwd? : string) => {
         return error;
     }
 }
+
+export const getDto = async (idCustomer: number) => {
+    try {
+        return await http.get("/getDto", {params: {idCustomer}});
+    } catch (error) {
+        return error;
+    }
+}

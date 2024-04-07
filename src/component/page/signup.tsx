@@ -2,8 +2,10 @@ import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
 import { useNavigate } from "react-router-dom";
 import Verification from "./Verification";
+import { setToken } from "../../services/SetToken";
+import { checkLogin } from "../../services/LogInService";
 
-export default function Signup() {
+export default function Signup(props: {getCustomerInfo(): void}) {
     const naviguate = useNavigate();
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
     const [isAuthentified, setIsAuthentified] = useState(false);
@@ -76,7 +78,7 @@ export default function Signup() {
     
     return (
         <div className="main-background">
-            {isAuthentified ? (<Verification email={infos.email} />) : (
+            {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo}/>) : (
                 <div>
                 <h1>Sign up</h1>
                 <form id="form">

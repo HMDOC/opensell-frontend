@@ -16,6 +16,9 @@ export default function GlobalNavBar(props): ReactElement {
     const b = ({ isActive }) => {
         return isActive ? "is-active" : "center-items"
     };
+    const logout = () => {
+        localStorage.removeItem('token');
+    }
 
     return (
         <>
@@ -32,13 +35,14 @@ export default function GlobalNavBar(props): ReactElement {
                         ))}
                     </Nav>
                     <NavDropdown title={<ProfilIcon src='http://dummyimage.com/124x100.png/ff4444/ffffff' />} id='basic-nav-dropdown'>
-                        <NavDropdown.Item>{props.firstName}</NavDropdown.Item>
+                        <NavDropdown.Item>{props.username}</NavDropdown.Item>
                         <NavDropdown.Divider />
+                        <NavDropdown.Item key={createRandomKey()} as={Link} to={`/user/${props.link}`}>My Profile</NavDropdown.Item>
                         {navLinks.dropdownMenu.map((nav) =>
                         (
                             <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
                         ))}
-                        <NavDropdown.Item>
+                        <NavDropdown.Item onClick={() => localStorage.removeItem('token')}>
                             Logout
                         </NavDropdown.Item>
                     </NavDropdown>

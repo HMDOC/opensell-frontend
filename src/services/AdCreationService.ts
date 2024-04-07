@@ -47,7 +47,7 @@ export interface AdCreationInputProperties {
 }
 
 export interface AdCreationpProperties {
-
+    idCustomer: number;
 }
 
 export const createAd = async (data: AdCreationData):Promise<AxiosResponse<AdCreationFeedback>> => {

@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
 import { useNavigate } from "react-router-dom";
-import { CustomerInfoView } from "../../entities/dto/CustomerInfo";
+import { CustomerInfo } from "../../entities/dto/CustomerInfo";
 import * as jose from "jose";
+import { setToken } from "../../services/SetToken";
 
 export default function Login(props) {
     const username = useRef(null);
@@ -15,15 +16,8 @@ export default function Login(props) {
             creds: ""
         }
     );
-    let customerInfo: CustomerInfoView = {};
-    const secretKey = new TextEncoder().encode('zH4NRP1HMALxxCFnRZABFA7GOJtzU_gIj02alfL1lvI')
-    const genCookies = async (customerInfo: CustomerInfoView) => {
-        const alg = "HS256";
-        const jwt = await new jose.SignJWT({customerInfo})
-            .setProtectedHeader({ alg })
-            .sign(secretKey)
-            localStorage.setItem("token", jwt);
-        }
+    let customerInfo: CustomerInfo = {};
+    let customerId : number;
     
 
 const handleSubmit = (e: any) => {
@@ -40,8 +34,8 @@ const handleSubmit = (e: any) => {
             if (res?.data == "") {
                 errors.creds = "Username or password is incorrect";
             } else {
-                customerInfo = res?.data;
-                genCookies(customerInfo).then(() => {
+                customerId = res?.data;
+                setToken(customerId).then(() => {
                     props.getCustomerInfo();
                 });
                 naviguate("/");
