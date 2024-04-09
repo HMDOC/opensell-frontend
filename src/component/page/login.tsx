@@ -38,7 +38,7 @@ const handleSubmit = (e: any) => {
                 setToken(customerId).then(() => {
                     props.getCustomerInfo();
                 });
-                naviguate("/");
+                naviguate("/home");
                 console.log("Login successful");
             }
             setErrors(errors);
@@ -54,7 +54,7 @@ return (
             <input type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
             <label>Password:</label><br />
             <input type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
-            <button type="submit" onClick={handleSubmit}>Sign up</button>
+            <button type="submit" onClick={handleSubmit}>Log in</button>
         </form><br />
         {error.creds}
     </div>

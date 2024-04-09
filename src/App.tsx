@@ -39,11 +39,13 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-				<GlobalNavBar username={customerDto?.username} link={customerDto?.link}/>
+				<GlobalNavBar username={customerDto?.customerInfo.firstName} link={customerDto?.link}/>
 				<Routes>
 					<Route path="/" element={<PrivateRoute />}>
 						<Route path='/my-ads' element={<MyAds customerId={customerDto?.customerId} />}/>
 						<Route path="/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
+						<Route path="/ad-modification/:link" element={<AdModification />}></Route>
+						<Route path="/customer-modification/:link" element={<CustomerModification />}></Route>
 					</Route>
 					<Route path="/home" element={<MainMenu />}></Route>
 					<Route path="/signup" element={<Signup getCustomerInfo={getCustomerInfo}/>}></Route>
@@ -52,8 +54,6 @@ export default function App() {
 					<Route path="/ad/:link" element={<AdView />}></Route>
 					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="/file-uploader/" element={<FileUploader />}></Route>
-					<Route path="/customer-modification/:link" element={<CustomerModification />}></Route>
-					<Route path="/ad-modification/:link" element={<AdModification />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>

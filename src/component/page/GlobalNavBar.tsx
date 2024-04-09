@@ -24,7 +24,7 @@ export default function GlobalNavBar(props): ReactElement {
         <>
             <Navbar expand="lg" className="mb-2 nav">
                 <div className='nav-left'>
-                    <Navbar.Brand className='nav-title'><NavLink to="/"><img src="/img/opensell-logo.png" alt="Opensell logo" className="brand-logo" /><h2>OpenSell Inc.</h2></NavLink></Navbar.Brand>
+                    <Navbar.Brand className='nav-title'><NavLink to="/home"><img src="/img/opensell-logo.png" alt="Opensell logo" className="brand-logo" /><h2>OpenSell Inc.</h2></NavLink></Navbar.Brand>
                 </div>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
