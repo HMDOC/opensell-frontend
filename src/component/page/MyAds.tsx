@@ -7,12 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { createRandomKey } from "../../services/RandomKeys";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
-import AdPreview from "./AdPreview";
 import { AdMapping } from "./AdView";
-
-interface MyAdsProps {
-    customerId: number;
-}
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -122,7 +117,7 @@ export default class MyAds extends Component<{customerId: number}> {
 
     public render(): ReactNode {
         return (
-            <div className="main-background">
+            <div>
                 {this.state.isPreview ?
                     (
                         <AdMapping request={this.state.currentPromise} />
