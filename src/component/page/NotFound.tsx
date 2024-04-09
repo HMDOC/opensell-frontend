@@ -7,7 +7,7 @@ export default class NotFound extends Component<{}> {
         return(
             <div className="main-background">
                 <p>404 Not-Found</p> 
-                <a href="/">{">"} Go back home {">"}</a>
+                <a href="/home">{">"} Go back home {">"}</a>
                 <LoadingIcon/>
             </div>
         );
