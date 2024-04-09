@@ -23,12 +23,12 @@ export const getAdByLink = async (link: string) => {
     @param filters Any optional filter included in this object will be added to the request
     @author Davide
 */
-export const getAdBySearch = async (searchTags: Array<string>, query: string, filters) => {
+export const getAdBySearch = async (query: string, filters) => {
     filters.query = query;
     //filters.filterSold = false;
     let params = filters;
-
-    return await http.post<AdSearchPreview[]>(`/ad/search`, searchTags, {params})
+    
+    return await http.get<AdSearchPreview[]>(`/ad/search`, {params})
 };
 
 /**

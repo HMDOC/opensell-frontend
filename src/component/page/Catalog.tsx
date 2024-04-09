@@ -81,12 +81,16 @@ const ResultList = (): ReactElement => {
             }
         });
 
+        tmpFilterOptions["adTags"] = searchTags;
+
         setFilterOptions(tmpFilterOptions);
     }, [filtersUpdated]);
 
     useEffect(() => {
         searchBarRef.current.value = searchParams.get("query");
         let tmpFilterOptions = filterOptions;
+        tmpFilterOptions["adTags"] = searchTags;
+        
         searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
             let element: any = document.querySelector(`#${key}`);
@@ -101,9 +105,15 @@ const ResultList = (): ReactElement => {
     useEffect(() => {
         setLoading(true);
 
-        getAdBySearch(searchTags, searchBarRef.current.value, filterOptions).then(res => {
-            setSearchError(errors.regular);
+        let tmpQueryParams: any = filterOptions;
 
+        tmpQueryParams["adTags"] = searchTags;
+
+        setSearchParams(tmpQueryParams);
+
+        getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
+            setSearchError(errors.regular);
+            
             setListOfAds(res?.data);
             setLoading(false);
         }).catch((e: AxiosError) => {
@@ -136,11 +146,6 @@ const ResultList = (): ReactElement => {
             setListOfAds(new Array<AdSearchPreview>());
             setLoading(false);
         });
-
-
-        let tmpQueryParams: any = filterOptions;
-
-        setSearchParams(tmpQueryParams);
 
     }, [searchClick]);
 
