@@ -57,15 +57,3 @@ export const executeChanges = async (requests:string[]) => {
     }
     return resultArray;
 }
-
-// export const getImageFromFile = (file: File): string => {
-//     return URL.createObjectURL(file);
-// }
-
-// export const getImageFromURL = (link: string): string => {
-//     link = "http://dummyimage.com/116x100.png/dddddd/000000";
-   
-//     return null;
-// }
-
-

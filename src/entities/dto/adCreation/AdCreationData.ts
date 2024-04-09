@@ -1,4 +1,3 @@
-import { AdCreationImageData } from "./AdCreationImageData";
 
 export interface AdCreationData {
     adTypeId: number,
@@ -10,7 +9,5 @@ export interface AdCreationData {
     description: string, //
     address: string, //
     reference: string, //
-    tags: string[], //
-    imageData: AdCreationImageData[]
-
+    tags: string[] //
 }
