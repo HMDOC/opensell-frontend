@@ -67,10 +67,10 @@ const ResultList = (): ReactElement => {
 
     const [filtersUpdated, setFiltersUpdated] = useState();
     const filterRef = useRef<HTMLDivElement>();
-    const [filterOptions, setFilterOptions] = useState({});
+    const [filterOptions, setFilterOptions] = useState<any>({ query:"" });
     
     // AdTags
-    const [searchTags, setSearchTags] = useState<Array<string>>([]);
+    const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
     
     useEffect(() => {
         let tmpFilterOptions = {};
@@ -106,9 +106,7 @@ const ResultList = (): ReactElement => {
         setLoading(true);
 
         let tmpQueryParams: any = filterOptions;
-
         tmpQueryParams["adTags"] = searchTags;
-
         setSearchParams(tmpQueryParams);
 
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
