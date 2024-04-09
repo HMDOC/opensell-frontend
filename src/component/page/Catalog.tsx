@@ -52,7 +52,7 @@ const ResultList = (): ReactElement => {
             "Purrhaps you can navigate elsewhere?"
         ],
         unknown: [
-            "Unknown error by us script kitties!",
+            "No unknown errors but us script kitties!",
             "We REALLY don't know what happened!",
             "Purrhaps you should try again?"
         ]
