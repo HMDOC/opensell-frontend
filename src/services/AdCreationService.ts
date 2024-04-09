@@ -1,12 +1,9 @@
-import { ChangeEvent} from "react"
-import { SelectorReader } from "../component/shared/SharedAdPart"
 import { AdType } from "../entities/dto/AdType"
 import { HtmlCode } from "./verification/HtmlCode"
 import { AxiosResponse } from "axios";
 import { AdCreationFeedback } from "../entities/dto/adCreation/AdCreationFeedback";
 import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
 import http from "../../src/http-commons";
-import { AdImage } from "../entities/dto/AdBuyerView";
 import { CreationImage } from "../component/shared/AdImages";
 
 export interface AdCreationInputObject {
@@ -65,7 +62,6 @@ export const formatCreationData = (formData: FormData, tags: string[], customerI
         visibility: parseInt(formData.get("visibility").toString()), //
         reference: formData.get("reference").toString(), //
         title: formData.get("title").toString(), //
-        tags: tags, //
-        imageData: null  //<--
+        tags: tags //
     };
 } 

@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CustomerInfo } from "../../entities/dto/CustomerInfo";
-import * as jose from "jose";
 import { setToken } from "../../services/SetToken";
 
 export default function Login(props) {
@@ -38,7 +37,7 @@ const handleSubmit = (e: any) => {
                 setToken(customerId).then(() => {
                     props.getCustomerInfo();
                 });
-                naviguate("/");
+                naviguate("/home");
                 console.log("Login successful");
             }
             setErrors(errors);
@@ -49,12 +48,13 @@ const handleSubmit = (e: any) => {
 return (
     <div className="main-background">
         <h1>Login</h1>
+        New here? Register <NavLink to="/signup">here</NavLink>
         <form id="form">
             <label>Email or username:</label><br />
             <input type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
             <label>Password:</label><br />
             <input type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
-            <button type="submit" onClick={handleSubmit}>Sign up</button>
+            <button type="submit" onClick={handleSubmit}>Log in</button>
         </form><br />
         {error.creds}
     </div>

@@ -2,8 +2,6 @@ import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
 import { useNavigate } from "react-router-dom";
 import Verification from "./Verification";
-import { setToken } from "../../services/SetToken";
-import { checkLogin } from "../../services/LogInService";
 
 export default function Signup(props: {getCustomerInfo(): void}) {
     const naviguate = useNavigate();
