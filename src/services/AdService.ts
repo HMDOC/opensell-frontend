@@ -28,7 +28,9 @@ export const getAdBySearch = async (query: string, filters) => {
     //filters.filterSold = false;
     let params = filters;
     
-    return await http.get<AdSearchPreview[]>(`/ad/search`, {params})
+    return await http.get<AdSearchPreview[]>(`/ad/search`, {params, paramsSerializer : {
+        indexes : null
+    }})
 };
 
 /**
