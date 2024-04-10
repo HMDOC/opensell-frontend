@@ -27,8 +27,8 @@ const AdCreation = lazy(() => (import("./component/page/AdCreation")));
 export default function App() {
 	const [language, setLanguage] = useState(0);
 	const [customerDto, setCustomerDto] = useState<CustomerDto>();
-	function getCustomerInfo() {
-		getUserInfos("token")?.then((res) => {
+	async function getCustomerInfo() {
+		await getUserInfos("token")?.then((res) => {
 			setCustomerDto(res?.data);
 		});
 	}

@@ -72,6 +72,7 @@ export const getAllAdTags = async () => {
  * @author Achraf
  */
 export const getCustomerAds = async (customerId: number) => {
+    console.log("get it");
     return await http.get<Array<DisplayAdView>>(`/ad/get-customer-ads/${customerId}`);
 };
 

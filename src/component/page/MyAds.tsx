@@ -50,7 +50,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                             <img className="display-post-img" src={this.props.firstImage} />
                             {this.props.isSold ?
                                 (
-                                    <img className="display-post-is-sold" src="./img/vendu.jpg" />
+                                    <img className="display-post-is-sold" src="/img/vendu.jpg" />
                                 ) : (
                                     <></>
                                 )
@@ -105,6 +105,7 @@ export default class MyAds extends Component<{customerId: number}> {
     }
 
     public componentDidMount(): void {
+        console.log(this.props.customerId)
         getCustomerAds(this.props.customerId)
             .then(res => {
                 if (res?.data) {
@@ -112,7 +113,10 @@ export default class MyAds extends Component<{customerId: number}> {
                 } else {
                     this.setState({ isNoAds: true });
                 }
-            })
+            }).catch(()=>{
+                console.log(this.props.customerId)
+                this.componentDidMount();
+            });
     }
 
     public render(): ReactNode {
