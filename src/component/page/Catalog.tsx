@@ -107,6 +107,7 @@ const ResultList = (): ReactElement => {
 
         let tmpQueryParams: any = filterOptions;
         tmpQueryParams["adTags"] = searchTags;
+        tmpQueryParams["query"] = searchBarRef.current.value;
         setSearchParams(tmpQueryParams);
 
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
