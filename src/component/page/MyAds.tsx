@@ -8,6 +8,7 @@ import { createRandomKey } from "../../services/RandomKeys";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 import { AdMapping } from "./AdView";
+import { AxiosError } from "axios";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -112,8 +113,12 @@ export default class MyAds extends Component<{customerId: number}> {
                 } else {
                     this.setState({ isNoAds: true });
                 }
-            }).catch(()=>{
-                this.componentDidMount();
+            }).catch((error:AxiosError)=>{
+                let str:string = error.request.responseURL;
+                
+                if (str.includes("/undefined")){
+                    this.componentDidMount();
+                }
             });
     }
 
