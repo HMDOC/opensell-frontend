@@ -105,7 +105,6 @@ export default class MyAds extends Component<{customerId: number}> {
     }
 
     public componentDidMount(): void {
-        console.log(this.props.customerId)
         getCustomerAds(this.props.customerId)
             .then(res => {
                 if (res?.data) {
@@ -114,7 +113,6 @@ export default class MyAds extends Component<{customerId: number}> {
                     this.setState({ isNoAds: true });
                 }
             }).catch(()=>{
-                console.log(this.props.customerId)
                 this.componentDidMount();
             });
     }
