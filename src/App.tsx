@@ -41,13 +41,13 @@ export default function App() {
 			<Suspense fallback={<LazyLoad />}>
 				<GlobalNavBar username={customerDto?.customerInfo.firstName} link={customerDto?.link} isLogged={customerDto ? true : false} logout={() => setCustomerDto(undefined)} />
 				<Routes>
-					<Route path="/" element={<PrivateRoute />}>
-						<Route path='/my-ads' element={<MyAds customerId={customerDto?.customerId} />}/>
-						<Route path="/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
-						<Route path="/ad-modification/:link" element={<AdModification />}></Route>
-						<Route path="/customer-modification/:link" element={<CustomerModification />}></Route>
+					<Route path="/u" element={<PrivateRoute />}>
+						<Route path='/u/my-ads' element={<MyAds customerId={customerDto?.customerId} />}/>
+						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
+						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
+						<Route path="/u/customer-modification/:link" element={<CustomerModification />}></Route>
 					</Route>
-					<Route path="/home" element={<MainMenu />}></Route>
+					<Route path="/" element={<MainMenu />}></Route>
 					<Route path="/signup" element={<Signup getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/login" element={<Login getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/catalog" element={<Catalog />}></Route>

@@ -68,7 +68,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                     <div className="display-post-options">
                         <Dropdown>
                             <SplitButton variant="dark" title="...">
-                                <DropdownItem as={Link} to={`/ad-modification/${this.props.link}`}>Modify</DropdownItem>
+                                <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`}>Modify</DropdownItem>
                                 <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
                                 <DropdownItem as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                             </SplitButton>
@@ -84,7 +84,7 @@ const CreateAdButton = () => {
     const navigate = useNavigate();
 
     return (
-        <Button onClick={() => navigate("/ad-creation")}>Create One</Button>
+        <Button onClick={() => navigate("/u/ad-creation")}>Create One</Button>
     )
 };
 

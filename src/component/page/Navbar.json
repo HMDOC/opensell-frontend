@@ -1,7 +1,7 @@
 {
         "quickMenu": [
         {
-            "path" : "/home",
+            "path" : "/",
             "label" : "Home"
         },
         {
@@ -15,11 +15,11 @@
     ],
     "dropdownMenu": [
         {
-            "path" : "/my-ads",
+            "path" : "/u/my-ads",
             "label" : "My Ads"
         },
         {
-            "path" : "/settings",
+            "path" : "/u/settings",
             "label" : "Settings"
         }
     ]
