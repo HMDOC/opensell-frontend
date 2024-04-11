@@ -49,8 +49,8 @@ export default function App() {
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
 						<Route path="/u/customer-modification/:link" element={<CustomerModification />}></Route>
-						<Route path="/user/:link" element={<UserProfil />}></Route>
 					</Route>
+					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="/" element={<MainMenu />}></Route>
 					<Route path="/signup" element={<Signup getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/login" element={<Login getCustomerInfo={getCustomerInfo}/>}></Route>

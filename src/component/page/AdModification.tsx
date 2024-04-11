@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getAdToModif, adModification, adModificationTags, saveAdImages } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import "../../css/component/page/AdModif.css";
+import * as Yup from "yup";
+
 import {
     InputType,
     ModifType,

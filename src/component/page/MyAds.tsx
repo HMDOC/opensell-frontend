@@ -114,29 +114,36 @@ const MyAds = (props: { idCustomer?: number }) => {
                 (
                     <AdMapping request={currentAdPreview} />
                 ) : (
+                    <>
+                    <div style={{margin : "20px"}}>
+                        <Button onClick={() => navigate("/u/ad-creation")}>Create Ad</Button>
+                    </div>
+                    {
                     displayAds.length > 0 ?
                         (
                             displayAds?.map(value => (
-                                <DisplayAd
-                                    key={createRandomKey()}
-                                    idAd={value.idAd}
-                                    description={value.description}
-                                    firstImage={value.firstImage}
-                                    isSold={value.isSold}
-                                    price={value.price}
-                                    reference={value.reference}
-                                    title={value.title}
-                                    visibility={value.visibility}
-                                    link={value.link}
-                                    onDelete={(idAd) => onDelete(idAd)}
-                                    seeAdPreview={(idAd) => getCurrentPromise(idAd)}
-                                />))
-                        ) : (
+                            <DisplayAd
+                                key={createRandomKey()}
+                                idAd={value.idAd}
+                                description={value.description}
+                                firstImage={value.firstImage}
+                                isSold={value.isSold}
+                                price={value.price}
+                                reference={value.reference}
+                                title={value.title}
+                                visibility={value.visibility}
+                                link={value.link}
+                                onDelete={(idAd) => onDelete(idAd)}
+                                seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                            />))
+                            ) : (
                             <div className="no-ads-found">
                                 <h4>You have no ads.</h4>
                                 <Button onClick={() => navigate("/u/ad-creation")}>Create One</Button>
                             </div>
-                        )
+                            )
+                        }
+                    </>
                 )
             }
         </>
