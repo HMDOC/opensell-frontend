@@ -34,16 +34,13 @@ const SearchFilters = (props) : ReactElement =>{
                     defaultValue={0} placeholder={`${0}$`} step={25}/>
 
                 <span className="smallInputLabel">
-                    min
+                    to
                 </span>
 
                 <input type="number" name="priceMax" id="priceMax" 
                     className="smallInput" min={0} max={MAX_PRICE} 
                     defaultValue={MAX_PRICE} 
                     placeholder={`${MAX_PRICE}$`} step={25}/>
-                <span className="smallInputLabel">
-                    max
-                </span>
 
                 <h5>Date</h5>
                 <input type="date" name="dateMin" id="dateMin"
