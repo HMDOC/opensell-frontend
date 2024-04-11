@@ -9,6 +9,9 @@ export default function getUserInfos(key: string): Promise<AxiosResponse<Custome
     if (tokenValue != null) {
         var payload = jose.decodeJwt(tokenValue);
         let id: any = payload.idCustomer;
-        return getDto(id);
+
+        if(id) {
+            return getDto(id);
+        }
     } else return undefined;
 }

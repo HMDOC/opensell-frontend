@@ -82,7 +82,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
     }
 }
 
-const MyAds = (props: { idCustomer: number }) => {
+const MyAds = (props: { idCustomer?: number }) => {
     const [displayAds, setDisplayAds] = useState<Array<DisplayAdView>>([]);
     const [isPreview, setIsPreview] = useState<boolean>(false);
     const [currentAdPreview, setCurrentAdPreview] = useState<Promise<AxiosResponse<AdBuyerView, any>>>();

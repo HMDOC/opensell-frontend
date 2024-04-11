@@ -26,10 +26,13 @@ const AdCreation = lazy(() => (import("./component/page/AdCreation")));
 
 export default function App() {
 	const [language, setLanguage] = useState(0);
-	const [customerDto, setCustomerDto] = useState<CustomerDto>();
+	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
+
 	function getCustomerInfo() {
 		getUserInfos("token")?.then((res) => {
-			setCustomerDto(res?.data);
+			if(res?.data) {
+				setCustomerDto(res?.data);
+			}
 		});
 	}
 	useEffect(() => {
@@ -39,20 +42,20 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-				<GlobalNavBar username={customerDto?.customerInfo.firstName} link={customerDto?.link} isLogged={customerDto ? true : false} logout={() => setCustomerDto(undefined)} />
+				<GlobalNavBar username={customerDto?.username} link={customerDto?.link} isLogged={customerDto ? true : false} logout={() => setCustomerDto(undefined)} />
 				<Routes>
-					<Route path="/u" element={<PrivateRoute />}>
+					<Route path="/u" element={<PrivateRoute customerDto={customerDto} />}>
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
 						<Route path="/u/customer-modification/:link" element={<CustomerModification />}></Route>
+						<Route path="/user/:link" element={<UserProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
 					<Route path="/signup" element={<Signup getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/login" element={<Login getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/catalog" element={<Catalog />}></Route>
 					<Route path="/ad/:link" element={<AdView />}></Route>
-					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="/file-uploader/" element={<FileUploader />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
