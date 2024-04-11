@@ -42,7 +42,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-				<GlobalNavBar username={customerDto?.username} link={customerDto?.link} isLogged={customerDto ? true : false} logout={() => setCustomerDto(undefined)} />
+				<GlobalNavBar customerDto={customerDto} logout={() => setCustomerDto(undefined)} />
 				<Routes>
 					<Route path="/u" element={<PrivateRoute customerDto={customerDto} />}>
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>

@@ -26,7 +26,7 @@ export default function Verification(props: {email: string, pwd: string, getCust
                     });
                 });
 
-                navigate("/home");
+                navigate("/");
             }
             else {
                 setMessage("Invalid code");

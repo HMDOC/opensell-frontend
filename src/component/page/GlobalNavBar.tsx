@@ -7,16 +7,18 @@ import "../../css/component/page/GlobalNavBar.css";
 import navLinks from "./Navbar.json";
 import ProfilIcon from './ProfilIcon';
 import { createRandomKey } from '../../services/RandomKeys';
+import { CustomerDto } from '../../entities/dto/CustomerDto';
 
 /**
  * 
  * @author Quoc 
  */
-export default function GlobalNavBar(props): ReactElement {
+export default function GlobalNavBar(props: {customerDto: CustomerDto, logout(): void}): ReactElement {
     const naviguate = useNavigate();
     const b = ({ isActive }) => {
         return isActive ? "is-active" : "center-items"
     };
+    
     const logout = () => {
         props.logout();
         localStorage.removeItem('token');
@@ -38,15 +40,15 @@ export default function GlobalNavBar(props): ReactElement {
                         ))}
                     </Nav>
                     <NavDropdown title={<ProfilIcon src='http://dummyimage.com/124x100.png/ff4444/ffffff' />} id='basic-nav-dropdown'>
-                        <NavDropdown.Item>{props.username}</NavDropdown.Item>
+                        <NavDropdown.Item>{props.customerDto?.username}</NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item key={createRandomKey()} as={Link} to={props.link == undefined ? "/login" : `/user/${props.link}`}>My Profile</NavDropdown.Item>
+                        <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/user/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>
                         {navLinks.dropdownMenu.map((nav) =>
                         (
                             <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
                         ))}
                         <NavDropdown.Divider />
-                            {props.isLogged ? (
+                            {props.customerDto ? (
                                 <NavDropdown.Item style={{fontSize : "20px", fontWeight : "5px"}} onClick={() => logout()}>
                                     Logout
                                 </NavDropdown.Item>
