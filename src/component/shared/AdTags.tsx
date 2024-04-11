@@ -122,6 +122,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
             <input placeholder={props.placeholder}
                 onChange={(e:BaseSyntheticEvent) => onTypeEvent(e)}
+                pattern="[a-z0-9]"
                 onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
             <br />
             {!props.isSearch ?
