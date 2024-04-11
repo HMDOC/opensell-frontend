@@ -1,4 +1,4 @@
-import { Component, PureComponent, ReactNode } from "react";
+import { PureComponent, ReactNode, useEffect, useState } from "react";
 import "../../css/component/page/MyAds.css";
 import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
 import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
@@ -8,7 +8,8 @@ import { createRandomKey } from "../../services/RandomKeys";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 import { AdMapping } from "./AdView";
-import { AxiosError } from "axios";
+import { AxiosResponse } from "axios";
+import { AdBuyerView } from "../../entities/dto/AdBuyerView";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -81,79 +82,65 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
     }
 }
 
-const CreateAdButton = () => {
+const MyAds = (props: { idCustomer: number }) => {
+    const [displayAds, setDisplayAds] = useState<Array<DisplayAdView>>([]);
+    const [isPreview, setIsPreview] = useState<boolean>(false);
+    const [currentAdPreview, setCurrentAdPreview] = useState<Promise<AxiosResponse<AdBuyerView, any>>>();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (props.idCustomer) {
+            getCustomerAds(props.idCustomer)
+                .then(res => {
+                    if (res?.data) {
+                        setDisplayAds(res?.data);
+                    }
+                })
+        }
+    }, [props.idCustomer]);
+
+    function onDelete(idAd: number) {
+        setDisplayAds(displayAds.filter(ad => ad.idAd != idAd));
+    }
+
+    function getCurrentPromise(idAd: number) {
+        setCurrentAdPreview(getCustomerAdPreview(idAd));
+        setIsPreview(true);
+    }
+
     return (
-        <Button onClick={() => navigate("/u/ad-creation")}>Create One</Button>
-    )
-};
-
-export default class MyAds extends Component<{customerId: number}> {
-    public state = {
-        displayAds: new Array<DisplayAdView>(),
-        isNoAds: false,
-        isPreview: false,
-        currentPromise : undefined,
-    };
-
-    public onDelete(idAd: number) {
-        this.setState({ displayAds: this.state.displayAds.filter(ad => ad.idAd != idAd) });
-    }
-
-    public getCurrentPromise(idAd: number) {
-        this.setState({currentPromise : getCustomerAdPreview(idAd), isPreview : true});
-    }
-
-    public componentDidMount(): void {
-        getCustomerAds(this.props.customerId)
-            .then(res => {
-                if (res?.data) {
-                    this.setState({ displayAds: res?.data });
-                } else {
-                    this.setState({ isNoAds: true });
-                }
-            }).catch((error:AxiosError)=>{
-                let str:string = error.request.responseURL;
-                
-                if (str.includes("/undefined")){
-                    this.componentDidMount();
-                }
-            });
-    }
-
-    public render(): ReactNode {
-        return (
-            <div>
-                {this.state.isPreview ?
-                    (
-                        <AdMapping request={this.state.currentPromise} />
-                    ) : (
-                        this.state.displayAds.length > 0 ?
-                        (this.state.displayAds?.map(value => (
-                            <DisplayAd
-                                key={createRandomKey()}
-                                idAd={value.idAd}
-                                description={value.description}
-                                firstImage={value.firstImage}
-                                isSold={value.isSold}
-                                price={value.price}
-                                reference={value.reference}
-                                title={value.title}
-                                visibility={value.visibility}
-                                link={value.link}
-                                onDelete={(idAd) => this.onDelete(idAd)}
-                                seeAdPreview={(idAd) => this.getCurrentPromise(idAd)}
-                            />
-                        ))) : (
+        <>
+            {isPreview ?
+                (
+                    <AdMapping request={currentAdPreview} />
+                ) : (
+                    displayAds.length > 0 ?
+                        (
+                            displayAds?.map(value => (
+                                <DisplayAd
+                                    key={createRandomKey()}
+                                    idAd={value.idAd}
+                                    description={value.description}
+                                    firstImage={value.firstImage}
+                                    isSold={value.isSold}
+                                    price={value.price}
+                                    reference={value.reference}
+                                    title={value.title}
+                                    visibility={value.visibility}
+                                    link={value.link}
+                                    onDelete={(idAd) => onDelete(idAd)}
+                                    seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                                />))
+                        ) : (
                             <div className="no-ads-found">
                                 <h4>You have no ads.</h4>
-                                <CreateAdButton />
+                                <Button onClick={() => navigate("/u/ad-creation")}>Create One</Button>
                             </div>
                         )
-                    )
-                }
-            </div>
-        );
-    }
-};
+                )
+            }
+        </>
+    );
+}
+
+export default MyAds;

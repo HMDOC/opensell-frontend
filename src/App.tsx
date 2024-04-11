@@ -42,7 +42,7 @@ export default function App() {
 				<GlobalNavBar username={customerDto?.customerInfo.firstName} link={customerDto?.link} isLogged={customerDto ? true : false} logout={() => setCustomerDto(undefined)} />
 				<Routes>
 					<Route path="/u" element={<PrivateRoute />}>
-						<Route path='/u/my-ads' element={<MyAds customerId={customerDto?.customerId} />}/>
+						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
 						<Route path="/u/customer-modification/:link" element={<CustomerModification />}></Route>
