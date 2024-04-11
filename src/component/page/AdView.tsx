@@ -92,7 +92,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                             <ProfilIcon src={adBuyerView?.userIcon} />
                         </Link>
 
-                        <Link className="user-profil-username" to={`/u/${adBuyerView?.userLink}`}>
+                        <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>
                             {adBuyerView?.username}
                         </Link>
                     </div>
