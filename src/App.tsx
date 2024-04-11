@@ -12,7 +12,7 @@ import { CustomerDto } from './entities/dto/CustomerDto';
 
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
 const Signup = lazy(() => (import("./component/page/signup")));
-const Login = lazy(() => (import("./component/page/login")));
+const Login = lazy(() => (import("./component/page/Login")));
 const AdView = lazy(() => (import("./component/page/AdView")));
 const UserProfil = lazy(() => (import("./component/page/UserProfil")));
 const NotFound = lazy(() => (import("./component/page/NotFound")));
@@ -48,7 +48,7 @@ export default function App() {
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
-						<Route path="/u/customer-modification/:link" element={<CustomerModification />}></Route>
+						<Route path="/u/customer-modification/" element={<CustomerModification link={customerDto?.link} />}></Route>
 						<Route path="/user/:link" element={<UserProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
