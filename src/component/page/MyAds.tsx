@@ -1,5 +1,6 @@
 import { PureComponent, ReactNode, useEffect, useState } from "react";
 import "../../css/component/page/MyAds.css";
+import "../../css/component/part/ImageFit.css";
 import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
 import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
@@ -49,7 +50,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                 <div className="display-post">
                     <div className="display-post-flex-with-img-desc">
                         <div className="dislay-post-img-section">
-                            <img className="display-post-img" src={this.props.firstImage} />
+                            <img className="display-post-img imgFit" src={this.props.firstImage} />
                             {this.props.isSold ?
                                 (
                                     <img className="display-post-is-sold" src="/img/vendu.jpg" />
