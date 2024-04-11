@@ -44,7 +44,7 @@ export default function App() {
 			<Suspense fallback={<LazyLoad />}>
 				<GlobalNavBar customerDto={customerDto} logout={() => setCustomerDto(undefined)} />
 				<Routes>
-					<Route path="/u" element={<PrivateRoute customerDto={customerDto} />}>
+					<Route path="/u" element={<PrivateRoute />}>
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>

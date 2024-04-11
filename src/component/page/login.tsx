@@ -37,7 +37,7 @@ const handleSubmit = (e: any) => {
                 setToken(customerId).then(() => {
                     props.getCustomerInfo();
                 });
-                naviguate("/home");
+                naviguate("/");
                 console.log("Login successful");
             }
             setErrors(errors);

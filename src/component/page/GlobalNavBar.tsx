@@ -8,6 +8,8 @@ import navLinks from "./Navbar.json";
 import ProfilIcon from './ProfilIcon';
 import { createRandomKey } from '../../services/RandomKeys';
 import { CustomerDto } from '../../entities/dto/CustomerDto';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * 
@@ -18,18 +20,23 @@ export default function GlobalNavBar(props: {customerDto: CustomerDto, logout():
     const b = ({ isActive }) => {
         return isActive ? "is-active" : "center-items"
     };
-    
+
     const logout = () => {
         props.logout();
         localStorage.removeItem('token');
-        naviguate('/home');
+        naviguate('/');
     }
 
     return (
         <>
             <Navbar expand="lg" className="mb-2 nav">
                 <div className='nav-left'>
-                    <Navbar.Brand className='nav-title'><NavLink to="/home"><img src="/img/opensell-logo.png" alt="Opensell logo" className="brand-logo" /><h2>OpenSell Inc.</h2></NavLink></Navbar.Brand>
+                    <Navbar.Brand className='nav-title'>
+                        <NavLink to="/">
+                            <img src="/img/opensell-logo.png" alt="Opensell logo" className="brand-logo" />
+                            <h2>OpenSell Inc.</h2>
+                            </NavLink>
+                    </Navbar.Brand>
                 </div>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
@@ -39,7 +46,14 @@ export default function GlobalNavBar(props: {customerDto: CustomerDto, logout():
                             <NavLink key={createRandomKey()} className={b} to={nav.path}>{nav.label}</NavLink>
                         ))}
                     </Nav>
-                    <NavDropdown title={<ProfilIcon src='http://dummyimage.com/124x100.png/ff4444/ffffff' />} id='basic-nav-dropdown'>
+                    <NavDropdown title={
+                        props.customerDto?.customerInfo?.iconPath ?
+                            (
+                                <ProfilIcon src={props.customerDto?.customerInfo?.iconPath} />
+                            ) : (
+                                <FontAwesomeIcon size="2x" icon={faUser} />
+                            )
+                    } id='basic-nav-dropdown'>
                         <NavDropdown.Item>{props.customerDto?.username}</NavDropdown.Item>
                         <NavDropdown.Divider />
                         <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/user/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>

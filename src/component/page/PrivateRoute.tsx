@@ -1,11 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
 import getUserInfos from "../../services/GetUser";
-import { CustomerDto } from "../../entities/dto/CustomerDto";
 
-export default function PrivateRoute(props: {customerDto: CustomerDto}) {
-    console.log(props.customerDto);
-    
+export default function PrivateRoute() {
+    const customerInfo = getUserInfos('token');
+
     return (
-        props.customerDto ? <Outlet /> : <Navigate to="/login" />
-    )
+        customerInfo ? <Outlet /> : <Navigate to="/login" />
+    );
 }
