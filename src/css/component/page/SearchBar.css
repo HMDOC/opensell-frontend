@@ -40,12 +40,11 @@
 }
 
 .smallInput{
-    width: 30%;
+    width: 40%;
 }
 
 .smallInputLabel{
-    width: 3%;
-    padding-right: 1px;
+    padding: 0 3px;
 }
 
 input{
