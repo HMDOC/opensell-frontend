@@ -60,7 +60,7 @@ export default function GlobalNavBar(props: {customerDto: CustomerDto, logout():
                             <NavDropdown.Divider />
                         </>
                         )}
-                        <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/u/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>
+                        <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/user/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>
                         {navLinks.dropdownMenu.map((nav) =>
                         (
                             <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
