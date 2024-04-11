@@ -12,8 +12,7 @@ import Loading from "../part/Loading";
  * @author Olivier Mansuy
  *
  */
-export default function CustomerModification() {
-    const {link} = useParams();
+export default function CustomerModification(props: {link: string}) {
     const [view, setView] = useState<CustomerModificationView>(null);
     const [inAlternateForm, setInAlternateForm] = useState(false);
     const {icon, username, firstName, lastName, exposedEmail, primaryAddress, bio, personalEmail, pwd, phoneNumber, social1, social2, social3, social4, social5} = formInformation;
@@ -24,12 +23,13 @@ export default function CustomerModification() {
     const [iconImage, setIconImage] = useState(null);
    
     useEffect(() => {
-        getCustomerModificationView(link).then((rep) => {
-            setView(rep?.data);
-        })
-        
+        if(props.link) {
+            getCustomerModificationView(props.link).then((rep) => {
+                setView(rep?.data);
+            })
+        }
         setIsLoading(false);
-    }, [])
+    }, [props.link])
 
     const [formValues, setFormValues] = useState(initialState);
 
@@ -110,9 +110,9 @@ export default function CustomerModification() {
         let formData = getFormData(event);
         let value = formData.get(name).toString();
         if (copyOfInputIsValid(formData, name) && formValues[name].isValid) {
-            await checkSamePwd(link, value.toString()).then(async(rep) => {
+            await checkSamePwd(props.link, value.toString()).then(async(rep) => {
                 if (rep?.data == 0) {
-                    await executeChange(getRequest(link, name, value)).then((rep) => {
+                    await executeChange(getRequest(props.link, name, value)).then((rep) => {
                         console.log(rep);
                         setOperationFeedback(feedback.CHANGE_SUCCESFUL);
                     });
@@ -132,7 +132,7 @@ export default function CustomerModification() {
         if (isValid) {
             await getCheckResult(getRequest(null, name, value)).then(async(rep) => {
                 if (rep?.data == 0) {
-                    await executeChange(getRequest(link, name, value)).then((response) => {
+                    await executeChange(getRequest(props.link, name, value)).then((response) => {
                         setOperationFeedback(response?.data.value);
                     })
                 } else {
@@ -153,7 +153,7 @@ export default function CustomerModification() {
         if (copyOfInputIsValid(formData, name) && isValid) {
             await getCheckResult(getRequest(null, name, value)).then(async(rep) => {
                 if (rep?.data == 0) {
-                    await executeChange(getRequest(link, name, value)).then((response) => {
+                    await executeChange(getRequest(props.link, name, value)).then((response) => {
                         setOperationFeedback(response?.data.value);
                     })
                 } else {
@@ -170,7 +170,7 @@ export default function CustomerModification() {
         const {isValid, value} = formValues[icon.name];
         //change to regex
         if (isValid) {
-            await executeChange(getRequest(link, icon.name, value.split("\\").join("/"))).then((rep) => {
+            await executeChange(getRequest(props.link, icon.name, value.split("\\").join("/"))).then((rep) => {
                 console.log(rep);
             })
         }
@@ -183,7 +183,7 @@ export default function CustomerModification() {
                 let requestArray: string[] = [];
 
                 getFormData(event).forEach((value: string, key:string) => {
-                    if (formValues?.[key]?.isValid) { requestArray.push(getRequest(link, key, value)); } 
+                    if (formValues?.[key]?.isValid) { requestArray.push(getRequest(props.link, key, value)); } 
                 })       
 
                 //needs better feedback...
