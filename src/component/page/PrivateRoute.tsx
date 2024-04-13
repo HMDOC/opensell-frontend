@@ -1,4 +1,4 @@
-import { Component, ReactNode } from "react";
+import { Component, ReactNode, useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import getUserInfos from "../../services/GetUser";
 import Loading from "../part/Loading";
@@ -13,47 +13,41 @@ interface PrivateRouteState {
     isResolved: ValidationCase;
 }
 
-export default class PrivateRoute extends Component<any, PrivateRouteState> {
-    public state: Readonly<PrivateRouteState> = {
-        isResolved: ValidationCase.IN_PROGRESS,
-    };
+export default function PrivateRoute() {
+    const [validationCase, setValidationCase] = useState<ValidationCase>(ValidationCase.IN_PROGRESS);
 
-    public componentDidMount(): void {
+    useEffect(() => {
         let promise = getUserInfos("token");
-        
-        if(promise) {
+
+        if (promise) {
             promise.then(res => {
                 if (res?.data) {
-                    this.setState({ isResolved : ValidationCase.VALID });
+                    setValidationCase(ValidationCase.VALID);
                 } else {
                     localStorage.removeItem("token");
-                    this.setState({ isResolved : ValidationCase.INVALID });
+                    setValidationCase(ValidationCase.INVALID);
                 }
             })
-        } 
-        
-        else {
-            this.setState({ isResolved : ValidationCase.INVALID });
+        } else {
+            setValidationCase(ValidationCase.INVALID);
         }
-    }
+    }, [])
 
-    public render(): ReactNode {
-        return (
-            <>
-                {this.state.isResolved == ValidationCase.IN_PROGRESS ?
-                    (
-                        <>
-                            <Loading />
-                        </>
-                    ) : (
-                        <>
-                            {
-                                this.state.isResolved == ValidationCase.VALID ? <Outlet /> : <Navigate to="/login" />
-                            }
-                        </>
-                    )
-                }
-            </>
-        );
-    }
+    return (
+        <>
+            {validationCase == ValidationCase.IN_PROGRESS ?
+                (
+                    <>
+                        <Loading />
+                    </>
+                ) : (
+                    <>
+                        {
+                            validationCase == ValidationCase.VALID ? <Outlet /> : <Navigate to="/login" />
+                        }
+                    </>
+                )
+            }
+        </>
+    );
 }
