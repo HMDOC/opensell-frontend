@@ -9,10 +9,6 @@ enum ValidationCase {
     IN_PROGRESS
 }
 
-interface PrivateRouteState {
-    isResolved: ValidationCase;
-}
-
 export default function PrivateRoute() {
     const [validationCase, setValidationCase] = useState<ValidationCase>(ValidationCase.IN_PROGRESS);
 
