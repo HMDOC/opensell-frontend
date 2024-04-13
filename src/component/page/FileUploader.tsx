@@ -26,10 +26,16 @@ export default class FileUploader extends Component {
     }
 
     public handleChange(e: any): void {
-        Yup.string().min(0, " cannot be empty").max(10, "Max length").validate(e.target.value).then(res => {
-            this.setState({ error: res })
-        }
-        );
+        var b = Yup.object({name: Yup.string()
+                                        .required("Need to be fufiled").max(10, "no more than 10").min(3, "no less than one")})
+        
+        b.validate({"name": e.target.value}).then(res => {
+            if(this.state.error.length != 0) {
+                this.setState({error : ""});
+            }
+        }).catch(e => {
+            this.setState({error : e.message});
+        });
     }
 
     public render(): ReactNode {
@@ -37,9 +43,12 @@ export default class FileUploader extends Component {
             <div className="main-background">
                 <input ref={this.fileInputRef} onChange={this.addFile.bind(this)} type="file" multiple />
 
+                <br />
                 <label>Test: </label>
-                {!this.state.error ? this.state.error : ""}
-                <input onChange={(this.handleChange)} />
+                <br />
+                {this.state.error.length != 0 ? this.state.error : ""}
+                <br />
+                <input onChange={(e) => this.handleChange(e)} />
 
                 {this.state.customerImages.map((image, index) => (
                     <p></p>
