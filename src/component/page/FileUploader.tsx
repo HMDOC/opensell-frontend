@@ -1,5 +1,12 @@
 import { Component, ReactNode, ChangeEvent, RefObject, createRef } from "react";
-import * as Yup from "yup";
+import { NumberSchema, StringSchema } from "yup";
+
+function notEmptyWithMaxAndMin(max: number, min: number) {
+    return new NumberSchema()
+        .required(" cannot be empty")
+        .max(max, ` length cannot be more than ${max}`)
+        .min(min, ` length cannot be less than ${min}`);
+}
 
 export default class FileUploader extends Component {
     public fileInputRef: RefObject<HTMLInputElement> = createRef();
@@ -26,15 +33,14 @@ export default class FileUploader extends Component {
     }
 
     public handleChange(e: any): void {
-        var b = Yup.object({name: Yup.string()
-                                        .required("Need to be fufiled").max(10, "no more than 10").min(3, "no less than one")})
-        
-        b.validate({"name": e.target.value}).then(res => {
-            if(this.state.error.length != 0) {
-                this.setState({error : ""});
+        var b = notEmptyWithMaxAndMin(10, 2);
+
+        b.validate(e.target.value).then(res => {
+            if (this.state.error.length != 0) {
+                this.setState({ error: "" });
             }
         }).catch(e => {
-            this.setState({error : e.message});
+            this.setState({ error: e.message });
         });
     }
 
@@ -48,7 +54,8 @@ export default class FileUploader extends Component {
                 <br />
                 {this.state.error.length != 0 ? this.state.error : ""}
                 <br />
-                <input onChange={(e) => this.handleChange(e)} />
+                <input defaultValue={"123"} onChange={(e) => this.handleChange(e)} />
+                <input type="number" onChange={(e) => this.handleChange(e)} />
 
                 {this.state.customerImages.map((image, index) => (
                     <p></p>

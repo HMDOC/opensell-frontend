@@ -1,4 +1,4 @@
-import { Component, ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import getUserInfos from "../../services/GetUser";
 import Loading from "../part/Loading";

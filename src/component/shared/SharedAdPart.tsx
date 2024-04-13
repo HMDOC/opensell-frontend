@@ -3,6 +3,7 @@ import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
 import { createRandomKey } from "../../services/RandomKeys";
+import { Schema, StringSchema } from "yup";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
@@ -15,7 +16,6 @@ export const MAX_PRICE = 999990;
  */
 export enum ModifType {
     TITLE,
-    REFERENCE,
     PRICE,
     AD_TYPE,
     ADDRESS,
@@ -60,8 +60,7 @@ export interface SimpleInputProps extends AdInputProps {
     /**
      * @return 0 if value is good other number if it is a bad value.
     */
-    checkValue(value: any): number;
-    getErrorType(error: number): string;
+    verifyProperty?: Schema;
 }
 
 export class SimpleInput extends PureComponent<SimpleInputProps> {
@@ -72,17 +71,31 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     public cancelRef = createRef<HTMLButtonElement>();
 
     public state = {
-        error: 0,
+        error: "",
         isEditing: false,
     };
 
-    public handleError(value: any): number {
-        var error = this.props.checkValue(value);
-        if (error != this.state.error) this.setState({ error: error });
-        return error;
+    public handleError(value: any) {
+        if (this.props.verifyProperty) {
+
+            let isError = false;
+            console.log("First : " + value);
+            this.props.verifyProperty
+                .validate(value)
+                .catch(error => {
+                    this.setState({ error: error.message });
+                    isError = true;
+                    console.log(isError);
+                })
+                .finally(() => {
+                    if (!isError && this.state.error) {
+                        this.setState({ error: "" });
+                    }
+                })
+        }
     }
 
-    public handleChange(e: ChangeEvent<any>): void {
+    public handleChange(e: any): void {
         this.handleError(e.target.value);
     }
 
@@ -102,31 +115,34 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
         adModification(this.props.modifType, this.inputRef.current.checked, this.props.idAd)
             .then(res => {
                 if (res?.data === 200) {
-                    this.setState({ isEditing: false, error: res?.data });
-                } else this.setState({ error: res?.data });
+                    this.setState({ isEditing: false, error: "" });
+                } else this.setState({ error: ` serveur error #${res?.data}` });
             });
     }
 
     public save() {
         if (this.oldValue == this.inputRef.current.value) {
-            this.setState({ error: HtmlCode.VALUE_AS_NOT_CHANGE });
+            this.setState({ error: " no change as been made" });
         }
 
-        else if (this.handleError(this.inputRef.current.value) == HtmlCode.SUCCESS) {
+        else if (!this.state.error) {
             adModification(this.props.modifType, this.inputRef.current.value, this.props.idAd)
                 .then(res => {
-                    if (res?.data === 200) {
-                        this.setState({ isEditing: false, error: res?.data });
-                    } else this.setState({ error: res?.data });
+                    if (res?.data === HtmlCode.SUCCESS) {
+                        this.setState({ isEditing: false, error: "" });
+                    } else if (res?.data === HtmlCode.UNIQUE_FAILED) {
+                        this.setState({ isEditing: false, error: " already exists" });
+                    }
+
+                    else this.setState({ error: ` serveur error #${res?.data}` });
                 });
         }
     }
 
-
     public render(): ReactNode {
         return (
             <>
-                <label>{this.props.name} {this.state.error != 0 ? this.props.getErrorType(this.state.error) : ""}</label>
+                <label>{this.props.name} <span style={{ color: "red" }}>{this.state.error ? this.state.error : ""}</span></label>
                 <div>
                     {this.props.type == InputType.TEXTARIA ?
                         (
@@ -150,12 +166,12 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                                 )
                         )
                     }
-                    
+
                     {this.state.isEditing && this.props.type != InputType.ONE_CHECKBOX ?
                         (
                             <>
-                                <button ref={this.cancelRef} onClick={this.cancel.bind(this)}>x</button>
-                                <button ref={this.saveRef} onClick={this.save.bind(this)}>v</button>
+                                <button ref={this.cancelRef} onClick={() => this.cancel()}>x</button>
+                                <button ref={this.saveRef} onClick={() => this.save()}>v</button>
                             </>
                         ) : (
                             <>
