@@ -2,10 +2,9 @@ import { Component, ReactNode, ChangeEvent, RefObject, createRef } from "react";
 import { NumberSchema, StringSchema } from "yup";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
-    return new NumberSchema()
-        .required(" cannot be empty")
-        .max(max, ` length cannot be more than ${max}`)
-        .min(min, ` length cannot be less than ${min}`);
+    return new StringSchema()
+        .matches(new RegExp("^(?=.{1,64}@)[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)*@[a-z]+(\.[a-zA-Z]+)+[a-zA-Z]$"), " is not valid email")
+        .required(" cannot be empty");
 }
 
 export default class FileUploader extends Component {
@@ -54,8 +53,7 @@ export default class FileUploader extends Component {
                 <br />
                 {this.state.error.length != 0 ? this.state.error : ""}
                 <br />
-                <input defaultValue={"123"} onChange={(e) => this.handleChange(e)} />
-                <input type="number" onChange={(e) => this.handleChange(e)} />
+                <input onChange={(e) => this.handleChange(e)} />
 
                 {this.state.customerImages.map((image, index) => (
                     <p></p>
