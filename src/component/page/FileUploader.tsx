@@ -3,7 +3,6 @@ import { NumberSchema, StringSchema } from "yup";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
     return new StringSchema()
-        .matches(new RegExp("^(?=.{1,64}@)[a-zA-Z0-9_-]+(\.[a-zA-Z0-9]+)*@[a-z]+(\.[a-zA-Z]+)+[a-zA-Z]$"), " is not valid email")
         .required(" cannot be empty");
 }
 
@@ -53,7 +52,7 @@ export default class FileUploader extends Component {
                 <br />
                 {this.state.error.length != 0 ? this.state.error : ""}
                 <br />
-                <input onChange={(e) => this.handleChange(e)} />
+                <input defaultValue={12} onChange={(e) => this.handleChange(e)} />
 
                 {this.state.customerImages.map((image, index) => (
                     <p></p>

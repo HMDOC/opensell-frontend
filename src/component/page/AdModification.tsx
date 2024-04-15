@@ -155,7 +155,8 @@ export default function AdModification(): ReactElement {
                         name={value?.name}
                         type={value?.type}
                         isNumber={value?.isNumber}
-                        verifyProperty={value.verifyProperty} />
+                        verifyProperty={value.verifyProperty} 
+                        key={createRandomKey()} />
                 ))}
 
                 <AdImages
