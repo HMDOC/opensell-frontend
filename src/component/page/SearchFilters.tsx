@@ -1,4 +1,4 @@
-import {ReactElement, useEffect, useState } from "react";
+import {ReactElement, useState } from "react";
 import "../../css/component/page/SearchBar.css";
 import { MAX_PRICE, SHAPE_ARRAY } from "../shared/SharedAdPart";
 import AdTypeSelect from "../shared/AdTypeSelect";
