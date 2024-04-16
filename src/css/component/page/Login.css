@@ -1,3 +1,49 @@
 .inputForm {
     width: 20%;
+    background-color: #D9D9D9;
+    border: 1px solid var(--sr2);
+    border-radius: 5px;
+    width: 50%;
+    height: 35px;
+    padding: 10px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+.login-background {
+    width: 95%;
+    height: 750px;
+    margin: 30px auto auto auto;
+    background-image: url("../../../../public/img/login_background.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+    border-radius: 20px;
+    padding: 40px 550px 40px 550px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+.front-login-background {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(220,233,252, 0.5);
+    margin: auto;
+    padding: 60px 10px 10px 10px;
+    border-radius: 15px;
+    display: block;
+}
+
+.login-separator {
+    margin: auto;
+    width: 25%;
+    border: 1px solid #232751;
+    margin-bottom: 30px;
+}
+
+.login-button {
+    padding: 7px;
+    background-color: var(--sr2);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 50%;
+    font-weight: bold;
 }
