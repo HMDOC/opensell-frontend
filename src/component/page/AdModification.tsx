@@ -4,7 +4,7 @@ import "../../css/component/page/AdModif.css";
 import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 
-import { boolean, BooleanSchema, NumberSchema, StringSchema } from "yup";
+import { BooleanSchema, NumberSchema, StringSchema } from "yup";
 import { AdImage } from "../../entities/dto/AdBuyerView";
 import { AdModifView } from "../../entities/dto/AdModifView";
 import { createRandomKey } from "../../services/RandomKeys";
@@ -88,8 +88,9 @@ export default function AdModification(): ReactElement {
     const [ad, setAd] = useState<AdModifView>(undefined);
     const navigate = useNavigate();
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
-    const [error, setError] = useState<HtmlCode>(HtmlCode.SUCCESS);
+    const [errorTags, setErrorTags] = useState<HtmlCode>(HtmlCode.SUCCESS);
     const [adImages, setAdImages] = useState<Array<AdImage>>([]);
+    const [errorImages, setErrorImages] = useState<string>();
 
     const [oldTags, setOldTags] = useState({
         isOldValueSaved: false,
@@ -123,7 +124,7 @@ export default function AdModification(): ReactElement {
         setOldTags({ ...oldTags, isOldValueSaved: false });
         if (isReset) setAdTags(oldTags.tagsForReset);
         setIsEditing(false);
-        setError(HtmlCode.SUCCESS);
+        setErrorTags(HtmlCode.SUCCESS);
     }
 
     function save() {
@@ -160,6 +161,8 @@ export default function AdModification(): ReactElement {
                 ))}
 
                 <AdImages
+                    setError={setErrorImages}
+                    error={errorImages}
                     idAd={ad?.idAd}
                     images={adImages}
                     reset={(backup) => setAdImages(backup)}
@@ -168,8 +171,8 @@ export default function AdModification(): ReactElement {
                 />
 
                 <AdTags
-                    error={error}
-                    setError={setError}
+                    error={errorTags}
+                    setError={setErrorTags}
                     tags={adTags}
                     addTag={addEvent}
                     deleteTag={deleteEvent}

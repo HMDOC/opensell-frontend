@@ -1,4 +1,4 @@
-import { Component, ReactNode, ReactElement, useRef, ChangeEvent } from "react";
+import { ReactElement } from "react";
 import "../../css/component/page/SearchBar.css";
 import SearchFilters from "./SearchFilters";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

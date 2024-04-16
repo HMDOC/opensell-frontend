@@ -1,4 +1,4 @@
-import { Component, ReactElement, ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { ReactElement, useEffect, useRef, useState } from "react";
 import SearchBar from "./SearchBar";
 import AdPreview from "./AdPreview";
 import "../../css/component/page/Catalog.css"

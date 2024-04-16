@@ -12,6 +12,7 @@ export interface AdImage {
     isLocal: boolean;
 }
 
+
 /**
  * Interface that contain the essential data that a user need to see
  * when clicking on ad.
