@@ -1,5 +1,5 @@
 import { Component, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
-import "../../css/component/page/LoadingIcon.css"
+import "../../css/component/page/LoadingIconPrevious.css"
 const LoadingIcon = () : ReactElement => {
     return (
         <div id="loadingIcon">

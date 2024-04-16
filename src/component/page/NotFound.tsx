@@ -1,6 +1,5 @@
 import { Component, ReactNode } from "react";
 import LoadingIcon from "../part/LoadingIcon"; 
-import "../../css/component/page/LoadingIcon.css"
 
 export default class NotFound extends Component<{}> {
     public render(): ReactNode {
