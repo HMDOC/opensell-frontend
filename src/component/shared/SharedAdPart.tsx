@@ -71,11 +71,14 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     public cancelRef = createRef<HTMLButtonElement>();
 
     public onBlur() {
-        if(document.activeElement != this.inputRef.current && document.activeElement != this.saveRef.current && document.activeElement != this.cancelRef.current) {
-            if(this.state.isEditing) {
-                this.setState({isEditing : false});
-            }
-        }
+        // NOT WORKING
+        // if(document.activeElement != this.inputRef.current && document.activeElement != this.saveRef.current && document.activeElement != this.cancelRef.current) {
+        //     console.log("Yes it is first");
+
+        //     if(this.state.isEditing) {
+        //         this.setState({isEditing : false});
+        //     }
+        // }
     }
 
     public state = {

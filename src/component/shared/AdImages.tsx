@@ -16,6 +16,8 @@ interface AdImagesProps {
     idAd?: number;
     isModification?: boolean;
     reset?(backup: Array<AdImage>): void;
+    error: string;
+    setError(error: string): void;
 
     // Only for Creation
     creationImages?: Array<CreationImage>;
@@ -28,7 +30,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
     public state = {
         imgsToDelete: "",
-        temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>(),
+        temporaryFileUrls: new Array<{ path: string, isOldImg: boolean, file: File }>(),
         isEditing: false
     };
 
@@ -38,26 +40,26 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
         files.forEach(file => {
             let url = URL.createObjectURL(file);
-            imgObjects.push({path: url, isOldImg: false, file: file});
+            imgObjects.push({ path: url, isOldImg: false, file: file });
 
-            if(!this.props.isModification) {
-                tmpCreationImage.push({file: file, id: url});
+            if (!this.props.isModification) {
+                tmpCreationImage.push({ file: file, id: url });
             }
         });
 
-        if(!this.props.isModification) {
+        if (!this.props.isModification) {
             this.props.updateCreationImages(tmpCreationImage, false);
         }
 
-        this.setState({temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects]})
+        this.setState({ temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects] })
     }
 
-    public getUrls = (): Array<{path: string, isOldImg: boolean}> => {
+    public getUrls = (): Array<{ path: string, isOldImg: boolean }> => {
         let urlArray = [];
-        
-        if(this.props.isModification) {
+
+        if (this.props.isModification) {
             this.props.images?.forEach(img => {
-                urlArray.push({path: img.path, isOldImg: true});
+                urlArray.push({ path: img.path, isOldImg: true });
             })
 
             return [...urlArray, ...this.state.temporaryFileUrls];
@@ -68,13 +70,40 @@ export class AdImages extends PureComponent<AdImagesProps> {
         }
     }
 
+    componentDidUpdate(prevProps: Readonly<AdImagesProps>, prevState: Readonly<{}>, snapshot?: any): void {
+        console.log(this.state.temporaryFileUrls);
+    }
+
     public componentWillUnmount(): void {
         for (let url of Array.from(this.urlToDelete)) URL.revokeObjectURL(url);
     }
 
     public setIsEditing(isEditing: boolean = true): void {
-        if(this.state.isEditing != isEditing) {
-            this.setState({isEditing});
+        if (this.state.isEditing != isEditing) {
+            this.setState({ isEditing });
+        }
+    }
+
+    public getError(isDelete = false): boolean {
+        let error = "";
+        console.log("IMG LENGTH : " + this.props.images);
+
+        if (this.props.images.length == 1 && isDelete) {
+            error = " need to be at least one";
+
+            if (error != this.props.error) {
+                this.props.setError(error);
+            }
+
+            return true;
+        }
+
+
+        else {
+            if (error) {
+                this.props.setError("");
+            }
+            return false;
         }
     }
 
@@ -88,55 +117,63 @@ export class AdImages extends PureComponent<AdImagesProps> {
         e.target.value = null;
     }
 
-    public deleteImg(currentImg: {path: string, isOldImg: boolean}): void {
+    public deleteImg(currentImg: { path: string, isOldImg: boolean }): void {
         this.setIsEditing();
         this.saveBackup();
 
-        if(currentImg.isOldImg) {
-            let completeImg = this.props.images.find(img => img.path == currentImg.path);
-            this.props.removeImage(completeImg.path);
+        if (!this.getError(true)) {
 
-            this.setState({imgsToDelete : this.state.imgsToDelete.concat(
-                `${this.props.images.find(img => img.path == currentImg.path).idAdImage},`
-            )});
-        }
+            if (currentImg.isOldImg) {
+                let completeImg = this.props.images.find(img => img.path == currentImg.path);
+                this.props.removeImage(completeImg.path);
 
-        else {
-            let imgDelete = this.state.temporaryFileUrls.find(img => img.path == currentImg.path);
-
-            this.setState({temporaryFileUrls: this.state.temporaryFileUrls.filter(img => img != imgDelete)})
-
-            if(!this.props.isModification) {
-                this.props.updateCreationImages([{file : null, id : currentImg.path}], true)
+                this.setState({
+                    imgsToDelete: this.state.imgsToDelete.concat(
+                        `${this.props.images.find(img => img.path == currentImg.path).idAdImage},`
+                    )
+                });
             }
 
-            this.urlToDelete.add(currentImg.path);
+            else {
+                let imgDelete = this.state.temporaryFileUrls.find(img => img.path == currentImg.path);
+
+                this.setState({ temporaryFileUrls: this.state.temporaryFileUrls.filter(img => img != imgDelete) })
+
+                if (!this.props.isModification) {
+                    this.props.updateCreationImages([{ file: null, id: currentImg.path }], true)
+                }
+
+                this.urlToDelete.add(currentImg.path);
+            }
         }
     }
 
     public save() {
-        saveAdImages(this.state.temporaryFileUrls.map(img => img.file), 
-                     this.props.idAd, 
-                     true, this.state.imgsToDelete).then(res => {
-                        if(res?.data) {
-                            this.props.reset(res?.data);
-                            this.saveBackup(res?.data, true)
-                            this.setState({temporaryFileUrls: [], isEditing: false});
-                        }
-                     });
+        if (!this.getError()) {
+            saveAdImages(this.state.temporaryFileUrls.map(img => img.file),
+                this.props.idAd,
+                true, this.state.imgsToDelete).then(res => {
+                    if (res?.data) {
+                        this.props.reset(res?.data);
+                        this.saveBackup(res?.data, true)
+                        this.setState({ temporaryFileUrls: [], isEditing: false });
+                    }
+                });
+        }
     }
 
     public saveBackup(backup: Array<AdImage> = this.props.images, saved: boolean = false) {
-        if(this.props.isModification && (!this.backup || saved)) {
+        if (this.props.isModification && (!this.backup || saved)) {
             this.backup = backup;
         }
     }
 
     public cancel() {
-        if(this.backup) {
+        if (this.backup) {
             this.props.reset(this.backup);
-            this.setState({temporaryFileUrls: [], imgsToDelete: ""});
+            this.setState({ temporaryFileUrls: [], imgsToDelete: "" });
             this.setIsEditing(false);
+            this.props.setError("");
         }
     }
 
@@ -144,7 +181,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public render(): ReactNode {
         return (
             <>
-                <label>adImages :</label>
+                <label>adImages <span style={{ color: "red" }}>{this.props.error ? this.props.error : ""}</span></label>
                 <br />
                 <input onChange={(e) => this.handleChange(e)} type="file" multiple />
                 <br />
@@ -154,7 +191,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
                 ))}
                 <br />
                 <br />
-                
+
                 {this.props.isModification && this.state.isEditing ?
                     (
                         <>

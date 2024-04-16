@@ -113,7 +113,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
 
-                    <AdImages 
+                    {/* <AdImages 
                         creationImages={this.state.images}
                         updateCreationImages={(creationImages, isDelete?: boolean) => {
                             if(isDelete) {
@@ -122,7 +122,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                                 this.setState({images : [...this.state.images, ...creationImages]})
                             }
                         }}
-                    />
+                    /> */}
                     <div>
                         <label htmlFor="type">Type : </label>
                         <AdTypeSelect inputName="type" inputId="type"/>
