@@ -106,7 +106,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
                     <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
                     <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
-                    <AdCreationInput labelText="Reference : " name="reference" type="text" required={false} />
                     <div>
                         <label htmlFor="description">Destription : </label>
                         <textarea name="description" id="description" cols={30} rows={10} required={false}></textarea>
