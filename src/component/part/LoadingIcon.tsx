@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import "../../css/component/page/LoadingIconPrevious.css"
+import "../../css/component/page/LoadingIcon.css"
 const LoadingIcon = () : ReactElement => {
     return (
         <div id="loadingIcon">
