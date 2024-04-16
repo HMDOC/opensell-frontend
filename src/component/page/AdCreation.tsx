@@ -1,12 +1,12 @@
-import {Component, FormEvent, ReactNode} from "react";
-import {MAX_PRICE, SelectorReader, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
-import {getFormData, getFormDataAsArray} from "../../services/customerModification/FormService";
+import { Component, FormEvent, ReactNode } from "react";
+import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData } from "../../services/AdCreationService";
 import { getAllAdTypes, saveAdImages } from "../../services/AdService";
-import { AdTags } from "../shared/AdTags";
+import { getFormData, getFormDataAsArray } from "../../services/customerModification/FormService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
+import { AdImages } from "../shared/AdImages";
+import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
-import { AdImages, CreationImage } from "../shared/AdImages";
+import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 
 /**
  * @author Olivier Mansuy
@@ -106,7 +106,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
                     <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
                     <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
-                    <AdCreationInput labelText="Reference : " name="reference" type="text" required={false} />
                     <div>
                         <label htmlFor="description">Destription : </label>
                         <textarea name="description" id="description" cols={30} rows={10} required={false}></textarea>

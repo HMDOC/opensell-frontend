@@ -1,5 +1,5 @@
 import { Component, Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import LazyLoad from './component/part/LazyLoad';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -25,7 +25,6 @@ const AdCreation = lazy(() => (import("./component/page/AdCreation")));
 
 
 export default function App() {
-	const [language, setLanguage] = useState(0);
 	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
 
 	function getCustomerInfo() {
@@ -52,8 +51,8 @@ export default function App() {
 						<Route path="/u/:link" element={<UserProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
-					<Route path="/signup" element={<Signup getCustomerInfo={getCustomerInfo}/>}></Route>
-					<Route path="/login" element={<Login getCustomerInfo={getCustomerInfo}/>}></Route>
+					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup getCustomerInfo={getCustomerInfo}/>}></Route>
+					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/catalog" element={<Catalog />}></Route>
 					<Route path="/ad/:link" element={<AdView />}></Route>
 					<Route path="/file-uploader/" element={<FileUploader />}></Route>

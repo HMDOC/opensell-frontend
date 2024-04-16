@@ -1,10 +1,16 @@
-import { ChangeEvent, PureComponent, ReactElement, ReactNode, useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAdToModif, adModification, adModificationTags, saveAdImages } from "../../services/AdService";
-import { HtmlCode } from "../../services/verification/HtmlCode";
 import "../../css/component/page/AdModif.css";
-import * as Yup from "yup";
+import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
+import { HtmlCode } from "../../services/verification/HtmlCode";
 
+import { boolean, BooleanSchema, NumberSchema, StringSchema } from "yup";
+import { AdImage } from "../../entities/dto/AdBuyerView";
+import { AdModifView } from "../../entities/dto/AdModifView";
+import { createRandomKey } from "../../services/RandomKeys";
+import { AdImages } from "../shared/AdImages";
+import { AdTags } from "../shared/AdTags";
+import AdTypeSelect from "../shared/AdTypeSelect";
 import {
     InputType,
     ModifType,
@@ -13,118 +19,49 @@ import {
     SimpleInput,
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
-import { AdTags } from "../shared/AdTags";
-import { createRandomKey } from "../../services/RandomKeys";
-import AdTypeSelect from "../shared/AdTypeSelect";
-import { AdModifView } from "../../entities/dto/AdModifView";
-import { AdImage } from "../../entities/dto/AdBuyerView";
-import { AdType } from "../../entities/dto/AdType";
-import { AdImages } from "../shared/AdImages";
+
+function notEmptyWithMaxAndMin(max: number, min: number) {
+    return new StringSchema()
+        .required(" cannot be empty")
+        .max(max, ` length cannot be more than ${max}`)
+        .min(min, ` length cannot be less than ${min}`);
+}
+
+function priceWithMinAndMax(max: number, min: number) {
+    return new NumberSchema()
+        .max(max, ` cannot be more than ${max}`)
+        .min(min, ` cannot be less than ${min}`)
+        .typeError(" is a number");
+}
 
 const SIMPLE: Array<SimpleInputProps> = [
     {
         name: "adTitle",
         type: InputType.DEFAULT,
         modifType: ModifType.TITLE,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
-    }, {
-        name: "reference",
-        type: InputType.DEFAULT,
-        modifType: ModifType.REFERENCE,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
+        verifyProperty: notEmptyWithMaxAndMin(80, 3)
     }, {
         name: "adPrice",
         type: InputType.DEFAULT,
         modifType: ModifType.PRICE,
         isNumber: true,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
-    }, {
+        verifyProperty: priceWithMinAndMax(Number.MAX_VALUE, 0)
+    },
+    {
         name: "adAddress",
         type: InputType.DEFAULT,
         modifType: ModifType.ADDRESS,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
+        verifyProperty: notEmptyWithMaxAndMin(256, 4)
     }, {
         name: "isAdSold",
         type: InputType.ONE_CHECKBOX,
         modifType: ModifType.IS_SOLD,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
+        verifyProperty: new BooleanSchema()
     }, {
         name: "adDescription",
         type: InputType.TEXTARIA,
         modifType: ModifType.DESCRIPTION,
-        getErrorType(error) {
-            switch (error) {
-                case HtmlCode.SUCCESS: return "";
-                case HtmlCode.LESS_THAN_ZERO: return " cannot be empty.";
-                case HtmlCode.LENGTH_OVERFLOW: return " the length cannot be more than ";
-            }
-        },
-        checkValue(value) {
-            // To check the errors.
-            if (true /* condition */) {
-                return HtmlCode.SUCCESS;
-            }
-        }
+        verifyProperty: notEmptyWithMaxAndMin(5000, 10)
     }
 ];
 
@@ -155,7 +92,7 @@ export default function AdModification(): ReactElement {
     const [adImages, setAdImages] = useState<Array<AdImage>>([]);
 
     const [oldTags, setOldTags] = useState({
-        isOldValueSaved : false,
+        isOldValueSaved: false,
         tagsForReset: []
     });
 
@@ -171,11 +108,11 @@ export default function AdModification(): ReactElement {
             else navigate("/not-found");
         });
     }, []);
-    
+
     const [isEditing, setIsEditing] = useState<boolean>(false);
     function registerOldTags() {
         if (!oldTags.isOldValueSaved) {
-            setOldTags({tagsForReset : adTags, isOldValueSaved : true});
+            setOldTags({ tagsForReset: adTags, isOldValueSaved: true });
             console.log(oldTags);
         }
 
@@ -183,8 +120,8 @@ export default function AdModification(): ReactElement {
     }
 
     function reset(isReset: boolean = true) {
-        setOldTags({...oldTags, isOldValueSaved : false});
-        if(isReset) setAdTags(oldTags.tagsForReset);
+        setOldTags({ ...oldTags, isOldValueSaved: false });
+        if (isReset) setAdTags(oldTags.tagsForReset);
         setIsEditing(false);
         setError(HtmlCode.SUCCESS);
     }
@@ -218,8 +155,8 @@ export default function AdModification(): ReactElement {
                         name={value?.name}
                         type={value?.type}
                         isNumber={value?.isNumber}
-                        checkValue={(value: any) => { if (value) return HtmlCode.SUCCESS; else if (!value) return HtmlCode.LENGTH_EMPTY; }}
-                        getErrorType={(error) => { if (error == 1) return " cannot be empty."; else if (error == 2054) return " is already in use with annother of your ad." }} />
+                        verifyProperty={value.verifyProperty} 
+                        key={createRandomKey()} />
                 ))}
 
                 <AdImages
@@ -251,15 +188,15 @@ export default function AdModification(): ReactElement {
                 }
 
                 <label>AdType :</label>
-                <AdTypeSelect 
-                    inputName="AdType" 
+                <AdTypeSelect
+                    inputName="AdType"
                     inputId="adf"
                     isModification
                     selectedIndex={ad?.adType?.idAdType}
                     externalOnChange={(type) => adModification(ModifType.AD_TYPE, type, ad?.idAd)} />
                 <br />
                 <br />
-                
+
                 {
                     SELECTS.map(value => (
                         <SelectorReader
