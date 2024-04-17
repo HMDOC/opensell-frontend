@@ -11,7 +11,6 @@ import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../sha
 /**
  * @author Olivier Mansuy
  */
-
 class AdCreationInput extends Component<AdCreationInputProperties, any> {
     constructor(properties: AdCreationInputProperties) {
         super(properties)
@@ -44,7 +43,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             typeArray: [],
             errorAdTags: HtmlCode.SUCCESS,
             selectedTags: [],
-            images : []
+            images : [],
+            errorImages: ""
         }
     }
 
@@ -113,16 +113,13 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
 
-                    {/* <AdImages 
-                        creationImages={this.state.images}
-                        updateCreationImages={(creationImages, isDelete?: boolean) => {
-                            if(isDelete) {
-                                this.setState({images : this.state.images.filter(img => img.id != creationImages[0].id)})
-                            } else {
-                                this.setState({images : [...this.state.images, ...creationImages]})
-                            }
-                        }}
-                    /> */}
+                    <AdImages
+                        error={this.state.errorImages}
+                        setError={(errorImages) => this.setState({errorImages})}
+                        images={this.state.images}
+                        removeImage={(link) => this.setState({images: this.state.images.filter(img => img.link != link)})}
+                        setImages={(images) => this.setState({images})}
+                    />
                     <div>
                         <label htmlFor="type">Type : </label>
                         <AdTypeSelect inputName="type" inputId="type"/>

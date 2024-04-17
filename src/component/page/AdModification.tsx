@@ -19,6 +19,7 @@ import {
     SimpleInput,
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
+import { BlockImage } from "../../entities/dto/BlockImages";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
     return new StringSchema()
@@ -89,7 +90,7 @@ export default function AdModification(): ReactElement {
     const navigate = useNavigate();
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
     const [errorTags, setErrorTags] = useState<HtmlCode>(HtmlCode.SUCCESS);
-    const [adImages, setAdImages] = useState<Array<AdImage>>([]);
+    const [adImages, setAdImages] = useState<Array<BlockImage>>([]);
     const [errorImages, setErrorImages] = useState<string>();
 
     const [oldTags, setOldTags] = useState({
@@ -103,7 +104,7 @@ export default function AdModification(): ReactElement {
             if (res?.data) {
                 setAd(res?.data);
                 setAdTags(res?.data.adTagsName);
-                setAdImages(res?.data.adImages);
+                setAdImages(BlockImage.fromBackend(res?.data.adImages));
             }
 
             else navigate("/not-found");
@@ -165,8 +166,9 @@ export default function AdModification(): ReactElement {
                     error={errorImages}
                     idAd={ad?.idAd}
                     images={adImages}
+                    setImages={setAdImages}
                     reset={(backup) => setAdImages(backup)}
-                    removeImage={(path) => setAdImages(adImages.filter(img => img.path != path))}
+                    removeImage={(link) => setAdImages(adImages.filter(img => img.link != link))}
                     isModification={true}
                 />
 
