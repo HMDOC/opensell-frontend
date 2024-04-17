@@ -29,7 +29,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public urlToDelete: Set<string> = new Set();
 
     public state = {
-        imgsToDelete: "",
+        imgsToDelete: new Array<number>(),
         temporaryFileUrls: new Array<{ path: string, isOldImg: boolean, file: File }>(),
         isEditing: false
     };
@@ -68,10 +68,6 @@ export class AdImages extends PureComponent<AdImagesProps> {
         else {
             return [...this.state.temporaryFileUrls];
         }
-    }
-
-    componentDidUpdate(prevProps: Readonly<AdImagesProps>, prevState: Readonly<{}>, snapshot?: any): void {
-        console.log(this.state.temporaryFileUrls);
     }
 
     public componentWillUnmount(): void {
@@ -128,9 +124,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
                 this.props.removeImage(completeImg.path);
 
                 this.setState({
-                    imgsToDelete: this.state.imgsToDelete.concat(
-                        `${this.props.images.find(img => img.path == currentImg.path).idAdImage},`
-                    )
+                    imgsToDelete: [...this.state.imgsToDelete, this.props.images.find(img => img.path == currentImg.path).idAdImage]
                 });
             }
 
