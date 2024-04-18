@@ -15,9 +15,9 @@ interface CustomerModificationInputProperties extends AdCreationInputProperties 
 export class CustomerModificationInput extends Component<CustomerModificationInputProperties, any> {
     render(): ReactNode {
         return(
-            <div>
-                <label htmlFor={this.props.name}>{this.props?.labelText}</label>
-                <input id={this.props.name} type={this.props.type} name={this.props.name} defaultValue={this.props?.defaultValue} 
+            <div className="modificationSection">
+                <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
+                <input className="modificationInput" id={this.props.name} type={this.props.type} name={this.props.name} defaultValue={this.props?.defaultValue} 
                 onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>)}/>
             </div>
         )
@@ -27,9 +27,9 @@ export class CustomerModificationInput extends Component<CustomerModificationInp
 export class CustomerModificationTextArea extends CustomerModificationInput {
     render(): ReactNode {
         return(
-            <div>
-                <label htmlFor={this.props.name}>{this.props?.labelText}</label>
-                <textarea id={this.props.name} name={this.props.name} defaultValue={this.props?.defaultValue} 
+            <div className="modificationSection">
+                <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
+                <textarea className="modificationInput modificationTextArea" id={this.props.name} name={this.props.name} defaultValue={this.props?.defaultValue} 
                 onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLTextAreaElement>)} cols={this.props.cols} rows={this.props.rows}/>
             </div>
         )
@@ -44,8 +44,8 @@ export class CustomerModificationSocials extends Component<CustomerModificationI
     }
     render(): ReactNode {
         return(
-            <div>
-                <label>{this.props.labelText}</label>
+            <div className="modificationSection modificationSocials">
+                <label className="modificationLabel">{this.props.labelText}</label>
                 {this.getNumberArray().map((elem: number) => (
                     <CustomerModificationInput 
                     labelText="" 
@@ -64,8 +64,8 @@ export class CustomerModificationSocials extends Component<CustomerModificationI
 export class CustomerModificationButton extends Component<{type: "button" | "reset" | "submit", buttonText: string}, any> {
     render(): ReactNode {
         return(
-            <div>
-                <button type={this.props.type}>{this.props.buttonText}</button>
+            <div className="modificationSubmit">
+                <button className="modificationLabel" type={this.props.type}>{this.props.buttonText}</button>
             </div>
         );
     }
