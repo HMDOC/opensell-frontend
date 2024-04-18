@@ -1,9 +1,8 @@
 .inputForm {
-    width: 20%;
+    width: max(75%, 25vh);
     background-color: #D9D9D9;
     border: 1px solid var(--sr2);
     border-radius: 5px;
-    width: 50%;
     height: 35px;
     padding: 10px;
     box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
@@ -11,22 +10,24 @@
 
 .login-background {
     width: 95%;
-    height: 750px;
+    height: 75vh;
     margin: 30px auto auto auto;
     background-image: url("../../../../public/img/login_background.png");
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
+    background-position-y: center;
     border-radius: 20px;
-    padding: 40px 550px 40px 550px;
+    padding: 4vh 2vh;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    display: flex;
 }
 
 .front-login-background {
-    width: 100%;
+    width: 60vh;
     height: 100%;
     background-color: rgba(220,233,252, 0.5);
     margin: auto;
-    padding: 60px 10px 10px 10px;
+    padding: 6vh 2vh 2vh 2vh;
     border-radius: 15px;
     display: block;
 }
