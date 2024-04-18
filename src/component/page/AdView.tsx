@@ -51,10 +51,21 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
             (
                 <div>
                     <div>
+
+                    <div className="user-profil">
+                        <Link to={`/user/${adBuyerView?.userLink}`}>
+                            <ProfilIcon src={adBuyerView?.userIcon} />
+                        </Link>
+
+                        <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>
+                            {adBuyerView?.username}
+                        </Link>
+                    </div>
+
                         <h1>{adBuyerView?.adTitle}</h1>
                         {adBuyerView?.adImages?.length == 0 ?
                             <></> :
-                            <>
+                            <div className="image-div">
                                 {/* Image Section */}
                                 <img className="first-image-of-list" src={adBuyerView?.adImages?.[currentPicture]?.path} />
 
@@ -63,7 +74,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                     <p>{currentPicture + 1} / {adBuyerView?.adImages?.length}</p>
                                     <button onClick={() => nextOrPrevious(true)}>next</button>
                                 </div>
-                            </>
+                            </div>
                         }
 
 
@@ -84,17 +95,6 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                 {value}
                             </p>
                         ))}
-                    </div>
-
-                    <h2>UserProfil: </h2>
-                    <div className="user-profil">
-                        <Link to={`/u/${adBuyerView?.userLink}`}>
-                            <ProfilIcon src={adBuyerView?.userIcon} />
-                        </Link>
-
-                        <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>
-                            {adBuyerView?.username}
-                        </Link>
                     </div>
                 </div >
             ) : (
