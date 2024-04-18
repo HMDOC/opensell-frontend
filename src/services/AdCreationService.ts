@@ -41,7 +41,7 @@ export interface AdCreationInputProperties {
     placeholder?: string,
     step?: number,
     accept?: string,
-    required: boolean
+    required?: boolean
 }
 
 export interface AdCreationpProperties {

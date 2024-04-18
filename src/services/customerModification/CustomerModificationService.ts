@@ -1,59 +1,155 @@
-import { AxiosResponse } from "axios";
-import ModificationFeedback from "../../entities/dto/ModificationFeedback";
-import http from "../../http-commons";
-import { RegexCode } from "./RegexService";
-import { formAttributes, inputValidation } from "./FormService";
+import http from "../../http-commons"
+import { CustomerModificationView } from "../../entities/dto/CustomerModificationView"
+import { AxiosResponse } from "axios"
+import { CustomerModificationData } from "../../entities/dto/CustomerModificationData"
+import ModificationFeedback from "../../entities/dto/ModificationFeedback"
+import { RegexCode, verify } from "../RegexService"
+import { CustomerInfo } from "../../entities/dto/CustomerInfo"
 
-export const MAX_SOCIALS = 5;
+const CHANGE_REQUEST_MAPPING = "change";
+const CEHCK_REQUEST_MAPPING = "c";
+const REPLACE_SEQUENCE = "?";
+export const NOTHING_CHANGED = "Nothing changed...";
 
-export const initialState: {[key:string]: inputValidation} = {
-    icon: {value: null, isValid: null, feedbackMessage: null},
-    username: {value: null, isValid: null, feedbackMessage: null},
-    firstName: {value: null, isValid: null, feedbackMessage: null},
-    lastName: {value: null, isValid: null, feedbackMessage: null},
-    exposedEmail: {value: null, isValid: null, feedbackMessage: null},
-    primaryAddress: {value: null, isValid: null, feedbackMessage: null},
-    bio: {value: null, isValid: null, feedbackMessage: null},
-    personalEmail: {value: null, isValid: null, feedbackMessage: null},
-    phoneNumber: {value: null, isValid: null, feedbackMessage: null},
-    pwd: {value: null, isValid: null, feedbackMessage: null},
-    social1: {value: null, isValid: null, feedbackMessage: null},
-    social2: {value: null, isValid: null, feedbackMessage: null},
-    social3: {value: null, isValid: null, feedbackMessage: null},
-    social4: {value: null, isValid: null, feedbackMessage: null},
-    social5: {value: null, isValid: null, feedbackMessage: null}
+export type ArrayOfRequests = {mapping: string, data: CustomerModificationData}[];
+
+export interface CustomerModificationProperties {
+    customerData: number
 }
 
-export const formInformation: {[key:string]: formAttributes} = {
-    icon: {type: "file", labelName: "ICON : ", name:"icon", isUnique: false},
-    username: {type: "text", labelName: "Username : ", name:"username", code: RegexCode.USERNAME, id: "usernameInput", isUnique: true},
-    firstName: {type: "text", labelName: "First name : ", name:"firstName",code: RegexCode.FIRST_NAME, isUnique: false, id: "firstNameInput"},
-    lastName: {type: "text", labelName: "Last name : ", name:"lastName", code: RegexCode.LAST_NAME, isUnique: false},
-    exposedEmail: {type: "text", labelName: "Public Email : ", name:"exposedEmail", code: RegexCode.EMAIL, isUnique: true},
-    primaryAddress: {type: "text", labelName: "Address : ", name:"primaryAddress", isUnique: false},
-    bio: {labelName: "Bio : ", name: "bio", cols: 40, rows: 10, isUnique: false},
-    personalEmail: {type: "text", labelName: "Private Email : ", name:"personalEmail", code: RegexCode.EMAIL, isUnique: true},
-    pwd: {type: "password", labelName: "PASSWORD : ", name:"pwd", code: RegexCode.PWD, isUnique: false},
-    phoneNumber: {type: "text", labelName: "Phone number : ", name:"phoneNumber", code: RegexCode.PHONE_NUMBER, isUnique: true},
-    social1: {type: "text", labelName: "Media : ", name:"social1", code: RegexCode.URL, isUnique: false},
-    social2: {type: "text", labelName: "Media : ", name:"social2", code: RegexCode.URL, isUnique: false},
-    social3: {type: "text", labelName: "Media : ", name:"social3", code: RegexCode.URL, isUnique: false},
-    social4: {type: "text", labelName: "Media : ", name:"social4", code: RegexCode.URL, isUnique: false},
-    social5: {type: "text", labelName: "Media : ", name:"social5", code: RegexCode.URL, isUnique: false},
+export interface CustomerModificationState {
+    feedbackMessages: string[],
+    defaultValues: CustomerModificationView
 }
 
-export const executeChange = async (request: string): Promise<AxiosResponse<ModificationFeedback>> => {
-    return await http.put<ModificationFeedback>(request);
+export const getCustomerModificationView = async (identification: number):Promise<AxiosResponse<CustomerModificationView>> => {
+    return await http.get<CustomerModificationView>(`/c/get-customer-modification-view?id=${identification}`);
 }
 
-export const executeChanges = async (requests:string[]) => {
-    let resultArray:ModificationFeedback[] = [];
-    for (let elem in requests) {
-        await executeChange(requests[elem]).then((rep) => {
-            resultArray.push(rep?.data);
-        }).catch((error) => {
-            console.log(error?.response?.data)
-        }); 
+interface CustomerModificationInputObject {
+    inputValueIsValid(value: string, defaultValue: string): boolean, //or Promise<boolean>
+    modificationEndPoint: string,
+    errors: {[errorType:string]: string},
+    uniqueCheck?: string
+}
+
+const validateInput = (value: string, defaultValue: string, code: RegExp): boolean => {
+    if (!defaultValue) defaultValue = "";
+    if (verify(value, code) && value !== defaultValue) return true;
+    else if (value === defaultValue) return null;
+    return false;
+}
+
+/**
+ * @Note the first parameter is the original string
+ * @param values 
+ * @returns a new string containing the replacements
+ */
+export const replaceInString = (...values: string[]): string => {
+    if (values.length >= 2) {
+        let res: string = values[0];
+        for (let elem = 1; elem < values.length + 1; elem++) res = res.replace(REPLACE_SEQUENCE + elem, values[elem]);
+        return res;
+    } else return values[0];
+}
+
+export const formValidationObject: {[fieldName:string]: CustomerModificationInputObject} = {
+    username: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.USERNAME),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-username`,
+        errors: {unique: "This username already exists in our system!", format: "Your new username can't contain special characters and must be between 1 and 30 characters!"},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-username?username=?1`
+    },
+    firstName: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.FIRST_LAST_NAME),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-first-name`,
+        errors: {format: "Your first name can't have any numbers (with one space or - followed by more characters) and needs to be between 1 and 30 characters!"}
+    },
+    lastName: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.FIRST_LAST_NAME),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-last-name`,
+        errors: {format: "Your last name can't have any numbers (with one space or - followed by more characters)!"}
+    },
+    primaryAddress: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.LIMIT80),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-primary-address`,
+        errors: {format: "Can't be more than 80 characters"}
+    },
+    exposedEmail: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.EMAIL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-public-email`,
+        errors: {unique: "This email address already exists in our system!", format: "Wrong email format!"},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-public-email?email=?1`
+    },
+    bio: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.LIMIT5000),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-bio`,
+        errors: {format: "Can't be more than 5000 characters!"}
+    },
+    personalEmail: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.EMAIL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-private-email`,
+        errors: {unique: "This email (personal) address already exists in our system!", format: "Wrong email (personal) format!"},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-private-email?email=?1`
+    },
+    pwd: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.pwd),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
+        errors: {unique: "You're already using this password!", format: "Your password must contain..."},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-same-pwd?pwd=?1&id=?2`
+    },
+    link1: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-1`,
+        errors: {format: "Wrong format for link {1}..."}
+    },
+    link2: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-2`,
+        errors: {format: "Wrong format for first {2}..."}
+    },
+    link3: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-3`,
+        errors: {format: "Wrong format for first {3}..."}
+    },
+    link4: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-4`,
+        errors: {format: "Wrong format for first {4}..."}
+    },
+    link5: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-5`,
+        errors: {format: "Wrong format for first link {5}..."}
     }
-    return resultArray;
+
+
 }
+
+export const executeChange = async (request: string, data: CustomerModificationData): Promise<AxiosResponse<ModificationFeedback>> => {
+    return await http.put<ModificationFeedback>(request, data);
+}
+
+export const getCheckResult = async (request: string): Promise<AxiosResponse<number>> => {
+    return await http.get<number>(request);
+}
+// export const changeMapping: {[key:string]:string} = {
+//     icon: `${CHANGE_REQUEST_MAPPING}/change-icon-path`,
+//     username: `${CHANGE_REQUEST_MAPPING}/change-username`,
+//     firstName: `${CHANGE_REQUEST_MAPPING}/change-first-name`,
+//     lastName: `${CHANGE_REQUEST_MAPPING}/change-last-name`,
+//     exposedEmail: `${CHANGE_REQUEST_MAPPING}/change-public-email`,
+//     primaryAddress: `${CHANGE_REQUEST_MAPPING}/change-primary-address`,
+//     bio: `${CHANGE_REQUEST_MAPPING}/change-bio`,
+//     personalEmail: `${CHANGE_REQUEST_MAPPING}/change-private-email`,
+//     pwd: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
+//     phoneNumber: `${CHANGE_REQUEST_MAPPING}/change-phone-number`,
+//     social1: `${CHANGE_REQUEST_MAPPING}/change-socials-1`,
+//     social2: `${CHANGE_REQUEST_MAPPING}/change-socials-2`,
+//     social3: `${CHANGE_REQUEST_MAPPING}/change-socials-3`,
+//     social4: `${CHANGE_REQUEST_MAPPING}/change-socials-4`,
+//     social5: `${CHANGE_REQUEST_MAPPING}/change-socials-5`,
+// }
+
+

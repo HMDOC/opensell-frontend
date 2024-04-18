@@ -1,7 +1,7 @@
 import { Component, FormEvent, ReactNode } from "react";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData } from "../../services/AdCreationService";
 import { getAllAdTypes, saveAdImages } from "../../services/AdService";
-import { getFormData, getFormDataAsArray } from "../../services/customerModification/FormService";
+import { getFormData, getFormDataAsArray } from "../../services/FormService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages } from "../shared/AdImages";
 import { AdTags } from "../shared/AdTags";
@@ -63,13 +63,13 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
     formIsValid(formData: FormData): boolean {
         //forEach of formData only returns undefined...
-        let tempData: {key:string, value:string}[] = getFormDataAsArray(formData);
+        let tempData: {fieldName:string, value:string}[] = getFormDataAsArray(formData);
         for (let elem of tempData) {
-            const {key, value} = elem;
-            let result: boolean = formValidation?.[key]?.isValid(value);
-            console.log(key + " " + result + " VALUE : " + value)
+            const {fieldName, value} = elem;
+            let result: boolean = formValidation?.[fieldName]?.isValid(value);
+            console.log(fieldName + " " + result + " VALUE : " + value)
             if (result === false) {
-                this.setGlobalErrorMessage(formValidation?.[key]?.errorMessage);
+                this.setGlobalErrorMessage(formValidation?.[fieldName]?.errorMessage);
                 return false;
             }
         }
