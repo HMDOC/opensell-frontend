@@ -91,7 +91,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     }) 
                     console.log(fileArray);
                     saveAdImages(fileArray, adId);
-                    this.setGlobalErrorMessage("LOG(TEST) : CREATED");
+                    this.setGlobalErrorMessage("Ad created...");
                 }
             })
         }
@@ -101,8 +101,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         console.log("The ad images : "+this.state.images.length)
         return(
             <div className="main-background">
+                <div><span>{this.state.globalErrorMessage}</span></div>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
-
                     <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
                     <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
                     <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
@@ -112,7 +112,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     </div>
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
-
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}
@@ -124,7 +123,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         <label htmlFor="type">Type : </label>
                         <AdTypeSelect inputName="type" inputId="type"/>
                     </div>
-
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({errorAdTags: error})}
@@ -132,8 +130,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         deleteTag={(tag) => {this.setState({selectedTags: [...this.state.selectedTags.filter(elem => elem != tag)]})}}
                         tags={this.state.selectedTags}
                     />
-
-                    <div><span>{this.state.globalErrorMessage}</span></div>
                     <button type="submit">Create</button>
                 </form>
             </div>

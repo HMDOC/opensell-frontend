@@ -108,3 +108,47 @@
     color: red;
     height: 30px;
 }
+
+/* https://reactcommunity.org/react-modal/styles/transitions/ */
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 1500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
+
+.CMDisplay-Container {
+    display: flex;
+}
+
+.CMDisplay-Container div {
+    margin: 10px;
+}
+
+.CMDisplay-Container button {
+    background-color: var(--sr2);
+}
+
+.CMDisplay-Label-Container {
+    padding: 10px;
+    background-color: rgba(220, 233, 252, 0.5);
+}
+
+.CMDisplay-Default-Value-Container {
+    padding: 10px;
+    background-color: rgba(220, 233, 252, 1);
+}
+
+.CM-Container {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 25px;
+    border: black 2px;
+    background-color: rgba(200, 233, 252, 1);
+}

@@ -47,7 +47,7 @@ export default function App() {
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
-						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto?.customerId}/>}></Route>
+						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto}/>}></Route>
 						<Route path="/u/:link" element={<UserProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>

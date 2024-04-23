@@ -1,33 +1,8 @@
-import http from "../../http-commons"
-import { CustomerModificationView } from "../../entities/dto/CustomerModificationView"
-import { AxiosResponse } from "axios"
-import { CustomerModificationData } from "../../entities/dto/CustomerModificationData"
-import ModificationFeedback from "../../entities/dto/ModificationFeedback"
-import { RegexCode, verify } from "../RegexService"
-import { CustomerInfo } from "../../entities/dto/CustomerInfo"
+import { RegexCode, verify } from "../RegexService";
 
-const CHANGE_REQUEST_MAPPING = "change";
-const CEHCK_REQUEST_MAPPING = "c";
-const REPLACE_SEQUENCE = "?";
-export const NOTHING_CHANGED = "Nothing changed...";
-
-export type ArrayOfRequests = {mapping: string, data: CustomerModificationData}[];
-
-export interface CustomerModificationProperties {
-    customerData: number
-}
-
-export interface CustomerModificationState {
-    feedbackMessages: string[],
-    defaultValues: CustomerModificationView
-}
-
-export const getCustomerModificationView = async (identification: number):Promise<AxiosResponse<CustomerModificationView>> => {
-    return await http.get<CustomerModificationView>(`/c/get-customer-modification-view?id=${identification}`);
-}
 
 interface CustomerModificationInputObject {
-    inputValueIsValid(value: string, defaultValue: string): boolean, //or Promise<boolean>
+    inputValueIsValid?(value: string, defaultValue: string): boolean, //or Promise<boolean>
     modificationEndPoint: string,
     errors: {[errorType:string]: string},
     uniqueCheck?: string
@@ -40,20 +15,11 @@ const validateInput = (value: string, defaultValue: string, code: RegExp): boole
     return false;
 }
 
-/**
- * @Note the first parameter is the original string
- * @param values 
- * @returns a new string containing the replacements
- */
-export const replaceInString = (...values: string[]): string => {
-    if (values.length >= 2) {
-        let res: string = values[0];
-        for (let elem = 1; elem < values.length + 1; elem++) res = res.replace(REPLACE_SEQUENCE + elem, values[elem]);
-        return res;
-    } else return values[0];
-}
+const CHANGE_REQUEST_MAPPING = "change";
+const CEHCK_REQUEST_MAPPING = "c";
 
-export const formValidationObject: {[fieldName:string]: CustomerModificationInputObject} = {
+
+export const FormValidationObject: {[fieldName:string]: CustomerModificationInputObject} = {
     username: {
         inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.USERNAME),
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-username`,
@@ -92,26 +58,11 @@ export const formValidationObject: {[fieldName:string]: CustomerModificationInpu
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
         errors: {unique: "You're already using this password!", format: "Your password must contain..."},
         uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-same-pwd?pwd=?1&id=?2`
+    },
+    phoneNumber: {
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.PHONE_NUMBER),
+        modificationEndPoint: '${CHANGE_REQUEST_MAPPING}/change-phone-number',
+        errors: {unique: "This number already exists in our system!", format: "Wrong phone number format..."},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-phone-number?pwd=?1`
     }
 }
-
-export const executeChange = async (request: string, data: CustomerModificationData): Promise<AxiosResponse<ModificationFeedback>> => {
-    return await http.put<ModificationFeedback>(request, data);
-}
-
-export const getCheckResult = async (request: string): Promise<AxiosResponse<number>> => {
-    return await http.get<number>(request);
-}
-// export const changeMapping: {[key:string]:string} = {
-//     icon: `${CHANGE_REQUEST_MAPPING}/change-icon-path`,
-//     username: `${CHANGE_REQUEST_MAPPING}/change-username`,
-//     firstName: `${CHANGE_REQUEST_MAPPING}/change-first-name`,
-//     lastName: `${CHANGE_REQUEST_MAPPING}/change-last-name`,
-//     exposedEmail: `${CHANGE_REQUEST_MAPPING}/change-public-email`,
-//     bio: `${CHANGE_REQUEST_MAPPING}/change-bio`,
-//     personalEmail: `${CHANGE_REQUEST_MAPPING}/change-private-email`,
-//     pwd: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
-//     phoneNumber: `${CHANGE_REQUEST_MAPPING}/change-phone-number`,
-// }
-
-
