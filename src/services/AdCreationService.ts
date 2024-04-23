@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import { AdCreationFeedback } from "../entities/dto/adCreation/AdCreationFeedback";
 import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
 import http from "../../src/http-commons";
-import { CreationImage } from "../component/shared/AdImages";
+import { BlockImage } from "../entities/dto/BlockImages";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -28,7 +28,8 @@ export interface AdCreationState {
     errorAdTags: HtmlCode,
     typeArray: AdType[],
     selectedTags: string[],
-    images: Array<CreationImage>
+    images: Array<BlockImage>,
+    errorImages: string
 }
 
 export interface AdCreationInputProperties {
@@ -40,7 +41,7 @@ export interface AdCreationInputProperties {
     placeholder?: string,
     step?: number,
     accept?: string,
-    required: boolean
+    required?: boolean
 }
 
 export interface AdCreationpProperties {
@@ -60,7 +61,7 @@ export const formatCreationData = (formData: FormData, tags: string[], customerI
         price: parseFloat(formData.get("price").toString()), //
         shape: parseInt(formData.get("shape").toString()), //
         visibility: parseInt(formData.get("visibility").toString()), //
-        reference: formData.get("reference").toString(), //
+        reference: null, //
         title: formData.get("title").toString(), //
         tags: tags //
     };

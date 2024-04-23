@@ -4,7 +4,6 @@ export interface CustomerInfo {
     lastName? : string;
     exposedEmail? : string;
     phoneNumber? : string;
-    primaryAddress? : string;
     bio? : string;
     iconPath? : string;
 }

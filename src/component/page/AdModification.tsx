@@ -4,7 +4,7 @@ import "../../css/component/page/AdModif.css";
 import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 
-import { boolean, BooleanSchema, NumberSchema, StringSchema } from "yup";
+import { BooleanSchema, NumberSchema, StringSchema } from "yup";
 import { AdImage } from "../../entities/dto/AdBuyerView";
 import { AdModifView } from "../../entities/dto/AdModifView";
 import { createRandomKey } from "../../services/RandomKeys";
@@ -19,6 +19,7 @@ import {
     SimpleInput,
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
+import { BlockImage } from "../../entities/dto/BlockImages";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
     return new StringSchema()
@@ -88,8 +89,9 @@ export default function AdModification(): ReactElement {
     const [ad, setAd] = useState<AdModifView>(undefined);
     const navigate = useNavigate();
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
-    const [error, setError] = useState<HtmlCode>(HtmlCode.SUCCESS);
-    const [adImages, setAdImages] = useState<Array<AdImage>>([]);
+    const [errorTags, setErrorTags] = useState<HtmlCode>(HtmlCode.SUCCESS);
+    const [adImages, setAdImages] = useState<Array<BlockImage>>([]);
+    const [errorImages, setErrorImages] = useState<string>();
 
     const [oldTags, setOldTags] = useState({
         isOldValueSaved: false,
@@ -102,7 +104,7 @@ export default function AdModification(): ReactElement {
             if (res?.data) {
                 setAd(res?.data);
                 setAdTags(res?.data.adTagsName);
-                setAdImages(res?.data.adImages);
+                setAdImages(BlockImage.fromBackend(res?.data.adImages));
             }
 
             else navigate("/not-found");
@@ -123,7 +125,7 @@ export default function AdModification(): ReactElement {
         setOldTags({ ...oldTags, isOldValueSaved: false });
         if (isReset) setAdTags(oldTags.tagsForReset);
         setIsEditing(false);
-        setError(HtmlCode.SUCCESS);
+        setErrorTags(HtmlCode.SUCCESS);
     }
 
     function save() {
@@ -155,20 +157,24 @@ export default function AdModification(): ReactElement {
                         name={value?.name}
                         type={value?.type}
                         isNumber={value?.isNumber}
-                        verifyProperty={value.verifyProperty} />
+                        verifyProperty={value.verifyProperty} 
+                        key={createRandomKey()} />
                 ))}
 
                 <AdImages
+                    setError={setErrorImages}
+                    error={errorImages}
                     idAd={ad?.idAd}
                     images={adImages}
+                    setImages={setAdImages}
                     reset={(backup) => setAdImages(backup)}
-                    removeImage={(path) => setAdImages(adImages.filter(img => img.path != path))}
+                    removeImage={(link) => setAdImages(adImages.filter(img => img.link != link))}
                     isModification={true}
                 />
 
                 <AdTags
-                    error={error}
-                    setError={setError}
+                    error={errorTags}
+                    setError={setErrorTags}
                     tags={adTags}
                     addTag={addEvent}
                     deleteTag={deleteEvent}

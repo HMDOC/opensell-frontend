@@ -1,80 +1,67 @@
 import { ChangeEvent, PureComponent, ReactNode } from "react";
-import { AdImage } from "../../entities/dto/AdBuyerView";
 import { saveAdImages } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import "../../css/component/page/AdModif.css";
-
-export interface CreationImage {
-    file: File;
-    id: string;
-}
+import { BlockImage } from "../../entities/dto/BlockImages";
 
 interface AdImagesProps {
-    // Only Update
-    images?: Array<AdImage>;
-    removeImage?(url: string): void;
+    images: Array<BlockImage>;
+    setImages(blockImages: Array<BlockImage>): void;
+    removeImage(link: string): void;
     idAd?: number;
     isModification?: boolean;
-    reset?(backup: Array<AdImage>): void;
-
-    // Only for Creation
-    creationImages?: Array<CreationImage>;
-    updateCreationImages?(creationImages: Array<CreationImage>, isDelete?: boolean): void;
+    reset?(backup: Array<BlockImage>): void;
+    error: string;
+    setError(error: string): void;
 }
 
 export class AdImages extends PureComponent<AdImagesProps> {
-    public backup: Array<AdImage> = undefined;
-    public urlToDelete: Set<string> = new Set();
+    public backup?: Array<BlockImage>;
 
     public state = {
-        imgsToDelete: "",
-        temporaryFileUrls: new Array<{path: string, isOldImg: boolean, file: File}>(),
+        imgsToDelete: new Array<number>(),
         isEditing: false
     };
 
     public addUrls(files: Array<File>): void {
-        let imgObjects = [];
-        let tmpCreationImage: Array<CreationImage> = [];
-
-        files.forEach(file => {
-            let url = URL.createObjectURL(file);
-            imgObjects.push({path: url, isOldImg: false, file: file});
-
-            if(!this.props.isModification) {
-                tmpCreationImage.push({file: file, id: url});
-            }
-        });
-
-        if(!this.props.isModification) {
-            this.props.updateCreationImages(tmpCreationImage, false);
-        }
-
-        this.setState({temporaryFileUrls: [...this.state.temporaryFileUrls, ...imgObjects]})
-    }
-
-    public getUrls = (): Array<{path: string, isOldImg: boolean}> => {
-        let urlArray = [];
-        
-        if(this.props.isModification) {
-            this.props.images?.forEach(img => {
-                urlArray.push({path: img.path, isOldImg: true});
-            })
-
-            return [...urlArray, ...this.state.temporaryFileUrls];
-        }
-
-        else {
-            return [...this.state.temporaryFileUrls];
-        }
+        this.props.setImages([...this.props.images,
+        ...files.map(file => {
+            return { file, isBackend: false, link: URL.createObjectURL(file) };
+        })]);
     }
 
     public componentWillUnmount(): void {
-        for (let url of Array.from(this.urlToDelete)) URL.revokeObjectURL(url);
+        for (let img of this.props.images) {
+            if (img.isBackend) {
+                URL.revokeObjectURL(img.link);
+            }
+        }
     }
 
     public setIsEditing(isEditing: boolean = true): void {
-        if(this.state.isEditing != isEditing) {
-            this.setState({isEditing});
+        if (this.state.isEditing != isEditing) {
+            this.setState({ isEditing });
+        }
+    }
+
+    public getError(isDelete = false): boolean {
+        let error = "";
+
+        if (this.props.images.length == 1 && isDelete) {
+            error = " need to be at least one";
+
+            if (error != this.props.error) {
+                this.props.setError(error);
+            }
+
+            return true;
+        }
+
+        else {
+            if (this.props.error) {
+                this.props.setError("");
+            }
+            return false;
         }
     }
 
@@ -84,59 +71,60 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
         let currentFiles: Array<File> = Array.from(e.target.files);
         this.addUrls(currentFiles);
-
+        
+        this.props.setError("");
         e.target.value = null;
     }
 
-    public deleteImg(currentImg: {path: string, isOldImg: boolean}): void {
+    public deleteImg(currentImg: BlockImage): void {
         this.setIsEditing();
         this.saveBackup();
 
-        if(currentImg.isOldImg) {
-            let completeImg = this.props.images.find(img => img.path == currentImg.path);
-            this.props.removeImage(completeImg.path);
+        if (!this.getError(true)) {
+            if (currentImg.isBackend) {
+                this.props.removeImage(currentImg.link);
 
-            this.setState({imgsToDelete : this.state.imgsToDelete.concat(
-                `${this.props.images.find(img => img.path == currentImg.path).idAdImage},`
-            )});
-        }
-
-        else {
-            let imgDelete = this.state.temporaryFileUrls.find(img => img.path == currentImg.path);
-
-            this.setState({temporaryFileUrls: this.state.temporaryFileUrls.filter(img => img != imgDelete)})
-
-            if(!this.props.isModification) {
-                this.props.updateCreationImages([{file : null, id : currentImg.path}], true)
+                this.setState({
+                    imgsToDelete: [...this.state.imgsToDelete, currentImg?.idAdImage]
+                });
             }
 
-            this.urlToDelete.add(currentImg.path);
+            else {
+                this.props.setImages(this.props.images.filter(img => img != currentImg));
+                
+                // When the img is deleted we revoke the URL, otherwise we 
+                // do a for each in the componentUnMount for each Images
+                URL.revokeObjectURL(currentImg.link);
+            }
         }
     }
 
     public save() {
-        saveAdImages(this.state.temporaryFileUrls.map(img => img.file), 
-                     this.props.idAd, 
-                     true, this.state.imgsToDelete).then(res => {
-                        if(res?.data) {
-                            this.props.reset(res?.data);
-                            this.saveBackup(res?.data, true)
-                            this.setState({temporaryFileUrls: [], isEditing: false});
-                        }
-                     });
+        if (!this.getError()) {
+            saveAdImages(this.props.images.map(img => img.file),
+                this.props.idAd,
+                true, this.state.imgsToDelete).then(res => {
+                    if (res?.data) {
+                        this.props.reset(BlockImage.fromBackend(res?.data));
+                        this.saveBackup(BlockImage.fromBackend(res?.data), true)
+                        this.setState({ temporaryFileUrls: [], isEditing: false });
+                    }
+                });
+        }
     }
 
-    public saveBackup(backup: Array<AdImage> = this.props.images, saved: boolean = false) {
-        if(this.props.isModification && (!this.backup || saved)) {
+    public saveBackup(backup: Array<BlockImage> = this.props.images, saved: boolean = false) {
+        if (this.props.isModification && (!this.backup || saved)) {
             this.backup = backup;
         }
     }
 
     public cancel() {
-        if(this.backup) {
+        if (this.backup) {
             this.props.reset(this.backup);
-            this.setState({temporaryFileUrls: [], imgsToDelete: ""});
+            this.setState({ temporaryFileUrls: [], imgsToDelete: "" });
             this.setIsEditing(false);
+            this.props.setError("");
         }
     }
 
@@ -144,17 +132,17 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public render(): ReactNode {
         return (
             <>
-                <label>adImages :</label>
+                <label>adImages <span style={{ color: "red" }}>{this.props.error ? this.props.error : ""}</span></label>
                 <br />
                 <input onChange={(e) => this.handleChange(e)} type="file" multiple />
                 <br />
                 <br />
-                {this.getUrls()?.map(img => (
-                    <img onDoubleClick={() => this.deleteImg(img)} className="adModifImages" key={createRandomKey()} src={img.path} />
+                {this.props.images?.map(img => (
+                    <img onDoubleClick={() => this.deleteImg(img)} className="adModifImages" key={createRandomKey()} src={img.link} />
                 ))}
                 <br />
                 <br />
-                
+
                 {this.props.isModification && this.state.isEditing ?
                     (
                         <>

@@ -19,7 +19,8 @@
 
 .div-filters {
     width: 8.5cm;
-    height: max-content;
+    height: fit-content;
+    padding-bottom: 16px;
     background: white;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     border-radius: 20px;

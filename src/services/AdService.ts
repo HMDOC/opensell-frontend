@@ -95,8 +95,8 @@ export const adModificationTags = async (tags: Array<string>, idAd: number) => {
     return await http.patch<HtmlCode>(`/ad/modification/tags`, tags, {params : {idAd}});
 };
 
-export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: string = null) => {
+export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: Array<number> = null) => {
     let imagesFormData = new FormData();
     images.forEach(img => imagesFormData.append("adImages", img));
-    return await http.post<Array<AdImage>>("/ad/save-ad-images", imagesFormData, {params : {idAd, isModif, idsToDelete}});
+    return await http.post<Array<AdImage>>("/ad/save-ad-images", imagesFormData, {params : {idAd, isModif, idsToDelete}, paramsSerializer: {indexes: null}});
 };

@@ -1,7 +1,7 @@
 import { Component, FormEvent, ReactNode } from "react";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData } from "../../services/AdCreationService";
 import { getAllAdTypes, saveAdImages } from "../../services/AdService";
-import { getFormData, getFormDataAsArray } from "../../services/customerModification/FormService";
+import { getFormData, getFormDataAsArray } from "../../services/FormService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages } from "../shared/AdImages";
 import { AdTags } from "../shared/AdTags";
@@ -11,7 +11,6 @@ import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../sha
 /**
  * @author Olivier Mansuy
  */
-
 class AdCreationInput extends Component<AdCreationInputProperties, any> {
     constructor(properties: AdCreationInputProperties) {
         super(properties)
@@ -44,7 +43,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             typeArray: [],
             errorAdTags: HtmlCode.SUCCESS,
             selectedTags: [],
-            images : []
+            images : [],
+            errorImages: ""
         }
     }
 
@@ -63,13 +63,13 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
     formIsValid(formData: FormData): boolean {
         //forEach of formData only returns undefined...
-        let tempData: {key:string, value:string}[] = getFormDataAsArray(formData);
+        let tempData: {fieldName:string, value:string}[] = getFormDataAsArray(formData);
         for (let elem of tempData) {
-            const {key, value} = elem;
-            let result: boolean = formValidation?.[key]?.isValid(value);
-            console.log(key + " " + result + " VALUE : " + value)
+            const {fieldName, value} = elem;
+            let result: boolean = formValidation?.[fieldName]?.isValid(value);
+            console.log(fieldName + " " + result + " VALUE : " + value)
             if (result === false) {
-                this.setGlobalErrorMessage(formValidation?.[key]?.errorMessage);
+                this.setGlobalErrorMessage(formValidation?.[fieldName]?.errorMessage);
                 return false;
             }
         }
@@ -91,7 +91,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     }) 
                     console.log(fileArray);
                     saveAdImages(fileArray, adId);
-                    this.setGlobalErrorMessage("LOG(TEST) : CREATED");
+                    this.setGlobalErrorMessage("Ad created...");
                 }
             })
         }
@@ -101,34 +101,28 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         console.log("The ad images : "+this.state.images.length)
         return(
             <div className="main-background">
+                <div><span>{this.state.globalErrorMessage}</span></div>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
-
                     <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
                     <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
                     <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
-                    <AdCreationInput labelText="Reference : " name="reference" type="text" required={false} />
                     <div>
                         <label htmlFor="description">Destription : </label>
                         <textarea name="description" id="description" cols={30} rows={10} required={false}></textarea>
                     </div>
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
-
-                    <AdImages 
-                        creationImages={this.state.images}
-                        updateCreationImages={(creationImages, isDelete?: boolean) => {
-                            if(isDelete) {
-                                this.setState({images : this.state.images.filter(img => img.id != creationImages[0].id)})
-                            } else {
-                                this.setState({images : [...this.state.images, ...creationImages]})
-                            }
-                        }}
+                    <AdImages
+                        error={this.state.errorImages}
+                        setError={(errorImages) => this.setState({errorImages})}
+                        images={this.state.images}
+                        removeImage={(link) => this.setState({images: this.state.images.filter(img => img.link != link)})}
+                        setImages={(images) => this.setState({images})}
                     />
                     <div>
                         <label htmlFor="type">Type : </label>
                         <AdTypeSelect inputName="type" inputId="type"/>
                     </div>
-
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({errorAdTags: error})}
@@ -136,8 +130,6 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         deleteTag={(tag) => {this.setState({selectedTags: [...this.state.selectedTags.filter(elem => elem != tag)]})}}
                         tags={this.state.selectedTags}
                     />
-
-                    <div><span>{this.state.globalErrorMessage}</span></div>
                     <button type="submit">Create</button>
                 </form>
             </div>

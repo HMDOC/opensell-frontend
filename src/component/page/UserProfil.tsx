@@ -23,7 +23,6 @@ export default function UserProfil(): ReactElement {
             <img width="125px" height="125px" style={{borderRadius: 100}} src={customerInfo?.iconPath}></img>
             <p>{customerInfo?.firstName} {customerInfo?.lastName}</p>
             <p>{customerInfo?.phoneNumber}</p>
-            <p>{customerInfo?.primaryAddress}</p>
             <p>{customerInfo?.exposedEmail}</p>
             <p>{customerInfo?.bio}</p>
             <h3>Posted ads</h3>

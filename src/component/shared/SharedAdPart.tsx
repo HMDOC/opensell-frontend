@@ -3,7 +3,7 @@ import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
 import { createRandomKey } from "../../services/RandomKeys";
-import { Schema, StringSchema } from "yup";
+import { Schema } from "yup";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
@@ -70,6 +70,17 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     public saveRef = createRef<HTMLButtonElement>();
     public cancelRef = createRef<HTMLButtonElement>();
 
+    public onBlur() {
+        // NOT WORKING
+        // if(document.activeElement != this.inputRef.current && document.activeElement != this.saveRef.current && document.activeElement != this.cancelRef.current) {
+        //     console.log("Yes it is first");
+
+        //     if(this.state.isEditing) {
+        //         this.setState({isEditing : false});
+        //     }
+        // }
+    }
+
     public state = {
         error: "",
         isEditing: false,
@@ -85,7 +96,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                 .catch(error => {
                     this.setState({ error: error.message });
                     isError = true;
-                    console.log(isError);
+                    console.log("Yes it goes here");
                 })
                 .finally(() => {
                     if (!isError && this.state.error) {
@@ -96,6 +107,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     }
 
     public handleChange(e: any): void {
+        console.log("Change");
         this.handleError(e.target.value);
     }
 
@@ -142,47 +154,53 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     public render(): ReactNode {
         return (
             <>
-                <label>{this.props.name} <span style={{ color: "red" }}>{this.state.error ? this.state.error : ""}</span></label>
-                <div>
-                    {this.props.type == InputType.TEXTARIA ?
-                        (
-                            <textarea onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />
-                        ) : (
-                            this.props.type == InputType.ONE_CHECKBOX ?
+                {this.props.defaultValue ? (
+                    <>
+                        <label>{this.props.name} <span style={{ color: "red" }}>{this.state.error ? this.state.error : ""}</span></label>
+                        <div>
+                            {this.props.type == InputType.TEXTARIA ?
                                 (
-                                    <input
-                                        onClick={() => this.checkedSave()}
-                                        ref={this.inputRef}
-                                        type="checkbox"
-                                        name={this.props.name}
-                                        defaultChecked={this.props.defaultValue} />
+                                    <textarea onBlur={() => this.onBlur()} onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />
                                 ) : (
-                                    <input
-                                        type={this.props.isNumber ? "number" : "text"}
-                                        defaultValue={this.props.defaultValue}
-                                        ref={this.inputRef} onFocus={() => this.focusInInput()}
-                                        name={this.props.name}
-                                        onChange={(e) => this.handleChange(e)} />
+                                    this.props.type == InputType.ONE_CHECKBOX ?
+                                        (
+                                            <input
+                                                onClick={() => this.checkedSave()}
+                                                ref={this.inputRef}
+                                                type="checkbox"
+                                                name={this.props.name}
+                                                defaultChecked={this.props.defaultValue} />
+                                        ) : (
+                                            <input
+                                                type={this.props.isNumber ? "number" : "text"}
+                                                onBlur={() => this.onBlur()}
+                                                defaultValue={this.props.defaultValue}
+                                                ref={this.inputRef} onFocus={() => this.focusInInput()}
+                                                name={this.props.name}
+                                                onChange={(e) => this.handleChange(e)} />
+                                        )
                                 )
-                        )
-                    }
+                            }
 
-                    {this.state.isEditing && this.props.type != InputType.ONE_CHECKBOX ?
-                        (
-                            <>
-                                <button ref={this.cancelRef} onClick={() => this.cancel()}>x</button>
-                                <button ref={this.saveRef} onClick={() => this.save()}>v</button>
-                            </>
-                        ) : (
-                            <>
+                            {this.state.isEditing && this.props.type != InputType.ONE_CHECKBOX ?
+                                (
+                                    <>
+                                        <button onBlur={() => this.onBlur()} ref={this.cancelRef} onClick={() => this.cancel()}>x</button>
+                                        <button onBlur={() => this.onBlur()} ref={this.saveRef} onClick={() => this.save()}>v</button>
+                                    </>
+                                ) : (
+                                    <>
 
-                            </>
-                        )
-                    }
-                </div>
+                                    </>
+                                )
+                            }
+                        </div>
 
-                <br />
-                <br />
+                        <br />
+                        <br />
+                    </>
+                ) : (<></>)
+                }
             </>
         );
     }

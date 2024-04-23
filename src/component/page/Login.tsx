@@ -17,47 +17,50 @@ export default function Login(props) {
         }
     );
     let customerInfo: CustomerInfo = {};
-    let customerId : number;
-    
+    let customerId: number;
 
-const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const errors = { username: "", password: "", creds: "" };
-    if (!username.current.value) {  
-        errors.username = "Required";
-        setErrors(errors);
-    } if (!password.current.value) {
-        errors.password = "Required";
-        setErrors(errors);
-    } else if (username.current.value && password.current.value) {
-        checkLogin(username.current.value, password.current.value).then(res => {
-            if (res?.data == "") {
-                errors.creds = "Username or password is incorrect";
-            } else {
-                customerId = res?.data;
-                setToken(customerId).then(() => {
-                    props.getCustomerInfo();
-                });
-                naviguate("/");
-                console.log("Login successful");
-            }
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        const errors = { username: "", password: "", creds: "" };
+        if (!username.current.value) {
+            errors.username = "Required";
             setErrors(errors);
-        });
-    }
-};
+        } if (!password.current.value) {
+            errors.password = "Required";
+            setErrors(errors);
+        } else if (username.current.value && password.current.value) {
+            checkLogin(username.current.value, password.current.value).then(res => {
+                if (res?.data == "") {
+                    errors.creds = "Username or password is incorrect";
+                } else {
+                    customerId = res?.data;
+                    setToken(customerId).then(() => {
+                        props.getCustomerInfo();
+                    });
+                    naviguate("/");
+                    console.log("Login successful");
+                }
+                setErrors(errors);
+            });
+        }
+    };
 
-return (
-    <div className="main-background">
-        <h1>Login</h1>
-        New here? Register <NavLink to="/signup">here</NavLink>
-        <form id="form">
-            <label>Email or username:</label><br />
-            <input className="inputForm" type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
-            <label>Password:</label><br />
-            <input className="inputForm" type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
-            <button type="submit" onClick={handleSubmit}>Log in</button>
-        </form><br />
-        {error.creds}
-    </div>
-)
+    return (
+        <div className="login-background">
+            <div className="front-login-background">
+                <h1>LOG IN</h1>
+                <hr className="login-separator" />
+                <form id="form">
+                    <label className="login-label">Email / Username:</label><br />
+                    <input placeholder="Email or username" className="inputForm" type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
+                    <label className="login-label">Password:</label><br />
+                    <input placeholder="Password" className="inputForm" type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
+                    <button className="login-button" type="submit" onClick={handleSubmit}>LOG IN</button>
+                </form><br />
+                {error.creds}
+            New here? Register <NavLink style={{textDecoration: "none", color : "var(--sr2)", fontWeight : "bold"}} to="/signup">here</NavLink>
+            </div>
+        </div>
+    )
 }
