@@ -104,7 +104,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
     return (
         <>
-            <div className="row">
+            <div className={(props.isSearch) ? "":"row"}>
                 {props.isSearch ?
                     (
                         <>
@@ -121,7 +121,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
                 }
 
                 <input placeholder={props.placeholder}
-                    className="modificationInput col-9"
+                    className={(props.isSearch) ? "":"modificationInput col-9"}
                     onChange={(e:BaseSyntheticEvent) => onTypeEvent(e)}
                     pattern="[a-z0-9]"
                     onDoubleClick={(e: any) => addEvent(e)} name="adTags" />

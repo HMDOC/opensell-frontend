@@ -121,7 +121,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     />
                     <div className="row">
                         <label htmlFor="type" className="col">Type : </label>
-                        <AdTypeSelect inputName="type" inputId="type"/>
+                        <AdTypeSelect inputName="type" inputId="type" cName="modificationInput col-9"/>
                     </div>
                     <AdTags
                         error={this.state.errorAdTags}
