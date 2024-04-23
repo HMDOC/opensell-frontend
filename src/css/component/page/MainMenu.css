@@ -42,6 +42,28 @@ body {
 
  */
 
- .splash-div {
+.splash-div {
     float: left;
- }
+}
+
+.splash-text {
+    text-align: right;
+    font-size: 100px;
+    line-height: 100px;
+}
+
+.splash-middle * {
+    display: inline-block;
+}
+
+.splash-line {
+    height: 2px;
+    width: 60%;
+    background-color: var(--sr2);
+    margin-bottom: 25px;
+    margin-right: 35px;
+}
+
+.splash-bottom {
+    font-size: 30px;
+}
