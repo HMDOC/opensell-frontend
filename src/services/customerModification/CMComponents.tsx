@@ -1,32 +1,11 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from "react"
+import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react"
 import { AdCreationInputProperties } from "../AdCreationService"
 import { CustomerModificationView } from "../../entities/dto/CustomerModificationView"
 import { CustomerDto } from "../../entities/dto/CustomerDto";
 import { FormValidationObject } from "./CMFormValidation";
 import { ArrayOfRequests, executeChange, getCheckResult, replaceInString } from "./CMService";
-import { AxiosResponse } from "axios";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
-
-export const NOTHING_CHANGED = "Nothing changed...";
-
-interface CMInputProperties extends AdCreationInputProperties {
-    onChange?(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void,
-    defaultValue?: string,
-    cols?: number,
-    rows?: number,
-    numberOfLinks?: number,
-    defaultValues?: CustomerModificationView
-}
-
-interface CMDisplayProperties {
-    labelText: string;
-    defaultValue?: string;
-    isPassword?: boolean;
-    hasButton?: boolean;
-    buttonText?: string;
-    buttonOnClickCallback?(): void
-}
 
 export interface CMState {
     defaultValues: CustomerModificationView,
@@ -38,12 +17,37 @@ export interface CMProperties {
     customerData: CustomerDto
 }
 
+interface CMInputProperties extends AdCreationInputProperties {
+    onChange?(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void,
+    defaultValue?: string,
+    cols?: number,
+    rows?: number,
+    defaultValues?: CustomerModificationView,
+    inputRef?: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>
+}
+
+interface CMRepeatInputProperties extends CMInputProperties {
+    setRepeatInputState(isValid: boolean): void,
+    addFeedbackMessage(message: string): void,
+    removeFeedbackMessage(message: string): void
+}
+
+interface CMDisplayProperties {
+    labelText: string;
+    defaultValue?: string;
+    isPassword?: boolean;
+    hasButton?: boolean;
+    buttonText?: string;
+    buttonOnClickCallback?(): void
+}
+
 interface CMFormProperties {
     defaultValues: CustomerDto
 }
 
 interface CMFormState {
-    feedbackMessages: string[]
+    feedbackMessages: string[],
+    confirmInputIsValid?: boolean
 }
 
 export class CMInput extends Component<CMInputProperties, any> {
@@ -52,8 +56,30 @@ export class CMInput extends Component<CMInputProperties, any> {
             <div className="modificationSection">
                 <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
                 <input className="modificationInput" id={this.props.name} type={this.props.type} name={this.props.name} defaultValue={this.props?.defaultValue} 
-                onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>)}/>
+                onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>)}
+                ref={this.props.inputRef as RefObject<HTMLInputElement>}/>
             </div>
+        )
+    }
+}
+
+class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
+    private INVALID_MESSAGE: string = "This value is not the same as the original input!";
+    private inputRef: RefObject<HTMLInputElement> = createRef();
+
+    public handleRepeatInputChange(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
+        let isValid: boolean = changeEvent.target.value === this.inputRef.current.value;
+        if (!isValid) this.props.addFeedbackMessage(this.INVALID_MESSAGE);
+        else this.props.removeFeedbackMessage(this.INVALID_MESSAGE);
+        this.props.setRepeatInputState(isValid);
+    }
+
+    render(): ReactNode {
+        return(
+            <>
+                <CMInput labelText={this.props.labelText} name={this.props.name} type={this.props.type} inputRef={this.inputRef} onChange={(changeEvent) => this.props.onChange(changeEvent)}/>
+                <CMInput labelText={"Confirm " + this.props.labelText} name={null} type={this.props.type} onChange={(changeEvent) => this.handleRepeatInputChange(changeEvent)}/>
+            </>
         )
     }
 }
@@ -107,6 +133,8 @@ export class CMDisplay extends Component<CMDisplayProperties, any> {
 
 //
 abstract class CMForm extends Component<CMFormProperties, CMFormState> {
+    protected NOTHING_CHANGED = "Nothing changed...";
+
     constructor(properties: CMFormProperties) {
         super(properties)
         this.state = {
@@ -114,20 +142,20 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         }
     }
 
-    private addFeedbackMessage(message: string):void {
+    protected addFeedbackMessage(message: string):void {
         if (!this.state.feedbackMessages.includes(message)) this.setState({...this.state, feedbackMessages: [...this.state.feedbackMessages, message]});
     }
 
-    private removeFeedbackMessage(message: string):void {
+    protected removeFeedbackMessage(message: string):void {
         this.setState({...this.state, feedbackMessages: [...this.state.feedbackMessages.filter((elem) => elem !== message)]});
     }
 
-    private resetFeedbackMessages() {
+    protected resetFeedbackMessages() {
         this.setState({feedbackMessages: []});
     }
 
     private removeNothingChanged(): void {
-        if (this.state.feedbackMessages.includes(NOTHING_CHANGED)) this.removeFeedbackMessage(NOTHING_CHANGED);
+        if (this.state.feedbackMessages.includes(this.NOTHING_CHANGED)) this.removeFeedbackMessage(this.NOTHING_CHANGED);
     }
 
     private getCustomerIdentification(): number {
@@ -201,7 +229,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
                 await this.makeChanges(this.getRequests(formData)).then((rep) => {
                     console.log(rep);
                 })
-            } else if (res == null) this.addFeedbackMessage(NOTHING_CHANGED);
+            } else if (res == null) this.addFeedbackMessage(this.NOTHING_CHANGED);
             
         })
     }
@@ -229,11 +257,31 @@ export class CMBasicModificationsForm extends CMForm {
 }
 
 export class CMPersonalEmailForm extends CMForm {
+    constructor(properties) {
+        super(properties)
+        this.state = {
+            feedbackMessages: [],
+            confirmInputIsValid: false
+        }
+    }
 
     render(): ReactNode {
         return(
             <div>
-                <p>PERSONALEMAIL</p>
+                <div>
+                    {this.state.feedbackMessages.map((elem) => <p>{elem}</p>)}
+                </div>
+                <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
+                    <CMRepeatInput 
+                    labelText="Private Email" 
+                    name="personalEmail" 
+                    type="text"
+                    onChange={(changeEvent) => this.handleChange(changeEvent)}
+                    setRepeatInputState={(res: boolean) =>  this.setState({confirmInputIsValid: res})}
+                    addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
+                    removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)}/>
+                    <CMButton type="submit" buttonText="Save"/>
+                </form>
             </div>
         )
     }

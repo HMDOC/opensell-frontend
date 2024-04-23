@@ -68,15 +68,13 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                     onRequestClose={() => this.closeModal()} 
                     ariaHideApp={false}
                     style={{content: 
-                                {width: ((window.innerWidth * 60)/100), 
+                                {width: ((window.innerWidth * 50)/100), 
                                 height: ((window.innerHeight * 80)/100), 
                                 top: '50%', left: '50%', position: 'fixed', 
                                 transform: 'translate(-50%, -50%)', 
                                 background: '#DCE9FC', border: '2px solid red'}}}
                     >
-
                         {this.state.currentModalContent}
-
                     </Modal>  
                 </div>
             </div>
