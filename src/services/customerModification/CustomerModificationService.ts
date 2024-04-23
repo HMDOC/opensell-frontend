@@ -70,11 +70,6 @@ export const formValidationObject: {[fieldName:string]: CustomerModificationInpu
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-last-name`,
         errors: {format: "Your last name can't have any numbers (with one space or - followed by more characters)!"}
     },
-    primaryAddress: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.LIMIT80),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-primary-address`,
-        errors: {format: "Can't be more than 80 characters"}
-    },
     exposedEmail: {
         inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.EMAIL),
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-public-email`,
@@ -97,34 +92,7 @@ export const formValidationObject: {[fieldName:string]: CustomerModificationInpu
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
         errors: {unique: "You're already using this password!", format: "Your password must contain..."},
         uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-same-pwd?pwd=?1&id=?2`
-    },
-    link1: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-1`,
-        errors: {format: "Wrong format for link {1}..."}
-    },
-    link2: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-2`,
-        errors: {format: "Wrong format for first {2}..."}
-    },
-    link3: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-3`,
-        errors: {format: "Wrong format for first {3}..."}
-    },
-    link4: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-4`,
-        errors: {format: "Wrong format for first {4}..."}
-    },
-    link5: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.URL),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-socials-5`,
-        errors: {format: "Wrong format for first link {5}..."}
     }
-
-
 }
 
 export const executeChange = async (request: string, data: CustomerModificationData): Promise<AxiosResponse<ModificationFeedback>> => {
@@ -140,16 +108,10 @@ export const getCheckResult = async (request: string): Promise<AxiosResponse<num
 //     firstName: `${CHANGE_REQUEST_MAPPING}/change-first-name`,
 //     lastName: `${CHANGE_REQUEST_MAPPING}/change-last-name`,
 //     exposedEmail: `${CHANGE_REQUEST_MAPPING}/change-public-email`,
-//     primaryAddress: `${CHANGE_REQUEST_MAPPING}/change-primary-address`,
 //     bio: `${CHANGE_REQUEST_MAPPING}/change-bio`,
 //     personalEmail: `${CHANGE_REQUEST_MAPPING}/change-private-email`,
 //     pwd: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
 //     phoneNumber: `${CHANGE_REQUEST_MAPPING}/change-phone-number`,
-//     social1: `${CHANGE_REQUEST_MAPPING}/change-socials-1`,
-//     social2: `${CHANGE_REQUEST_MAPPING}/change-socials-2`,
-//     social3: `${CHANGE_REQUEST_MAPPING}/change-socials-3`,
-//     social4: `${CHANGE_REQUEST_MAPPING}/change-socials-4`,
-//     social5: `${CHANGE_REQUEST_MAPPING}/change-socials-5`,
 // }
 
 

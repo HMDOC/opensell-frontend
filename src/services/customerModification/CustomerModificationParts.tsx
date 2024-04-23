@@ -36,31 +36,6 @@ export class CustomerModificationTextArea extends CustomerModificationInput {
     }
 }
 
-export class CustomerModificationSocials extends Component<CustomerModificationInputProperties, any> {
-    private getNumberArray(): number[] {
-        let numbers: number[] = [];
-        for (let elem = 1; elem < this.props?.numberOfLinks + 1; elem++) numbers.push(elem);
-        return numbers;
-    }
-    render(): ReactNode {
-        return(
-            <div className="modificationSection modificationSocials">
-                <label className="modificationLabel">{this.props.labelText}</label>
-                {this.getNumberArray().map((elem: number) => (
-                    <CustomerModificationInput 
-                    labelText="" 
-                    type="text" 
-                    name={this.props.name + elem} 
-                    key={elem} 
-                    defaultValue={this.props.defaultValues?.[this.props.name + elem]}
-                    onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLTextAreaElement>)}
-                    />
-                ))}
-            </div>
-        );
-    }
-}
-
 export class CustomerModificationButton extends Component<{type: "button" | "reset" | "submit", buttonText: string}, any> {
     render(): ReactNode {
         return(

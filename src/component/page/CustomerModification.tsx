@@ -10,7 +10,7 @@ import {
     executeChange,
     NOTHING_CHANGED
 } from "../../services/customerModification/CustomerModificationService";
-import { CustomerModificationButton, CustomerModificationInput, CustomerModificationSocials, CustomerModificationTextArea } from "../../services/customerModification/CustomerModificationParts";
+import { CustomerModificationButton, CustomerModificationInput, CustomerModificationTextArea } from "../../services/customerModification/CustomerModificationParts";
 import { getFormData, getFormDataAsArray } from "../../services/FormService";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 import "../../css/component/page/CustomerModification.css"
@@ -151,10 +151,8 @@ export default class CustomerModification extends Component<CustomerModification
                         <CustomerModificationInput name="username" defaultValue={this.state.defaultValues?.username} labelText="Username : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                         <CustomerModificationInput name="firstName" defaultValue={this.state.defaultValues?.firstName} labelText="FirstName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                         <CustomerModificationInput name="lastName" defaultValue={this.state.defaultValues?.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                        <CustomerModificationInput name="primaryAddress" defaultValue={this.state.defaultValues?.primaryAddress} labelText="Primary Address : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                         <CustomerModificationInput name="exposedEmail" defaultValue={this.state.defaultValues?.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                         <CustomerModificationTextArea name="bio" defaultValue={this.state.defaultValues?.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10}/>
-                        <CustomerModificationSocials onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} labelText="SOCIALS : " name="link" type="text" numberOfLinks={5} defaultValues={this.state.defaultValues}/>
                         <div className="modificationLabel modificationStatus">
                             {this.state.feedbackMessages.map((message: string, key: number) => ( <div key={key}>{message}</div>) )}
                         </div>
