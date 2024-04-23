@@ -8,8 +8,10 @@
 }
 
 body {
-  background-color: var(--sr1);
   color: var(--sr2);
+  background-image: url("../public/img/rattan-basket-by-floral-wall-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .main-background {

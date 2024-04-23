@@ -1,3 +1,6 @@
+/* .main-menu-background {
+}
+
 body {
     height: 100%;
 }
@@ -37,4 +40,8 @@ body {
     color: var(--sr2);
 }
 
+ */
 
+ .splash-div {
+    float: left;
+ }
