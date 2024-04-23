@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import { BaseSyntheticEvent, ReactElement } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 
@@ -76,6 +76,12 @@ export function AdTags(props: AdTagsProps): ReactElement {
         }
     };
 
+    const onTypeEvent = (e:BaseSyntheticEvent):void =>{
+        e.target.value = e.target.value.toLowerCase()
+            .replaceAll(' ', '-')
+            .replaceAll('--', '-')
+            .trim();
+    }
 
     /**
      * @brief
@@ -114,7 +120,10 @@ export function AdTags(props: AdTagsProps): ReactElement {
                 )
             }
 
-            <input placeholder={props.placeholder} onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
+            <input placeholder={props.placeholder}
+                onChange={(e:BaseSyntheticEvent) => onTypeEvent(e)}
+                pattern="[a-z0-9]"
+                onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
             <br />
             {!props.isSearch ?
                 <br /> : <></>

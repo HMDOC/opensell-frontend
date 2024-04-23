@@ -19,7 +19,7 @@
             "label" : "My Ads"
         },
         {
-            "path" : "/u/settings",
+            "path" : "/u/customer-modification",
             "label" : "Settings"
         }
     ]

@@ -1,12 +1,12 @@
-import {Component, FormEvent, ReactNode} from "react";
-import {MAX_PRICE, SelectorReader, SHAPE_ARRAY, VISIBILITY_ARRAY} from "../shared/SharedAdPart";
-import {getFormData, getFormDataAsArray} from "../../services/customerModification/FormService";
+import { Component, FormEvent, ReactNode } from "react";
+import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData } from "../../services/AdCreationService";
 import { getAllAdTypes, saveAdImages } from "../../services/AdService";
-import { AdTags } from "../shared/AdTags";
+import { getFormData, getFormDataAsArray } from "../../services/customerModification/FormService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData} from "../../services/AdCreationService";
+import { AdImages } from "../shared/AdImages";
+import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
-import { AdImages, CreationImage } from "../shared/AdImages";
+import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 
 /**
  * @author Olivier Mansuy

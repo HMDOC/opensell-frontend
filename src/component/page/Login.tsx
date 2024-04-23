@@ -3,6 +3,7 @@ import { checkLogin } from '../../services/LogInService';
 import { NavLink, useNavigate } from "react-router-dom";
 import { CustomerInfo } from "../../entities/dto/CustomerInfo";
 import { setToken } from "../../services/SetToken";
+import "../../css/component/page/Login.css"
 
 export default function Login(props) {
     const username = useRef(null);
@@ -51,9 +52,9 @@ return (
         New here? Register <NavLink to="/signup">here</NavLink>
         <form id="form">
             <label>Email or username:</label><br />
-            <input type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
+            <input className="inputForm" type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
             <label>Password:</label><br />
-            <input type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
+            <input className="inputForm" type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
             <button type="submit" onClick={handleSubmit}>Log in</button>
         </form><br />
         {error.creds}

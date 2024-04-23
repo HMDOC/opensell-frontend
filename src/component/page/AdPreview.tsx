@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import "../../css/component/page/AdPreview.css"
+import "../../css/component/part/ImageFit.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox, faBoxOpen, faDizzy, faEarthAmerica, faFaceGrin, faFaceMeh, faFaceSmile, faFaceSmileBeam, faFrown, faGrinStars, faQuestion, faStar, faStarHalf, faStarHalfStroke, faWandMagic, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
 
@@ -53,7 +54,7 @@ const AdPreview = (props) : ReactElement => {
 
     return (
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
-            <img className="card-img-top" 
+            <img className="card-img-top imgFit" 
                 src={props?.firstImagePath} 
                 alt="The image cant load!"></img>
             <hr />

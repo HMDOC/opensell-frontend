@@ -2,6 +2,7 @@ import { ChangeEvent, PureComponent, ReactNode } from "react";
 import { AdImage } from "../../entities/dto/AdBuyerView";
 import { saveAdImages } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
+import "../../css/component/page/AdModif.css";
 
 export interface CreationImage {
     file: File;
@@ -149,7 +150,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
                 <br />
                 <br />
                 {this.getUrls()?.map(img => (
-                    <img onDoubleClick={() => this.deleteImg(img)} style={{ width: "250px" }} key={createRandomKey()} src={img.path} />
+                    <img onDoubleClick={() => this.deleteImg(img)} className="adModifImages" key={createRandomKey()} src={img.path} />
                 ))}
                 <br />
                 <br />
