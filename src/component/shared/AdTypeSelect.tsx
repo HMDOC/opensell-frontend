@@ -56,6 +56,7 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
                 {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ? 
                     (
                         <select
+                            className="modificationInput col-9"
                             id={this.props.inputId}
                             name={this.props.inputName}
                             defaultValue={this.props.selectedIndex ? this.props.selectedIndex : ""}

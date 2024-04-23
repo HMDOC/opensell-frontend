@@ -7,6 +7,7 @@ import { AdImages } from "../shared/AdImages";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
+import "../../css/component/page/CustomerModification.css"
 
 /**
  * @author Olivier Mansuy
@@ -17,10 +18,10 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
     }
     render(): ReactNode {
         return(
-            <div className="">
-                <label htmlFor={this.props.name} className="">{this.props.labelText}</label>
+            <div className="row">
+                <label htmlFor={this.props.name} className="col">{this.props.labelText}</label>
                 <input
-                className=""
+                className="modificationInput col-9"
                 type={this.props.type}
                 min={this.props.min}
                 max={this.props.max}
@@ -100,15 +101,14 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     render(): ReactNode {
         console.log("The ad images : "+this.state.images.length)
         return(
-            <div className="main-background">
-                <div><span>{this.state.globalErrorMessage}</span></div>
+            <div className="reg-background container">
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
                     <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
                     <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
                     <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
-                    <div>
-                        <label htmlFor="description">Destription : </label>
-                        <textarea name="description" id="description" cols={30} rows={10} required={false}></textarea>
+                    <div className="row">
+                        <label htmlFor="description" className="col">Description : </label>
+                        <textarea name="description" id="description" className="modificationInput col-9" cols={30} rows={5} required={false}></textarea>
                     </div>
                     <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader name="shape" options={SHAPE_ARRAY} />
@@ -119,8 +119,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         removeImage={(link) => this.setState({images: this.state.images.filter(img => img.link != link)})}
                         setImages={(images) => this.setState({images})}
                     />
-                    <div>
-                        <label htmlFor="type">Type : </label>
+                    <div className="row">
+                        <label htmlFor="type" className="col">Type : </label>
                         <AdTypeSelect inputName="type" inputId="type"/>
                     </div>
                     <AdTags
@@ -130,7 +130,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         deleteTag={(tag) => {this.setState({selectedTags: [...this.state.selectedTags.filter(elem => elem != tag)]})}}
                         tags={this.state.selectedTags}
                     />
-                    <button type="submit">Create</button>
+                    <button type="submit" className="btn bg-primary text-white align-self-end">Create</button> <br />
+                    <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 </form>
             </div>
         )

@@ -22,6 +22,25 @@ body {
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
 }
 
+.reg-background {
+  width: 90vw;
+  max-width: 48em;
+  min-height: 80vh;
+  margin: 30px auto auto auto;
+  background-color: white;
+  border-radius: 20px;
+  padding: 50px 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+.reg-background div{
+  margin: 0.5em 0;
+}
+
+.reg-background label{
+  font-weight: bold;
+}
+
 .App {
   text-align: center;
 }

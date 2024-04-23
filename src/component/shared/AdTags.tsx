@@ -104,46 +104,50 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
     return (
         <>
-            {props.isSearch ?
-                (
-                    <>
-                        <h5>Tags</h5>
-                        {props.error != HtmlCode.SUCCESS ?
-                            <p style={{ color: "red" }}>Tag {getErrorValue()}</p> : <></>
-                        }
-                    </>
-                ) : (
-                    <>
-                        <label>{"adTags"} <span style={{ color: "red" }}>{getErrorValue()}</span></label>
-                        <br />
-                    </>
-                )
-            }
+            <div className="row">
+                {props.isSearch ?
+                    (
+                        <>
+                            <h5>Tags</h5>
+                            {props.error != HtmlCode.SUCCESS ?
+                                <p style={{ color: "red" }}>Tag {getErrorValue()}</p> : <></>
+                            }
+                        </>
+                    ) : (
+                        <>
+                            <label className="col">{"adTags"} <span style={{ color: "red" }}>{getErrorValue()}</span></label>
+                        </>
+                    )
+                }
 
-            <input placeholder={props.placeholder}
-                onChange={(e:BaseSyntheticEvent) => onTypeEvent(e)}
-                pattern="[a-z0-9]"
-                onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
-            <br />
-            {!props.isSearch ?
-                <br /> : <></>
-            }
+                <input placeholder={props.placeholder}
+                    className="modificationInput col-9"
+                    onChange={(e:BaseSyntheticEvent) => onTypeEvent(e)}
+                    pattern="[a-z0-9]"
+                    onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
+                <br />
+                {!props.isSearch ?
+                    <br /> : <></>
+                }
+                </div>
+            <div>
 
-            {props.tags?.map(value => (
-                <button type="button" onDoubleClick={() => deleteEvent(value)} key={createRandomKey()}>{value}</button>
-            ))}
-            {!props.isSearch ?
-                (
-                    <>
-                        <br />
-                        <br />
-                    </>
-                ) : (
-                    <></>
-                )
+                {props.tags?.map(value => (
+                    <button type="button" onDoubleClick={() => deleteEvent(value)} key={createRandomKey()}>{value}</button>
+                ))}
+                {!props.isSearch ?
+                    (
+                        <>
+                            <br />
+                            <br />
+                        </>
+                    ) : (
+                        <></>
+                    )
 
-            }
+                }
 
+            </div>
         </>
     );
 }
