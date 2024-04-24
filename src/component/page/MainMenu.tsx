@@ -16,14 +16,21 @@ export default function MainMenu(): ReactElement {
         navigate(`/catalog?query=${search}`);
     }
     return (
-        <div className="main-background">
-            <div className="searchBar">
-                <h1 id="mainTitle">OPENSELL INC.</h1><br />
+        <>
+            <div className="splash-div">
+                <div className="splash-text">
+                    <div style={{ paddingRight: "100px" }}>Opensell</div>
+                    <div className="splash-middle">
+                        <div className="splash-line"></div>
+                        <div>Inc.</div>
+                    </div>
+                </div>
+                <div className="splash-bottom">The online marketplace, redesigned</div><br />
                 <form onSubmit={getLink} className="inputContainer">
-                    <input onChange={(e) => {search = e.target.value}} type="text" placeholder="Search" className="mainMenuInput" />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon"/>
+                    <input onChange={(e) => { search = e.target.value }} type="text" placeholder="Search" className="mainMenuInput" />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
                 </form>
             </div>
-        </div>
+        </>
     );
 }

@@ -1,18 +1,7 @@
-import {ChangeEvent, Component, FormEvent, ReactNode} from "react";
-import {  
-    CustomerModificationProperties, 
-    CustomerModificationState, 
-    getCustomerModificationView,
-    formValidationObject,
-    replaceInString, 
-    getCheckResult,
-    ArrayOfRequests,
-    executeChange,
-    NOTHING_CHANGED
-} from "../../services/customerModification/CustomerModificationService";
-import { CustomerModificationButton, CustomerModificationInput, CustomerModificationSocials, CustomerModificationTextArea } from "../../services/customerModification/CustomerModificationParts";
-import { getFormData, getFormDataAsArray } from "../../services/FormService";
-import ModificationFeedback from "../../entities/dto/ModificationFeedback";
+import { Component, ReactNode } from "react";
+import Modal from "react-modal";
+import { getCustomerModificationView, CMModalType } from "../../services/customerModification/CMService";
+import { CMBasicModificationsForm, CMDisplay, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm, CMProperties, CMState} from "../../services/customerModification/CMComponents";
 import "../../css/component/page/CustomerModification.css"
 
 /**
@@ -23,144 +12,70 @@ import "../../css/component/page/CustomerModification.css"
  * https://javascript.plainenglish.io/promise-based-prop-in-react-78a77440f4fc
  * https://stackoverflow.com/questions/50094331/react-app-componentdidmount-not-getting-props-from-parent
  * https://blog.logrocket.com/types-vs-interfaces-typescript/
+ * https://reactcommunity.org/react-modal/styles/
  *
  */
-export default class CustomerModification extends Component<CustomerModificationProperties, CustomerModificationState> {
-    constructor(properties: CustomerModificationProperties) {
+export default class CustomerModification extends Component<CMProperties, CMState> {
+    constructor(properties: CMProperties) {
         super(properties);
         this.state = {
-            feedbackMessages: [],
-            defaultValues: undefined
+            defaultValues: undefined,
+            modalIsOpen: false,
+            currentModalContent: null
         }
     }
 
     componentDidMount(): void {
-        if (this.props.customerData) {
-            getCustomerModificationView(this.props.customerData).then((rep) => {
+        if (this.props.customerData.customerId) {
+            getCustomerModificationView(this.props.customerData.customerId).then((rep) => {
                 if (rep?.data) this.setState({defaultValues: rep?.data});
             })
         }
     }
 
-    private addFeedbackMessage(message: string):void {
-        if (!this.state.feedbackMessages.includes(message)) this.setState({...this.state, feedbackMessages: [...this.state.feedbackMessages, message]});
+    public openModal(type: CMModalType): void {
+        if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData}/>});
+        else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData}/>});
+        else if (type == CMModalType.PASSWORD) this.setState({currentModalContent: <CMPasswordForm defaultValues={this.props.customerData}/>});
+        else if (type == CMModalType.PHONE_NUMBER) this.setState({currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData}/>});
+        this.setState({modalIsOpen: true});
     }
 
-    private removeFeedbackMessage(message: string):void {
-        this.setState({...this.state, feedbackMessages: [...this.state.feedbackMessages.filter((elem) => elem !== message)]});
-    }
-
-    private resetFeedbackMessages() {
-        this.setState({feedbackMessages: []});
-    }
-
-    private removeNothingChanged(): void {
-        if (this.state.feedbackMessages.includes(NOTHING_CHANGED)) this.removeFeedbackMessage(NOTHING_CHANGED);
-    }
-
-    private isValid(name: string, value: string): boolean {
-        const {inputValueIsValid} = formValidationObject?.[name];
-        return inputValueIsValid(value, this.getDefaultValueOf(name));
-    }
-
-    private getCustomerIdentification(): number {
-        return this.props.customerData;
-    }
-
-    private getDefaultValueOf(name: string): string {
-        return this.state.defaultValues?.[name];
-    }
-
-    private handleChange(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void {
-        const {name, value} = changeEvent.target;
-        const {errors} = formValidationObject?.[name];
-        if (this.isValid(name, value) !== false) this.removeFeedbackMessage(errors?.format);
-        else this.addFeedbackMessage(errors?.format);
-        this.removeNothingChanged();
-    }
-
-    private async checkForUniques(fieldName: string, value: string, hasChanged: boolean) {
-        return new Promise<boolean>(async(resolve) => {
-            const {errors, uniqueCheck} = formValidationObject?.[fieldName];
-            if (uniqueCheck != null && hasChanged == true) {
-                await getCheckResult(replaceInString(uniqueCheck, value)).then((res) => {
-                    if (res?.data > 0) { this.addFeedbackMessage(errors?.unique); resolve(false); }
-                    else resolve(true);
-                }).catch((err) => console.log(err))
-            } else resolve(null);
-        })
-    }
-
-    private formIsValid(formData: FormData): Promise<boolean> {
-        return new Promise<boolean>(async(resolve) => {
-            let nothingChanged: boolean = true;
-            for (let elem of getFormDataAsArray(formData)) {
-                const {fieldName, value} = elem;
-                let currentInputIsValid: boolean = this.isValid(fieldName, value);
-                if (currentInputIsValid == false) resolve(false);
-                else if (currentInputIsValid) nothingChanged = false;
-                await this.checkForUniques(fieldName, value, currentInputIsValid).then((rep) => { if (rep == false) resolve(false) })
-            }
-            resolve(nothingChanged ? null : true);
-        });
-    }
-
-    private getRequests(formData: FormData): ArrayOfRequests {
-        let tempRequests: ArrayOfRequests = [];
-        for (let elem of getFormDataAsArray(formData)) {
-            const {fieldName, value} = elem;
-            if (this.isValid(fieldName, value) == true) {
-                tempRequests.push({mapping: formValidationObject?.[fieldName].modificationEndPoint, data: {id: this.getCustomerIdentification(), value: value}});
-            }
-        }
-        return tempRequests;
-    }
-
-    private async makeChanges(array: ArrayOfRequests): Promise<ModificationFeedback[]> {
-        return new Promise<ModificationFeedback[]>(async(resolve) => {
-            let feedbackObjects: ModificationFeedback[] = [];
-            for (let elem = 0; elem < array.length; elem++) {
-                await executeChange(array[elem].mapping, array[elem].data).then((rep) => {
-                    feedbackObjects.push(rep?.data);
-                });
-            }
-            resolve(feedbackObjects);
-        });
-    }
-
-    private async saveChanges(formEvent: FormEvent<HTMLFormElement>) {
-        let formData: FormData = getFormData(formEvent);
-        await this.formIsValid(getFormData(formEvent)).then(async(res) => {
-            if (res == true) {
-                await this.makeChanges(this.getRequests(formData)).then((rep) => {
-                    this.resetFeedbackMessages();
-                })
-            } else if (res == null) {
-                formEvent.preventDefault();
-                this.addFeedbackMessage(NOTHING_CHANGED);
-            } else formEvent.preventDefault();
-        })
+    public closeModal(): void {
+        this.setState({modalIsOpen: false});
     }
 
     render(): ReactNode {
         return (
             <div className="modificationContainer">
                 <div id="customer-modification-form" className="main-background modificationPage">
-                    
-                    <form onSubmit={(formEvent: FormEvent<HTMLFormElement>) => this.saveChanges(formEvent)}>
-                        <CustomerModificationInput name="username" defaultValue={this.state.defaultValues?.username} labelText="Username : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                        <CustomerModificationInput name="firstName" defaultValue={this.state.defaultValues?.firstName} labelText="FirstName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                        <CustomerModificationInput name="lastName" defaultValue={this.state.defaultValues?.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                        <CustomerModificationInput name="primaryAddress" defaultValue={this.state.defaultValues?.primaryAddress} labelText="Primary Address : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                        <CustomerModificationInput name="exposedEmail" defaultValue={this.state.defaultValues?.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                        <CustomerModificationTextArea name="bio" defaultValue={this.state.defaultValues?.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10}/>
-                        <CustomerModificationSocials onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} labelText="SOCIALS : " name="link" type="text" numberOfLinks={5} defaultValues={this.state.defaultValues}/>
-                        <div className="modificationLabel modificationStatus">
-                            {this.state.feedbackMessages.map((message: string, key: number) => ( <div key={key}>{message}</div>) )}
-                        </div>
-                        <CustomerModificationButton type="submit" buttonText="Save changes"/>
-                    </form>
-
+                    <div className="CM-Container">
+                        <h1>Sensitive Info</h1>
+                        <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} isPassword={true}/>
+                        <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true}/>
+                        <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} isPassword={true}/>
+                    </div>
+                    <div className="CM-Container">
+                        <h1>Other Info</h1>
+                        <CMDisplay labelText="Username" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.BASIC_CHANGES)} defaultValue={this.props.customerData.username}/>
+                        <CMDisplay labelText="FirstName" defaultValue={this.state.defaultValues?.firstName}/>
+                        <CMDisplay labelText="LastName" defaultValue={this.state.defaultValues?.lastName}/>
+                        <CMDisplay labelText="Bio" defaultValue={this.state.defaultValues?.bio}/>
+                        <CMDisplay labelText="Public Email" defaultValue={this.state.defaultValues?.exposedEmail}/>
+                    </div>
+                    <Modal isOpen={this.state.modalIsOpen} 
+                    shouldCloseOnEsc={true} 
+                    onRequestClose={() => this.closeModal()} 
+                    ariaHideApp={false}
+                    style={{content: 
+                                {width: ((window.innerWidth * 50)/100), 
+                                height: ((window.innerHeight * 80)/100), 
+                                top: '50%', left: '50%', position: 'fixed', 
+                                transform: 'translate(-50%, -50%)', 
+                                background: '#DCE9FC', border: '2px solid red'}}}
+                    >
+                        {this.state.currentModalContent}
+                    </Modal>  
                 </div>
             </div>
         )

@@ -132,29 +132,33 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public render(): ReactNode {
         return (
             <>
-                <label>adImages <span style={{ color: "red" }}>{this.props.error ? this.props.error : ""}</span></label>
-                <br />
-                <input onChange={(e) => this.handleChange(e)} type="file" multiple />
-                <br />
-                <br />
-                {this.props.images?.map(img => (
-                    <img onDoubleClick={() => this.deleteImg(img)} className="adModifImages" key={createRandomKey()} src={img.link} />
-                ))}
-                <br />
-                <br />
+                <div className="row">
+                    <label className="col">adImages <span style={{ color: "red" }}>{this.props.error ? this.props.error : ""}</span></label>
+                    <input className="col-9" onChange={(e) => this.handleChange(e)} type="file" multiple />
+                    <br />
+                    <br />
+                </div>
+                
+                <div>
+                    {this.props.images?.map(img => (
+                        <img onDoubleClick={() => this.deleteImg(img)} className="adModifImages" key={createRandomKey()} src={img.link} />
+                    ))}
+                    <br />
+                    <br />
 
-                {this.props.isModification && this.state.isEditing ?
-                    (
-                        <>
-                            <button onClick={() => this.save()}>save</button>
-                            <button onClick={() => this.cancel()}>cancel</button>
-                            <br />
-                            <br />
-                        </>
-                    ) : (
-                        <></>
-                    )
-                }
+                    {this.props.isModification && this.state.isEditing ?
+                        (
+                            <>
+                                <button onClick={() => this.save()}>save</button>
+                                <button onClick={() => this.cancel()}>cancel</button>
+                                <br />
+                                <br />
+                            </>
+                        ) : (
+                            <></>
+                        )
+                    }
+                </div>
             </>
         );
     }

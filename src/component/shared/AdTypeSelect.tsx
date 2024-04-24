@@ -13,6 +13,7 @@ interface AdTypeSelectProperties {
      */
     isModification?: boolean;
     selectedIndex?: number;
+    cName?: string;
     externalOnChange?(adType: AdType): void;
 }
 
@@ -56,6 +57,7 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
                 {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ? 
                     (
                         <select
+                            className={this.props.cName}
                             id={this.props.inputId}
                             name={this.props.inputName}
                             defaultValue={this.props.selectedIndex ? this.props.selectedIndex : ""}

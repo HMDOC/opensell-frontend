@@ -235,9 +235,9 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
 
     public render(): ReactNode {
         return (
-            <>
-                <label>{this.props.name} : </label>
-                <select name={this.props.name} defaultValue={this.props.defaultValue} onChange={this.props.request ? (e) => this.handleChange(e) : null} >
+            <div className="row">
+                <label className="col">{this.props.name} : </label>
+                <select className="modificationInput col-9" name={this.props.name} defaultValue={this.props.defaultValue} onChange={this.props.request ? (e) => this.handleChange(e) : null} >
                     {
                         this.props.options.map((option, index) => (
                             <option key={createRandomKey()} value={`${index}`}>{option}</option>
@@ -246,7 +246,7 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
                 </select>
                 <br />
                 <br />
-            </>
+            </div>
         )
     }
 }
