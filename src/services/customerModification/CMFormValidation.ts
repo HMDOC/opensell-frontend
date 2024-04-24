@@ -61,8 +61,8 @@ export const FormValidationObject: {[fieldName:string]: CustomerModificationInpu
     },
     phoneNumber: {
         inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.PHONE_NUMBER),
-        modificationEndPoint: '${CHANGE_REQUEST_MAPPING}/change-phone-number',
-        errors: {unique: "This number already exists in our system!", format: "Wrong phone number format..."},
-        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-phone-number?pwd=?1`
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-phone-number`,
+        errors: {unique: "This number already exists in our system!", format: "Wrong phone number format...(123-456-7890)"},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-phone-number?phoneNumber=?1`
     }
 }

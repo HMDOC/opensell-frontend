@@ -6,6 +6,7 @@ import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages } from "../shared/AdImages";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
+import { Navigate } from "react-router-dom";
 import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 import "../../css/component/page/CustomerModification.css"
 
@@ -45,7 +46,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             errorAdTags: HtmlCode.SUCCESS,
             selectedTags: [],
             images : [],
-            errorImages: ""
+            errorImages: "",
+            adWasCreated: false
         }
     }
 
@@ -93,15 +95,16 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     console.log(fileArray);
                     saveAdImages(fileArray, adId);
                     this.setGlobalErrorMessage("Ad created...");
+                    this.setState({adWasCreated: true});
                 }
             })
         }
     }
 
     render(): ReactNode {
-        console.log("The ad images : "+this.state.images.length)
         return(
             <div className="reg-background container">
+                <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
                     <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
                     <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
@@ -131,8 +134,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         tags={this.state.selectedTags}
                     />
                     <button type="submit" className="btn bg-primary text-white align-self-end">Create</button> <br />
-                    <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 </form>
+                {this.state.adWasCreated ? <Navigate to='/u/my-ads'/> : null}
             </div>
         )
     }

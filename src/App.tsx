@@ -1,11 +1,10 @@
-import { Component, Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import LazyLoad from './component/part/LazyLoad';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalNavBar from './component/page/GlobalNavBar';
 import './App.css';
-import { CustomerInfo } from './entities/dto/CustomerInfo';
 import getUserInfos from './services/GetUser';
 import PrivateRoute from './component/page/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
@@ -26,17 +25,19 @@ const AdCreation = lazy(() => (import("./component/page/AdCreation")));
 
 export default function App() {
 	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
+	const [refresh, setRefresh] = useState(false);
 
-	function getCustomerInfo() {
-		getUserInfos("token")?.then((res) => {
+	async function getCustomerInfo() {
+		await getUserInfos("token")?.then((res) => {
 			if(res?.data) {
 				setCustomerDto(res?.data);
 			}
 		});
 	}
+
 	useEffect(() => {
 		getCustomerInfo();
-	}, [])
+	}, [refresh])
 
 	return (
 		<BrowserRouter>
@@ -47,7 +48,7 @@ export default function App() {
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
-						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto}/>}></Route>
+						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
 						<Route path="/u/:link" element={<UserProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
