@@ -7,6 +7,7 @@ import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 
 abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     protected NOTHING_CHANGED = "Nothing changed...";
+    protected CHANGE_SUCCESSFUL = "Change was successful..."
 
     constructor(properties: CMFormProperties) {
         super(properties)
@@ -25,10 +26,6 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
 
     protected resetFeedbackMessages() {
         this.setState({feedbackMessages: []});
-    }
-
-    private removeNothingChanged(): void {
-        if (this.state.feedbackMessages.includes(this.NOTHING_CHANGED)) this.removeFeedbackMessage(this.NOTHING_CHANGED);
     }
 
     private getCustomerIdentification(): number {
@@ -56,7 +53,8 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         const {errors} = FormValidationObject?.[name];
         if (this.isValid(name, value) !== false) this.removeFeedbackMessage(errors?.format);
         else this.addFeedbackMessage(errors?.format);
-        this.removeNothingChanged();
+        //this.removeFeedbackMessage(this.NOTHING_CHANGED);
+        //this.removeFeedbackMessage(this.CHANGE_SUCCESSFUL);
     }
 
     private getRequests(formData: FormData): ArrayOfRequests {
@@ -71,7 +69,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     private async checkForUniques(fieldName: string, value: string, hasChanged: boolean) {
         const {errors, uniqueCheck} = FormValidationObject?.[fieldName];
         if (uniqueCheck != null && hasChanged == true) {
-            if ((await getCheckResult(replaceInString(uniqueCheck, value))).data > 0) { this.addFeedbackMessage(errors?.unique); return false }
+            if ((await getCheckResult(replaceInString(uniqueCheck, value, this.props.defaultValues.customerId.toString()))).data > 0) { this.addFeedbackMessage(errors?.unique); return false }
             else return true;
         } else return null;
     }
@@ -92,7 +90,6 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     private async makeChanges(array: ArrayOfRequests) {
         let feedbackObjects: ModificationFeedback[] = [];
             for (let elem = 0; elem < array.length; elem++) {
-                //..........could change to let ... = await....
                 await executeChange(array[elem].mapping, array[elem].data).then((rep) => {
                     feedbackObjects.push(rep?.data);
                 });
@@ -101,10 +98,8 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     }
 
     private setChangeFeedback(array: ModificationFeedback[]) {
-        for (let elem of array) {
-            if (elem.code != 200) this.addFeedbackMessage("Something went wrong...")
-        }
-        this.addFeedbackMessage("Change was successful...");
+        for (let elem of array) if (elem.code != 200) this.addFeedbackMessage("Something went wrong...")
+        this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
     }
 
     //NEEDS TO BE CHANGED FOR REFRESH
@@ -117,7 +112,6 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
                     this.setChangeFeedback(rep);
                 })
             } else if (res == null) this.addFeedbackMessage(this.NOTHING_CHANGED);
-            
         })
     }
 }
@@ -172,16 +166,16 @@ export class CMPersonalEmailForm extends CMForm {
 
 export class CMPasswordForm extends CMForm {
 
-    private async savePasswordChange(formEvent: FormEvent<HTMLFormElement>) {
-        if (true) super.saveChanges(formEvent);
-    }
+    // private async savePasswordChange(formEvent: FormEvent<HTMLFormElement>) {
+    //     if (true) super.saveChanges(formEvent);
+    // }
 
     render(): ReactNode {
         return(
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent => this.savePasswordChange(formEvent))}>
-                    <CMInput labelText="Old Password" name="oldPwd" type="password" onChange={null}/>
+                <form onSubmit={(formEvent => this.saveChanges(formEvent))}>
+                    {/* <CMInput labelText="Old Password" name="oldPwd" type="password" onChange={null}/> */}
                     <CMRepeatInput 
                         labelText="Password" 
                         name="pwd" 
