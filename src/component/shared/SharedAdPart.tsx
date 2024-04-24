@@ -63,18 +63,32 @@ export interface SimpleInputProps extends AdInputProps {
     verifyProperty?: Schema;
 }
 
+export enum BlurScopeType {
+    CANCEL,
+    SAVE,
+    INPUT
+};
+
 export class SimpleInput extends PureComponent<SimpleInputProps> {
     public oldValue: any;
+
+    public blurScope = {input : false, save : false, cancel : false};
 
     public inputRef = createRef<any>();
     public saveRef = createRef<HTMLButtonElement>();
     public cancelRef = createRef<HTMLButtonElement>();
+    public divRef = createRef<HTMLDivElement>();
 
-    public onBlur() {
-        // NOT WORKING
+    public blured() {
+        //if(document.activeElement != this.divRef.current) {
+            console.log("NOT SELECTED");
+        //}
+    }
+
+    public onBlur(type: BlurScopeType = BlurScopeType.INPUT) {
+        // // NOT WORKING
         // if(document.activeElement != this.inputRef.current && document.activeElement != this.saveRef.current && document.activeElement != this.cancelRef.current) {
         //     console.log("Yes it is first");
-
         //     if(this.state.isEditing) {
         //         this.setState({isEditing : false});
         //     }
@@ -83,7 +97,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
 
     public state = {
         error: "",
-        isEditing: false,
+        isEditing: false
     };
 
     public handleError(value: any) {
@@ -157,7 +171,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                 {this.props.defaultValue ? (
                     <>
                         <label>{this.props.name} <span style={{ color: "red" }}>{this.state.error ? this.state.error : ""}</span></label>
-                        <div>
+                        <div ref={this.divRef} onBlur={() => this.blured()}>
                             {this.props.type == InputType.TEXTARIA ?
                                 (
                                     <textarea onBlur={() => this.onBlur()} onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />
@@ -185,8 +199,8 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                             {this.state.isEditing && this.props.type != InputType.ONE_CHECKBOX ?
                                 (
                                     <>
-                                        <button onBlur={() => this.onBlur()} ref={this.cancelRef} onClick={() => this.cancel()}>x</button>
-                                        <button onBlur={() => this.onBlur()} ref={this.saveRef} onClick={() => this.save()}>v</button>
+                                        <button onBlur={() => this.onBlur(BlurScopeType.CANCEL)} ref={this.cancelRef} onClick={() => this.cancel()}>x</button>
+                                        <button onBlur={() => this.onBlur(BlurScopeType.SAVE)} ref={this.saveRef} onClick={() => this.save()}>v</button>
                                     </>
                                 ) : (
                                     <>
