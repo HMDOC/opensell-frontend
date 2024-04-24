@@ -2,9 +2,10 @@
 @import "./css/component//part/TagSelector.css";
 
 :root {
-  --sr1: #DCE9FC;
-  --sr2: #232751;
+  --sr1: #4C566A;
+  --sr2: #2E3440;
   --inputborder: #a0a0a0;
+  --dark-mode-text: white;
 }
 
 body {

@@ -1,0 +1,17 @@
+.single-info-flex {
+    display: flex;
+    align-items: center;
+}
+
+.single-info-flex p {
+    margin: 10px;
+    overflow: auto;
+}
+
+.ad-info-part {
+    color: white;
+    background-color: var(--sr2);
+    padding: 30px;
+    width: 300px;
+    border-radius: 30px;
+}

@@ -1,0 +1,22 @@
+$redSold: #E20000;
+
+.ad-price-part {
+    display: flex;
+    align-items: center;
+
+    &-sold {
+        text-decoration: line-through;
+        color: $redSold;
+    }
+
+    &-box-sold {
+        background-color: red;
+        color: white;
+        padding: 6px;
+        font-weight: bold;
+    }
+
+    &-title {
+        font-size: 28px;
+    }
+}
