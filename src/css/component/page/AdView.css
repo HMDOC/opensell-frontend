@@ -21,11 +21,6 @@
     text-decoration: underline;
 }
 
-.first-image-of-list {
-    width: 700px;
-    height: 500px;
-}
-
 .image-div {
     max-width: 1000px;
 }
@@ -63,5 +58,42 @@
     justify-content: center;
     justify-items: auto;
     align-items: center;
-    height: 100vh;
+    max-height: 100vmax;
+}
+
+.ad-view-images {
+    display: flex;
+    flex-direction: row;
+}
+
+.ad-view-images-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.ad-view-images-column-element {
+    width: 345px;
+    height: 220px;
+    margin: 10px;
+}
+
+.ad-view-big-image {
+    width: 1000px;
+    height: 700px;
+    margin: 10px;
+}
+
+.ad-view-images-zoom-in {
+    font-size: 50px;
+    color: white;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-view-zoomed-image {
+    width : 100%;
+    height : 100%;
+    filter: blur(5px) grayscale();
 }

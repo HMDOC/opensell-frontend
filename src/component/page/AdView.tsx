@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 import AdTagPart from "../part/AdView/AdTagPart";
 import AdInfosPart from "../part/AdView/AdInfosPart";
+import "../../css/component/part/ImageFit.css";
+import { Img } from "react-image";
 
 /**
  * Function that increase the index of the current picture
@@ -108,18 +110,30 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                 <></>
                             ) :
                             (
-                                adBuyerView?.adImages.slice(0, 3).map(
-                                    value => (
-                                        value ?
-                                            (
-                                                <img className="first-image-of-list" src={value?.path} />
-                                            ) : (
-                                                <></>
+                                <div className="ad-view-images">
+                                    <img className="ad-view-big-image imgFit" src={adBuyerView?.adImages[0]?.path} />
+
+                                    <div className="ad-view-images-column">
+                                        {adBuyerView?.adImages.slice(1, 3)?.map(
+                                            value => (
+                                                value ?
+                                                    (
+                                                        <img className="ad-view-images-column-element imgFit" src={value?.path} />
+                                                    ) : (
+                                                        <></>
+                                                    )
                                             )
-                                    )
-                                )
+                                        )}
+
+                                        <div className="ad-view-images-column-element ad-view-images-zoom-in">
+                                            <img src={adBuyerView?.adImages[0]?.path} className="ad-view-zoomed-image" />
+                                            <p style={{position : "absolute"}}>+{adBuyerView?.adImages.length - 3}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             )
                         }
+                        <br />
 
                         {/* AdTags */}
                         {adBuyerView?.adTagsName?.map(value => (
