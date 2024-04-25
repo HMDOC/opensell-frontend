@@ -43,6 +43,23 @@ export function AdVisibilityPart(props: { adVisibility?: AdVisibility }): ReactE
     }
 }
 
+/*
+# old code : for changing image
+
+{adBuyerView?.adImages?.length == 0 ?
+    <></> :
+    <div className="image-div">
+        <img className="first-image-of-list" src={adBuyerView?.adImages?.[currentPicture]?.path} />
+
+        <div style={{ display: "flex" }}>
+            <button onClick={() => nextOrPrevious(false)}>previous</button>
+            <p>{currentPicture + 1} / {adBuyerView?.adImages?.length}</p>
+            <button onClick={() => nextOrPrevious(true)}>next</button>
+        </div>
+    </div>
+}
+*/
+
 export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, any>>, children?: any }) {
     const [currentPicture, setCurrentPicture] = useState<number>(0);
     const [adBuyerView, setAdBuyerView] = useState<AdBuyerView>(undefined);
@@ -64,10 +81,10 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
     };
 
     return (
-        adBuyerView ?
-            (
-                <div>
-                    <div>
+        <div className="ad-view-background">
+            {adBuyerView ?
+                (
+                    <>
                         <div className="user-profil">
                             <Link to={`/user/${adBuyerView?.userLink}`}>
                                 <ProfilIcon src={adBuyerView?.userIcon} />
@@ -87,17 +104,21 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                         <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
 
                         {adBuyerView?.adImages?.length == 0 ?
-                            <></> :
-                            <div className="image-div">
-                                {/* Image Section */}
-                                <img className="first-image-of-list" src={adBuyerView?.adImages?.[currentPicture]?.path} />
-
-                                <div style={{ display: "flex" }}>
-                                    <button onClick={() => nextOrPrevious(false)}>previous</button>
-                                    <p>{currentPicture + 1} / {adBuyerView?.adImages?.length}</p>
-                                    <button onClick={() => nextOrPrevious(true)}>next</button>
-                                </div>
-                            </div>
+                            (
+                                <></>
+                            ) :
+                            (
+                                adBuyerView?.adImages.slice(0, 3).map(
+                                    value => (
+                                        value ?
+                                            (
+                                                <img className="first-image-of-list" src={value?.path} />
+                                            ) : (
+                                                <></>
+                                            )
+                                    )
+                                )
+                            )
                         }
 
                         {/* AdTags */}
@@ -107,20 +128,21 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
                         <div className="ad-view-flex-desc-infos">
                             <p className="ad-view-description">{adBuyerView?.adDescription}</p>
-                            <AdInfosPart 
-                                location={adBuyerView?.adAddress} 
-                                phone={adBuyerView?.userPhone} 
-                                publishDate={adBuyerView?.adAddedDate} 
+                            <AdInfosPart
+                                location={adBuyerView?.adAddress}
+                                phone={adBuyerView?.userPhone}
+                                publishDate={adBuyerView?.adAddedDate}
                                 shape={adBuyerView?.adShape} />
                         </div>
-                    </div>
-                </div >
-            ) : (
-                <>
-                    <p>The ad does not exists.</p>
-                    <Link to="/">Main menu</Link>
-                </>
-            ));
+                    </>
+                ) : (
+                    <>
+                        <p>The ad does not exists.</p>
+                        <Link to="/">Main menu</Link>
+                    </>
+                )
+            }
+        </div>);
 }
 
 /**
@@ -132,7 +154,7 @@ const AdView = (): ReactElement => {
     const { link } = useParams();
 
     return (
-        <div className="ad-view-background">
+        <div className="ad-view-position">
             <AdMapping request={getAdByLink(link)} />
         </div>
     );

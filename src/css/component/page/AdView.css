@@ -27,7 +27,11 @@
 }
 
 .image-div {
-    width: 1000px;
+    max-width: 1000px;
+}
+
+.image-div img {
+    width: 100%;
 }
 
 .ad-view-title-section {
@@ -43,9 +47,21 @@
 
 .ad-view-description {
     font-size: 22px;
+    max-width: 900px;
 }
 
 .ad-view-background {
+    padding: 20px;
+    border-radius: 20px;
     background-color: var(--sr1);
+    max-width: 1500px;
     color: var(--dark-mode-text);
+}
+
+.ad-view-position {
+    display: flex;
+    justify-content: center;
+    justify-items: auto;
+    align-items: center;
+    height: 100vh;
 }

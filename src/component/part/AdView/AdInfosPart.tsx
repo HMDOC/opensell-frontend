@@ -4,7 +4,7 @@ import { AdShape, getShapeStr } from "../../../entities/dto/AdBuyerView";
 import { faClock, faLocationDot, faPhone, faShapes } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-function SingleInfo(props: { icon: IconProp, labelValue: string }) {
+function SingleInfo(props: { icon: IconProp, labelValue: string, isEnd?: boolean }) {
     return (
         <>
             {props.labelValue ?
@@ -14,8 +14,10 @@ function SingleInfo(props: { icon: IconProp, labelValue: string }) {
                             <FontAwesomeIcon size="2x" icon={props.icon} />
                             <p>{props.labelValue}</p>
                         </div>
-
-                        <hr />
+                        
+                        {props.isEnd ? 
+                            <></> : <hr />
+                        }
                     </>
                 ) : (
                     <></>
@@ -32,7 +34,7 @@ export default function AdInfosPart(props: { location: string, publishDate: Date
             <SingleInfo labelValue={props.location} icon={faLocationDot} />
             <SingleInfo labelValue={props.publishDate?.toString()} icon={faClock} />
             <SingleInfo labelValue={props.phone} icon={faPhone} />
-            <SingleInfo labelValue={getShapeStr(props.shape)} icon={faShapes} />
+            <SingleInfo labelValue={getShapeStr(props.shape)} icon={faShapes} isEnd />
         </div>
     );
 }
