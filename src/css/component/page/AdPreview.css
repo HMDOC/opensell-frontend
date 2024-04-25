@@ -3,38 +3,40 @@
     transition: background-color 0.2s;
     color: black;
     width: 8cm;
-    padding-bottom: 5px;
+    max-width: 50vw;
     background-color: white;
-    border-radius: 20px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 15px;
+    justify-content: start;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
     max-height: 320px;
+    border-radius: 15px;
+    
+    
 }
 
 .adPreview:hover{
     transition: background-color box-shadow color 0.2s;
-    background-color: darkblue;
+    background-color: #1a253a;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5);
     color: white;
 }
 
 .adSold{
-    filter: brightness(85%);
-    /*text-decoration: line-through;*/
+    filter: brightness(75%);
 }
 
-.adSoldText{
-    color: red;
+.adSold:hover{
+    background-color: gray;
+}
+
+.ad-price-part{
+    margin-left: 5px;
 }
 
 .adPreview img {
-    width: 100%;
     height: 175px;
-    border: thick double black;
     border-width: 2px;
 }
 
@@ -44,7 +46,7 @@
     overflow: hidden;
     padding: 0;
     margin: 0px 4px;
-    padding-bottom: 3px;
+    padding-bottom: 2px;
 }
 
 .adPreviewAlign{
@@ -53,8 +55,8 @@
     justify-content: space-between;
 }
 
-hr{
-    margin: 10px 0;
+.imgOffset{
+    margin-bottom: 0.75vh;
 }
 
 .adShapeIcon{
@@ -62,4 +64,10 @@ hr{
     width: 2rem;
     bottom: 1px;
     right: 1px;
+}
+
+.adPreviewBottom{
+    padding: 12px;
+    padding-top: 4px;
+    padding-bottom: 10px;
 }
