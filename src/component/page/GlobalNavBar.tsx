@@ -55,7 +55,7 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                                 (
                                     <ProfilIcon src={props.customerDto?.customerInfo?.iconPath} />
                                 ) : (
-                                    <FontAwesomeIcon size="2x" icon={faUser} />
+                                    <FontAwesomeIcon className='user-def' size="2x" icon={faUser} />
                                 )
                         } id='basic-nav-dropdown'>
                             <NavDropdown.Item>{props.customerDto?.link == undefined ? "Guest" : props.customerDto?.username}</NavDropdown.Item>

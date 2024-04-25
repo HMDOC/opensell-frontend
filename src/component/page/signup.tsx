@@ -85,7 +85,7 @@ export default function Signup(props: { getCustomerInfo(): void }) {
                 <div className="signup-form">
                     <p className="top-text">Welcome</p>
                     <p className="middle-text">Create an account</p>
-                    <form id="form">
+                    <form className="form">
                         <div className="input-div">
                             <FontAwesomeIcon icon={faEnvelope} className="signup-icon" />
                             <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{textAlign : "right"}}>{eErrors.email}</span>

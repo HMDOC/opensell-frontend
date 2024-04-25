@@ -3,7 +3,9 @@ import { checkLogin } from '../../services/LogInService';
 import { NavLink, useNavigate } from "react-router-dom";
 import { CustomerInfo } from "../../entities/dto/CustomerInfo";
 import { setToken } from "../../services/SetToken";
-import "../../css/component/page/Login.css"
+import "../../css/component/page/signup.css"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 
 export default function Login(props) {
     const username = useRef(null);
@@ -47,19 +49,23 @@ export default function Login(props) {
     };
 
     return (
-        <div className="login-background">
-            <div className="front-login-background">
-                <h1>LOG IN</h1>
-                <hr className="login-separator" />
-                <form id="form">
-                    <label className="login-label">Email / Username:</label><br />
-                    <input placeholder="Email or username" className="inputForm" type="text" ref={username} id="username"></input>&nbsp;{error.username}<br /><br />
-                    <label className="login-label">Password:</label><br />
-                    <input placeholder="Password" className="inputForm" type="password" ref={password}></input>&nbsp;{error.password}<br /><br />
-                    <button className="login-button" type="submit" onClick={handleSubmit}>LOG IN</button>
-                </form><br />
+        <div className="signup-div">
+            <div className="signup-form">
+                <p className="top-text">Log in</p>
+                <p className="middle-text">Welcome back</p>
+                <form className="form">
+                    <div className="input-div">
+                        <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
+                        <input placeholder="Email or username" className="signup-input" type="text" ref={username} id="username"></input><span style={{textAlign : "right"}}>{error.username}</span>
+                    </div><br />
+                    <div className="input-div">
+                        <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
+                        <input placeholder="Password" className="signup-input" type="password" ref={password}></input><span style={{textAlign : "right"}}>{error.password}</span>
+                    </div><br />
+                    <button className="signup-button" type="submit" onClick={handleSubmit}>LOG IN</button>
+                </form>
                 {error.creds}
-            New here? Register <NavLink style={{textDecoration: "none", color : "var(--sr2)", fontWeight : "bold"}} to="/signup">here</NavLink>
+                <p className="bottom-text"> New here? Register <NavLink style={{textDecoration: "underline", fontWeight : "bold", color : "#232751"}} to="/signup">here</NavLink></p>
             </div>
         </div>
     )
