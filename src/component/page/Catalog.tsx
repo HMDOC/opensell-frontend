@@ -83,8 +83,8 @@ const ResultList = (): ReactElement => {
         });
 
         tmpFilterOptions["adTags"] = searchTags;
-        if (reverseSortRef.current.value==="1")
-            tmpFilterOptions["reverseSort"] = reverseSortRef.current.value;
+        if (reverseSortRef.current.checked)
+            tmpFilterOptions["reverseSort"] = 1;
 
         setFilterOptions(tmpFilterOptions);
     }, [filtersUpdated]);
@@ -95,7 +95,9 @@ const ResultList = (): ReactElement => {
 
         let tmpFilterOptions = filterOptions;
         tmpFilterOptions["adTags"] = searchTags;
-        tmpFilterOptions["reverseSort"] = Number(reverseSortRef.current.checked);
+        if (reverseSortRef.current.checked){
+            tmpFilterOptions["reverseSort"] = 1;
+        }
         
         searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
