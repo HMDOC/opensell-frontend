@@ -59,11 +59,11 @@ select{
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 #sortBy{ width: calc(100% - 30px); }
