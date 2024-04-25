@@ -3,6 +3,7 @@ import "../../css/component/page/AdPreview.css"
 import "../../css/component/part/ImageFit.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBox, faBoxOpen, faDizzy, faEarthAmerica, faFaceGrin, faFaceMeh, faFaceSmile, faFaceSmileBeam, faFrown, faGrinStars, faQuestion, faStar, faStarHalf, faStarHalfStroke, faWandMagic, faWandMagicSparkles } from "@fortawesome/free-solid-svg-icons";
+import AdPricePart from "../part/AdView/AdPricePart";
 
 /** 
     The preview component for the Ads. Clicking on it will
@@ -54,27 +55,21 @@ const AdPreview = (props) : ReactElement => {
 
     return (
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
-            <img className="card-img-top imgFit" 
+            <img className="card-img-top imgFit imgOffset" 
                 src={props?.firstImagePath} 
-                alt="The image cant load!"></img>
-            <hr />
-            <h3 className="adPreviewText"> {props?.title}</h3>
-            <div className="adPreviewAlign">
-                {props?.isSold ? (
-                    <h5 className={"adPreviewText adSoldText"}>
-                        {`SOLD (${showPrice()})`}
-                    </h5>
-                ) : (
-                    <h4 className="adPreviewText">
-                        {showPrice()}
-                    </h4>
-                )}
-                <h3 className="adPreviewText adShapeIcon" 
-                    title={getShapeName()}> 
+                alt="The image cant load!"/>
+            <div className="adPreviewBottom">
+                <h3 className="adPreviewText"> {props?.title}</h3>
+                <div className="adPreviewAlign">
+                    <AdPricePart price={props?.price} isSold={props?.isSold}/>
+                    <h3 className="adPreviewText adShapeIcon" 
+                        title={getShapeName()} hidden> 
 
-                    {getShapeIcon()}
-                </h3>
+                        {getShapeIcon()}
+                    </h3>
+                </div>
             </div>
+            
         </div>
     )
 }

@@ -29,7 +29,8 @@ export interface AdCreationState {
     typeArray: AdType[],
     selectedTags: string[],
     images: Array<BlockImage>,
-    errorImages: string
+    errorImages: string,
+    adWasCreated: boolean
 }
 
 export interface AdCreationInputProperties {

@@ -1,8 +1,9 @@
 import { Component, ReactNode } from "react";
 import Modal from "react-modal";
-import { getCustomerModificationView, CMModalType } from "../../services/customerModification/CMService";
-import { CMBasicModificationsForm, CMDisplay, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm, CMProperties, CMState} from "../../services/customerModification/CMComponents";
+import { CMModalType } from "../../services/customerModification/CMService";
+import { CMDisplay, CMProperties, CMState} from "../../services/customerModification/CMComponents";
 import "../../css/component/page/CustomerModification.css"
+import { CMBasicModificationsForm, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm } from "../../services/customerModification/CMForm";
 
 /**
  *
@@ -19,19 +20,13 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     constructor(properties: CMProperties) {
         super(properties);
         this.state = {
-            defaultValues: undefined,
             modalIsOpen: false,
             currentModalContent: null
         }
     }
 
-    componentDidMount(): void {
-        if (this.props.customerData.customerId) {
-            getCustomerModificationView(this.props.customerData.customerId).then((rep) => {
-                if (rep?.data) this.setState({defaultValues: rep?.data});
-            })
-        }
-    }
+    private modalWidth: number = (window.innerWidth * 50)/100;
+    private modalHeight: number = (window.innerHeight * 80)/100;
 
     public openModal(type: CMModalType): void {
         if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData}/>});
@@ -42,7 +37,9 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     }
 
     public closeModal(): void {
+        console.log("MODAL CLOSE REQUEST");
         this.setState({modalIsOpen: false});
+        this.props.refreshCallback();
     }
 
     render(): ReactNode {
@@ -58,25 +55,25 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                     <div className="CM-Container">
                         <h1>Other Info</h1>
                         <CMDisplay labelText="Username" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.BASIC_CHANGES)} defaultValue={this.props.customerData.username}/>
-                        <CMDisplay labelText="FirstName" defaultValue={this.state.defaultValues?.firstName}/>
-                        <CMDisplay labelText="LastName" defaultValue={this.state.defaultValues?.lastName}/>
-                        <CMDisplay labelText="Bio" defaultValue={this.state.defaultValues?.bio}/>
-                        <CMDisplay labelText="Public Email" defaultValue={this.state.defaultValues?.exposedEmail}/>
+                        <CMDisplay labelText="FirstName" defaultValue={this.props.customerData.customerInfo?.firstName}/>
+                        <CMDisplay labelText="LastName" defaultValue={this.props.customerData.customerInfo?.lastName}/>
+                        <CMDisplay labelText="Public Email" defaultValue={this.props.customerData.customerInfo?.exposedEmail}/>
+                        <CMDisplay labelText="Bio" defaultValue={this.props.customerData.customerInfo?.bio}/>
                     </div>
-                    <Modal isOpen={this.state.modalIsOpen} 
+                    <Modal 
+                    isOpen={this.state.modalIsOpen} 
                     shouldCloseOnEsc={true} 
                     onRequestClose={() => this.closeModal()} 
                     ariaHideApp={false}
-                    style={{content: 
-                                {width: ((window.innerWidth * 60)/100), 
-                                height: ((window.innerHeight * 80)/100), 
-                                top: '50%', left: '50%', position: 'fixed', 
-                                transform: 'translate(-50%, -50%)', 
-                                background: '#DCE9FC', border: '2px solid red'}}}
-                    >
-
+                    style={{content: {
+                        width: this.modalWidth, 
+                        height: this.modalHeight, 
+                        top: '50%', left: '50%', 
+                        position: 'fixed', 
+                        transform: 'translate(-50%, -50%)', 
+                        background: '#DCE9FC', 
+                        border: '2px solid red'}}}>
                         {this.state.currentModalContent}
-
                     </Modal>  
                 </div>
             </div>

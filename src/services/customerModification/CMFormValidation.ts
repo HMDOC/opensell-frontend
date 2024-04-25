@@ -54,15 +54,15 @@ export const FormValidationObject: {[fieldName:string]: CustomerModificationInpu
         uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-private-email?email=?1`
     },
     pwd: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.pwd),
+        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.PWD),
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-pwd`,
-        errors: {unique: "You're already using this password!", format: "Your password must contain..."},
+        errors: {unique: "You're already using this password!", format: "Your password must contain at least 8 characters, one special character, number and lower/hupper case letter..."},
         uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-same-pwd?pwd=?1&id=?2`
     },
     phoneNumber: {
         inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.PHONE_NUMBER),
-        modificationEndPoint: '${CHANGE_REQUEST_MAPPING}/change-phone-number',
-        errors: {unique: "This number already exists in our system!", format: "Wrong phone number format..."},
-        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-phone-number?pwd=?1`
+        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/change-phone-number`,
+        errors: {unique: "This number already exists in our system!", format: "Wrong phone number format...(123-456-7890)"},
+        uniqueCheck: `${CEHCK_REQUEST_MAPPING}/check-phone-number?phoneNumber=?1`
     }
 }

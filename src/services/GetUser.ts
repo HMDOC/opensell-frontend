@@ -1,5 +1,4 @@
 import * as jose from "jose";
-import { CustomerInfo } from "../entities/dto/CustomerInfo";
 import { CustomerDto } from "../entities/dto/CustomerDto";
 import { getDto } from "./LogInService";
 import { AxiosResponse } from "axios";

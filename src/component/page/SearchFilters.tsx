@@ -24,6 +24,8 @@ const SearchFilters = (props) : ReactElement =>{
     // Tag error and emplacement container
     const [searchTagsError, setSearchTagsError] = useState<HtmlCode>(HtmlCode.SUCCESS);
 
+    const [searchOrder, setSearchOrder] = useState<number>(props.defValue);
+
     // {adTypes.forEach( (value, key) => {} )}
     return (
         <>            
@@ -58,8 +60,10 @@ const SearchFilters = (props) : ReactElement =>{
                     } )}
                 </select>
                 
-                <input type="range" name="reverseSort" id="reverseSort" 
-                    min={0} max={1} defaultValue={0}/>
+                <input ref={props.reverseSort} type="checkbox" name="reverseSort" id="reverseSort" 
+                    defaultValue={""} value={searchOrder} onChange={(e) =>{
+                        setSearchOrder((searchOrder===0) ? 1 : 0)
+                    }}/>
                 
                 {/*<h5>Tags</h5>
                  <input type="text" name="tagListId" id="tagListId"

@@ -4,7 +4,7 @@
 }
 
 .modificationPage{
-    width: 80%;
+    width: 60%;
     min-width: 20vh;
     margin: 2vh auto;
     padding-left: 10px;
@@ -112,7 +112,7 @@
 /* https://reactcommunity.org/react-modal/styles/transitions/ */
 .ReactModal__Overlay {
     opacity: 0;
-    transition: opacity 1500ms ease-in-out;
+    transition: opacity 500ms ease-in-out;
 }
 
 .ReactModal__Overlay--after-open{
@@ -132,17 +132,21 @@
 }
 
 .CMDisplay-Container button {
-    background-color: var(--sr2);
+    background-color: rgb(196, 209, 212);
+    font-weight: bolder;
+    color: #000000;
 }
 
 .CMDisplay-Label-Container {
+    min-width: 10vw;
     padding: 10px;
-    background-color: rgba(220, 233, 252, 0.5);
+    background-color: rgba(220, 233, 252, 0.807);
 }
 
 .CMDisplay-Default-Value-Container {
     padding: 10px;
-    background-color: rgba(220, 233, 252, 1);
+    background-color: rgb(124, 134, 148);
+    min-width: 20vw;
 }
 
 .CM-Container {
@@ -150,5 +154,15 @@
     padding: 10px;
     border-radius: 25px;
     border: black 2px;
-    background-color: rgba(200, 233, 252, 1);
+    background-color: rgba(52, 61, 139, 0.788);
+}
+
+.CM-Container h1 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.CMFeedbackContainer {
+    background-color: lightblue;
+    min-height: 5vh;
 }

@@ -1,12 +1,17 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAdByLink } from "../../services/AdService";
 import content from "../../locales/ad.json";
 import { getLanguage } from "../../i18n/i18n";
-import Loading from "../part/Loading";
 import ProfilIcon from "./ProfilIcon";
-import { AxiosPromise, AxiosResponse } from "axios";
-import { AdBuyerView } from "../../entities/dto/AdBuyerView";
+import { AxiosResponse } from "axios";
+import { AdBuyerView, AdShape, AdVisibility } from "../../entities/dto/AdBuyerView";
+import AdPricePart from "../part/AdView/AdPricePart";
+import AdTypePart from "../part/AdView/AdTypePart";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
+import AdTagPart from "../part/AdView/AdTagPart";
+import AdInfosPart from "../part/AdView/AdInfosPart";
 
 /**
  * Function that increase the index of the current picture
@@ -26,8 +31,19 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
     } else return 0;
 };
 
+export function AdVisibilityPart(props: { adVisibility?: AdVisibility }): ReactElement {
+    switch (props.adVisibility) {
+        case AdVisibility.LINK_ONLY:
+            return <FontAwesomeIcon size="2x" icon={faLink} />;
+        case AdVisibility.PRIVATE:
+            return <FontAwesomeIcon size="2x" icon={faLock} />;
+        default:
+            // ONLY HERE FOR DEMO
+            return <FontAwesomeIcon size="2x" icon={faEarthAmericas} />;
+    }
+}
+
 export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, any>>, children?: any }) {
-    var map = getLanguage(1, content);
     const [currentPicture, setCurrentPicture] = useState<number>(0);
     const [adBuyerView, setAdBuyerView] = useState<AdBuyerView>(undefined);
 
@@ -35,6 +51,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
         props.request.then(res => {
             if (res?.data) {
                 setAdBuyerView(res?.data);
+                console.log(res?.data);
             }
         });
     }, []);
@@ -51,18 +68,24 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
             (
                 <div>
                     <div>
+                        <div className="user-profil">
+                            <Link to={`/user/${adBuyerView?.userLink}`}>
+                                <ProfilIcon src={adBuyerView?.userIcon} />
+                            </Link>
 
-                    <div className="user-profil">
-                        <Link to={`/user/${adBuyerView?.userLink}`}>
-                            <ProfilIcon src={adBuyerView?.userIcon} />
-                        </Link>
+                            <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>
+                                {adBuyerView?.username}
+                            </Link>
+                        </div>
 
-                        <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>
-                            {adBuyerView?.username}
-                        </Link>
-                    </div>
+                        <div className="ad-view-title-section">
+                            <AdVisibilityPart adVisibility={adBuyerView?.adVisibility} />
+                            <h1>{adBuyerView?.adTitle}</h1>
+                            <AdTypePart type={adBuyerView?.adType?.name} />
+                        </div>
 
-                        <h1>{adBuyerView?.adTitle}</h1>
+                        <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
+
                         {adBuyerView?.adImages?.length == 0 ?
                             <></> :
                             <div className="image-div">
@@ -77,31 +100,26 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                             </div>
                         }
 
-
-                        <p>{adBuyerView?.adPrice} $</p>
-                        <p>{adBuyerView?.isAdSold ? map.sold : ""}</p>
-                        <p><b>AdShape : </b> {map.shape[adBuyerView?.adShape]}</p>
-                        <p><b>AdVisibility : </b>{map.visibility[adBuyerView?.adVisibility]}</p>
-
-                        <h2>Description: </h2>
-                        <p>{adBuyerView?.adDescription}</p>
-                        <p><b>Added Date : </b>{adBuyerView?.adAddedDate?.toString()}</p>
-                        <p><b>Address : </b>{adBuyerView?.adAddress}</p>
-                        <p><b>Type : </b>{adBuyerView?.adType?.name}</p>
-
-                        <h2>Tags: </h2>
+                        {/* AdTags */}
                         {adBuyerView?.adTagsName?.map(value => (
-                            <p>
-                                {value}
-                            </p>
+                            <AdTagPart label={value} />
                         ))}
+
+                        <div className="ad-view-flex-desc-infos">
+                            <p className="ad-view-description">{adBuyerView?.adDescription}</p>
+                            <AdInfosPart 
+                                location={adBuyerView?.adAddress} 
+                                phone={adBuyerView?.userPhone} 
+                                publishDate={adBuyerView?.adAddedDate} 
+                                shape={adBuyerView?.adShape} />
+                        </div>
                     </div>
                 </div >
             ) : (
-                <div className="main-background">
+                <>
                     <p>The ad does not exists.</p>
                     <Link to="/">Main menu</Link>
-                </div>
+                </>
             ));
 }
 
@@ -114,7 +132,7 @@ const AdView = (): ReactElement => {
     const { link } = useParams();
 
     return (
-        <div className="main-background">
+        <div className="ad-view-background">
             <AdMapping request={getAdByLink(link)} />
         </div>
     );

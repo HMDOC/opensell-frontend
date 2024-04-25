@@ -29,7 +29,12 @@ const SearchBar = (props) : ReactElement => {
                     </button>
                 </div>
             </div>
-            <SearchFilters searchTags={props.searchTags} setSearchTags={props.setSearchTags} filterUpdate={props.filterUpdate} filterElementRef={props.filters} />
+            <SearchFilters searchTags={props.searchTags} 
+                setSearchTags={props.setSearchTags} 
+                filterUpdate={props.filterUpdate} 
+                filterElementRef={props.filters} 
+                reverseSort={props.reverseSort} 
+                defValue={props.defSortValue} />
         </div>
         
     )

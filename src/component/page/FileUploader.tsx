@@ -1,4 +1,5 @@
-import { Component, ReactNode, ChangeEvent, RefObject, createRef } from "react";
+import { Component, ReactNode, ChangeEvent, RefObject, createRef, Suspense } from "react";
+import { Img } from "react-image";
 import { NumberSchema, StringSchema } from "yup";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
@@ -47,6 +48,8 @@ export default class FileUploader extends Component {
             <div className="main-background">
                 <input ref={this.fileInputRef} onChange={this.addFile.bind(this)} type="file" multiple />
 
+                <Img src={"http://dummyimage.com/1679x1357.png/dddddd/000000"} />
+                
                 <br />
                 <label>Test: </label>
                 <br />
