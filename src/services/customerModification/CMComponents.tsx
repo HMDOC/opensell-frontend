@@ -111,7 +111,7 @@ export class CMDisplay extends Component<CMDisplayProperties, any> {
 
     private getDisplayedDefaultValue() {
         if (this.props.isPassword) return "***************"
-        else if (this.props.defaultValue == null || this.props.defaultValue == "") return "This value hasn't been set yet..."
+        else if (this.props.defaultValue == null || this.props.defaultValue == "") return <span style={{color: 'brown'}}>{"<Empty>"}</span>
         else return this.props.defaultValue;
     }
 

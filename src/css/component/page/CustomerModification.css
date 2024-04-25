@@ -154,7 +154,12 @@
     padding: 10px;
     border-radius: 25px;
     border: black 2px;
-    background-color: rgba(200, 233, 252, 1);
+    background-color: rgba(52, 61, 139, 0.788);
+}
+
+.CM-Container h1 {
+    font-size: 30px;
+    font-weight: bold;
 }
 
 .CMFeedbackContainer {
