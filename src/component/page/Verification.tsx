@@ -3,6 +3,7 @@ import { verifyCode } from "../../services/CodeService";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../../services/SetToken";
 import { checkLogin } from "../../services/LogInService";
+import "../../css/component/page/verification.css";
 
 export default function Verification(props: {email: string, pwd: string, getCustomerInfo(): void}) {
     const [code, setCode] = useState<string>();
@@ -36,11 +37,12 @@ export default function Verification(props: {email: string, pwd: string, getCust
         });
     }
     return (
-        <div>
-            <h1>Verify your account</h1>
-            <input type="text" id="vefcode" onChange={handleChange}></input>
-            <button onClick={handleCode}>Submit</button>&nbsp;{message}
-            <h3>A code has been sent to this email: {props.email}</h3>
+        <div className="verify-div">
+            <img className="email-pic" alt="email-verification" src="/img/email-vef.png"></img>
+            <p className="vef-top">Verify your account</p>
+            <p className="vef-bottom">A code has been sent to this email: {props.email}</p>
+            <input type="text" className="vefcode" onChange={handleChange}></input><br />
+            <div style={{height : "100px"}}><button className="vef-button" onClick={handleCode}>Verify</button><br /><span style={{fontSize : "1vw"}}>{message}</span></div>
         </div>
     )
 }
