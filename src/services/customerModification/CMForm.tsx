@@ -44,7 +44,9 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
 
     protected getFeedbackElement(): ReactNode {
         return(
-            <div className="CMFeedbackContainer">{this.state.feedbackMessages[this.state.feedbackMessages.length - 1]}</div>
+            <>
+                {this.state.feedbackMessages.length > 0 ? <div className="CMFeedbackContainer">{this.state.feedbackMessages[this.state.feedbackMessages.length - 1]}</div> : null}
+            </>
         )
     }
 
@@ -53,6 +55,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         const {errors} = FormValidationObject?.[name];
         if (this.isValid(name, value) !== false) this.removeFeedbackMessage(errors?.format);
         else this.addFeedbackMessage(errors?.format);
+        //if (this.state.feedbackMessages.length > 0) this.setState({hasError: true});
         //this.removeFeedbackMessage(this.NOTHING_CHANGED);
         //this.removeFeedbackMessage(this.CHANGE_SUCCESSFUL);
     }
@@ -129,6 +132,7 @@ export class CMBasicModificationsForm extends CMForm {
                     <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     <CMTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10}/>
                     <CMButton type="submit" buttonText="Save"/>
+                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
                 </form>
             </div>
         )
@@ -158,6 +162,7 @@ export class CMPersonalEmailForm extends CMForm {
                     addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                     removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)}/>
                     <CMButton type="submit" buttonText="Save"/>
+                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
                 </form>
             </div>
         )
@@ -185,6 +190,7 @@ export class CMPasswordForm extends CMForm {
                         addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                         removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)}/>
                     <CMButton type="submit" buttonText="Save"/>
+                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
                 </form>
             </div>
         )
@@ -200,6 +206,7 @@ export class CMPhoneNumberForm extends CMForm {
                 <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
                     <CMInput labelText="Phone Number" type="text" name="phoneNumber" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     <CMButton type="submit" buttonText="Save"/>
+                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
                 </form>
             </div>
         )

@@ -1,10 +1,6 @@
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react"
 import { AdCreationInputProperties } from "../AdCreationService"
 import { CustomerDto } from "../../entities/dto/CustomerDto";
-import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, executeChange, getCheckResult, replaceInString } from "./CMService";
-import { getFormData, getFormDataAsArray } from "../FormService";
-import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 
 export interface CMState {
     modalIsOpen: boolean;
@@ -30,6 +26,13 @@ export interface CMRepeatInputProperties extends CMInputProperties {
     removeFeedbackMessage(message: string): void
 }
 
+interface CMButtonProperties {
+    type: "button" | "reset" | "submit", 
+    buttonText: string, 
+    isExitButton?: boolean,
+    onClick?(event: any): void
+}
+
 export interface CMDisplayProperties {
     labelText: string;
     defaultValue?: string;
@@ -40,7 +43,8 @@ export interface CMDisplayProperties {
 }
 
 export interface CMFormProperties {
-    defaultValues: CustomerDto
+    defaultValues: CustomerDto,
+    closeModalCallback(): void
 }
 
 export interface CMFormState {
@@ -94,11 +98,15 @@ export class CMTextArea extends CMInput {
     }
 }
 
-export class CMButton extends Component<{type: "button" | "reset" | "submit", buttonText: string}, any> {
+export class CMButton extends Component<CMButtonProperties, any> {
     render(): ReactNode {
         return(
             <div className="modificationSubmit">
-                <button className="modificationLabel" type={this.props.type}>{this.props.buttonText}</button>
+                <button 
+                className={"modificationLabel" + (this.props.isExitButton === true ? " CMExitButton" : "")} 
+                type={this.props.type} onClick={this.props.isExitButton === true ? (e) => this.props.onClick(e) : null}>
+                    {this.props.buttonText}
+                </button>
             </div>
         );
     }

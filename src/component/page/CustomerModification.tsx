@@ -29,10 +29,10 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     private modalHeight: number = (window.innerHeight * 80)/100;
 
     public openModal(type: CMModalType): void {
-        if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData}/>});
-        else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData}/>});
-        else if (type == CMModalType.PASSWORD) this.setState({currentModalContent: <CMPasswordForm defaultValues={this.props.customerData}/>});
-        else if (type == CMModalType.PHONE_NUMBER) this.setState({currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData}/>});
+        if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.PASSWORD) this.setState({currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.PHONE_NUMBER) this.setState({currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
         this.setState({modalIsOpen: true});
     }
 
@@ -71,8 +71,8 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                         top: '50%', left: '50%', 
                         position: 'fixed', 
                         transform: 'translate(-50%, -50%)', 
-                        background: '#DCE9FC', 
-                        border: '2px solid red'}}}>
+                        background: 'rgba(174, 159, 135, 0.9)', 
+                        border: '2px solid brown'}}}>
                         {this.state.currentModalContent}
                     </Modal>  
                 </div>
