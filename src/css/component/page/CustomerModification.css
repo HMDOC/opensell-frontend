@@ -103,6 +103,17 @@
     bottom: 0px;
 }
 
+.modificationSubmit .CMExitButton{
+    background-color: white;
+    color: red;
+}
+
+.modificationSubmit .CMExitButton:hover,.CMExitButton:target{
+    background-color: red;
+    color: white;
+    border-color: darkred;
+}
+
 .modificationStatus{
     color: red;
     height: 30px;
