@@ -25,9 +25,6 @@ export default class CustomerModification extends Component<CMProperties, CMStat
         }
     }
 
-    private modalWidth: number = (window.innerWidth * 50)/100;
-    private modalHeight: number = (window.innerHeight * 80)/100;
-
     public openModal(type: CMModalType): void {
         if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
         else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
@@ -66,8 +63,9 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                     onRequestClose={() => this.closeModal()} 
                     ariaHideApp={false}
                     style={{content: {
-                        width: this.modalWidth, 
-                        height: this.modalHeight, 
+                        width: "70vw", maxWidth: "60em",
+                        height: "60vh", 
+                        minHeight: "24em",
                         top: '50%', left: '50%', 
                         position: 'fixed', 
                         transform: 'translate(-50%, -50%)', 
