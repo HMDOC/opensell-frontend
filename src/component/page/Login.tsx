@@ -64,8 +64,10 @@ export default function Login(props) {
                     </div><br />
                     <button className="signup-button" type="submit" onClick={handleSubmit}>LOG IN</button>
                 </form>
-                {error.creds}
-                <p className="bottom-text"> New here? Register <NavLink style={{textDecoration: "underline", fontWeight : "bold", color : "#232751"}} to="/signup">here</NavLink></p>
+                <div className="bottom-text">
+                <p> New here? Register <NavLink style={{textDecoration: "underline", fontWeight : "bold", color : "#232751"}} to="/signup">here</NavLink></p>
+                <span style={{fontSize : "0.65vw"}}>{error.creds}</span>
+                </div>
             </div>
         </div>
     )

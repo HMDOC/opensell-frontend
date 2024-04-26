@@ -44,7 +44,7 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                     <Col>
                         <div className='nav-center'>
                             <NavLink to="/">
-                                <img src="/img/opensell-logo.png" alt="Opensell logo" className="brand-logo" />
+                                <img src="/img/opensell_logo.png" alt="Opensell logo" className="brand-logo" />
                             </NavLink>
                         </div>
                     </Col>
@@ -53,7 +53,7 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                         <NavDropdown className='nav-right' title={
                             props.customerDto?.customerInfo?.iconPath ?
                                 (
-                                    <ProfilIcon src={props.customerDto?.customerInfo?.iconPath} />
+                                    <span className='user-def'><ProfilIcon src={props.customerDto?.customerInfo?.iconPath} /></span>
                                 ) : (
                                     <FontAwesomeIcon className='user-def' size="2x" icon={faUser} />
                                 )
