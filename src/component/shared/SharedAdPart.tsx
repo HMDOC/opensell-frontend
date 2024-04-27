@@ -72,27 +72,25 @@ export enum BlurScopeType {
 export class SimpleInput extends PureComponent<SimpleInputProps> {
     public oldValue: any;
 
-    public blurScope = {input : false, save : false, cancel : false};
+    public blurScope = { input: false, save: false, cancel: false };
 
     public inputRef = createRef<any>();
     public saveRef = createRef<HTMLButtonElement>();
     public cancelRef = createRef<HTMLButtonElement>();
     public divRef = createRef<HTMLDivElement>();
 
-    public blured() {
-        //if(document.activeElement != this.divRef.current) {
-            console.log("NOT SELECTED");
-        //}
-    }
-
     public onBlur(type: BlurScopeType = BlurScopeType.INPUT) {
-        // // NOT WORKING
-        // if(document.activeElement != this.inputRef.current && document.activeElement != this.saveRef.current && document.activeElement != this.cancelRef.current) {
-        //     console.log("Yes it is first");
-        //     if(this.state.isEditing) {
-        //         this.setState({isEditing : false});
-        //     }
-        // }
+        // Added timer because like that it let the time to the next current element to change
+        setTimeout(() => {
+            if (document.activeElement == this.inputRef.current || document.activeElement == this.saveRef.current || document.activeElement == this.cancelRef.current) {
+                console.log("Very Good!");
+            } else {
+                console.log("Yes it is first");
+                if (this.state.isEditing) {
+                    this.setState({ isEditing: false });
+                }
+            }
+        }, 50);
     }
 
     public state = {
@@ -171,7 +169,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                 {this.props.defaultValue ? (
                     <>
                         <label>{this.props.name} <span style={{ color: "red" }}>{this.state.error ? this.state.error : ""}</span></label>
-                        <div ref={this.divRef} onBlur={() => this.blured()}>
+                        <div ref={this.divRef}>
                             {this.props.type == InputType.TEXTARIA ?
                                 (
                                     <textarea onBlur={() => this.onBlur()} onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />

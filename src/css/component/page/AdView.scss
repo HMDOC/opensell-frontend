@@ -22,6 +22,7 @@
 }
 
 .ad-view {
+    
     &-title-section {
         display: flex;
         align-items: center;
@@ -41,15 +42,15 @@
 
     &-description {
         font-size: 22px;
-        min-width: 1100px;
+        max-width: 1000px;
     }
 
     &-background {
         padding: 20px;
         border-radius: 20px;
-
         background-color: var(--sr1);
         color: var(--dark-mode-text);
+        max-width: 1400px;
     }
 
     &-position {
