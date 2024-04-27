@@ -1,12 +1,11 @@
-
 .adPreview{
     transition: background-color 0.2s;
     color: black;
     width: 8cm;
     max-width: 30vw;
-    background-color: white;
+    background-color: #FCFBFA;
     overflow: hidden;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     justify-content: start;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
@@ -22,7 +21,7 @@
 }
 
 .adSold{
-    background-color: #F5F5F5;
+    background-color: #FCFBFA;
 }
 
 .adSold:hover{

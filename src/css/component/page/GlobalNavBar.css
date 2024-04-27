@@ -32,7 +32,7 @@
 .nav-right {
   position: absolute;
   right: 0;
-  margin-right: 20px;
+  margin: 10px 50px 0 0;
 }
 
 #basic-nav-dropdown {
@@ -43,8 +43,28 @@
   text-decoration: underline solid black 2px;
 }
 
-.user-def {
-  width: 1.5vw;
-  height: 1.5vw;
-  margin-right: 10px;
+.nav-button {
+  margin-left: 20px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-button * {
+  padding: 15px 1.5vw;
+  border-radius: 50px;
+}
+
+.button1 {
+  color: #FCFBFA;
+  display: inline;
+  background: none;
+  border: solid rgba(211, 211, 211, 0.75) 2px;
+}
+
+.button2 {
+  display: inline;
+  background-color: #D3D3D3;
+  border: none;
+  color: #151925;
 }

@@ -170,7 +170,7 @@ const ResultList = (): ReactElement => {
                     reverseSort={reverseSortRef}
                     defSortValue={searchParams.get("reverseSort")==="1"} />
             </div>
-            <div id="searchResult" >
+            <div id="searchResult">
                 {
                     (isLoading) ?
                         <LoadingIcon /> :

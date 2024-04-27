@@ -1,0 +1,68 @@
+.back-div {
+    background-color: rgba(252, 251, 250, 0.39);
+    width: 75%;
+    margin: 40px auto auto auto;
+    padding: 30px;
+    border-radius: 27px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: #FCFBFA solid 2px;
+    height: 50%;
+}
+
+.front-div {
+    padding: 100px;
+    background: #FCFBFA;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    border-radius: 20px;
+}
+
+.pencil {
+    float: right;
+    margin-top: -40px;
+    margin-right: -30px;
+    font-size: 1.15vw;
+    color: #1E3050;
+}
+
+.top-div {
+    margin-bottom: 1.75vh;
+    text-align: center;
+    width: 100%;
+}
+
+.pfp-div {
+    display: inline-block;
+    margin-right: 50px;
+}
+
+.info-div {
+    display: inline-block;
+    text-align: left;
+}
+
+.pfp {
+    width: 7vw;
+    height: 7vw;
+    border-radius: 50%;
+}
+
+.user-infos {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 0.6vw;
+}
+
+.profile-sep {
+    height: 2px;
+    width: 30vw;
+    background-color: rgba(211, 211, 211, 0.7);
+    margin: auto;    
+}
+
+.bottom-div {
+    margin-top: 50px;
+}
+
+.user-ads * {
+    margin-right: 15px;
+}
