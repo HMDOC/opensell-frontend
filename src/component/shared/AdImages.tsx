@@ -47,8 +47,8 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public getError(isDelete = false): boolean {
         let error = "";
 
-        if (this.props.images.length == 1 && isDelete) {
-            error = " need to be at least one";
+        if (this.props.images.length <= 2 && isDelete) {
+            error = " need to be at least two";
 
             if (error != this.props.error) {
                 this.props.setError(error);

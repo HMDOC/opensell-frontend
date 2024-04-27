@@ -16,6 +16,10 @@
     max-height: 320px;
 }
 
+.my-ads-go-back {
+    margin-left: 30px;
+}
+
 .display-post p {
     font-size: 18px;
 }

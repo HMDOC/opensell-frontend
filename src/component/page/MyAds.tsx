@@ -71,7 +71,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                     <div className="display-post-options">
                         <Dropdown>
                             <SplitButton variant="dark" title="...">
-                                <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`}>Modify</DropdownItem>
+                                <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`} target="_blank">Modify</DropdownItem>
                                 <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
                                 <DropdownItem as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                             </SplitButton>
@@ -113,7 +113,10 @@ const MyAds = (props: { idCustomer?: number }) => {
         <>
             {isPreview ?
                 (
-                    <AdMapping request={currentAdPreview} />
+                    <>
+                        <Button className="my-ads-go-back" onClick={() => setIsPreview(false)}>Go Back</Button>
+                        <AdMapping request={currentAdPreview} />
+                    </>
                 ) : (
                     <>
                         {
