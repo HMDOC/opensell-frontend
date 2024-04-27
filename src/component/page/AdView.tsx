@@ -1,8 +1,6 @@
 import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getAdByLink } from "../../services/AdService";
-import content from "../../locales/ad.json";
-import { getLanguage } from "../../i18n/i18n";
 import ProfilIcon from "./ProfilIcon";
 import { AxiosResponse } from "axios";
 import { AdBuyerView, AdShape, AdVisibility } from "../../entities/dto/AdBuyerView";
@@ -12,8 +10,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 import AdTagPart from "../part/AdView/AdTagPart";
 import AdInfosPart from "../part/AdView/AdInfosPart";
+import "../../css/component/page/AdView.scss";
 import "../../css/component/part/ImageFit.css";
-import { Img } from "react-image";
+
 
 /**
  * Function that increase the index of the current picture
@@ -34,15 +33,16 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
 };
 
 export function AdVisibilityPart(props: { adVisibility?: AdVisibility }): ReactElement {
-    switch (props.adVisibility) {
-        case AdVisibility.LINK_ONLY:
-            return <FontAwesomeIcon size="2x" icon={faLink} />;
-        case AdVisibility.PRIVATE:
-            return <FontAwesomeIcon size="2x" icon={faLock} />;
-        default:
-            // ONLY HERE FOR DEMO
-            return <FontAwesomeIcon size="2x" icon={faEarthAmericas} />;
-    }
+    return <FontAwesomeIcon 
+        style={{fontSize : "35px", marginBottom : "10px"}} 
+        icon={
+            props.adVisibility == AdVisibility.LINK_ONLY ?
+                (faLink) : (
+                    props.adVisibility == AdVisibility.PRIVATE ? 
+                        (faLock) : (null)
+                ) 
+        } 
+    />;
 }
 
 /*

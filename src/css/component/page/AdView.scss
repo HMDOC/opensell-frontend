@@ -1,0 +1,110 @@
+.user-profil {
+    width: 14%;
+    height: fit-content;
+    border-radius: 50px;
+    background-color: var(--sr2);
+    color: var(--dark-mode-text);
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    padding: 10px 15px 10px 15px;
+    float: right;
+    margin-right: 30px;
+    text-align: center;
+}
+
+.user-profil-username {
+    color: var(--dark-mode-text);
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.user-profil-username:hover {
+    text-decoration: underline;
+}
+
+.ad-view {
+    &-title-section {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+
+        & .ad-type-part {
+            margin-bottom : 10px;
+            margin-left : 5px;
+        }
+    }
+
+    &-flex-desc-infos {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    &-description {
+        font-size: 22px;
+        max-width: 1100px;
+    }
+
+    &-background {
+        padding: 20px;
+        border-radius: 20px;
+        background-color: var(--sr1);
+        color: var(--dark-mode-text);
+    }
+
+    &-position {
+        display: flex;
+        justify-content: center;
+        justify-items: auto;
+        align-items: center;
+    }
+
+    &-images {
+        display: flex;
+        width: 100%;
+        height: 700px;
+        flex-direction: row;
+    }
+
+    &-images-column {
+        display: flex;
+        width: 30%;
+        flex-direction: column;
+    }
+
+    &-images-column-element {
+        width: 100%;
+        height: 30.6%;
+        margin: 10px;
+    }
+
+    &-big-image {
+        width: 70%;
+        margin: 10px;
+    }
+
+    &-images-zoom-in {
+        font-size: 50px;
+        color: white;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &-zoomed-image {
+        width: 100%;
+        height: 100%;
+        filter: blur(5px) grayscale(1);
+    }
+    
+    @media(max-width: 900px) {
+        &-images-column-element {
+            display: none;
+        }
+
+        &-big-image {
+            width: 100%;
+            padding-right: 20px;
+        }
+    }
+}
