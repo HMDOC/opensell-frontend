@@ -9,7 +9,7 @@ import { adModification, adModificationTags, getAdToModif } from "../../services
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages, SaveCancelButton } from "../shared/AdImages";
-import AdShape from "../shared/AdShapePart";
+import AdShapeSelect from "../shared/AdShapeSelect";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import AdVisibilitySelect from "../shared/AdVisibilitySelect";
@@ -209,7 +209,7 @@ export default function AdModification(): ReactElement {
                 <br />
                 <br />
 
-                <AdShape 
+                <AdShapeSelect
                     defaultValue={ad?.adShape} 
                     request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} />
                 <AdVisibilitySelect 

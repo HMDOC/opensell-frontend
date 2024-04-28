@@ -9,7 +9,7 @@ export interface AdShapePartProps {
     request?(value: any): void;
 }
 
-export default function AdShapePart(props: AdShapePartProps) {
+export default function AdShapeSelect(props: AdShapePartProps) {
     return(
         <SelectorReader
             name="shapeId"

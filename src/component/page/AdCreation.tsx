@@ -8,7 +8,7 @@ import { getAllAdTypes, saveAdImages } from "../../services/AdService";
 import { getFormData, getFormDataAsArray } from "../../services/FormService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages } from "../shared/AdImages";
-import AdShapePart from "../shared/AdShapePart";
+import AdShapeSelect from "../shared/AdShapeSelect";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import AdVisibilitySelect from "../shared/AdVisibilitySelect";
@@ -124,7 +124,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     </div>
 
                     <AdVisibilitySelect />
-                    <AdShapePart /> 
+                    <AdShapeSelect /> 
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}

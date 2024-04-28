@@ -4,7 +4,7 @@ import { MAX_PRICE} from "../shared/SharedAdPart";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { SHAPE_ARRAY } from "../shared/AdShapePart";
+import { SHAPE_ARRAY } from "../shared/AdShapeSelect";
 
 /** 
     The component that holds all of the filter options.

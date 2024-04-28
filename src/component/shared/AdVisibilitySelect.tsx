@@ -1,6 +1,6 @@
 import { faEarthAmerica, faList, faShapes } from "@fortawesome/free-solid-svg-icons";
 import { SelectorReader } from "./SharedAdPart";
-import { AdShapePartProps } from "./AdShapePart";
+import { AdShapePartProps } from "./AdShapeSelect";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 
