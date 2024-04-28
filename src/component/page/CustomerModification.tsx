@@ -25,14 +25,11 @@ export default class CustomerModification extends Component<CMProperties, CMStat
         }
     }
 
-    private modalWidth: number = (window.innerWidth * 50)/100;
-    private modalHeight: number = (window.innerHeight * 80)/100;
-
     public openModal(type: CMModalType): void {
-        if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData}/>});
-        else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData}/>});
-        else if (type == CMModalType.PASSWORD) this.setState({currentModalContent: <CMPasswordForm defaultValues={this.props.customerData}/>});
-        else if (type == CMModalType.PHONE_NUMBER) this.setState({currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData}/>});
+        if (type == CMModalType.BASIC_CHANGES) this.setState({currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.PASSWORD) this.setState({currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.PHONE_NUMBER) this.setState({currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
         this.setState({modalIsOpen: true});
     }
 
@@ -45,12 +42,12 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     render(): ReactNode {
         return (
             <div className="modificationContainer">
-                <div id="customer-modification-form" className="main-background modificationPage">
+                <div id="customer-modification-form" className="modificationPage">
                     <div className="CM-Container">
                         <h1>Sensitive Info</h1>
-                        <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} isPassword={true}/>
+                        <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} defaultValue={this.props.customerData.personalEmail}/>
                         <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true}/>
-                        <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} isPassword={true}/>
+                        <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} defaultValue={this.props.customerData.customerInfo?.phoneNumber}/>
                     </div>
                     <div className="CM-Container">
                         <h1>Other Info</h1>
@@ -66,13 +63,15 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                     onRequestClose={() => this.closeModal()} 
                     ariaHideApp={false}
                     style={{content: {
-                        width: this.modalWidth, 
-                        height: this.modalHeight, 
+                        width: "70vw", maxWidth: "60em",
+                        height: "60vh", 
+                        minHeight: "24em",
                         top: '50%', left: '50%', 
                         position: 'fixed', 
                         transform: 'translate(-50%, -50%)', 
-                        background: '#DCE9FC', 
-                        border: '2px solid red'}}}>
+                        background: '#4c5e7e',
+                        color: "white", 
+                        border: '2px solid brown'}}}>
                         {this.state.currentModalContent}
                     </Modal>  
                 </div>

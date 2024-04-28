@@ -1,6 +1,12 @@
 .modificationContainer{
-    width: 100%;
-    padding-bottom: 4vh;
+    background-color: rgba(252, 251, 250, 0.39);
+    width: 75%;
+    margin: 40px auto auto auto;
+    padding: 30px;
+    border-radius: 27px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: #FCFBFA solid 2px;
+    height: 800px;
 }
 
 .modificationPage{
@@ -23,30 +29,6 @@
 .modificationLabel{
     font-weight: 700;
     font-size: large;
-}
-
-.modificationInput {
-    transition: border 0.15s;
-    width: 100%;
-    height: 2.5em;
-    margin: 0 0.75vh;
-    margin-right: 2vh;
-    padding: 0.3vh 2vh;
-    padding-right: 4vh;
-    background-color: #D9D9D9;
-    font-size: medium;
-
-    border-radius: 20px;
-    border: var(--inputborder) solid 3px;
-    border-bottom: var(--inputborder) solid 3px;
-}
-
-.modificationInput:focus {
-    transition: border 0.15s;
-    outline: none;
-    border: var(--inputborder) solid 2px;
-    border-top: var(--inputborder) solid 1px;
-    border-bottom: var(--inputborder) double 5px;
 }
 
 .modificationTextArea{
@@ -77,7 +59,6 @@
     padding: 0.5vh 1.25vh;
     border-radius: 20px;
     border: none;
-
     position: relative;
     bottom: 0;
 }
@@ -102,6 +83,18 @@
     color: black;
     border-bottom: 0;
     bottom: 0px;
+}
+
+.modificationSubmit .CMExitButton{
+    background-color: white;
+    color: red;
+    margin-right: 79.4%;
+}
+
+.modificationSubmit .CMExitButton:hover,.CMExitButton:target{
+    background-color: red;
+    color: white;
+    border-color: darkred;
 }
 
 .modificationStatus{
@@ -132,13 +125,14 @@
 }
 
 .CMDisplay-Container button {
-    background-color: rgb(196, 209, 212);
+    background-color: rgb(184, 210, 216);
     font-weight: bolder;
     color: #000000;
+    border-radius: 25px;
 }
 
 .CMDisplay-Label-Container {
-    min-width: 10vw;
+    min-width: 11vw;
     padding: 10px;
     background-color: rgba(220, 233, 252, 0.807);
 }
@@ -154,15 +148,18 @@
     padding: 10px;
     border-radius: 25px;
     border: black 2px;
-    background-color: rgba(52, 61, 139, 0.788);
+    background-color: #4c5e7e;
 }
 
 .CM-Container h1 {
     font-size: 30px;
     font-weight: bold;
+    border-bottom: 2px #FCFBFA solid;
+    color: #FCFBFA
 }
 
 .CMFeedbackContainer {
-    background-color: lightblue;
+    background-color: rgb(72, 87, 117);
     min-height: 5vh;
+    color: red
 }

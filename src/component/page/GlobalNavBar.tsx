@@ -18,7 +18,7 @@ import Col from 'react-bootstrap/Col';
  * 
  * @author Quoc 
  */
-export default function GlobalNavBar(props: { customerDto: CustomerDto, logout(): void }): ReactElement {
+export default function GlobalNavBar(props: { customerDto: CustomerDto, logout(): void}): ReactElement {
     const naviguate = useNavigate();
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""
@@ -44,38 +44,49 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                     <Col>
                         <div className='nav-center'>
                             <NavLink to="/">
-                                <img src="/img/opensell-logo.png" alt="Opensell logo" className="brand-logo" />
+                                <img src="/img/opensell_logo.png" alt="Opensell logo" className="brand-logo" />
                             </NavLink>
                         </div>
                     </Col>
 
                     <Col>
-                        <NavDropdown className='nav-right' title={
-                            props.customerDto?.customerInfo?.iconPath ?
+                        {props.customerDto?.customerInfo?.iconPath ? (
+                            <NavDropdown className='nav-right' title={
+                                <span className='user-def'><ProfilIcon src={props.customerDto?.customerInfo?.iconPath} /></span>
+                            } id='basic-nav-dropdown'>
+                                <NavDropdown.Item>{props.customerDto?.link == undefined ? "Guest" : props.customerDto?.username}</NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/user/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>
+                                {navLinks.dropdownMenu.map((nav) =>
                                 (
-                                    <ProfilIcon src={props.customerDto?.customerInfo?.iconPath} />
+                                    <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
+                                ))}
+                                <NavDropdown.Divider />
+                                {props.customerDto ? (
+                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "5px" }} onClick={() => logout()}>
+                                        Logout
+                                    </NavDropdown.Item>
                                 ) : (
-                                    <FontAwesomeIcon size="2x" icon={faUser} />
-                                )
-                        } id='basic-nav-dropdown'>
-                            <NavDropdown.Item>{props.customerDto?.link == undefined ? "Guest" : props.customerDto?.username}</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/user/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>
-                            {navLinks.dropdownMenu.map((nav) =>
-                            (
-                                <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
-                            ))}
-                            <NavDropdown.Divider />
-                            {props.customerDto ? (
-                                <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "5px" }} onClick={() => logout()}>
-                                    Logout
-                                </NavDropdown.Item>
-                            ) : (
-                                <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "5px" }} onClick={() => naviguate('/login')}>
-                                    Login
-                                </NavDropdown.Item>
-                            )}
-                        </NavDropdown>
+                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "5px" }} onClick={() => naviguate('/login')}>
+                                        Login
+                                    </NavDropdown.Item>
+                                )}
+                            </NavDropdown>
+                        ) : (
+
+                            <div className='nav-right'>
+                                <NavLink className="nav-button" to="/login">
+                                    <div className='button1'>
+                                        SIGN IN
+                                    </div>
+                                </NavLink>
+                                <NavLink className="nav-button" to="/signup">
+                                    <div className='button2'>
+                                        GET STARTED
+                                    </div>
+                                </NavLink>
+                            </div>
+                        )}
                     </Col>
                 </Row>
             </Container>

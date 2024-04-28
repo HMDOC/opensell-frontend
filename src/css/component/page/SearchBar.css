@@ -47,9 +47,18 @@
     padding: 0 2.5px;
 }
 
+.selector-reader{
+    min-width: 100%;
+    border-radius: 10px;
+}
+
 input{
     width: 100%;
     padding-left: 4px;
+    background-color: var(--sr3);
+    border-radius: 10px;
+    border: none;
+    padding: 3px 4px;
 }
 
 select{
@@ -59,16 +68,38 @@ select{
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  appearance: none;
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
-#sortBy{ width: calc(100% - 30px); }
-#reverseSort{ width: 24px; margin-left: 5px;}
+#sortBy{ width: calc(100% - 30px); min-width: 0;}
 
 #tagListId{
     width: 100%;
+}
+
+#reverseSort{
+    appearance: none;
+    position: relative;
+    left: 7px; top: 3px;
+    width: 14px;
+    height: 14px;
+    border-radius: 0;
+    background: none;
+    border: 4px solid black;
+    border-left: none;
+    border-top: none;
+    transform: rotate(-315deg);
+    transition: transform 0.8s cubic-bezier(.675,-0.75,.35,1.8);
+}
+
+#reverseSort:hover{
+    cursor: pointer;
+}
+
+#reverseSort:checked{
+    transform: rotate(-495deg);
 }

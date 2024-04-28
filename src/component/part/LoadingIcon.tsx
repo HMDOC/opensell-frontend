@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import "../../css/component/page/LoadingIcon.css"
-const LoadingIcon = () : ReactElement => {
+const LoadingIcon = (props) : ReactElement => {
     return (
         <div id="loadingIcon">
-            <img className="loadingIcon" src="/img/loadingAnim.svg" />
+            <img className="loadingIcon" src={(props.isLazy) ? "/img/lazyLoadAnim.svg" : "/img/loadingAnim.svg"} />
         </div>
         
     );

@@ -19,13 +19,13 @@ export default function MainMenu(): ReactElement {
         <>
             <div className="splash-div">
                 <div className="splash-text">
-                    <div style={{ paddingRight: "100px" }}>Opensell</div>
+                    <p style={{ paddingRight: "100px" }}>OpenSell</p>
                     <div className="splash-middle">
                         <div className="splash-line"></div>
-                        <div>Inc.</div>
+                        <p>Inc.</p>
                     </div>
                 </div>
-                <div className="splash-bottom">The online marketplace, redesigned</div><br />
+                <p className="splash-bottom">The online marketplace, redesigned</p><br />
                 <form onSubmit={getLink} className="inputContainer">
                     <input onChange={(e) => { search = e.target.value }} type="text" placeholder="Search" className="mainMenuInput" />
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />

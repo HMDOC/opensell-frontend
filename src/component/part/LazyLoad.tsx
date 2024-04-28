@@ -6,7 +6,7 @@ export default class LazyLoad extends Component {
         return(
             <>
                 <p>Lazy Loading...</p>
-                <LoadingIcon/>
+                <LoadingIcon isLazy={1}/>
             </>
         );
     }

@@ -49,7 +49,6 @@ export default function App() {
 						<Route path="/u/ad-creation" element={<AdCreation idCustomer={customerDto?.customerId}/>}></Route>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
 						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
-						<Route path="/u/:link" element={<UserProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
 					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup getCustomerInfo={getCustomerInfo}/>}></Route>
@@ -57,7 +56,7 @@ export default function App() {
 					<Route path="/catalog" element={<Catalog />}></Route>
 					<Route path="/ad/:link" element={<AdView />}></Route>
 					<Route path="/file-uploader/" element={<FileUploader />}></Route>
-					<Route path="/user/:link" element={<UserProfil />}></Route>
+					<Route path="/user/:link" element={<UserProfil customerDto={customerDto} />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>

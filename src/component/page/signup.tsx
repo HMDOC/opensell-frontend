@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { checkSignup } from "../../services/SignupService";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Verification from "./Verification";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faKey, faUser } from "@fortawesome/free-solid-svg-icons";
+import "../../css/component/page/signup.css";
 
-export default function Signup(props: {getCustomerInfo(): void}) {
+
+export default function Signup(props: { getCustomerInfo(): void }) {
     const naviguate = useNavigate();
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
     const [isAuthentified, setIsAuthentified] = useState(false);
@@ -15,10 +19,10 @@ export default function Signup(props: {getCustomerInfo(): void}) {
             password: "",
         }
     );
-    const [eErrors, setEErrors] = useState({email : "", username: "", password : ""})
+    const [eErrors, setEErrors] = useState({ email: "", username: "", password: "" })
 
     const getError = () => {
-        const errors = {email : "", username: "", password : ""};
+        const errors = { email: "", username: "", password: "" };
         if (!infos.email) {
             errors.email = "Required";
         } else if (!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(infos.email)) {
@@ -62,34 +66,46 @@ export default function Signup(props: {getCustomerInfo(): void}) {
         if (getError()) {
             checkSignup(infos.email, infos.username, infos.password).then(res => {
                 if (res?.data === 1) {
-                    setEErrors({...eErrors, email: "Email already exists"});
+                    setEErrors({ ...eErrors, email: "Email already exists" });
                 } else if (res?.data === 2) {
-                    setEErrors({...eErrors, username : "Username already exists"});
-                    } else if (res?.data === 3) {
-                        setIsAuthentified(true);
-                    } else {
-                        naviguate("/error");
-                    }
+                    setEErrors({ ...eErrors, username: "Username already exists" });
+                } else if (res?.data === 3) {
+                    setIsAuthentified(true);
+                } else {
+                    // naviguate("/error");
+                    setIsAuthentified(true);
+                }
             });
         }
     }
-    
+
     return (
         <div className="main-background">
-            {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo}/>) : (
-                <div>
-                <h1>Sign up</h1>
-                <form id="form">
-                    <label>Email: *</label><br />
-                    <input type="email" name="email" id="email" onChange={handleChange}></input>&nbsp;{eErrors.email}<br /><br />
-                    <label>Username: *</label><br />
-                    <input type="text" name="username" onChange={handleChange}></input>&nbsp;{eErrors.username}<br /><br />
-                    <label>Password: *</label><br />
-                    <input type="password" name="password" onChange={handleChange}></input>&nbsp;{eErrors.password}<br /><br />
-                    <button type="submit" onClick={handleClick}>Sign up</button>
-                </form>
+            {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo} />) : (
+                <div className="signup-form">
+                    <p className="top-text">Welcome</p>
+                    <p className="middle-text">Create an account</p>
+                    <form className="form">
+                        <div className="input-div">
+                            <FontAwesomeIcon icon={faEnvelope} className="signup-icon" />
+                            <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.email}</span>
+                        </div><br />
+                        <div className="input-div">
+                            <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
+                            <input placeholder="Username" className="signup-input" type="text" name="username" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.username}</span>
+                        </div><br />
+                        <div className="input-div">
+                            <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
+                            <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.password}</span>
+                        </div><br />
+                        <button className="signup-button" type="submit" onClick={handleClick}>SIGN UP</button>
+                        <p className="bottom-text">Already have an account? Login <NavLink to="/login" style={{ textDecoration: "underline", fontWeight: "bold", color: "#232751" }}>here</NavLink></p>
+                    </form>
                 </div>
             )}
+            <div className="decoration-div">
+                <img className="deco-pic" src="/img/auth-deco.jpg"></img>
+            </div>
         </div>
     )
 }

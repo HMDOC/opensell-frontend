@@ -1,10 +1,6 @@
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react"
 import { AdCreationInputProperties } from "../AdCreationService"
 import { CustomerDto } from "../../entities/dto/CustomerDto";
-import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, executeChange, getCheckResult, replaceInString } from "./CMService";
-import { getFormData, getFormDataAsArray } from "../FormService";
-import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 
 export interface CMState {
     modalIsOpen: boolean;
@@ -30,6 +26,13 @@ export interface CMRepeatInputProperties extends CMInputProperties {
     removeFeedbackMessage(message: string): void
 }
 
+interface CMButtonProperties {
+    type: "button" | "reset" | "submit", 
+    buttonText: string, 
+    isExitButton?: boolean,
+    onClick?(event: any): void
+}
+
 export interface CMDisplayProperties {
     labelText: string;
     defaultValue?: string;
@@ -40,7 +43,8 @@ export interface CMDisplayProperties {
 }
 
 export interface CMFormProperties {
-    defaultValues: CustomerDto
+    defaultValues: CustomerDto,
+    closeModalCallback(): void
 }
 
 export interface CMFormState {
@@ -54,7 +58,7 @@ export class CMInput extends Component<CMInputProperties, any> {
             <div className="modificationSection">
                 <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
                 <input className="modificationInput" id={this.props.name} type={this.props.type} name={this.props.name} defaultValue={this.props?.defaultValue} 
-                onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>)}
+                onChange={this.props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>): null}
                 ref={this.props.inputRef as RefObject<HTMLInputElement>}/>
             </div>
         )
@@ -94,11 +98,15 @@ export class CMTextArea extends CMInput {
     }
 }
 
-export class CMButton extends Component<{type: "button" | "reset" | "submit", buttonText: string}, any> {
+export class CMButton extends Component<CMButtonProperties, any> {
     render(): ReactNode {
         return(
             <div className="modificationSubmit">
-                <button className="modificationLabel" type={this.props.type}>{this.props.buttonText}</button>
+                <button 
+                className={"modificationLabel" + (this.props.isExitButton === true ? " CMExitButton" : "")} 
+                type={this.props.type} onClick={this.props.isExitButton === true ? (e) => this.props.onClick(e) : null}>
+                    {this.props.buttonText}
+                </button>
             </div>
         );
     }
@@ -121,7 +129,7 @@ export class CMDisplay extends Component<CMDisplayProperties, any> {
                 <div className="CMDisplay-Label-Container"><label>{this.props.labelText}</label></div>
                 <div className="CMDisplay-Default-Value-Container">{this.getDisplayedDefaultValue()}</div>
                 <div>
-                    {this.props.hasButton ? <button type="button" onClick={() => this.props.buttonOnClickCallback()}>{this.props.buttonText ? this.props.buttonText : "Change"}</button> : null}
+                    {this.props.hasButton ? <button type="button" onClick={() => this.props.buttonOnClickCallback()} className="modificationLabel">{this.props.buttonText ? this.props.buttonText : "Change"}</button> : null}
                 </div>
             </div>
         )

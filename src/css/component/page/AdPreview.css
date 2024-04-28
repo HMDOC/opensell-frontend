@@ -1,19 +1,15 @@
-
 .adPreview{
     transition: background-color 0.2s;
     color: black;
-    width: 8cm;
-    max-width: 50vw;
-    background-color: white;
+    width: 16.5em;
+    background-color: #FCFBFA;
     overflow: hidden;
-    display: flex;
+    display: inline-block;
     flex-direction: column;
     justify-content: start;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    max-height: 320px;
+    height: 15.75em;
     border-radius: 15px;
-    
-    
 }
 
 .adPreview:hover{
@@ -24,11 +20,7 @@
 }
 
 .adSold{
-    filter: brightness(75%);
-}
-
-.adSold:hover{
-    background-color: gray;
+    background-color: #FCFBFA;
 }
 
 .ad-price-part{
@@ -36,7 +28,7 @@
 }
 
 .adPreview img {
-    height: 175px;
+    height: 9.75em;
     border-width: 2px;
 }
 
@@ -56,7 +48,7 @@
 }
 
 .imgOffset{
-    margin-bottom: 0.75vh;
+    margin-bottom: 0.45em;
 }
 
 .adShapeIcon{

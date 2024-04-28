@@ -1,6 +1,9 @@
-import { BaseSyntheticEvent, ReactElement } from "react";
+import { faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { ReactElement } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
+import AdTagPart from "../part/AdView/AdTagPart";
+import { IconLabelError } from "./SharedAdPart";
 
 interface AdTagsProps {
     /**
@@ -76,7 +79,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
         }
     };
 
-    const onTypeEvent = (e:BaseSyntheticEvent):void =>{
+    const onTypeEvent = (e: any): void => {
         e.target.value = e.target.value.toLowerCase()
             .replaceAll(' ', '-')
             .replaceAll('--', '-')
@@ -104,7 +107,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
     return (
         <>
-            <div className={(props.isSearch) ? "":"row"}>
+            <div>
                 {props.isSearch ?
                     (
                         <>
@@ -115,38 +118,21 @@ export function AdTags(props: AdTagsProps): ReactElement {
                         </>
                     ) : (
                         <>
-                            <label className="col">{"adTags"} <span style={{ color: "red" }}>{getErrorValue()}</span></label>
+                            <IconLabelError iconProp={faHashtag} title="Tags" error={getErrorValue()} />
+                            <br />
                         </>
                     )
                 }
 
                 <input placeholder={props.placeholder}
-                    className={(props.isSearch) ? "":"modificationInput col-9"}
-                    onChange={(e:BaseSyntheticEvent) => onTypeEvent(e)}
-                    pattern="[a-z0-9]"
+                    className={(props.isSearch) ? "" : "ad-tags-section"}
+                    onChange={onTypeEvent}
                     onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
-                <br />
-                {!props.isSearch ?
-                    <br /> : <></>
-                }
-                </div>
+            </div>
             <div>
-
                 {props.tags?.map(value => (
-                    <button type="button" onDoubleClick={() => deleteEvent(value)} key={createRandomKey()}>{value}</button>
+                    <AdTagPart label={value} onDoubleClick={() => deleteEvent(value)} key={createRandomKey()} />
                 ))}
-                {!props.isSearch ?
-                    (
-                        <>
-                            <br />
-                            <br />
-                        </>
-                    ) : (
-                        <></>
-                    )
-
-                }
-
             </div>
         </>
     );

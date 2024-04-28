@@ -9,6 +9,7 @@ import AdTypeSelect from "../shared/AdTypeSelect";
 import { Navigate } from "react-router-dom";
 import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 import "../../css/component/page/CustomerModification.css"
+import { faEarthAmerica, faItalic, faShapes } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * @author Olivier Mansuy
@@ -65,12 +66,10 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     }
 
     formIsValid(formData: FormData): boolean {
-        //forEach of formData only returns undefined...
         let tempData: {fieldName:string, value:string}[] = getFormDataAsArray(formData);
         for (let elem of tempData) {
             const {fieldName, value} = elem;
             let result: boolean = formValidation?.[fieldName]?.isValid(value);
-            console.log(fieldName + " " + result + " VALUE : " + value)
             if (result === false) {
                 this.setGlobalErrorMessage(formValidation?.[fieldName]?.errorMessage);
                 return false;
@@ -83,21 +82,23 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     async saveAd(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         let formData = getFormData(event);
-        if (window.confirm("Are you sure?") && this.formIsValid(formData)) {
+        let formIsValid = this.formIsValid(formData);
+        if (formIsValid && this.state.images.length >= 2) {
             await createAd(formatCreationData(formData, this.state.selectedTags, this.props.idCustomer)).then((rep) => {
-                const {code, errorMessage, result, adId} = rep?.data;
+                const {errorMessage, result, adId} = rep?.data;
                 if (result == 0) this.setGlobalErrorMessage(errorMessage);
                 else {
                     let fileArray: File[] = []
                     this.state.images.map(elem => {
                         fileArray.push(elem.file);
                     }) 
-                    console.log(fileArray);
                     saveAdImages(fileArray, adId);
                     this.setGlobalErrorMessage("Ad created...");
                     this.setState({adWasCreated: true});
                 }
             })
+        } else if (!(this.state.images.length >= 2) && formIsValid) {
+            this.setGlobalErrorMessage("An ad must be created with at least 2 images!");
         }
     }
 
@@ -113,8 +114,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         <label htmlFor="description" className="col">Description : </label>
                         <textarea name="description" id="description" className="modificationInput col-9" cols={30} rows={5} required={false}></textarea>
                     </div>
-                    <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
-                    <SelectorReader name="shape" options={SHAPE_ARRAY} />
+                    <SelectorReader iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
+                    <SelectorReader iconProp={faShapes} title="Shape" name="shape" options={SHAPE_ARRAY} />
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}
@@ -122,10 +123,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         removeImage={(link) => this.setState({images: this.state.images.filter(img => img.link != link)})}
                         setImages={(images) => this.setState({images})}
                     />
-                    <div className="row">
-                        <label htmlFor="type" className="col">Type : </label>
-                        <AdTypeSelect inputName="type" inputId="type" cName="modificationInput col-9"/>
-                    </div>
+                    
+                    <AdTypeSelect inputName="type" inputId="type" />
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({errorAdTags: error})}
