@@ -47,9 +47,18 @@
     padding: 0 2.5px;
 }
 
+.selector-reader{
+    min-width: 100%;
+    border-radius: 10px;
+}
+
 input{
     width: 100%;
     padding-left: 4px;
+    background-color: var(--sr3);
+    border-radius: 10px;
+    border: none;
+    padding: 3px 4px;
 }
 
 select{
@@ -66,8 +75,7 @@ input[type=number] {
   appearance: textfield;
 }
 
-#sortBy{ width: calc(100% - 30px); }
-#reverseSort{ width: 24px; margin-left: 5px;}
+#sortBy{ width: calc(100% - 30px); min-width: 0;}
 
 #tagListId{
     width: 100%;
@@ -79,6 +87,8 @@ input[type=number] {
     left: 7px; top: 3px;
     width: 14px;
     height: 14px;
+    border-radius: 0;
+    background: none;
     border: 4px solid black;
     border-left: none;
     border-top: none;

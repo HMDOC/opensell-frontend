@@ -54,7 +54,7 @@ const SearchFilters = (props) : ReactElement =>{
                 <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="All"/>
 
                 <h5>Sorting</h5>
-                <select name="sortBy" id="sortBy">
+                <select name="sortBy" id="sortBy" className="selector-reader">
                     {adSortBy.map( (value, key) => {
                         return (<option value={value?.sortParam} key={key}> { value?.sortVisual } </option>)
                     } )}
@@ -64,10 +64,6 @@ const SearchFilters = (props) : ReactElement =>{
                     defaultValue={""} value={searchOrder} onChange={(e) =>{
                         setSearchOrder((searchOrder===0) ? 1 : 0)
                     }}/>
-                
-                {/*<h5>Tags</h5>
-                 <input type="text" name="tagListId" id="tagListId"
-                    placeholder="list all tags (by id)" defaultValue={""} /> */}
 
                 <div>
                     <AdTags 
@@ -81,7 +77,7 @@ const SearchFilters = (props) : ReactElement =>{
                 </div>
                 
                 <h5>Shape</h5>
-                <select name="shapeId" id="shapeId">
+                <select name="shapeId" id="shapeId" className="selector-reader">
                     <option value=""> All </option>
                     {SHAPE_ARRAY.map( (value, key) => {
                         return (<option value={key} key={key}> { value } </option>)
@@ -89,7 +85,7 @@ const SearchFilters = (props) : ReactElement =>{
                 </select>
 
                 <h5>Sold</h5>
-                <select name="filterSold" id="filterSold">
+                <select name="filterSold" id="filterSold" className="selector-reader">
                     <option value=""> All </option>
                     <option value={0}> Only On Sale </option>
                     <option value={1}> Only Sold </option>

@@ -158,7 +158,7 @@ const ResultList = (): ReactElement => {
 
     return (
         <div className="catalog-div">
-            <div className="div-filters">
+            <div className="div-filters catalog-div-bg">
                 <SearchBar
                     filterUpdate={setFiltersUpdated}
                     filters={filterRef}
@@ -169,7 +169,7 @@ const ResultList = (): ReactElement => {
                     reverseSort={reverseSortRef}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
             </div>
-            <div id="searchResult" style={{ overflowY: "scroll", height: "90vh"}}>
+            <div id="searchResult" className="catalog-div-bg">
                 {
                     (isLoading) ?
                         <LoadingIcon /> :
