@@ -4,7 +4,7 @@ import LoadingIcon from "../part/LoadingIcon";
 export default class NotFound extends Component<{}> {
     public render(): ReactNode {
         return(
-            <div className="main-background d-flex"  style={{width:"90vw"}}>
+            <div className="main-background d-flex"  style={{width:"90vw", maxWidth:"70em", maxHeight:"80vh"}}>
                 <div style={{width:"70%"}}>
                     <h1 className="mb-4"><b>404 Not-Found</b></h1> 
                     <p style={ {marginRight: "2em"} } >
@@ -14,7 +14,10 @@ export default class NotFound extends Component<{}> {
                     </p> 
                     <a className="btn bg-primary text-white" href="/">Home</a>
                 </div>
-                <img width={"80%"} src="/img/auth-deco.jpg" alt="" />
+                <div style={{width:"70%", maxHeight:"90%",}}>
+                    <img className="img-fluid float-right" src="/img/auth-deco.jpg" alt="" />
+                </div>
+                
             </div>
         );
     }
