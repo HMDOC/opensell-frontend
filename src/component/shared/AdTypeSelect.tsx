@@ -58,12 +58,7 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
                 {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ? 
                     (
                         <>
-                            {!this.props.defaultOptionText ?
-                                <>
-                                    <IconLabelError iconProp={faList} title="Category" />
-                                    <br />
-                                </> : <></>
-                            }
+                            <IconLabelError iconProp={faList} title="Category" isTitle={this.props.defaultOptionText != undefined} />
 
                             <select
                                 className={this.props.cName ? "" : "selector-reader"}

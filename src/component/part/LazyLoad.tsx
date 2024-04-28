@@ -5,7 +5,6 @@ export default class LazyLoad extends Component {
     public render(): ReactNode {
         return(
             <>
-                <p>Lazy Loading...</p>
                 <LoadingIcon isLazy={1}/>
             </>
         );

@@ -53,7 +53,6 @@ const SearchFilters = (props) : ReactElement =>{
                 <input type="date" name="dateMax" id="dateMax"
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
-                <IconLabelError iconProp={faList} title="Category" isTitle />
                 <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="All"/>
 
 
