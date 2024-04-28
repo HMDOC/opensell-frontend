@@ -12,6 +12,7 @@ import { AdMapping } from "./AdView";
 import { AxiosResponse } from "axios";
 import { AdBuyerView } from "../../entities/dto/AdBuyerView";
 import AdPricePart from "../part/AdView/AdPricePart";
+import AdCreationModal from "../part/AdCreationModal";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -89,6 +90,7 @@ const MyAds = (props: { idCustomer?: number }) => {
     const [displayAds, setDisplayAds] = useState<Array<DisplayAdView>>([]);
     const [isPreview, setIsPreview] = useState<boolean>(false);
     const [currentAdPreview, setCurrentAdPreview] = useState<Promise<AxiosResponse<AdBuyerView, any>>>();
+    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -111,6 +113,16 @@ const MyAds = (props: { idCustomer?: number }) => {
         setIsPreview(true);
     }
 
+    //navigate("/u/ad-creation")
+    function openModal() {  
+        setModalIsOpen(true);
+    }
+
+    //
+    function closeModal() {
+        setModalIsOpen(false);
+    }
+
     return (
         <>
             {isPreview ?
@@ -127,7 +139,7 @@ const MyAds = (props: { idCustomer?: number }) => {
                                     <>
                                         <div className="display-header d-flex justify-content-between">
                                             <h1 className="fs-1 text-black"> <b>My ads</b></h1>
-                                            <Button onClick={() => navigate("/u/ad-creation")}><FontAwesomeIcon icon={faPlus} /></Button>
+                                            <Button onClick={() => openModal()}><FontAwesomeIcon icon={faPlus} /></Button>
                                         </div>
                                         <div style={{overflowY : "scroll", height :"90vh"}} className="back-div">
                                             {displayAds?.map(value => (
@@ -149,13 +161,14 @@ const MyAds = (props: { idCustomer?: number }) => {
                                 ) : (
                                     <div className="no-ads-found">
                                         <h4>You have no ads.</h4>
-                                        <Button onClick={() => navigate("/u/ad-creation")}>Create One</Button>
+                                        <Button onClick={() => openModal()}>Create One</Button>
                                     </div>
                                 )
                         }
                     </>
                 )
             }
+            <AdCreationModal idCustomer={props.idCustomer} isOpen={modalIsOpen} onCloseRequest={() => closeModal()}/>
         </>
     );
 }

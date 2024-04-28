@@ -9,7 +9,9 @@ import AdTypeSelect from "../shared/AdTypeSelect";
 import { Navigate } from "react-router-dom";
 import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 import "../../css/component/page/CustomerModification.css"
-import { faEarthAmerica, faItalic, faShapes } from "@fortawesome/free-solid-svg-icons";
+import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll, faShapes } from "@fortawesome/free-solid-svg-icons";
+import { IconLabelError } from "../shared/SharedAdPart";
+import "../../css/component/page/AdModif.scss";
 
 /**
  * @author Olivier Mansuy
@@ -20,10 +22,12 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
     }
     render(): ReactNode {
         return(
-            <div className="row">
-                <label htmlFor={this.props.name} className="col">{this.props.labelText}</label>
+            <div className="">
+                <div>
+                    <IconLabelError iconProp={this.props.iconProp} title={this.props.labelText}/>
+                </div>
                 <input
-                className="modificationInput col-9"
+                className="ad-modif-input"
                 type={this.props.type}
                 min={this.props.min}
                 max={this.props.max}
@@ -104,15 +108,18 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
     render(): ReactNode {
         return(
-            <div className="reg-background container">
+            // reg-background container
+            <div className="">
                 <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
-                    <AdCreationInput labelText="Title : " name="title" type="text" required={false}/>
-                    <AdCreationInput labelText="Price : " name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE}/>
-                    <AdCreationInput labelText="Address : " name="address" type="text" required={false} />
-                    <div className="row">
-                        <label htmlFor="description" className="col">Description : </label>
-                        <textarea name="description" id="description" className="modificationInput col-9" cols={30} rows={5} required={false}></textarea>
+                    <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic}/>
+                    <AdCreationInput labelText="Price" name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE} iconProp={faReceipt}/>
+                    <AdCreationInput labelText="Address" name="address" type="text" required={false} iconProp={faLocationDot}/>
+                    <div>
+                        <div>
+                            <IconLabelError iconProp={faScroll} title="Description"/>
+                        </div>
+                        <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false}></textarea>
                     </div>
                     <SelectorReader iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
                     <SelectorReader iconProp={faShapes} title="Shape" name="shape" options={SHAPE_ARRAY} />
