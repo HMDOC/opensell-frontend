@@ -5,5 +5,4 @@ export interface CustomerDto {
     customerId: number;
 	username: string;
     link: string;
-    joinedDate: string
 };

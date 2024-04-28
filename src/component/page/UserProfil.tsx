@@ -1,58 +1,65 @@
-import { Component, ReactElement, ReactNode, useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
-import { getCustomerInfo, getPublicUserAds } from "../../services/CustomerInfo";
-import { CustomerInfo } from "../../entities/dto/CustomerInfo";
-import AdPreview from "./AdPreview";
-import "../../css/component/page/UserProfil.css"
-import { CustomerDto } from "../../entities/dto/CustomerDto";
-import { getDto } from "../../services/LogInService";
+import { faEnvelope, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLocationDot, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { ReactElement, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import "../../css/component/page/UserProfil.css";
+import { CustomerDto } from "../../entities/dto/CustomerDto";
+import CustomerProfil from "../../entities/dto/CustomerProfil";
+import { getCustomerProfil } from "../../services/CustomerInfo";
+import AdPreview from "./AdPreview";
 
-export default function UserProfil(): ReactElement {
+const noProfilIcon = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" ;
+
+export default function UserProfil(props: {customerDto: CustomerDto}): ReactElement {
     const { link } = useParams();
-    const [customerInfo, setCustomerInfo] = useState<CustomerInfo>();
-    const [customerDto, setCustomerDto] = useState<CustomerDto>();
-    const [publicUserAds, setPublicUserAds] = useState<AdSearchPreview[]>([]);;
-    useState(() => {
-        getCustomerInfo(link).then(res => {
-            setCustomerInfo(res?.data)
-        })
-        getPublicUserAds(link).then(res => {
-            setPublicUserAds(res?.data)
-        })
-    });
+    const [customerProfil, setCustomerProfil] = useState<CustomerProfil>();
+
     useEffect(() => {
-        if (customerDto == undefined) {
-            getDto(customerInfo?.idCustomerInfo).then((res) => {
-                setCustomerDto(res?.data);
-            });
-        }
-    });
-    let year = customerDto?.joinedDate.split("-")[0];
+        getCustomerProfil(link).then(res => {
+            setCustomerProfil(res?.data)
+        });
+    }, []);
+
+    console.log(customerProfil)
     return (
         <div className="main-background">
             <div className="front-div">
-                {customerDto?.link == link ? (
-                    <NavLink to="/u/customer-modification"><FontAwesomeIcon className="pencil" icon={faPencil} /></NavLink>
+                {props.customerDto?.link == link ?
+                    (
+                        <Link to="/u/customer-modification"><FontAwesomeIcon className="pencil" icon={faPencil} /></Link>
+                    ) : (
+                        <></>
+                    )
+                }
 
-                ) : ""}
                 <div className="top-div">
                     <div className="pfp-div">
-                        <img className="pfp" src={customerInfo?.iconPath == undefined ? "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" : customerInfo?.iconPath}></img>
+                        <img className="pfp" src={customerProfil?.customerInfo.iconPath ? customerProfil?.customerInfo?.iconPath : noProfilIcon}></img>
                     </div>
                     <div className="info-div">
-                        <div style={{ fontWeight: "bold", fontSize: "1.25vw", marginBottom: "1vh" }}>{customerInfo?.firstName} {customerInfo?.lastName} <span style={{ color: "#D3D3D3", fontSize: "0.5vw", fontWeight: "lighter" }}>Since {year}</span></div>
-                        &nbsp;<div className="user-infos"><p><FontAwesomeIcon icon={faLocationDot} />  Montreal</p></div>
-                        <div className="user-infos"><p><FontAwesomeIcon icon={faPhone} />  {customerInfo?.phoneNumber}</p></div>
-                        <div className="user-infos"><p><FontAwesomeIcon icon={faEnvelope} />  {customerInfo?.exposedEmail}</p></div>
-                        <p>{customerInfo?.bio}</p>
+                        <div style={{ fontWeight: "bold", fontSize: "1.25vw", marginBottom: "1vh" }}>{customerProfil?.username} <span style={{ color: "#D3D3D3", fontSize: "0.5vw", fontWeight: "lighter" }}>Since {customerProfil?.joinedDate?.split("-")[0]}</span></div>
+                        {customerProfil?.customerInfo?.phoneNumber ?
+                            (
+                                <div className="user-infos"><p><FontAwesomeIcon icon={faPhone} />  {customerProfil?.customerInfo?.phoneNumber}</p></div>
+                            ) : (
+                                <></>
+                            )
+                        }
+
+                        {customerProfil?.customerInfo?.exposedEmail ?
+                            (
+                                <div className="user-infos"><p><FontAwesomeIcon icon={faEnvelope} />  {customerProfil?.customerInfo?.exposedEmail}</p></div>
+                            ) : (
+                                <></>
+                            )
+                        }
+                        <p>{customerProfil?.customerInfo?.bio}</p>
                     </div>
                 </div>
                 <div className="profile-sep"></div>
                 <div className="bottom-div" style={{ overflowY: "scroll", height: "400px" }}>
                     <div className="user-ads">
-                        {(publicUserAds.length > 0) ? publicUserAds.map((data: AdSearchPreview, i: number) => {
+                        {(customerProfil?.ads?.length > 0) ? customerProfil?.ads?.map((data: AdSearchPreview, i: number) => {
                             return (
                                 <AdPreview
                                     key={`ad-preview-${i}`}

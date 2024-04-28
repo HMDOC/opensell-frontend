@@ -1,13 +1,13 @@
+import { faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "../../css/component/page/AdModif.css";
-import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
-import { HtmlCode } from "../../services/verification/HtmlCode";
-
 import { BooleanSchema, NumberSchema, StringSchema } from "yup";
-import { AdImage } from "../../entities/dto/AdBuyerView";
+import "../../css/component/page/AdModif.css";
 import { AdModifView } from "../../entities/dto/AdModifView";
+import { BlockImage } from "../../entities/dto/BlockImages";
+import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
+import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages } from "../shared/AdImages";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
@@ -19,7 +19,6 @@ import {
     SimpleInput,
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
-import { BlockImage } from "../../entities/dto/BlockImages";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
     return new StringSchema()
@@ -38,31 +37,32 @@ function priceWithMinAndMax(max: number, min: number) {
 const SIMPLE: Array<SimpleInputProps> = [
     {
         name: "adTitle",
-        type: InputType.DEFAULT,
+        iconProp: faItalic,
+        title : "Title",
         modifType: ModifType.TITLE,
         verifyProperty: notEmptyWithMaxAndMin(80, 3)
     }, {
         name: "adPrice",
-        type: InputType.DEFAULT,
+        iconProp: faSackDollar,
+        title : "Price",
         modifType: ModifType.PRICE,
         isNumber: true,
         verifyProperty: priceWithMinAndMax(Number.MAX_VALUE, 0)
     },
     {
         name: "adAddress",
-        type: InputType.DEFAULT,
+        iconProp: faLocationDot,
+        title : "Address",
         modifType: ModifType.ADDRESS,
         verifyProperty: notEmptyWithMaxAndMin(256, 4)
-    }, {
+    }, 
+    {
         name: "isAdSold",
+        iconProp: faReceipt,
+        title : "IsSold",
         type: InputType.ONE_CHECKBOX,
         modifType: ModifType.IS_SOLD,
         verifyProperty: new BooleanSchema()
-    }, {
-        name: "adDescription",
-        type: InputType.TEXTARIA,
-        modifType: ModifType.DESCRIPTION,
-        verifyProperty: notEmptyWithMaxAndMin(5000, 10)
     }
 ];
 
@@ -92,7 +92,7 @@ export default function AdModification(): ReactElement {
     const [errorTags, setErrorTags] = useState<HtmlCode>(HtmlCode.SUCCESS);
     const [adImages, setAdImages] = useState<Array<BlockImage>>([]);
     const [errorImages, setErrorImages] = useState<string>();
-
+    console.log(ad);
     const [oldTags, setOldTags] = useState({
         isOldValueSaved: false,
         tagsForReset: []
@@ -151,15 +151,28 @@ export default function AdModification(): ReactElement {
             <>
                 {SIMPLE.map(value => (
                     <SimpleInput
+                        iconProp={value?.iconProp}
+                        title={value.title}
                         defaultValue={ad?.[value.name]}
                         modifType={value?.modifType}
                         idAd={ad?.idAd}
                         name={value?.name}
                         type={value?.type}
                         isNumber={value?.isNumber}
-                        verifyProperty={value.verifyProperty} 
+                        verifyProperty={value.verifyProperty}
                         key={createRandomKey()} />
                 ))}
+
+                <SimpleInput
+                    defaultValue={ad?.adDescription}
+                    iconProp={faScroll}
+                    title="Descripiton"
+                    modifType={ModifType.DESCRIPTION}
+                    idAd={ad?.idAd}
+                    name={"adDescription"}
+                    type={InputType.TEXTARIA}
+                    verifyProperty={notEmptyWithMaxAndMin(5000, 10)}
+                    key={createRandomKey()} />
 
                 <AdImages
                     setError={setErrorImages}
