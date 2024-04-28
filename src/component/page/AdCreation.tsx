@@ -12,7 +12,8 @@ import AdShapeSelect from "../shared/AdShapeSelect";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import AdVisibilitySelect from "../shared/AdVisibilitySelect";
-import { IconLabelError, MAX_PRICE } from "../shared/SharedAdPart";
+import { MAX_PRICE } from "../shared/SharedAdPart";
+import IconLabelError from "../part/IconLabelError";
 
 /**
  * @author Olivier Mansuy
@@ -24,9 +25,7 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
     render(): ReactNode {
         return(
             <div className="">
-                <div>
-                    <IconLabelError iconProp={this.props.iconProp} title={this.props.labelText}/>
-                </div>
+                <IconLabelError iconProp={this.props.iconProp} title={this.props.labelText}/>
                 <input
                 className="ad-modif-input"
                 type={this.props.type}
@@ -118,9 +117,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <AdCreationInput labelText="Price" name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE} iconProp={faReceipt}/>
                     <AdCreationInput labelText="Address" name="address" type="text" required={false} iconProp={faLocationDot}/>
                     <div>
-                        <div>
-                            <IconLabelError iconProp={faScroll} title="Description"/>
-                        </div>
+                        <IconLabelError iconProp={faScroll} title="Description"/>
                         <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false}></textarea>
                     </div>
 

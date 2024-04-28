@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import AdTagPart from "../part/AdView/AdTagPart";
-import { IconLabelError } from "./SharedAdPart";
+import IconLabelError from "../part/IconLabelError";
 
 interface AdTagsProps {
     /**
@@ -108,20 +108,9 @@ export function AdTags(props: AdTagsProps): ReactElement {
     return (
         <>
             <div>
+                <IconLabelError iconProp={faHashtag} title="Tags" error={props.isSearch ? undefined : getErrorValue()} isTitle={props.isSearch} />
                 {props.isSearch ?
-                    (
-                        <>
-                            <h5>Tags</h5>
-                            {props.error != HtmlCode.SUCCESS ?
-                                <p style={{ color: "red" }}>Tag {getErrorValue()}</p> : <></>
-                            }
-                        </>
-                    ) : (
-                        <>
-                            <IconLabelError iconProp={faHashtag} title="Tags" error={getErrorValue()} />
-                            <br />
-                        </>
-                    )
+                    <p style={{color : "red"}}>{getErrorValue()}</p> : <></>
                 }
 
                 <input placeholder={props.placeholder}

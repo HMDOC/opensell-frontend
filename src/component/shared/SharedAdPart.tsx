@@ -1,14 +1,11 @@
-import { ChangeEvent, Component, createRef, PureComponent, ReactNode, RefObject, useEffect, useState } from "react";
-import { adModification } from "../../services/AdService";
-import { HtmlCode } from "../../services/verification/HtmlCode";
-import { AxiosResponse } from "axios";
-import { createRandomKey } from "../../services/RandomKeys";
-import { Schema } from "yup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faItalic } from "@fortawesome/free-solid-svg-icons";
-import "../../css/component/part/SharedAdPart.scss";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { errors } from "jose";
+import { createRef, PureComponent, ReactNode, useEffect, useState } from "react";
+import { Schema } from "yup";
+import "../../css/component/part/SharedAdPart.scss";
+import { adModification } from "../../services/AdService";
+import { createRandomKey } from "../../services/RandomKeys";
+import { HtmlCode } from "../../services/verification/HtmlCode";
+import IconLabelError from "../part/IconLabelError";
 
 export const MAX_PRICE = 999990;
 
@@ -73,24 +70,6 @@ export enum BlurScopeType {
     SAVE,
     INPUT
 };
-
-export const IconLabelError = (props: { iconProp: IconProp, title: string, error?: string }) => {
-    return (
-        <label>
-            <FontAwesomeIcon icon={props.iconProp} />
-
-            {` ${props.title} `}
-
-            {props.error ?
-                (
-                    <span style={{ color: "red" }}>
-                        {props.error}
-                    </span>
-                ) : (<></>)
-            }
-        </label>
-    );
-}
 
 export class SimpleInput extends PureComponent<SimpleInputProps> {
     public oldValue: any;
@@ -269,8 +248,6 @@ export function SelectorReader(props: SelectorReaderProps) {
     return (
         <>
             <IconLabelError iconProp={props.iconProp} title={props.title} />
-            <br />
-
             <select name={props.name} value={selectValue} className="selector-reader" onChange={handleChange} >
                 {
                     props.options.map((option, index) => (

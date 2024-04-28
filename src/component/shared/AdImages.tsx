@@ -3,8 +3,8 @@ import { saveAdImages } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import "../../css/component/part/AdImages.scss";
 import { BlockImage } from "../../entities/dto/BlockImages";
-import { IconLabelError } from "./SharedAdPart";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
+import IconLabelError from "../part/IconLabelError";
 
 interface AdImagesProps {
     images: Array<BlockImage>;
@@ -143,11 +143,8 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public render(): ReactNode {
         return (
             <>
-                <div className="">
-                    <IconLabelError title="Images" iconProp={faImage} error={this.props.error} />
-                    <br />
-                    <input className="ad-image-input" onChange={(e) => this.handleChange(e)} type="file" multiple accept="image/png" />
-                </div>
+                <IconLabelError title="Images" iconProp={faImage} error={this.props.error} />
+                <input className="ad-image-input" onChange={(e) => this.handleChange(e)} type="file" multiple accept="image/png" />
 
                 <div>
                     {this.props.images?.map(img => (

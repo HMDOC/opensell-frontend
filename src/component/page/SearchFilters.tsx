@@ -5,6 +5,8 @@ import AdTypeSelect from "../shared/AdTypeSelect";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { SHAPE_ARRAY } from "../shared/AdShapeSelect";
+import IconLabelError from "../part/IconLabelError";
+import { faClock, faDollarSign, faList, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
 
 /** 
     The component that holds all of the filter options.
@@ -31,7 +33,7 @@ const SearchFilters = (props) : ReactElement =>{
     return (
         <>            
             <div id="filterContainer" ref={props.filterElementRef} onChange={filtersUpdated}>
-                <h5>Price</h5>
+                <IconLabelError iconProp={faSackDollar} title="Price" isTitle />
                 <input type="number" name="priceMin" id="priceMin" 
                     className="smallInput" min={0} max={MAX_PRICE} 
                     defaultValue={0} placeholder={`${0}$`} step={25}/>
@@ -45,16 +47,17 @@ const SearchFilters = (props) : ReactElement =>{
                     defaultValue={MAX_PRICE} 
                     placeholder={`${MAX_PRICE}$`} step={25}/>
 
-                <h5>Date</h5>
+                <IconLabelError iconProp={faClock} title="Date" isTitle />
                 <input type="date" name="dateMin" id="dateMin"
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 <input type="date" name="dateMax" id="dateMax"
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
-                <h5>Category</h5>
+                <IconLabelError iconProp={faList} title="Category" isTitle />
                 <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="All"/>
 
-                <h5>Sorting</h5>
+
+                <IconLabelError iconProp={faSort} title="Sorting" isTitle />
                 <select name="sortBy" id="sortBy" className="selector-reader">
                     {adSortBy.map( (value, key) => {
                         return (<option value={value?.sortParam} key={key}> { value?.sortVisual } </option>)
@@ -77,7 +80,7 @@ const SearchFilters = (props) : ReactElement =>{
                         placeholder={"list all tags"} />
                 </div>
                 
-                <h5>Shape</h5>
+                <IconLabelError iconProp={faShapes} title="Shape" isTitle />
                 <select name="shapeId" id="shapeId" className="selector-reader">
                     <option value=""> All </option>
                     {SHAPE_ARRAY.map( (value, key) => {
@@ -85,7 +88,7 @@ const SearchFilters = (props) : ReactElement =>{
                     } )}
                 </select>
 
-                <h5>Sold</h5>
+                <IconLabelError iconProp={faReceipt} title="Sold" isTitle />
                 <select name="filterSold" id="filterSold" className="selector-reader">
                     <option value=""> All </option>
                     <option value={0}> Only On Sale </option>
