@@ -51,7 +51,6 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
     }
 
     render(): ReactNode {
-        console.log(this.props.selectedIndex);
         return (
             <>
                 {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ? 

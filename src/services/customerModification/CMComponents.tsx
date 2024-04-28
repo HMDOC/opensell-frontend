@@ -58,7 +58,7 @@ export class CMInput extends Component<CMInputProperties, any> {
             <div className="modificationSection">
                 <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
                 <input className="modificationInput" id={this.props.name} type={this.props.type} name={this.props.name} defaultValue={this.props?.defaultValue} 
-                onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>)}
+                onChange={this.props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>): null}
                 ref={this.props.inputRef as RefObject<HTMLInputElement>}/>
             </div>
         )
@@ -129,7 +129,7 @@ export class CMDisplay extends Component<CMDisplayProperties, any> {
                 <div className="CMDisplay-Label-Container"><label>{this.props.labelText}</label></div>
                 <div className="CMDisplay-Default-Value-Container">{this.getDisplayedDefaultValue()}</div>
                 <div>
-                    {this.props.hasButton ? <button type="button" onClick={() => this.props.buttonOnClickCallback()}>{this.props.buttonText ? this.props.buttonText : "Change"}</button> : null}
+                    {this.props.hasButton ? <button type="button" onClick={() => this.props.buttonOnClickCallback()} className="modificationLabel">{this.props.buttonText ? this.props.buttonText : "Change"}</button> : null}
                 </div>
             </div>
         )

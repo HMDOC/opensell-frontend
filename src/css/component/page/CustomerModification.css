@@ -112,6 +112,7 @@
 .modificationSubmit .CMExitButton{
     background-color: white;
     color: red;
+    margin-right: 79.4%;
 }
 
 .modificationSubmit .CMExitButton:hover,.CMExitButton:target{
@@ -151,6 +152,7 @@
     background-color: rgb(184, 210, 216);
     font-weight: bolder;
     color: #000000;
+    border-radius: 25px;
 }
 
 .CMDisplay-Label-Container {
@@ -170,16 +172,18 @@
     padding: 10px;
     border-radius: 25px;
     border: black 2px;
-    background-color: rgba(174, 159, 135, 0.788);
+    background-color: #4c5e7e;
 }
 
 .CM-Container h1 {
     font-size: 30px;
     font-weight: bold;
-    border-bottom: 2px rgba(15, 19, 52, 0.788) solid;
+    border-bottom: 2px #FCFBFA solid;
+    color: #FCFBFA
 }
 
 .CMFeedbackContainer {
-    background-color: rgb(201, 161, 15);
+    background-color: rgb(72, 87, 117);
     min-height: 5vh;
+    color: red
 }

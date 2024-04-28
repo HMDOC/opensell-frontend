@@ -45,9 +45,9 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                 <div id="customer-modification-form" className="modificationPage">
                     <div className="CM-Container">
                         <h1>Sensitive Info</h1>
-                        <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} isPassword={true}/>
+                        <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} defaultValue={this.props.customerData.personalEmail}/>
                         <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true}/>
-                        <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} isPassword={true}/>
+                        <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} defaultValue={this.props.customerData.customerInfo?.phoneNumber}/>
                     </div>
                     <div className="CM-Container">
                         <h1>Other Info</h1>
@@ -69,7 +69,8 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                         top: '50%', left: '50%', 
                         position: 'fixed', 
                         transform: 'translate(-50%, -50%)', 
-                        background: 'rgba(174, 159, 135, 0.9)', 
+                        background: '#4c5e7e',
+                        color: "white", 
                         border: '2px solid brown'}}}>
                         {this.state.currentModalContent}
                     </Modal>  

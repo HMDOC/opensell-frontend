@@ -1,9 +1,10 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
+import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react";
 import { CMButton, CMFormProperties, CMFormState, CMInput, CMRepeatInput, CMTextArea } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
 import { ArrayOfRequests, executeChange, getCheckResult, replaceInString } from "./CMService";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
+import { AxiosResponse } from "axios";
 
 abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     protected NOTHING_CHANGED = "Nothing changed...";
@@ -47,6 +48,15 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
             <>
                 {this.state.feedbackMessages.length > 0 ? <div className="CMFeedbackContainer">{this.state.feedbackMessages[this.state.feedbackMessages.length - 1]}</div> : null}
             </>
+        )
+    }
+
+    protected getButtons(): ReactNode {
+        return(
+            <div style={{display: "flex"}}>
+                <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
+                <CMButton type="submit" buttonText="Save"/>
+            </div>
         )
     }
 
@@ -105,7 +115,6 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
     }
 
-    //NEEDS TO BE CHANGED FOR REFRESH
     protected async saveChanges(formEvent: FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
         let formData: FormData = getFormData(formEvent);
@@ -131,8 +140,7 @@ export class CMBasicModificationsForm extends CMForm {
                     <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     <CMTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10}/>
-                    <CMButton type="submit" buttonText="Save"/>
-                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
+                    {this.getButtons()}
                 </form>
             </div>
         )
@@ -154,15 +162,14 @@ export class CMPersonalEmailForm extends CMForm {
                 {this.getFeedbackElement()}
                 <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
                     <CMRepeatInput 
-                    labelText="Private Email" 
+                    labelText="New Private Email" 
                     name="personalEmail" 
                     type="text"
                     onChange={(changeEvent) => this.handleChange(changeEvent)}
                     setRepeatInputState={(res: boolean) =>  this.setState({confirmInputIsValid: res})}
                     addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                     removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)}/>
-                    <CMButton type="submit" buttonText="Save"/>
-                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
+                    {this.getButtons()}
                 </form>
             </div>
         )
@@ -170,27 +177,33 @@ export class CMPersonalEmailForm extends CMForm {
 }
 
 export class CMPasswordForm extends CMForm {
+    private oldPwdInputRef: RefObject<HTMLInputElement> = createRef();
 
-    // private async savePasswordChange(formEvent: FormEvent<HTMLFormElement>) {
-    //     if (true) super.saveChanges(formEvent);
-    // }
+    private async savePasswordChanges(formEvent: FormEvent<HTMLFormElement>) {
+        formEvent.preventDefault();
+        let oldPasswordCheck: AxiosResponse<number, any> = await getCheckResult(
+            replaceInString(FormValidationObject["pwd"]?.uniqueCheck, 
+                            this.oldPwdInputRef.current.value, 
+                            this.props.defaultValues.customerId.toString()));
+        if (oldPasswordCheck?.data == 1) this.saveChanges(formEvent);
+        else this.addFeedbackMessage("Old password value is wrong!");
+    }
 
     render(): ReactNode {
         return(
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent => this.saveChanges(formEvent))}>
-                    {/* <CMInput labelText="Old Password" name="oldPwd" type="password" onChange={null}/> */}
+                <form onSubmit={(formEvent) => this.savePasswordChanges(formEvent)}>
+                    <CMInput labelText="Old Password" name={null} type="password" inputRef={this.oldPwdInputRef}/>
                     <CMRepeatInput 
-                        labelText="Password" 
+                        labelText="New Password" 
                         name="pwd" 
                         type="password"
                         onChange={(changeEvent) => this.handleChange(changeEvent)}
                         setRepeatInputState={(res: boolean) =>  this.setState({confirmInputIsValid: res})}
                         addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                         removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)}/>
-                    <CMButton type="submit" buttonText="Save"/>
-                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
+                    {this.getButtons()}
                 </form>
             </div>
         )
@@ -204,9 +217,8 @@ export class CMPhoneNumberForm extends CMForm {
             <div>
                 {this.getFeedbackElement()}
                 <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
-                    <CMInput labelText="Phone Number" type="text" name="phoneNumber" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                    <CMButton type="submit" buttonText="Save"/>
-                    <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true}/>
+                    <CMInput labelText="New Phone Number" type="text" name="phoneNumber" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
+                    {this.getButtons()}
                 </form>
             </div>
         )
