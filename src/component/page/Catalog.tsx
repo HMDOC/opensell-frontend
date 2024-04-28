@@ -6,7 +6,6 @@ import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
 import LoadingIcon from "../part/LoadingIcon";
 import { AxiosError, AxiosStatic } from "axios";
-import { HtmlCode } from "../../services/verification/HtmlCode";
 
 /** 
     The catalog page and all of its important components
@@ -170,7 +169,7 @@ const ResultList = (): ReactElement => {
                     reverseSort={reverseSortRef}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
             </div>
-            <div id="searchResult" style={{ overflowY: "scroll", height: "90vh" }}>
+            <div id="searchResult" style={{ overflowY: "scroll", height: "90vh"}}>
                 {
                     (isLoading) ?
                         <LoadingIcon /> :

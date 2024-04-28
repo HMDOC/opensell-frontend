@@ -52,32 +52,32 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                     <div className="display-post-flex-with-img-desc">
                         <div className="dislay-post-img-section">
                             <img className="display-post-img imgFit" src={this.props.firstImage} />
-                            
+
                         </div>
 
                         <div className="mt-2 w-100">
                             <div className="d-flex justify-content-between">
                                 <h1 className="my-0">{this.getVisibilityIcon()} {this.props.title}</h1>
                                 <Dropdown >
-                                    <Dropdown.Toggle size="lg" className="display-dropdown-color"/>
+                                    <Dropdown.Toggle size="lg" className="display-dropdown-color" />
                                     <Dropdown.Menu variant="light">
                                         <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`} target="_blank">Modify</DropdownItem>
                                         <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
-                                        <DropdownItem bsPrefix="dropdown-item btn-danger" as={Button} className="dropdown-link"  onClick={() => this.handleDelete()}>Delete</DropdownItem>
+                                        <DropdownItem bsPrefix="dropdown-item btn-danger" as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </div>
-                            
+
                             <div className="my-1">
-                                <AdPricePart price={this.props.price} isSold={this.props.isSold}/>
+                                <AdPricePart price={this.props.price} isSold={this.props.isSold} />
                             </div>
-                            
+
                             <p className="display-description text-break">{this.getDescriptionPart()}</p>
                         </div>
                     </div>
 
                     <div className="display-post-options">
-                        
+
                     </div>
                 </div>
             </>
@@ -129,21 +129,22 @@ const MyAds = (props: { idCustomer?: number }) => {
                                             <h1 className="fs-1 text-black"> <b>My ads</b></h1>
                                             <Button onClick={() => navigate("/u/ad-creation")}><FontAwesomeIcon icon={faPlus} /></Button>
                                         </div>
-
-                                        {displayAds?.map(value => (
-                                            <DisplayAd
-                                                key={createRandomKey()}
-                                                idAd={value.idAd}
-                                                description={value.description}
-                                                firstImage={value.firstImage}
-                                                isSold={value.isSold}
-                                                price={value.price}
-                                                title={value.title}
-                                                visibility={value.visibility}
-                                                link={value.link}
-                                                onDelete={(idAd) => onDelete(idAd)}
-                                                seeAdPreview={(idAd) => getCurrentPromise(idAd)}
-                                            />))}
+                                        <div style={{overflowY : "scroll", height :"90vh"}} className="back-div">
+                                            {displayAds?.map(value => (
+                                                <DisplayAd
+                                                    key={createRandomKey()}
+                                                    idAd={value.idAd}
+                                                    description={value.description}
+                                                    firstImage={value.firstImage}
+                                                    isSold={value.isSold}
+                                                    price={value.price}
+                                                    title={value.title}
+                                                    visibility={value.visibility}
+                                                    link={value.link}
+                                                    onDelete={(idAd) => onDelete(idAd)}
+                                                    seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                                                />))}
+                                                </div>
                                     </>
                                 ) : (
                                     <div className="no-ads-found">

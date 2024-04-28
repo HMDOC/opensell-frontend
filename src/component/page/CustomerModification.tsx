@@ -42,7 +42,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     render(): ReactNode {
         return (
             <div className="modificationContainer">
-                <div id="customer-modification-form" className="main-background modificationPage">
+                <div id="customer-modification-form" className="modificationPage">
                     <div className="CM-Container">
                         <h1>Sensitive Info</h1>
                         <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} isPassword={true}/>

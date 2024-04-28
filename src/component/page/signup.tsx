@@ -80,7 +80,7 @@ export default function Signup(props: { getCustomerInfo(): void }) {
     }
 
     return (
-        <div className="signup-div">
+        <div className="main-background">
             {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo} />) : (
                 <div className="signup-form">
                     <p className="top-text">Welcome</p>

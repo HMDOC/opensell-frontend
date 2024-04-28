@@ -1,19 +1,17 @@
 .display-post {
     display: flex;
     margin: 0 auto;
-    max-width: 60em;
+    max-width: 50em;
     justify-content: space-between;
     width: 90%;
     transition: background-color 0.2s;
     color: black;
-    margin-bottom: 20px;
     background-color: white;
     border-radius: 20px;
     flex-direction: column;
     padding: 15px;
-    padding-bottom: 5px;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    max-height: 320px;
+    height: 300px;
 }
 
 .my-ads-go-back {
@@ -21,9 +19,8 @@
 }
 
 .display-header{
-    width: 82.5%;
-    max-width: 58em;
-    margin: 0.25em auto 1em;
+    width: 60%;
+    margin: auto;
 }
 
 .display-header button{
@@ -70,7 +67,6 @@
 
 .display-post-options {
     align-self: flex-start;
-    ppostding: 20px;
 }
 
 .display-post-flex-with-img-desc {
@@ -112,4 +108,21 @@
 
 .no-posts-found button {
     width: 120px;
+}
+
+.back-div {
+    display: grid;
+    grid-template-columns: auto auto;
+    background-color: rgba(252, 251, 250, 0.39);
+    width: fit-content;
+    backdrop-filter: blur(2px);
+    margin: auto;
+    border-radius: 27px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: #FCFBFA solid 2px;
+    height: fit-content;
+    justify-content: center;
+    align-items: center;
+    row-gap: 50px;
+    padding: 25px 0 25px 0;
 }

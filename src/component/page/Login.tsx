@@ -49,7 +49,7 @@ export default function Login(props) {
     };
 
     return (
-        <div className="signup-div">
+        <div className="main-background">
             <div className="signup-form">
                 <p className="top-text">Log in</p>
                 <p className="middle-text">Welcome back</p>

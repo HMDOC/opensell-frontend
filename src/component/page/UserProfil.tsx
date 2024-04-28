@@ -31,7 +31,7 @@ export default function UserProfil(): ReactElement {
     });
     let year = customerDto?.joinedDate.split("-")[0];
     return (
-        <div className="back-div">
+        <div className="main-background">
             <div className="front-div">
                 {customerDto?.link == link ? (
                     <NavLink to="/u/customer-modification"><FontAwesomeIcon className="pencil" icon={faPencil} /></NavLink>
