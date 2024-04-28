@@ -34,7 +34,7 @@ export default function UserProfil(props: {customerDto: CustomerDto}): ReactElem
 
                 <div className="top-div">
                     <div className="pfp-div">
-                        <img className="pfp" src={customerProfil?.customerInfo.iconPath ? customerProfil?.customerInfo?.iconPath : noProfilIcon}></img>
+                        <img className="pfp" src={customerProfil?.customerInfo?.iconPath ? customerProfil?.customerInfo?.iconPath : noProfilIcon}></img>
                     </div>
                     <div className="info-div">
                         <div style={{ fontWeight: "bold", fontSize: "1.25vw", marginBottom: "1vh" }}>{customerProfil?.username} <span style={{ color: "#D3D3D3", fontSize: "0.5vw", fontWeight: "lighter" }}>Since {customerProfil?.joinedDate?.split("-")[0]}</span></div>
