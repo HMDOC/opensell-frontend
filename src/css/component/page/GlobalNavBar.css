@@ -7,7 +7,7 @@
   text-decoration: none;
   color: black;
   margin-left: 50px;
-  font-size: 1vw;
+  font-size: 2vh;
 }
 
 .nav-left {
@@ -18,8 +18,7 @@
 }
 
 .brand-logo {
-  width: 1.5vw;
-  height: 1.5vw;
+  height: 2.5vh;
 }
 
 .nav-center {
@@ -32,7 +31,7 @@
 .nav-right {
   position: absolute;
   right: 0;
-  margin: 10px 50px 0 0;
+  margin: auto 50px 0 0;
 }
 
 #basic-nav-dropdown {
@@ -48,23 +47,24 @@
   text-align: center;
   font-weight: bold;
   text-decoration: none;
+  font-size: 0.5vw;
 }
 
 .nav-button * {
-  padding: 15px 1.5vw;
+  padding: 0.6vw 1.5vw;
   border-radius: 50px;
 }
 
 .button1 {
-  color: #FCFBFA;
+  color: #151925;
   display: inline;
   background: none;
-  border: solid rgba(211, 211, 211, 0.75) 2px;
+  border: solid rgba(21, 25, 37, 0.5) 2px;
 }
 
 .button2 {
   display: inline;
-  background-color: #D3D3D3;
+  background-color: #151925;
   border: none;
-  color: #151925;
+  color: #FCFBFA;
 }

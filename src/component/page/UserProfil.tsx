@@ -1,13 +1,13 @@
-import { faEnvelope, faLocationDot, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ReactElement, useState } from "react";
+import { Component, ReactElement, ReactNode, useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import "../../css/component/page/UserProfil.css";
-import { CustomerDto } from "../../entities/dto/CustomerDto";
-import { CustomerInfo } from "../../entities/dto/CustomerInfo";
 import { getCustomerInfo, getPublicUserAds } from "../../services/CustomerInfo";
-import getUserInfos from "../../services/GetUser";
+import { CustomerInfo } from "../../entities/dto/CustomerInfo";
 import AdPreview from "./AdPreview";
+import "../../css/component/page/UserProfil.css"
+import { CustomerDto } from "../../entities/dto/CustomerDto";
+import { getDto } from "../../services/LogInService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faLocationDot, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
 
 export default function UserProfil(): ReactElement {
     const { link } = useParams();
@@ -21,16 +21,15 @@ export default function UserProfil(): ReactElement {
         getPublicUserAds(link).then(res => {
             setPublicUserAds(res?.data)
         })
-        getUserInfos("token")?.then((res) => {
-            if (res?.data) {
-                setCustomerDto(res?.data);
-            }
-        });
     });
-
-    console.log("Date : "+customerDto?.joinedDate);
-    let year = "";
-    console.log(customerDto?.link);
+    useEffect(() => {
+        if (customerDto == undefined) {
+            getDto(customerInfo?.idCustomerInfo).then((res) => {
+                setCustomerDto(res?.data);
+            });
+        }
+    });
+    let year = customerDto?.joinedDate.split("-")[0];
     return (
         <div className="back-div">
             <div className="front-div">
@@ -40,7 +39,7 @@ export default function UserProfil(): ReactElement {
                 ) : ""}
                 <div className="top-div">
                     <div className="pfp-div">
-                        <img className="pfp" src={customerInfo?.iconPath}></img>
+                        <img className="pfp" src={customerInfo?.iconPath == undefined ? "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" : customerInfo?.iconPath}></img>
                     </div>
                     <div className="info-div">
                         <div style={{ fontWeight: "bold", fontSize: "1.25vw", marginBottom: "1vh" }}>{customerInfo?.firstName} {customerInfo?.lastName} <span style={{ color: "#D3D3D3", fontSize: "0.5vw", fontWeight: "lighter" }}>Since {year}</span></div>

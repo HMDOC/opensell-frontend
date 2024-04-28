@@ -1,12 +1,12 @@
 .signup-div {
     background-color: rgba(252, 251, 250, 0.39);
     width: 60%;
+    backdrop-filter: blur(2px);
     margin: 50px auto auto auto;
-    padding: 150px 200px 200px;
     border-radius: 27px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border: #FCFBFA solid 2px;
-    min-height: 60vh;
+    height: 65vh;
 }
 
 .signup-form {
@@ -14,6 +14,8 @@
     text-align: left;
     color: #232751;
     width: 45%;
+    float: left;
+    padding: 150px 10px 0 100px;
 }
 
 .top-text {
@@ -77,4 +79,16 @@
 
 input:-webkit-autofill{
     box-shadow: inset 0 0 0 40px #FCFBFA;
+}
+
+.decoration-div {
+    width: 50%;
+    height: 100%;
+    float: right;
+}
+
+.deco-pic {
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
 }
