@@ -126,7 +126,7 @@ const MyAds = (props: { idCustomer?: number }) => {
                                 (
                                     <>
                                         <div className="display-header d-flex justify-content-between">
-                                            <h1 className="fs-1"> <b>My ads</b></h1>
+                                            <h1 className="fs-1 text-black"> <b>My ads</b></h1>
                                             <Button onClick={() => navigate("/u/ad-creation")}><FontAwesomeIcon icon={faPlus} /></Button>
                                         </div>
 
