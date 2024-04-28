@@ -22,6 +22,7 @@ export default class AdCreationModal extends Component<AdCreationModalProperties
             <Modal 
             isOpen={this.props.isOpen}
             shouldCloseOnEsc={true}
+            ariaHideApp={false}
             onRequestClose={() => this.props.onCloseRequest()}
             style={{content: {width: '55vw', margin: "auto"}, 
                     overlay: {backdropFilter: 'blur(3px)'}}}>

@@ -11,6 +11,7 @@ import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../sha
 import "../../css/component/page/CustomerModification.css"
 import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll, faShapes } from "@fortawesome/free-solid-svg-icons";
 import { IconLabelError } from "../shared/SharedAdPart";
+import "../../css/component/page/AdModif.scss";
 
 /**
  * @author Olivier Mansuy
@@ -21,8 +22,10 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
     }
     render(): ReactNode {
         return(
-            <div className="row">
-                <IconLabelError iconProp={this.props.iconProp} title={this.props.labelText}/>
+            <div className="">
+                <div>
+                    <IconLabelError iconProp={this.props.iconProp} title={this.props.labelText}/>
+                </div>
                 <input
                 className="ad-modif-input"
                 type={this.props.type}
@@ -112,8 +115,10 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic}/>
                     <AdCreationInput labelText="Price" name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE} iconProp={faReceipt}/>
                     <AdCreationInput labelText="Address" name="address" type="text" required={false} iconProp={faLocationDot}/>
-                    <div className="row">
-                        <IconLabelError iconProp={faScroll} title="Description"/>
+                    <div>
+                        <div>
+                            <IconLabelError iconProp={faScroll} title="Description"/>
+                        </div>
                         <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false}></textarea>
                     </div>
                     <SelectorReader iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
