@@ -1,14 +1,13 @@
-import { Component, ReactElement, ReactNode, useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
-import { getCustomerInfo, getPublicUserAds } from "../../services/CustomerInfo";
-import { CustomerInfo } from "../../entities/dto/CustomerInfo";
-import AdPreview from "./AdPreview";
-import "../../css/component/page/UserProfil.css"
-import { CustomerDto } from "../../entities/dto/CustomerDto";
-import getUserInfos from "../../services/GetUser";
-import { getDto } from "../../services/LogInService";
+import { faEnvelope, faLocationDot, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLocationDot, faMobilePhone, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { ReactElement, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
+import "../../css/component/page/UserProfil.css";
+import { CustomerDto } from "../../entities/dto/CustomerDto";
+import { CustomerInfo } from "../../entities/dto/CustomerInfo";
+import { getCustomerInfo, getPublicUserAds } from "../../services/CustomerInfo";
+import getUserInfos from "../../services/GetUser";
+import AdPreview from "./AdPreview";
 
 export default function UserProfil(): ReactElement {
     const { link } = useParams();
@@ -28,7 +27,9 @@ export default function UserProfil(): ReactElement {
             }
         });
     });
-    let year = customerDto?.joinedDate.split("-")[0];
+
+    console.log("Date : "+customerDto?.joinedDate);
+    let year = "";
     console.log(customerDto?.link);
     return (
         <div className="back-div">

@@ -4,6 +4,11 @@ import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
 import { createRandomKey } from "../../services/RandomKeys";
 import { Schema } from "yup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faItalic } from "@fortawesome/free-solid-svg-icons";
+import "../../css/component/part/SharedAdPart.scss";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { errors } from "jose";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
@@ -51,11 +56,13 @@ export interface AdInputProps {
  */
 export interface SimpleInputProps extends AdInputProps {
     idAd?: number;
+    title: string;
     name: string;
     type?: InputType;
     modifType: ModifType;
     defaultValue?: any;
     isNumber?: boolean;
+    iconProp: IconProp;
 
     /**
      * @return 0 if value is good other number if it is a bad value.
@@ -68,6 +75,24 @@ export enum BlurScopeType {
     SAVE,
     INPUT
 };
+
+export const IconLabelError = (props: { iconProp: IconProp, title: string, error?: string}) => {
+    return (
+        <label>
+            <FontAwesomeIcon icon={props.iconProp} />
+
+            {` ${props.title} `}
+
+            {props.error ?
+                (
+                    <span style={{ color: "red" }}>
+                        {props.error}
+                    </span>
+                ) : (<></>)
+            }
+        </label>
+    );
+}
 
 export class SimpleInput extends PureComponent<SimpleInputProps> {
     public oldValue: any;
@@ -82,13 +107,10 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     public onBlur(type: BlurScopeType = BlurScopeType.INPUT) {
         // Added timer because like that it let the time to the next current element to change
         setTimeout(() => {
-            if (document.activeElement == this.inputRef.current || document.activeElement == this.saveRef.current || document.activeElement == this.cancelRef.current) {
-                console.log("Very Good!");
-            } else {
-                console.log("Yes it is first");
-                if (this.state.isEditing) {
-                    this.setState({ isEditing: false });
-                }
+            if (
+                !(document.activeElement == this.inputRef.current || document.activeElement == this.saveRef.current || document.activeElement == this.cancelRef.current)
+            ) {
+                this.cancel();
             }
         }, 50);
     }
@@ -166,9 +188,12 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     public render(): ReactNode {
         return (
             <>
-                {this.props.defaultValue ? (
+                {this.props.defaultValue != undefined ? (
                     <>
-                        <label>{this.props.name} <span style={{ color: "red" }}>{this.state.error ? this.state.error : ""}</span></label>
+                        <IconLabelError 
+                            iconProp={this.props.iconProp} 
+                            title={this.props.title} 
+                            error={this.state.error} />
                         <div ref={this.divRef}>
                             {this.props.type == InputType.TEXTARIA ?
                                 (
@@ -180,7 +205,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                                                 onClick={() => this.checkedSave()}
                                                 ref={this.inputRef}
                                                 type="checkbox"
-                                                name={this.props.name}
+                                                name={this.props.title}
                                                 defaultChecked={this.props.defaultValue} />
                                         ) : (
                                             <input
@@ -188,7 +213,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                                                 onBlur={() => this.onBlur()}
                                                 defaultValue={this.props.defaultValue}
                                                 ref={this.inputRef} onFocus={() => this.focusInInput()}
-                                                name={this.props.name}
+                                                name={this.props.title}
                                                 onChange={(e) => this.handleChange(e)} />
                                         )
                                 )
