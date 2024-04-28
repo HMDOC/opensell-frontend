@@ -163,3 +163,15 @@
     min-height: 5vh;
     color: red
 }
+
+/* Source : https://stackoverflow.com/questions/22672368/how-to-make-a-transparent-html-button */
+.AdCreationExitButton {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    position: relative;
+    left: 48vw;
+}

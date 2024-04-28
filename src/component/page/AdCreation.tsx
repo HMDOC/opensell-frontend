@@ -1,4 +1,4 @@
-import { faItalic, faLocationDot, faReceipt, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { faItalic, faLocationDot, faReceipt, faScroll, faX } from "@fortawesome/free-solid-svg-icons";
 import { Component, FormEvent, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import "../../css/component/page/AdModif.scss";
@@ -14,6 +14,7 @@ import AdTypeSelect from "../shared/AdTypeSelect";
 import AdVisibilitySelect from "../shared/AdVisibilitySelect";
 import { MAX_PRICE } from "../shared/SharedAdPart";
 import IconLabelError from "../part/IconLabelError";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 /**
  * @author Olivier Mansuy
@@ -109,8 +110,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
     render(): ReactNode {
         return(
-            // reg-background container
-            <div className="">
+            <div>
+                <button onClick={() => this.props.closeModalCallback()} className="AdCreationExitButton"><FontAwesomeIcon icon={faX}/></button>
                 <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
                     <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic}/>
@@ -139,7 +140,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         deleteTag={(tag) => {this.setState({selectedTags: [...this.state.selectedTags.filter(elem => elem != tag)]})}}
                         tags={this.state.selectedTags}
                     />
-                    <button type="submit" className="btn bg-primary text-white align-self-end">Create</button> <br />
+                    <button type="submit" className="btn bg-primary text-white align-self-end mt-2">Create</button> <br />
                 </form>
                 {this.state.adWasCreated ? <Navigate to='/u/my-ads'/> : null}
             </div>
