@@ -1,7 +1,7 @@
 .adPreview{
     transition: background-color 0.2s;
     color: black;
-    width: 13vw;
+    width: 16.5em;
     max-width: 30vw;
     background-color: #FCFBFA;
     overflow: hidden;
@@ -9,7 +9,7 @@
     flex-direction: column;
     justify-content: start;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    height: fit-content;
+    height: 15.75em;
     border-radius: 15px;
 }
 
@@ -29,7 +29,7 @@
 }
 
 .adPreview img {
-    height: 8vw;
+    height: 9.75em;
     border-width: 2px;
 }
 

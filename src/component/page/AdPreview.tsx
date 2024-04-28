@@ -24,7 +24,7 @@ const AdPreview = (props) : ReactElement => {
                 src={props?.firstImagePath} 
                 alt="The image cant load!"/>
             <div className="adPreviewBottom">
-                <h3 style={{fontSize : '1.25vw'}} className="adPreviewText"> {props?.title}</h3>
+                <h3 className="adPreviewText"> {props?.title}</h3>
                 <div className="adPreviewAlign">
                     <AdPricePart price={props?.price} isSold={props?.isSold}/>
                 </div>
