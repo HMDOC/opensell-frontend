@@ -20,8 +20,8 @@ interface DisplayAdProps extends DisplayAdView {
 
 class DisplayAd extends PureComponent<DisplayAdProps> {
     public getDescriptionPart(): string {
-        if (this.props.description.length > 70) {
-            return this.props.description.slice(0, 70) + "...";
+        if (this.props.description.length > 270) {
+            return this.props.description.slice(0, 270) + "...";
         } else return this.props.description;
     }
 
@@ -68,11 +68,11 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                                 </Dropdown>
                             </div>
                             
-                            <div className="m-1">
+                            <div className="my-1">
                                 <AdPricePart price={this.props.price} isSold={this.props.isSold}/>
                             </div>
                             
-                            <p className="display-description text-break">{this.props.description}</p>
+                            <p className="display-description text-break">{this.getDescriptionPart()}</p>
                         </div>
                     </div>
 
