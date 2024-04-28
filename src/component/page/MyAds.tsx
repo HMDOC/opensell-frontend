@@ -7,10 +7,11 @@ import { DisplayAdView } from "../../entities/dto/DisplayAdView";
 import { Link, useNavigate } from "react-router-dom";
 import { createRandomKey } from "../../services/RandomKeys";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
+import { faEarthAmericas, faLink, faLock, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AdMapping } from "./AdView";
 import { AxiosResponse } from "axios";
 import { AdBuyerView } from "../../entities/dto/AdBuyerView";
+import AdPricePart from "../part/AdView/AdPricePart";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
@@ -51,31 +52,32 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                     <div className="display-post-flex-with-img-desc">
                         <div className="dislay-post-img-section">
                             <img className="display-post-img imgFit" src={this.props.firstImage} />
-                            {this.props.isSold ?
-                                (
-                                    <img className="display-post-is-sold" src="/img/vendu.jpg" />
-                                ) : (
-                                    <></>
-                                )
-                            }
+                            
                         </div>
 
-                        <div>
-                            <h1>{this.getVisibilityIcon()} {this.props.title}</h1>
-                            <p>REF : #{this.props.reference}</p>
-                            <p>{this.getDescriptionPart()}</p>
-                            <p>{this.props.price} $</p>
+                        <div className="mt-2 w-100">
+                            <div className="d-flex justify-content-between">
+                                <h1 className="my-0">{this.getVisibilityIcon()} {this.props.title}</h1>
+                                <Dropdown >
+                                    <Dropdown.Toggle size="lg" className="display-dropdown-color"/>
+                                    <Dropdown.Menu variant="light">
+                                        <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`} target="_blank">Modify</DropdownItem>
+                                        <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
+                                        <DropdownItem bsPrefix="dropdown-item btn-danger" as={Button} className="dropdown-link"  onClick={() => this.handleDelete()}>Delete</DropdownItem>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </div>
+                            
+                            <div className="m-1">
+                                <AdPricePart price={this.props.price} isSold={this.props.isSold}/>
+                            </div>
+                            
+                            <p className="display-description text-break">{this.props.description}</p>
                         </div>
                     </div>
 
                     <div className="display-post-options">
-                        <Dropdown>
-                            <SplitButton variant="dark" title="...">
-                                <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`} target="_blank">Modify</DropdownItem>
-                                <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
-                                <DropdownItem as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
-                            </SplitButton>
-                        </Dropdown>
+                        
                     </div>
                 </div>
             </>
@@ -123,8 +125,9 @@ const MyAds = (props: { idCustomer?: number }) => {
                             displayAds.length > 0 ?
                                 (
                                     <>
-                                        <div style={{ margin: "20px" }}>
-                                            <Button onClick={() => navigate("/u/ad-creation")}>Create Ad</Button>
+                                        <div className="display-header d-flex justify-content-between">
+                                            <h1 className="fs-1"> <b>My ads</b></h1>
+                                            <Button onClick={() => navigate("/u/ad-creation")}><FontAwesomeIcon icon={faPlus} /></Button>
                                         </div>
 
                                         {displayAds?.map(value => (
@@ -135,7 +138,6 @@ const MyAds = (props: { idCustomer?: number }) => {
                                                 firstImage={value.firstImage}
                                                 isSold={value.isSold}
                                                 price={value.price}
-                                                reference={value.reference}
                                                 title={value.title}
                                                 visibility={value.visibility}
                                                 link={value.link}

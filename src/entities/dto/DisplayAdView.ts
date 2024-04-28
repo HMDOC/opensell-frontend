@@ -7,5 +7,4 @@ export interface DisplayAdView {
     link: string;
     isSold: boolean;
     visibility: number;
-    reference: string;
 }
