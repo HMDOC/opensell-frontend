@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, createRef, PureComponent, ReactNode, RefObject } from "react";
+import { ChangeEvent, Component, createRef, PureComponent, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
@@ -243,33 +243,51 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
 export interface SelectorReaderProps extends AdInputProps {
     title: string;
     name: string;
+    id: string;
     iconProp: IconProp;
     options: Array<String>;
+    isModif?: boolean;
+    isSearch?: boolean;
     defaultValue?: any;
     request?(value: any): any;
 }
 
-export class SelectorReader extends Component<SelectorReaderProps> {
-    public constructor(props: SelectorReaderProps) {
-        super(props);
-    }
+/*
+Added the useEffect and the useState because the component was not working in AdModification.
+*/
+export function SelectorReader(props: SelectorReaderProps) {
+    const selectRef = useRef<HTMLSelectElement>();
 
-    public render(): ReactNode {
-        return (
-            <>
-                <IconLabelError iconProp={this.props.iconProp} title={this.props.title} />
-                <br />
+    useEffect(() => {
+        if(props.isModif) {
+            selectRef.current.value = props.defaultValue;
+        }
+    }, [props.defaultValue]);
 
-                <select defaultValue={this.props.defaultValue} className="selector-reader" name={this.props.name} onChange={(e) => this.props.request?.(e.target.value)} >
-                    {
-                        this.props.options?.map((option, index) => (
-                            <option key={createRandomKey()} value={index}>{option}</option>
-                        ))
-                    }
-                </select>
-                <br />
-                <br />
-            </>
-        );
-    }
+
+    return (
+        <>
+            <IconLabelError iconProp={props.iconProp} title={props.title} />
+            <br />
+
+            <select ref={selectRef} id={props.id} className="selector-reader" name={props.name} onChange={(e) => props.isModif ? props.request(e.target.value) : null} >
+                {
+                    props.isSearch ?
+                        (
+                            <option value="">All</option>
+                        ) : (
+                            <></>
+                        )
+                }
+
+                {
+                    props.options.map((option, index) => (
+                        <option key={createRandomKey()} value={index}>{option}</option>
+                    ))
+                }
+            </select>
+            <br />
+            <br />
+        </>
+    );
 }

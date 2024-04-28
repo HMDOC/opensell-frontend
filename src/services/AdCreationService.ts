@@ -62,7 +62,7 @@ export const formatCreationData = (formData: FormData, tags: string[], customerI
         customerId: customerId, //
         description: formData.get("description").toString(), //
         price: parseFloat(formData.get("price").toString()), //
-        shape: parseInt(formData.get("shape").toString()), //
+        shape: parseInt(formData.get("shapeId").toString()), //
         visibility: parseInt(formData.get("visibility").toString()), //
         reference: null, //
         title: formData.get("title").toString(), //

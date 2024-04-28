@@ -69,6 +69,7 @@ const SIMPLE: Array<SimpleInputProps> = [
 
 const SELECTS: Array<SelectorReaderProps> = [
     {
+        id : "visibilityId",
         name: "adVisibility",
         title : "Visibility",
         iconProp : faEarthAmerica,
@@ -218,10 +219,11 @@ export default function AdModification(): ReactElement {
                 <br />
                 <br />
 
-                <AdShape defaultValue={ad?.adShape} request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} isModif />
+                <AdShape isModif defaultValue={ad?.adShape} request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} />
                 {
                     SELECTS.map(value => (
                         <SelectorReader
+                            id={value.id}
                             iconProp={value?.iconProp}
                             title={value?.title}
                             key={createRandomKey()}
