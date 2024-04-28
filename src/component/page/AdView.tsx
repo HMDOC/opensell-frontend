@@ -77,12 +77,11 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
     return (
         <div className="ad-view-position">
-
-            <div className="ad-view-background">
+            <div style={{maxWidth : "1400px"}} className="reg-background">
                 {adBuyerView ?
                     (
                         <>
-                            <div className="user-profil">
+                            <div className="user-profil dark-shadow">
                                 <Link to={`/user/${adBuyerView?.userLink}`}>
                                     <ProfilIcon src={adBuyerView?.userIcon} />
                                 </Link>
@@ -104,25 +103,25 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                 shouldCloseOnEsc
                                 style={{
                                     content: {
-                                        backgroundColor: "var(--sr1)",
+                                        backgroundColor : "white",
                                         color: "var(--dark-mode-text)",
                                     }
                                 }}
                                 onRequestClose={() => setIsPicturePopup(false)}>
                                 <>
-                                    <FontAwesomeIcon style={{ cursor: "pointer" }} onClick={() => setIsPicturePopup(false)} size="2x" icon={faXmark} />
+                                    <FontAwesomeIcon color="black" style={{ cursor: "pointer" }} onClick={() => setIsPicturePopup(false)} size="2x" icon={faXmark} />
                                     <div className="ad-view-popup-section">
                                         <img className="ad-view-popup-image imgFit" src={adBuyerView?.adImages?.[currentPicture]?.path} />
 
                                         <div className="ad-view-popup-controls">
                                             <button className="ad-view-popup-image-change-btn" onClick={() => nextOrPrevious(false)}>
-                                                <img src="/img/prev-img.webp"></img>
+                                                <img style={{ rotate: "180deg" }} src="/img/prev-img.webp"></img>
                                             </button>
 
                                             <p className="ad-view-popup-image-count">{currentPicture + 1} / {adBuyerView?.adImages?.length}</p>
 
                                             <button className="ad-view-popup-image-change-btn" onClick={() => nextOrPrevious(true)}>
-                                                <img style={{ rotate: "180deg" }} src="/img/prev-img.webp"></img>
+                                                <img src="/img/prev-img.webp"></img>
                                             </button>
                                         </div>
                                     </div>

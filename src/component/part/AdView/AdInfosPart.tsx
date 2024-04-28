@@ -29,7 +29,7 @@ function SingleInfo(props: { icon: IconProp, labelValue: string, isEnd?: boolean
 
 export default function AdInfosPart(props: { location: string, publishDate: Date, phone: string, shape: AdShape }) {
     return (
-        <div className="ad-info-part">
+        <div className="ad-info-part dark-shadow">
             {/* Address */}
             <SingleInfo labelValue={props.location} icon={faLocationDot} />
             <SingleInfo labelValue={props.publishDate?.toString()} icon={faClock} />
