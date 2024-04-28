@@ -13,6 +13,7 @@ import AdPricePart from "../part/AdView/AdPricePart";
 import AdTagPart from "../part/AdView/AdTagPart";
 import AdTypePart from "../part/AdView/AdTypePart";
 import ProfilIcon from "./ProfilIcon";
+import { createRandomKey } from "../../services/RandomKeys";
 
 
 /**
@@ -34,16 +35,22 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
 };
 
 export function AdVisibilityPart(props: { adVisibility?: AdVisibility }): ReactElement {
-    return <FontAwesomeIcon
-        style={{ fontSize: "35px", marginBottom: "10px" }}
-        icon={
-            props.adVisibility == AdVisibility.LINK_ONLY ?
-                (faLink) : (
-                    props.adVisibility == AdVisibility.PRIVATE ?
-                        (faLock) : (null)
-                )
-        }
-    />;
+    return (props.adVisibility && props.adVisibility != null ?
+        (
+            <FontAwesomeIcon
+                style={{ fontSize: "35px", marginBottom: "10px" }}
+                icon={
+                    props.adVisibility == AdVisibility.LINK_ONLY ?
+                        (faLink) : (
+                            props.adVisibility == AdVisibility.PRIVATE ?
+                                (faLock) : (null)
+                        )
+                }
+            />
+        ) : (
+            <></>
+        )
+    );
 }
 
 export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, any>>, children?: any }) {
@@ -55,7 +62,6 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
         props.request.then(res => {
             if (res?.data) {
                 setAdBuyerView(res?.data);
-                console.log(res?.data);
             }
         });
     }, []);
@@ -77,7 +83,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
     return (
         <div className="ad-view-position">
-            <div style={{maxWidth : "1400px"}} className="reg-background">
+            <div style={{ maxWidth: "1400px" }} className="reg-background">
                 {adBuyerView ?
                     (
                         <>
@@ -103,7 +109,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                 shouldCloseOnEsc
                                 style={{
                                     content: {
-                                        backgroundColor : "white",
+                                        backgroundColor: "white",
                                         color: "var(--dark-mode-text)",
                                     }
                                 }}
@@ -143,7 +149,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                                 (value, index) => (
                                                     value ?
                                                         (
-                                                            <img onClick={() => loadImageFromClick(index + 1)} className="ad-view-first-images ad-view-images-column-element imgFit" src={value?.path} />
+                                                            <img key={createRandomKey()} onClick={() => loadImageFromClick(index + 1)} className="ad-view-first-images ad-view-images-column-element imgFit" src={value?.path} />
                                                         ) : (
                                                             <></>
                                                         )
@@ -172,7 +178,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
                             {/* AdTags */}
                             {adBuyerView?.adTagsName?.map(value => (
-                                <AdTagPart label={value} isAdView />
+                                <AdTagPart key={createRandomKey()} label={value} isAdView />
                             ))}
 
                             <div className="ad-view-flex-desc-infos">
