@@ -15,10 +15,11 @@ import {
     InputType,
     ModifType,
     SelectorReader,
-    SelectorReaderProps, SHAPE_ARRAY,
+    SelectorReaderProps,
     SimpleInput,
     SimpleInputProps, VISIBILITY_ARRAY,
 } from "../shared/SharedAdPart";
+import AdShape from "../shared/AdShapePart";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
     return new StringSchema()
@@ -72,19 +73,7 @@ const SELECTS: Array<SelectorReaderProps> = [
         title : "Visibility",
         iconProp : faEarthAmerica,
         options: VISIBILITY_ARRAY,
-        request(value, idAd) {
-            return adModification(ModifType.VISIBILITY, value, idAd)
-        }
-    },
-    {
-        name: "adShape",
-        iconProp : faShapes,
-        title : "Shape",
-        options: SHAPE_ARRAY,
-        request(value, idAd) {
-            return adModification(ModifType.SHAPE, value, idAd)
-        }
-    },
+    }
 ];
 
 
@@ -229,17 +218,17 @@ export default function AdModification(): ReactElement {
                 <br />
                 <br />
 
+                <AdShape defaultValue={ad?.adShape} request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} isModif />
                 {
                     SELECTS.map(value => (
                         <SelectorReader
                             iconProp={value?.iconProp}
                             title={value?.title}
                             key={createRandomKey()}
-                            idAd={ad?.idAd}
                             defaultValue={ad?.[value?.name]}
                             name={value?.name}
                             options={value?.options}
-                            request={value?.request}
+                            request={(value) => adModification(ModifType.VISIBILITY, value, ad?.idAd)}
                         />
                     ))
                 }

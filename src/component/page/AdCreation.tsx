@@ -7,9 +7,10 @@ import { AdImages } from "../shared/AdImages";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import { Navigate } from "react-router-dom";
-import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
+import { MAX_PRICE, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 import "../../css/component/page/CustomerModification.css"
 import { faEarthAmerica, faItalic, faShapes } from "@fortawesome/free-solid-svg-icons";
+import AdShape from "../shared/AdShapePart";
 
 /**
  * @author Olivier Mansuy
@@ -115,7 +116,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         <textarea name="description" id="description" className="modificationInput col-9" cols={30} rows={5} required={false}></textarea>
                     </div>
                     <SelectorReader iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
-                    <SelectorReader iconProp={faShapes} title="Shape" name="shape" options={SHAPE_ARRAY} />
+                    {/* <AdShape /> */}
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}

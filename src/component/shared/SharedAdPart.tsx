@@ -1,4 +1,4 @@
-import { ChangeEvent, createRef, PureComponent, ReactNode } from "react";
+import { ChangeEvent, Component, createRef, PureComponent, ReactNode, RefObject } from "react";
 import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
@@ -11,7 +11,6 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { errors } from "jose";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
-export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
 export const MAX_PRICE = 999990;
 
 /**
@@ -242,36 +241,35 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
 }
 
 export interface SelectorReaderProps extends AdInputProps {
-    idAd?: number;
     title: string;
     name: string;
     iconProp: IconProp;
     options: Array<String>;
-    defaultValue?: string;
-    request?(value: any, idAd: number): Promise<AxiosResponse<any, any>>;
+    defaultValue?: any;
+    request?(value: any): any;
 }
 
-export class SelectorReader extends PureComponent<SelectorReaderProps> {
-    public handleChange(e: ChangeEvent<HTMLSelectElement>) {
-        this.props.request?.(e.target.value, this.props.idAd);
+export class SelectorReader extends Component<SelectorReaderProps> {
+    public constructor(props: SelectorReaderProps) {
+        super(props);
     }
 
     public render(): ReactNode {
         return (
-            <div>
+            <>
                 <IconLabelError iconProp={this.props.iconProp} title={this.props.title} />
                 <br />
 
-                <select className="selector-reader" name={this.props.name} defaultValue={this.props.defaultValue} onChange={this.props.request ? (e) => this.handleChange(e) : null} >
+                <select defaultValue={this.props.defaultValue} className="selector-reader" name={this.props.name} onChange={(e) => this.props.request?.(e.target.value)} >
                     {
-                        this.props.options.map((option, index) => (
-                            <option key={createRandomKey()} value={`${index}`}>{option}</option>
+                        this.props.options?.map((option, index) => (
+                            <option key={createRandomKey()} value={index}>{option}</option>
                         ))
                     }
                 </select>
                 <br />
                 <br />
-            </div>
-        )
+            </>
+        );
     }
 }
