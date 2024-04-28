@@ -1,6 +1,7 @@
 import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { Component, FormEvent, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
+import "../../css/component/page/AdModif.scss";
 import "../../css/component/page/CustomerModification.css";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData } from "../../services/AdCreationService";
 import { getAllAdTypes, saveAdImages } from "../../services/AdService";
@@ -10,12 +11,7 @@ import { AdImages } from "../shared/AdImages";
 import AdShapePart from "../shared/AdShapePart";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
-import { Navigate } from "react-router-dom";
-import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
-import "../../css/component/page/CustomerModification.css"
-import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll, faShapes } from "@fortawesome/free-solid-svg-icons";
-import { IconLabelError } from "../shared/SharedAdPart";
-import "../../css/component/page/AdModif.scss";
+import { IconLabelError, MAX_PRICE, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 
 /**
  * @author Olivier Mansuy
@@ -126,7 +122,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false}></textarea>
                     </div>
                     <SelectorReader id="visibility" iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
-                    <AdShapePart /> 
+                    <AdShapePart  /> 
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}
