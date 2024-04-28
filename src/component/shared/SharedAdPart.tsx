@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, createRef, PureComponent, ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { ChangeEvent, Component, createRef, PureComponent, ReactNode, RefObject, useEffect, useState } from "react";
 import { adModification } from "../../services/AdService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AxiosResponse } from "axios";
@@ -10,7 +10,6 @@ import "../../css/component/part/SharedAdPart.scss";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { errors } from "jose";
 
-export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 export const MAX_PRICE = 999990;
 
 /**
@@ -243,11 +242,8 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
 export interface SelectorReaderProps extends AdInputProps {
     title: string;
     name: string;
-    id: string;
     iconProp: IconProp;
     options: Array<String>;
-    isModif?: boolean;
-    isSearch?: boolean;
     defaultValue?: any;
     request?(value: any): any;
 }
@@ -256,36 +252,33 @@ export interface SelectorReaderProps extends AdInputProps {
 Added the useEffect and the useState because the component was not working in AdModification.
 */
 export function SelectorReader(props: SelectorReaderProps) {
-    const selectRef = useRef<HTMLSelectElement>();
+    const [selectValue, setSelectValue] = useState();
 
     useEffect(() => {
-        if(props.isModif) {
-            selectRef.current.value = props.defaultValue;
+        if (props.defaultValue) {
+            setSelectValue(props.defaultValue);
         }
     }, [props.defaultValue]);
 
+    const handleChange = (e: any) => {
+        let value = e.target.value;
+        setSelectValue(value);
+        props.request?.(value);
+    }
 
     return (
         <>
             <IconLabelError iconProp={props.iconProp} title={props.title} />
             <br />
 
-            <select ref={selectRef} id={props.id} className="selector-reader" name={props.name} onChange={(e) => props.isModif ? props.request(e.target.value) : null} >
-                {
-                    props.isSearch ?
-                        (
-                            <option value="">All</option>
-                        ) : (
-                            <></>
-                        )
-                }
-
+            <select name={props.name} value={selectValue} className="selector-reader" onChange={handleChange} >
                 {
                     props.options.map((option, index) => (
                         <option key={createRandomKey()} value={index}>{option}</option>
                     ))
                 }
             </select>
+
             <br />
             <br />
         </>

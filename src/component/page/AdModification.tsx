@@ -1,5 +1,5 @@
-import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll, faShapes } from "@fortawesome/free-solid-svg-icons";
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooleanSchema, NumberSchema, StringSchema } from "yup";
 import "../../css/component/page/AdModif.scss";
@@ -9,17 +9,17 @@ import { adModification, adModificationTags, getAdToModif } from "../../services
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages, SaveCancelButton } from "../shared/AdImages";
+import AdShape from "../shared/AdShapePart";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
+import AdVisibilitySelect from "../shared/AdVisibilitySelect";
 import {
     InputType,
     ModifType,
-    SelectorReader,
     SelectorReaderProps,
     SimpleInput,
-    SimpleInputProps, VISIBILITY_ARRAY,
+    SimpleInputProps
 } from "../shared/SharedAdPart";
-import AdShape from "../shared/AdShapePart";
 
 function notEmptyWithMaxAndMin(max: number, min: number) {
     return new StringSchema()
@@ -66,17 +66,6 @@ const SIMPLE: Array<SimpleInputProps> = [
         verifyProperty: new BooleanSchema()
     }
 ];
-
-const SELECTS: Array<SelectorReaderProps> = [
-    {
-        id : "visibilityId",
-        name: "adVisibility",
-        title : "Visibility",
-        iconProp : faEarthAmerica,
-        options: VISIBILITY_ARRAY,
-    }
-];
-
 
 // { name: "images", multiple: true, reference: createRef(), isFile: true },
 export default function AdModification(): ReactElement {
@@ -219,21 +208,12 @@ export default function AdModification(): ReactElement {
                 <br />
                 <br />
 
-                <AdShape isModif defaultValue={ad?.adShape} request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} />
-                {
-                    SELECTS.map(value => (
-                        <SelectorReader
-                            id={value.id}
-                            iconProp={value?.iconProp}
-                            title={value?.title}
-                            key={createRandomKey()}
-                            defaultValue={ad?.[value?.name]}
-                            name={value?.name}
-                            options={value?.options}
-                            request={(value) => adModification(ModifType.VISIBILITY, value, ad?.idAd)}
-                        />
-                    ))
-                }
+                <AdShape 
+                    defaultValue={ad?.adShape} 
+                    request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} />
+                <AdVisibilitySelect 
+                    defaultValue={ad?.adVisibility} 
+                    request={(value: any) => adModification(ModifType.VISIBILITY, value, ad?.idAd)} />
             </>
         </div>
     );

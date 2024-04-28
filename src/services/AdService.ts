@@ -53,7 +53,6 @@ export const getAdToModif = async (link: string) => {
  * @author Achraf
  */
 export const adModification = async (modifType: ModifType, value: any, idAd: number) => {
-    console.log(value);
     return await http.patch<HtmlCode>("/ad/modification", {value}, {params : {modifType, idAd}});
 };
 

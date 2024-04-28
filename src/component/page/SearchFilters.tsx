@@ -1,10 +1,10 @@
 import {ReactElement, useState } from "react";
 import "../../css/component/page/SearchBar.css";
-import { MAX_PRICE } from "../shared/SharedAdPart";
+import { MAX_PRICE} from "../shared/SharedAdPart";
 import AdTypeSelect from "../shared/AdTypeSelect";
 import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import AdShapePart from "../shared/AdShapePart";
+import { SHAPE_ARRAY } from "../shared/AdShapePart";
 
 /** 
     The component that holds all of the filter options.
@@ -78,7 +78,12 @@ const SearchFilters = (props) : ReactElement =>{
                 </div>
                 
                 <h5>Shape</h5>
-                <AdShapePart />
+                <select name="shapeId" id="shapeId" className="selector-reader">
+                    <option value=""> All </option>
+                    {SHAPE_ARRAY.map( (value, key) => {
+                        return (<option value={key} key={key}> { value } </option>)
+                    } )}
+                </select>
 
                 <h5>Sold</h5>
                 <select name="filterSold" id="filterSold" className="selector-reader">

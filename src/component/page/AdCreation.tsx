@@ -1,4 +1,4 @@
-import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { faItalic, faLocationDot, faReceipt, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { Component, FormEvent, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import "../../css/component/page/AdModif.scss";
@@ -11,7 +11,8 @@ import { AdImages } from "../shared/AdImages";
 import AdShapePart from "../shared/AdShapePart";
 import { AdTags } from "../shared/AdTags";
 import AdTypeSelect from "../shared/AdTypeSelect";
-import { IconLabelError, MAX_PRICE, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
+import AdVisibilitySelect from "../shared/AdVisibilitySelect";
+import { IconLabelError, MAX_PRICE } from "../shared/SharedAdPart";
 
 /**
  * @author Olivier Mansuy
@@ -121,8 +122,9 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         </div>
                         <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false}></textarea>
                     </div>
-                    <SelectorReader id="visibility" iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
-                    <AdShapePart  /> 
+
+                    <AdVisibilitySelect />
+                    <AdShapePart /> 
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}
