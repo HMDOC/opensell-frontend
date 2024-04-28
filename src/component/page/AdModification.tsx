@@ -173,7 +173,8 @@ export default function AdModification(): ReactElement {
     }
 
     return (
-        <div className="reg-background">
+        <div className="ad-modif-div">
+        <div className="reg-background" style={{overflowY : "scroll", height :"90vh"}}>
             <>
                 <SimpleInputPart />
                 <SimpleInputPart start={2} end={4} />
@@ -244,6 +245,7 @@ export default function AdModification(): ReactElement {
                     ))
                 }
             </>
+        </div>
         </div>
     );
 }
