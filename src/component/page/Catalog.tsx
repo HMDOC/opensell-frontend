@@ -68,11 +68,11 @@ const ResultList = (): ReactElement => {
     const [filtersUpdated, setFiltersUpdated] = useState();
     const filterRef = useRef<HTMLDivElement>();
     const reverseSortRef = useRef<HTMLInputElement>();
-    const [filterOptions, setFilterOptions] = useState<any>({ query:"" });
-    
+    const [filterOptions, setFilterOptions] = useState<any>({ query: "" });
+
     // AdTags
     const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
-    
+
     useEffect(() => {
         let tmpFilterOptions = {};
         filterRef.current.childNodes.forEach((value: HTMLInputElement, key: number) => {
@@ -91,14 +91,14 @@ const ResultList = (): ReactElement => {
 
     useEffect(() => {
         searchBarRef.current.value = searchParams.get("query");
-        reverseSortRef.current.checked = searchParams.get("reverseSort")==="1"
+        reverseSortRef.current.checked = searchParams.get("reverseSort") === "1"
 
         let tmpFilterOptions = filterOptions;
         tmpFilterOptions["adTags"] = searchTags;
-        if (reverseSortRef.current.checked){
+        if (reverseSortRef.current.checked) {
             tmpFilterOptions["reverseSort"] = 1;
         }
-        
+
         searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
             let element: any = document.querySelector(`#${key}`);
@@ -120,7 +120,7 @@ const ResultList = (): ReactElement => {
 
         getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
             setSearchError(errors.regular);
-            
+
             setListOfAds(res?.data);
             setLoading(false);
         }).catch((e: AxiosError) => {
@@ -160,17 +160,17 @@ const ResultList = (): ReactElement => {
     return (
         <div className="catalog-div">
             <div className="div-filters">
-                <SearchBar 
-                    filterUpdate={setFiltersUpdated} 
-                    filters={filterRef} 
-                    reference={searchBarRef} 
-                    click={setSearchClick} 
-                    searchTags={searchTags} 
+                <SearchBar
+                    filterUpdate={setFiltersUpdated}
+                    filters={filterRef}
+                    reference={searchBarRef}
+                    click={setSearchClick}
+                    searchTags={searchTags}
                     setSearchTags={setSearchTags}
                     reverseSort={reverseSortRef}
-                    defSortValue={searchParams.get("reverseSort")==="1"} />
+                    defSortValue={searchParams.get("reverseSort") === "1"} />
             </div>
-            <div id="searchResult">
+            <div id="searchResult" style={{ overflowY: "scroll", height: "90vh" }}>
                 {
                     (isLoading) ?
                         <LoadingIcon /> :

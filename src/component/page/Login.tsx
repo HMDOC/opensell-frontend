@@ -69,6 +69,9 @@ export default function Login(props) {
                 <span style={{fontSize : "0.65vw"}}>{error.creds}</span>
                 </div>
             </div>
+            <div className="decoration-div">
+                <img className="deco-pic" src="/img/auth-deco.jpg"></img>
+            </div>
         </div>
     )
 }

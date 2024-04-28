@@ -88,21 +88,24 @@ export default function Signup(props: { getCustomerInfo(): void }) {
                     <form className="form">
                         <div className="input-div">
                             <FontAwesomeIcon icon={faEnvelope} className="signup-icon" />
-                            <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{textAlign : "right"}}>{eErrors.email}</span>
+                            <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.email}</span>
                         </div><br />
                         <div className="input-div">
                             <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
-                            <input placeholder="Username" className="signup-input" type="text" name="username" onChange={handleChange}></input><span style={{textAlign : "right"}}>{eErrors.username}</span>
+                            <input placeholder="Username" className="signup-input" type="text" name="username" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.username}</span>
                         </div><br />
                         <div className="input-div">
                             <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
-                            <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{textAlign : "right"}}>{eErrors.password}</span>
+                            <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.password}</span>
                         </div><br />
                         <button className="signup-button" type="submit" onClick={handleClick}>SIGN UP</button>
-                        <p className="bottom-text">Already have an account? Login <NavLink to="/login" style={{textDecoration: "underline", fontWeight : "bold", color : "#232751"}}>here</NavLink></p>
+                        <p className="bottom-text">Already have an account? Login <NavLink to="/login" style={{ textDecoration: "underline", fontWeight: "bold", color: "#232751" }}>here</NavLink></p>
                     </form>
                 </div>
             )}
+            <div className="decoration-div">
+                <img className="deco-pic" src="/img/auth-deco.jpg"></img>
+            </div>
         </div>
     )
 }
