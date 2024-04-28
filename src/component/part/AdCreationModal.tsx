@@ -7,7 +7,8 @@ interface AdCreationModalState {
 
 }
 
-interface AdCreationModalProperties extends AdCreationpProperties {
+interface AdCreationModalProperties {
+    idCustomer: number;
     isOpen: boolean;
     onCloseRequest(): void;
 }
@@ -26,7 +27,7 @@ export default class AdCreationModal extends Component<AdCreationModalProperties
             onRequestClose={() => this.props.onCloseRequest()}
             style={{content: {width: '55vw', margin: "auto"}, 
                     overlay: {backdropFilter: 'blur(3px)'}}}>
-                    <AdCreation idCustomer={this.props.idCustomer}/>
+                    <AdCreation idCustomer={this.props.idCustomer} closeModalCallback={() => this.props.onCloseRequest()}/>
             </Modal>
         )
     }

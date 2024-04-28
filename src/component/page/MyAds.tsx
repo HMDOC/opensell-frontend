@@ -91,10 +91,9 @@ const MyAds = (props: { idCustomer?: number }) => {
     const [isPreview, setIsPreview] = useState<boolean>(false);
     const [currentAdPreview, setCurrentAdPreview] = useState<Promise<AxiosResponse<AdBuyerView, any>>>();
     const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
-        if (props.idCustomer) {
+        if (props.idCustomer && !modalIsOpen) {
             getCustomerAds(props.idCustomer)
                 .then(res => {
                     if (res?.data) {
@@ -102,7 +101,7 @@ const MyAds = (props: { idCustomer?: number }) => {
                     }
                 })
         }
-    }, [props.idCustomer]);
+    }, [props.idCustomer, modalIsOpen]);
 
     function onDelete(idAd: number) {
         setDisplayAds(displayAds.filter(ad => ad.idAd != idAd));
@@ -113,12 +112,10 @@ const MyAds = (props: { idCustomer?: number }) => {
         setIsPreview(true);
     }
 
-    //navigate("/u/ad-creation")
     function openModal() {  
         setModalIsOpen(true);
     }
 
-    //
     function closeModal() {
         setModalIsOpen(false);
     }

@@ -100,6 +100,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     saveAdImages(fileArray, adId);
                     this.setGlobalErrorMessage("Ad created...");
                     this.setState({adWasCreated: true});
+                    this.props.closeModalCallback();
                 }
             })
         } else if (!(this.state.images.length >= 2) && formIsValid) {
