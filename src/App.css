@@ -9,9 +9,9 @@
 
 body {
   color: var(--sr2);
-  background-image: url("../public/img/rattan-basket-by-floral-wall-background.jpg");
+  background-image: url("../public/img/main-background.jpg");
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100vw 100vh;
 }
 
 .main-background {

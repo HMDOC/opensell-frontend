@@ -12,12 +12,13 @@ $redSold: #E20000;
     &-box-sold {
         background-color: red;
         color: white;
-        padding: 6px;
+        padding: 2px 6px;
         font-weight: bold;
         margin: 2px;
+        font-size: 0.6vw;
     }
 
     &-title {
-        font-size: 28px;
+        font-size: 1vw;
     }
 }
