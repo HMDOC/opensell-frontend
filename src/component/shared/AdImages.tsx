@@ -1,8 +1,10 @@
 import { ChangeEvent, PureComponent, ReactNode } from "react";
 import { saveAdImages } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
-import "../../css/component/page/AdModif.css";
+import "../../css/component/part/AdImages.scss";
 import { BlockImage } from "../../entities/dto/BlockImages";
+import { IconLabelError } from "./SharedAdPart";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 interface AdImagesProps {
     images: Array<BlockImage>;
@@ -13,6 +15,15 @@ interface AdImagesProps {
     reset?(backup: Array<BlockImage>): void;
     error: string;
     setError(error: string): void;
+}
+
+export const SaveCancelButton = (props: {save(): void, cancel(): void}) => {
+    return (
+        <>
+            <button className="ad-image-action" onClick={props.save}>save</button>
+            <button className="ad-image-action" onClick={props.cancel}>cancel</button>
+        </>
+    );
 }
 
 export class AdImages extends PureComponent<AdImagesProps> {
@@ -71,7 +82,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
         let currentFiles: Array<File> = Array.from(e.target.files);
         this.addUrls(currentFiles);
-        
+
         this.props.setError("");
         e.target.value = null;
     }
@@ -91,7 +102,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
 
             else {
                 this.props.setImages(this.props.images.filter(img => img != currentImg));
-                
+
                 // When the img is deleted we revoke the URL, otherwise we 
                 // do a for each in the componentUnMount for each Images
                 URL.revokeObjectURL(currentImg.link);
@@ -132,16 +143,15 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public render(): ReactNode {
         return (
             <>
-                <div className="row">
-                    <label className="col">adImages <span style={{ color: "red" }}>{this.props.error ? this.props.error : ""}</span></label>
-                    <input className="col-9" onChange={(e) => this.handleChange(e)} type="file" multiple />
+                <div className="">
+                    <IconLabelError title="Images" iconProp={faImage} error={this.props.error} />
                     <br />
-                    <br />
+                    <input className="ad-image-input" onChange={(e) => this.handleChange(e)} type="file" multiple accept="image/png" />
                 </div>
-                
+
                 <div>
                     {this.props.images?.map(img => (
-                        <img onDoubleClick={() => this.deleteImg(img)} className="adModifImages" key={createRandomKey()} src={img.link} />
+                        <img onDoubleClick={() => this.deleteImg(img)} className="ad-image" key={createRandomKey()} src={img.link} />
                     ))}
                     <br />
                     <br />
@@ -149,8 +159,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
                     {this.props.isModification && this.state.isEditing ?
                         (
                             <>
-                                <button onClick={() => this.save()}>save</button>
-                                <button onClick={() => this.cancel()}>cancel</button>
+                                <SaveCancelButton save={() => this.save()} cancel={() => this.cancel()} />
                                 <br />
                                 <br />
                             </>

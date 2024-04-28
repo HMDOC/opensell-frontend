@@ -76,7 +76,7 @@ export enum BlurScopeType {
     INPUT
 };
 
-export const IconLabelError = (props: { iconProp: IconProp, title: string, error?: string}) => {
+export const IconLabelError = (props: { iconProp: IconProp, title: string, error?: string }) => {
     return (
         <label>
             <FontAwesomeIcon icon={props.iconProp} />
@@ -190,14 +190,14 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
             <>
                 {this.props.defaultValue != undefined ? (
                     <>
-                        <IconLabelError 
-                            iconProp={this.props.iconProp} 
-                            title={this.props.title} 
+                        <IconLabelError
+                            iconProp={this.props.iconProp}
+                            title={this.props.title}
                             error={this.state.error} />
                         <div ref={this.divRef}>
                             {this.props.type == InputType.TEXTARIA ?
                                 (
-                                    <textarea onBlur={() => this.onBlur()} onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} style={{ width: "700px", height: "200px" }} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />
+                                    <textarea className="ad-modif-textarea" onBlur={() => this.onBlur()} onChange={(e) => this.handleChange(e)} onFocus={this.focusInInput.bind(this)} name={this.props.name} defaultValue={this.props.defaultValue} ref={this.inputRef} />
                                 ) : (
                                     this.props.type == InputType.ONE_CHECKBOX ?
                                         (
@@ -209,6 +209,7 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                                                 defaultChecked={this.props.defaultValue} />
                                         ) : (
                                             <input
+                                                className="ad-modif-input"
                                                 type={this.props.isNumber ? "number" : "text"}
                                                 onBlur={() => this.onBlur()}
                                                 defaultValue={this.props.defaultValue}
@@ -226,14 +227,11 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
                                         <button onBlur={() => this.onBlur(BlurScopeType.SAVE)} ref={this.saveRef} onClick={() => this.save()}>v</button>
                                     </>
                                 ) : (
-                                    <>
-
-                                    </>
+                                    <></>
                                 )
                             }
                         </div>
 
-                        <br />
                         <br />
                     </>
                 ) : (<></>)
@@ -245,7 +243,9 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
 
 export interface SelectorReaderProps extends AdInputProps {
     idAd?: number;
+    title: string;
     name: string;
+    iconProp: IconProp;
     options: Array<String>;
     defaultValue?: string;
     request?(value: any, idAd: number): Promise<AxiosResponse<any, any>>;
@@ -258,9 +258,11 @@ export class SelectorReader extends PureComponent<SelectorReaderProps> {
 
     public render(): ReactNode {
         return (
-            <div className="row">
-                <label className="col">{this.props.name} : </label>
-                <select className="modificationInput col-9" name={this.props.name} defaultValue={this.props.defaultValue} onChange={this.props.request ? (e) => this.handleChange(e) : null} >
+            <div>
+                <IconLabelError iconProp={this.props.iconProp} title={this.props.title} />
+                <br />
+
+                <select className="selector-reader" name={this.props.name} defaultValue={this.props.defaultValue} onChange={this.props.request ? (e) => this.handleChange(e) : null} >
                     {
                         this.props.options.map((option, index) => (
                             <option key={createRandomKey()} value={`${index}`}>{option}</option>

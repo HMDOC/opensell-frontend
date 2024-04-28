@@ -1,0 +1,13 @@
+.ad-modif-input {
+    width: 380px;
+    background-color: var(--sr3);
+    border: none;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+.ad-modif-textarea {
+    @extend .ad-modif-input;
+    width: 800px;
+    height: 200px;
+}

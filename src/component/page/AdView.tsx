@@ -173,7 +173,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
                             {/* AdTags */}
                             {adBuyerView?.adTagsName?.map(value => (
-                                <AdTagPart label={value} />
+                                <AdTagPart label={value} isAdView />
                             ))}
 
                             <div className="ad-view-flex-desc-infos">

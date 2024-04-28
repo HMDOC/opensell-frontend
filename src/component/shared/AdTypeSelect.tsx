@@ -2,6 +2,8 @@ import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
 import { AdType } from "../../entities/dto/AdType";
 import { getAllAdTypes } from "../../services/AdService";
 import { AxiosError } from "axios";
+import { IconLabelError } from "./SharedAdPart";
+import { faList } from "@fortawesome/free-solid-svg-icons";
 
 interface AdTypeSelectProperties {
     inputId: string;
@@ -55,19 +57,28 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
             <>
                 {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ? 
                     (
-                        <select
-                            className={this.props.cName}
-                            id={this.props.inputId}
-                            name={this.props.inputName}
-                            defaultValue={this.props.selectedIndex ? this.props.selectedIndex : ""}
-                            onChange={this.props.isModification ? (event: ChangeEvent<HTMLSelectElement>) => { this.handleChange(event) } : null}>
+                        <>
+                            {!this.props.defaultOptionText ?
+                                <>
+                                    <IconLabelError iconProp={faList} title="Category" />
+                                    <br />
+                                </> : <></>
+                            }
 
-                            {this.props.defaultOptionText ? <option value={""}>{this.props.defaultOptionText}</option> : <></>}
-                            {this.state.typeArray?.map((type, key) => (
-                                <option value={type.idAdType} key={key}>{type.name}</option>
-                            ))}
+                            <select
+                                className={this.props.cName ? "" : "selector-reader"}
+                                id={this.props.inputId}
+                                name={this.props.inputName}
+                                defaultValue={this.props.selectedIndex ? this.props.selectedIndex : ""}
+                                onChange={this.props.isModification ? (event: ChangeEvent<HTMLSelectElement>) => { this.handleChange(event) } : null}>
 
-                        </select>
+                                {this.props.defaultOptionText ? <option value={""}>{this.props.defaultOptionText}</option> : <></>}
+                                {this.state.typeArray?.map((type, key) => (
+                                    <option value={type.idAdType} key={key}>{type.name}</option>
+                                ))}
+
+                            </select>
+                        </>
                     ) 
                     : 
                     <></>}

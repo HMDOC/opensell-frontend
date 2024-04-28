@@ -9,6 +9,7 @@ import AdTypeSelect from "../shared/AdTypeSelect";
 import { Navigate } from "react-router-dom";
 import { MAX_PRICE, SHAPE_ARRAY, SelectorReader, VISIBILITY_ARRAY } from "../shared/SharedAdPart";
 import "../../css/component/page/CustomerModification.css"
+import { faEarthAmerica, faItalic, faShapes } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * @author Olivier Mansuy
@@ -113,8 +114,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         <label htmlFor="description" className="col">Description : </label>
                         <textarea name="description" id="description" className="modificationInput col-9" cols={30} rows={5} required={false}></textarea>
                     </div>
-                    <SelectorReader name="visibility" options={VISIBILITY_ARRAY} />
-                    <SelectorReader name="shape" options={SHAPE_ARRAY} />
+                    <SelectorReader iconProp={faEarthAmerica} title="Visibility" name="visibility" options={VISIBILITY_ARRAY} />
+                    <SelectorReader iconProp={faShapes} title="Shape" name="shape" options={SHAPE_ARRAY} />
                     <AdImages
                         error={this.state.errorImages}
                         setError={(errorImages) => this.setState({errorImages})}
@@ -122,10 +123,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         removeImage={(link) => this.setState({images: this.state.images.filter(img => img.link != link)})}
                         setImages={(images) => this.setState({images})}
                     />
-                    <div className="row">
-                        <label htmlFor="type" className="col">Type : </label>
-                        <AdTypeSelect inputName="type" inputId="type" cName="modificationInput col-9"/>
-                    </div>
+                    
+                    <AdTypeSelect inputName="type" inputId="type" />
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({errorAdTags: error})}

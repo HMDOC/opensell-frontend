@@ -5,6 +5,7 @@
   --sr2: #2E3440;
   --inputborder: #a0a0a0;
   --dark-mode-text: white;
+  --sr3: #E6E6E6;
 }
 
 body {
@@ -22,14 +23,14 @@ body {
   border-radius: 27px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border: #FCFBFA solid 2px;
-  height: 65vh;
+  height: auto;
   padding: 30px;
 }
 
 
 .reg-background {
   width: 90vw;
-  max-width: 48em;
+  max-width: 60em;
   min-height: 80vh;
   margin: 30px auto auto auto;
   background-color: white;
