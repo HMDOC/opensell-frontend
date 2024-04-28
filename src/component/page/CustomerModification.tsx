@@ -34,7 +34,6 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     }
 
     public closeModal(): void {
-        console.log("MODAL CLOSE REQUEST");
         this.setState({modalIsOpen: false});
         this.props.refreshCallback();
     }
@@ -71,7 +70,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                         transform: 'translate(-50%, -50%)', 
                         background: '#4c5e7e',
                         color: "white", 
-                        border: '2px solid brown'}}}>
+                        border: '2px solid brown'}, overlay: {backdropFilter: 'blur(3px)'}}}>
                         {this.state.currentModalContent}
                     </Modal>  
                 </div>

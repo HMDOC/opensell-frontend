@@ -5,6 +5,7 @@ import { AdCreationFeedback } from "../entities/dto/adCreation/AdCreationFeedbac
 import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
 import http from "../../src/http-commons";
 import { BlockImage } from "../entities/dto/BlockImages";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -42,7 +43,8 @@ export interface AdCreationInputProperties {
     placeholder?: string,
     step?: number,
     accept?: string,
-    required?: boolean
+    required?: boolean,
+    iconProp?: IconProp
 }
 
 export interface AdCreationpProperties {
