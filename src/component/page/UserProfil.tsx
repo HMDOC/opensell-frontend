@@ -10,12 +10,12 @@ import AdPreview from "./AdPreview";
 
 const noProfilIcon = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" ;
 
-export default function UserProfil(props: {customerDto: CustomerDto}): ReactElement {
+export default function UserProfil(props: {customerDto: CustomerDto, isMyProfil?: boolean}): ReactElement {
     const { link } = useParams();
     const [customerProfil, setCustomerProfil] = useState<CustomerProfil>();
 
     useEffect(() => {
-        getCustomerProfil(link).then(res => {
+        getCustomerProfil(props.isMyProfil ? props.customerDto.link : link).then(res => {
             setCustomerProfil(res?.data)
         });
     }, []);
