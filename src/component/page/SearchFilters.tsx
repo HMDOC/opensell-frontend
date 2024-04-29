@@ -37,16 +37,13 @@ const SearchFilters = (props) : ReactElement =>{
                 <input type="number" name="priceMin" id="priceMin" 
                     className="smallInput" min={0} max={MAX_PRICE} 
                     defaultValue={0} placeholder={`${0}$`} step={25}/>
-
                 <span className="smallInputLabel">
                     to
                 </span>
-
                 <input type="number" name="priceMax" id="priceMax" 
                     className="smallInput" min={0} max={MAX_PRICE} 
                     defaultValue={MAX_PRICE} 
                     placeholder={`${MAX_PRICE}$`} step={25}/>
-
                 <IconLabelError iconProp={faClock} title="Date" isTitle />
                 <input type="date" name="dateMin" id="dateMin"
                     min={dateMin} max={dateMax} defaultValue={null}/>

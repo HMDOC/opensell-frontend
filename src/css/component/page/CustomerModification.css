@@ -1,12 +1,12 @@
 .modificationContainer{
     background-color: rgba(252, 251, 250, 0.39);
-    width: 75%;
     margin: 40px auto auto auto;
     padding: 30px;
+    width: 75%;
     border-radius: 27px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border: #FCFBFA solid 2px;
-    height: 800px;
+    height: 90vh;
 }
 
 .modificationPage{
@@ -145,17 +145,18 @@
 
 .CM-Container {
     margin: 10px;
-    padding: 10px;
+    padding: 100px;
     border-radius: 25px;
     border: black 2px;
-    background-color: #4c5e7e;
+    background-color: #FCFBFA;
+    width: fit-content;
 }
 
 .CM-Container h1 {
     font-size: 30px;
     font-weight: bold;
-    border-bottom: 2px #FCFBFA solid;
-    color: #FCFBFA
+    border-bottom: 2px #2e3440 solid;
+    color: #2e3440
 }
 
 .CMFeedbackContainer {

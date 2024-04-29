@@ -11,12 +11,12 @@ function SingleInfo(props: { icon: IconProp, labelValue: string, isEnd?: boolean
                 (
                     <>
                         <div className="single-info-flex" >
-                            <FontAwesomeIcon size="2x" icon={props.icon} />
+                            <FontAwesomeIcon className="info-icon" size="lg" icon={props.icon} />
                             <p>{props.labelValue}</p>
                         </div>
                         
                         {props.isEnd ? 
-                            <></> : <hr />
+                            <></> : <hr className="separator" />
                         }
                     </>
                 ) : (

@@ -31,7 +31,7 @@
 .nav-right {
   position: absolute;
   right: 0;
-  margin: 15px 50px 0 0;
+  margin: -15px 50px 0 0;
 }
 
 #basic-nav-dropdown {
@@ -67,4 +67,26 @@
   background-color: #151925;
   border: none;
   color: #FCFBFA;
+}
+
+.dropdown-box {
+  background-color: #FCFBFA;
+}
+
+.dropdown-username {
+  font-size: 20px;
+  text-align: center;
+}
+
+.dropdown-box > .dropdown-item {
+  color: #151925;
+}
+
+.dropdown-box > .dropdown-item:hover {
+  color: #a9a9a9;
+  background: none;
+}
+
+.dropdown-box > .dropdown-username:hover {
+  color: black;
 }

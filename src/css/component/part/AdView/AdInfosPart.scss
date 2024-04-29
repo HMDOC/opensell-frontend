@@ -1,6 +1,7 @@
 .single-info-flex {
     display: flex;
     align-items: center;
+    height: 20px;
 }
 
 .single-info-flex p {
@@ -10,7 +11,12 @@
 
 .ad-info-part {
     color: rgb(0, 0, 0);
-    padding: 30px;
+    padding: 20px;
     width: 300px;
     border-radius: 30px;
+    height: fit-content;
+}
+
+.info-icon {
+    max-height: 15px;
 }

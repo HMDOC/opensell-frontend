@@ -2,6 +2,7 @@
     display: flex;
     margin: 0 auto;
     max-width: 50em;
+    min-width: 50em;
     justify-content: space-between;
     width: 90%;
     transition: background-color 0.2s;
@@ -114,15 +115,16 @@
     display: grid;
     grid-template-columns: auto auto;
     background-color: rgba(252, 251, 250, 0.39);
-    width: fit-content;
+    width: 65vw;
     backdrop-filter: blur(2px);
     margin: auto;
     border-radius: 27px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border: #FCFBFA solid 2px;
-    height: fit-content;
+    height: 90vh;
     justify-content: center;
     align-items: center;
-    row-gap: 50px;
-    padding: 25px 0 25px 0;
+    row-gap: 10px;
+    padding: 25px 25px 25px 25px;
+    column-gap: 10px;
 }

@@ -9,6 +9,7 @@ import getUserInfos from './services/GetUser';
 import PrivateRoute from './component/page/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
 
+const About = lazy(() => import("./component/page/About"));
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
 const Signup = lazy(() => (import("./component/page/signup")));
 const Login = lazy(() => (import("./component/page/Login")));
@@ -50,6 +51,7 @@ export default function App() {
 						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
+					<Route path='/about' element={<About />}></Route>
 					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/catalog" element={<Catalog />}></Route>

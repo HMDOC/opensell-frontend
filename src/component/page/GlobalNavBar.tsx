@@ -13,6 +13,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { Dropdown } from 'react-bootstrap';
 
 /**
  * 
@@ -54,7 +55,8 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                             <NavDropdown className='nav-right' title={
                                 <span className='user-def'><ProfilIcon src={props.customerDto?.customerInfo?.iconPath} /></span>
                             } id='basic-nav-dropdown'>
-                                <NavDropdown.Item>{props.customerDto?.link == undefined ? "Guest" : props.customerDto?.username}</NavDropdown.Item>
+                                <div className='dropdown-box'>
+                                <NavDropdown.Item className='dropdown-username'>{props.customerDto?.link == undefined ? "Guest" : props.customerDto?.username}</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item key={createRandomKey()} as={Link} to={props.customerDto?.link == undefined ? "/login" : `/user/${props.customerDto?.link}`}>My Profile</NavDropdown.Item>
                                 {navLinks.dropdownMenu.map((nav) =>
@@ -63,14 +65,15 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                                 ))}
                                 <NavDropdown.Divider />
                                 {props.customerDto ? (
-                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "5px" }} onClick={() => logout()}>
-                                        Logout
+                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "bold" }} onClick={() => logout()}>
+                                        Log out
                                     </NavDropdown.Item>
                                 ) : (
-                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "5px" }} onClick={() => naviguate('/login')}>
+                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "bold" }} onClick={() => naviguate('/login')}>
                                         Login
                                     </NavDropdown.Item>
                                 )}
+                                </div>
                             </NavDropdown>
                         ) : (
 

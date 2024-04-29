@@ -83,12 +83,12 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
     return (
         <div className="ad-view-position">
-            <div style={{ maxWidth: "1400px" }} className="reg-background">
+            <div style={{ maxWidth: "1400px", overflowY : 'scroll', height: "90vh" }} className="reg-background">
                 {adBuyerView ?
                     (
                         <>
                             <div className="user-profil dark-shadow">
-                                <Link to={`/user/${adBuyerView?.userLink}`}>
+                                <Link className="icon-ad" to={`/user/${adBuyerView?.userLink}`}>
                                     <ProfilIcon src={adBuyerView?.userIcon} />
                                 </Link>
 

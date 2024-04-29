@@ -112,7 +112,7 @@ const MyAds = (props: { idCustomer?: number }) => {
         setIsPreview(true);
     }
 
-    function openModal() {  
+    function openModal() {
         setModalIsOpen(true);
     }
 
@@ -130,42 +130,37 @@ const MyAds = (props: { idCustomer?: number }) => {
                     </>
                 ) : (
                     <>
-                        {
-                            displayAds.length > 0 ?
-                                (
-                                    <>
-                                        <div className="display-header d-flex justify-content-between">
-                                            <h1 className="fs-1 text-black"> <b>My ads</b></h1>
-                                            <Button onClick={() => openModal()}><FontAwesomeIcon icon={faPlus} /></Button>
-                                        </div>
-                                        <div style={{overflowY : "scroll", height :"90vh"}} className="back-div">
-                                            {displayAds?.map(value => (
-                                                <DisplayAd
-                                                    key={createRandomKey()}
-                                                    idAd={value.idAd}
-                                                    description={value.description}
-                                                    firstImage={value.firstImage}
-                                                    isSold={value.isSold}
-                                                    price={value.price}
-                                                    title={value.title}
-                                                    visibility={value.visibility}
-                                                    link={value.link}
-                                                    onDelete={(idAd) => onDelete(idAd)}
-                                                    seeAdPreview={(idAd) => getCurrentPromise(idAd)}
-                                                />))}
-                                                </div>
-                                    </>
-                                ) : (
-                                    <div className="no-ads-found">
-                                        <h4>You have no ads.</h4>
-                                        <Button onClick={() => openModal()}>Create One</Button>
-                                    </div>
-                                )
-                        }
+                        <div className="display-header d-flex justify-content-between">
+                            <h1 className="fs-1 text-black"> <b>My ads</b></h1>
+                            <Button onClick={() => openModal()}><FontAwesomeIcon icon={faPlus} /></Button>
+                        </div>
+                        {displayAds.length > 0 ? (
+
+                            <div style={{ overflowY: "scroll", height: "90vh" }} className="back-div">
+                                {displayAds?.map(value => (
+                                    <DisplayAd
+                                        key={createRandomKey()}
+                                        idAd={value.idAd}
+                                        description={value.description}
+                                        firstImage={value.firstImage}
+                                        isSold={value.isSold}
+                                        price={value.price}
+                                        title={value.title}
+                                        visibility={value.visibility}
+                                        link={value.link}
+                                        onDelete={(idAd) => onDelete(idAd)}
+                                        seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                                    />))}
+                            </div>
+                        ) : (
+                            <div className="back-div">
+                                <h4>You have no ads</h4>
+                            </div>
+                        )}
                     </>
                 )
             }
-            <AdCreationModal idCustomer={props.idCustomer} isOpen={modalIsOpen} onCloseRequest={() => closeModal()}/>
+            <AdCreationModal idCustomer={props.idCustomer} isOpen={modalIsOpen} onCloseRequest={() => closeModal()} />
         </>
     );
 }
