@@ -64,11 +64,11 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                                 ))}
                                 <NavDropdown.Divider />
                                 {props.customerDto ? (
-                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "bold" }} onClick={() => logout()}>
+                                    <NavDropdown.Item onClick={() => logout()}>
                                         Log out
                                     </NavDropdown.Item>
                                 ) : (
-                                    <NavDropdown.Item style={{ fontSize: "20px", fontWeight: "bold" }} onClick={() => naviguate('/login')}>
+                                    <NavDropdown.Item onClick={() => naviguate('/login')}>
                                         Login
                                     </NavDropdown.Item>
                                 )}

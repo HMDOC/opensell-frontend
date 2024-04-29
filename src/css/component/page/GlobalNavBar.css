@@ -71,11 +71,17 @@
 
 .dropdown-box {
   background-color: #FCFBFA;
+  padding: 10px;
 }
 
 .dropdown-username {
   font-size: 20px;
   text-align: center;
+}
+
+.dropdown-divider {
+  width: 75%;
+  margin: 10px;
 }
 
 .dropdown-box > .dropdown-item {
