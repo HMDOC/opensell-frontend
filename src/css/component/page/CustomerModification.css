@@ -86,7 +86,7 @@
 }
 
 .modificationSubmit .CMExitButton{
-    background-color: white;
+    background-color: #2e3440;
     color: red;
     margin-right: 79.4%;
 }
@@ -125,7 +125,6 @@
 }
 
 .CMDisplay-Container button {
-    background-color: rgb(184, 210, 216);
     font-weight: bolder;
     color: #000000;
     border-radius: 25px;
@@ -175,4 +174,16 @@
     outline: none;
     position: relative;
     left: 48vw;
+}
+
+.CM-Title-Button-Container {
+    display: flex;
+}
+
+.CM-Title-Button-Container div {
+    margin-left: auto;
+}
+
+.CM-Title-Button-Container button  {
+    border-radius: 25px;
 }
