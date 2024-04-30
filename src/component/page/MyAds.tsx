@@ -129,14 +129,15 @@ const MyAds = (props: { idCustomer?: number }) => {
                         <AdMapping request={currentAdPreview} />
                     </>
                 ) : (
-                    <>
+                    <div className="back-div">
+                        {displayAds.length > 0 ? (
+                        <>
                         <div className="display-header d-flex justify-content-between">
                             <h1 className="fs-1 text-black"> <b>My ads</b></h1>
                             <Button onClick={() => openModal()}><FontAwesomeIcon icon={faPlus} /></Button>
                         </div>
-                        {displayAds.length > 0 ? (
 
-                            <div style={{ overflowY: "scroll", height: "90vh" }} className="back-div">
+                            <div style={{ overflowY: "scroll", height: "90vh" }} className="">
                                 {displayAds?.map(value => (
                                     <DisplayAd
                                         key={createRandomKey()}
@@ -152,12 +153,13 @@ const MyAds = (props: { idCustomer?: number }) => {
                                         seeAdPreview={(idAd) => getCurrentPromise(idAd)}
                                     />))}
                             </div>
+                            </>
                         ) : (
                             <div className="back-div">
                                 <h4>You have no ads</h4>
                             </div>
                         )}
-                    </>
+                    </div>
                 )
             }
             <AdCreationModal idCustomer={props.idCustomer} isOpen={modalIsOpen} onCloseRequest={() => closeModal()} />
