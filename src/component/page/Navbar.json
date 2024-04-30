@@ -15,14 +15,13 @@
     ],
     "dropdownMenu": [
         {
-            "path" : "/u/my-ads",
-            "label" : "My Ads"
-        },
-        {
             "path" : "/u/my-profil",
             "label" : "My Profil"
         },
-        
+        {
+            "path" : "/u/my-ads",
+            "label" : "My Ads"
+        },
         {
             "path" : "/u/customer-modification",
             "label" : "Settings"

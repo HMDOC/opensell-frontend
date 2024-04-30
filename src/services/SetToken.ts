@@ -1,5 +1,3 @@
-import { CustomerDto } from "../entities/dto/CustomerDto";
-import { CustomerInfo } from "../entities/dto/CustomerInfo";
 import * as jose from "jose";
 
 export const setToken = async (idCustomer: number) => {

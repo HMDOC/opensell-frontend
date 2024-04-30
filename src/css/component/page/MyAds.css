@@ -3,10 +3,6 @@
     margin: auto;
 }
 
-::-webkit-scrollbar {
-    display: none;
-}
-
 .display-post {
     display: flex;
     margin: 0 auto;
