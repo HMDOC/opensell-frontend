@@ -121,7 +121,7 @@ const ResultList = (): ReactElement => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
-            console.log(listOfAds[0].adFirstImagePath);
+            
             setLoading(false);
         }).catch((e: AxiosError) => {
             switch (e.code) {
