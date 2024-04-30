@@ -10,12 +10,12 @@ import AdPreview from "./AdPreview";
 
 const noProfilIcon = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/2048px-Default_pfp.svg.png" ;
 
-export default function UserProfil(props: {customerDto: CustomerDto, isMyProfil?: boolean}): ReactElement {
+export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?: boolean}): ReactElement {
     const { link } = useParams();
     const [customerProfil, setCustomerProfil] = useState<CustomerProfil>();
 
     useEffect(() => {
-        getCustomerProfil(props.isMyProfil ? props.customerDto.link : link).then(res => {
+        getCustomerProfil(props.isMyProfil ? props.loggedUserLink : link).then(res => {
             setCustomerProfil(res?.data)
         });
     }, []);
@@ -24,7 +24,7 @@ export default function UserProfil(props: {customerDto: CustomerDto, isMyProfil?
     return (
         <div className="main-background">
             <div className="front-div">
-                {props.customerDto?.link == link ?
+                {props.isMyProfil ?
                     (
                         <Link to="/u/customer-modification"><FontAwesomeIcon className="pencil" icon={faPencil} /></Link>
                     ) : (
