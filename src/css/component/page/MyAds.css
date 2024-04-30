@@ -1,6 +1,10 @@
 .back-div {
-    width: fit-content;
+    width: 65em;
     margin: auto;
+}
+
+::-webkit-scrollbar {
+    display: none;
 }
 
 .display-post {

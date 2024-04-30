@@ -83,7 +83,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
     return (
         <div className="ad-view-position">
-            <div style={{ maxWidth: "1400px", overflowY : 'scroll', height: "90vh" }} className="reg-background">
+            <div style={{ maxWidth: "1400px", overflowY : 'scroll', height: "86vh" }} className="reg-background">
                 {adBuyerView ?
                     (
                         <>

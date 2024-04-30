@@ -43,14 +43,19 @@ export default class CustomerModification extends Component<CMProperties, CMStat
             <div className="modificationContainer">
                 <div id="customer-modification-form" className="modificationPage">
                     <div className="CM-Container">
-                        <h1>Sensitive Info</h1>
+                        <h1 style={{width : "100%"}}>Sensitive Info</h1>
                         <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} defaultValue={this.props.customerData.personalEmail}/>
                         <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true}/>
                         <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} defaultValue={this.props.customerData.customerInfo?.phoneNumber}/>
                     </div>
                     <div className="CM-Container">
-                        <h1>Other Info</h1>
-                        <CMDisplay labelText="Username" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.BASIC_CHANGES)} defaultValue={this.props.customerData.username}/>
+                        <div className="CM-Title-Button-Container">
+                            <h1>Other Info</h1>
+                            <div className="change-button">
+                                <button type="button" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} className="modificationLabel">Change</button>
+                            </div>
+                        </div>
+                        <CMDisplay labelText="Username" defaultValue={this.props.customerData.username}/>
                         <CMDisplay labelText="FirstName" defaultValue={this.props.customerData.customerInfo?.firstName}/>
                         <CMDisplay labelText="LastName" defaultValue={this.props.customerData.customerInfo?.lastName}/>
                         <CMDisplay labelText="Public Email" defaultValue={this.props.customerData.customerInfo?.exposedEmail}/>
@@ -68,8 +73,8 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                         top: '50%', left: '50%', 
                         position: 'fixed', 
                         transform: 'translate(-50%, -50%)', 
-                        background: '#4c5e7e',
-                        color: "white", 
+                        background: 'rgba(252, 251, 250, 0.39)',
+                        color: "#2e3440", 
                         border: '2px solid brown'}, overlay: {backdropFilter: 'blur(3px)'}}}>
                         {this.state.currentModalContent}
                     </Modal>  
