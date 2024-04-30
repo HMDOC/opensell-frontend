@@ -1,6 +1,16 @@
 .back-div {
-    width: fit-content;
+    width: 65em;
     margin: auto;
+}
+
+.ads-view {
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    display: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .display-post {
