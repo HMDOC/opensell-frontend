@@ -86,8 +86,8 @@
 }
 
 .modificationSubmit .CMExitButton{
-    background-color: #2e3440;
-    color: red;
+    background-color: blue;
+    color: white;
     margin-right: 79.4%;
 }
 
@@ -138,7 +138,7 @@
 
 .CMDisplay-Default-Value-Container {
     padding: 10px;
-    background-color: rgb(124, 134, 148);
+    background-color: rgba(124, 134, 148, 0.5);
     min-width: 20vw;
 }
 
@@ -148,14 +148,15 @@
     border-radius: 25px;
     border: black 2px;
     background-color: #FCFBFA;
-    width: fit-content;
+    width: 110%;
 }
 
 .CM-Container h1 {
     font-size: 30px;
     font-weight: bold;
     border-bottom: 2px #2e3440 solid;
-    color: #2e3440
+    color: #2e3440;
+    width: 76%;
 }
 
 .CMFeedbackContainer {
@@ -180,10 +181,11 @@
     display: flex;
 }
 
-.CM-Title-Button-Container div {
-    margin-left: auto;
-}
-
 .CM-Title-Button-Container button  {
     border-radius: 25px;
+}
+
+.change-button {
+    border-bottom: 2px solid black;
+    margin-bottom: 8.5px;
 }
