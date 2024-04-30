@@ -18,7 +18,6 @@ export default function Login(props) {
             creds: ""
         }
     );
-    let customerInfo: CustomerInfo = {};
     let customerId: number;
 
 

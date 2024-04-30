@@ -137,7 +137,7 @@ const MyAds = (props: { idCustomer?: number }) => {
                             <Button onClick={() => openModal()}><FontAwesomeIcon icon={faPlus} /></Button>
                         </div>
 
-                            <div style={{ overflowY: "scroll", height: "90vh" }} className="">
+                            <div style={{ overflowY: "scroll", height: "86.75vh" }} className="">
                                 {displayAds?.map(value => (
                                     <DisplayAd
                                         key={createRandomKey()}
