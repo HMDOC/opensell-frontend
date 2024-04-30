@@ -1,12 +1,12 @@
 .modificationContainer{
     background-color: rgba(252, 251, 250, 0.39);
     margin: 40px auto auto auto;
-    padding: 30px;
     width: 75%;
     border-radius: 27px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border: #FCFBFA solid 2px;
-    height: 90vh;
+    height: 85vh;
+    overflow-y: scroll;
 }
 
 .modificationPage{
