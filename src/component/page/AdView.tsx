@@ -83,7 +83,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
     return (
         <div className="ad-view-position">
-            <div style={{ maxWidth: "1400px", overflowY : 'scroll', height: "86vh" }} className="reg-background">
+            <div style={{ maxWidth: "1400px", overflowY: 'scroll', height: "86vh" }} className="reg-background">
                 {adBuyerView ?
                     (
                         <>
@@ -159,10 +159,8 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                             {/* Last image terner */}
                                             {adBuyerView?.adImages.length > 4 ?
                                                 (
-                                                    <div className="ad-view-first-images ad-view-images-column-element ad-view-images-zoom-in">
-                                                        <img onClick={() => loadImageFromClick(3)} src={adBuyerView?.adImages[3]?.path} className="ad-view-zoomed-image" />
-                                                        <p style={{ position: "absolute" }}>+{adBuyerView?.adImages.length - 4}</p>
-                                                    </div>
+                                                    // ad-view-zoomed-image
+                                                    <p onClick={() => loadImageFromClick(3)} style={{ backgroundImage: `url(${adBuyerView?.adImages[3]?.path})` }} className="ad-view-images-zoom-in ad-view-first-images ad-view-images-column-element imgFit">+{adBuyerView?.adImages.length - 4}</p>
                                                 ) : (
                                                     adBuyerView?.adImages.length == 4 ?
                                                         <img onClick={() => loadImageFromClick(3)} src={adBuyerView?.adImages[3]?.path} className="ad-view-first-images ad-view-images-column-element imgFit" />
