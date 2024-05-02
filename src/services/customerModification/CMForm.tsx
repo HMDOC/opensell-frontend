@@ -30,7 +30,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     }
 
     private getCustomerIdentification(): number {
-        return this.props.defaultValues.customerId;
+        return this.props.defaultValues?.customerId;
     }
 
     protected getDefaultValueOf(name: string): string {
@@ -234,9 +234,9 @@ export class CMIconForm extends CMForm {
     
     private async saveIconChange(formEvent: FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
-        await getProfileIconPath(this.currentFile).then((rep) => {
-            console.log(rep?.data);
-        }).catch((err) => console.log(err));
+        let res: ModificationFeedback = (await getProfileIconPath(this.currentFile, this.props.defaultValues.customerId));
+       if (res.code == 200) this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
+       else this.addFeedbackMessage("Something went wrong...");
     }
 
     render(): ReactNode {
