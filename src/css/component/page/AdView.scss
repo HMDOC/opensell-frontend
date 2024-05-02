@@ -73,10 +73,6 @@
         margin-right: 10px;
     }
 
-    &-images-zoom-in::after {
-        filter: blur(10px);
-    }
-
     &-images-zoom-in {
         font-size: 50px;
         color: rgb(255, 255, 255);
