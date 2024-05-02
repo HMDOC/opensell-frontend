@@ -1,7 +1,7 @@
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react";
 import { CMButton, CMFormProperties, CMFormState, CMInput, CMRepeatInput, CMTextArea } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, executeChange, getCheckResult, replaceInString } from "./CMService";
+import { ArrayOfRequests, executeChange, getCheckResult, getProfileIconPath, replaceInString } from "./CMService";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 import { AxiosResponse } from "axios";
@@ -226,12 +226,28 @@ export class CMPhoneNumberForm extends CMForm {
 }
 
 export class CMIconForm extends CMForm {
+    protected currentFile: File;
+
+    private handleIconChange(changeEvent: ChangeEvent<HTMLInputElement>) {
+        this.currentFile = changeEvent.currentTarget.files[0];
+    }
+    
+    private async saveIconChange(formEvent: FormEvent<HTMLFormElement>) {
+        formEvent.preventDefault();
+        await getProfileIconPath(this.currentFile).then((rep) => {
+            console.log(rep?.data);
+        }).catch((err) => console.log(err));
+    }
 
     render(): ReactNode {
         return(
             <div>
                 {this.getFeedbackElement()}
-                <p>ICON</p>
+                <form onSubmit={(formEvent) => this.saveIconChange(formEvent)}>
+                    <CMInput name="file" type="file" accept="image/png" labelText="Icon" 
+                    onChange={(changeEvent) => this.handleIconChange(changeEvent as ChangeEvent<HTMLInputElement>)}/>
+                    {this.getButtons()}
+                </form>
             </div>
         )
     }

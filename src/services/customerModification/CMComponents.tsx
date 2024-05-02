@@ -13,7 +13,6 @@ export interface CMProperties {
 }
 
 export interface CMInputProperties extends AdCreationInputProperties {
-    onChange?(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void,
     defaultValue?: string,
     cols?: number,
     rows?: number,

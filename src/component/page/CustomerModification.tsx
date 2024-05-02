@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import { CMModalType } from "../../services/customerModification/CMService";
 import { CMDisplay, CMProperties, CMState} from "../../services/customerModification/CMComponents";
 import "../../css/component/page/CustomerModification.css"
-import { CMBasicModificationsForm, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm } from "../../services/customerModification/CMForm";
+import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm } from "../../services/customerModification/CMForm";
 
 /**
  *
@@ -30,6 +30,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
         else if (type == CMModalType.PERSONNAL_EMAIL) this.setState({currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
         else if (type == CMModalType.PASSWORD) this.setState({currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
         else if (type == CMModalType.PHONE_NUMBER) this.setState({currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
+        else if (type == CMModalType.ICON) this.setState({currentModalContent: <CMIconForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()}/>});
         this.setState({modalIsOpen: true});
     }
 
@@ -43,14 +44,14 @@ export default class CustomerModification extends Component<CMProperties, CMStat
             <div className="modificationContainer">
                 <div id="customer-modification-form" className="modificationPage">
                     <div className="CM-Container">
-                        <h1 style={{width : "100%"}}>Sensitive Info</h1>
+                        <h1 style={{width : "100%"}}>Sensitive Information</h1>
                         <CMDisplay labelText="Private Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} defaultValue={this.props.customerData.personalEmail}/>
                         <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true}/>
                         <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} defaultValue={this.props.customerData.customerInfo?.phoneNumber}/>
                     </div>
                     <div className="CM-Container">
                         <div className="CM-Title-Button-Container">
-                            <h1>Other Info</h1>
+                            <h1>Other Information</h1>
                             <div className="change-button">
                                 <button type="button" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} className="modificationLabel">Change</button>
                             </div>
@@ -60,6 +61,10 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                         <CMDisplay labelText="LastName" defaultValue={this.props.customerData.customerInfo?.lastName}/>
                         <CMDisplay labelText="Public Email" defaultValue={this.props.customerData.customerInfo?.exposedEmail}/>
                         <CMDisplay labelText="Bio" defaultValue={this.props.customerData.customerInfo?.bio}/>
+                    </div>
+                    <div className="CM-Container">
+                        <h1>Profile Icon</h1>
+                        <button className="modificationLabel" onClick={() => this.openModal(CMModalType.ICON)}>Change</button>
                     </div>
                     <Modal 
                     isOpen={this.state.modalIsOpen} 
@@ -75,7 +80,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                         transform: 'translate(-50%, -50%)', 
                         background: 'rgba(252, 251, 250, 0.39)',
                         color: "#2e3440", 
-                        border: '2px solid brown'}, overlay: {backdropFilter: 'blur(3px)'}}}>
+                        border: '2px solid blue'}, overlay: {backdropFilter: 'blur(3px)'}}}>
                         {this.state.currentModalContent}
                     </Modal>  
                 </div>

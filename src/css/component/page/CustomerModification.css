@@ -10,7 +10,7 @@
 }
 
 .modificationPage{
-    width: 60%;
+    width: 85%;
     min-width: 20vh;
     margin: 2vh auto;
     padding-left: 10px;
@@ -29,6 +29,7 @@
 .modificationLabel{
     font-weight: 700;
     font-size: large;
+    border-radius: 25px;
 }
 
 .modificationTextArea{
@@ -122,6 +123,7 @@
 
 .CMDisplay-Container div {
     margin: 10px;
+    width: 80%;
 }
 
 .CMDisplay-Container button {
@@ -131,7 +133,7 @@
 }
 
 .CMDisplay-Label-Container {
-    min-width: 11vw;
+    min-width: 40%;
     padding: 10px;
     background-color: rgba(220, 233, 252, 0.807);
 }
@@ -139,16 +141,16 @@
 .CMDisplay-Default-Value-Container {
     padding: 10px;
     background-color: rgba(124, 134, 148, 0.5);
-    min-width: 20vw;
+    min-width: auto;
 }
 
 .CM-Container {
     margin: 10px;
-    padding: 100px;
+    padding: 10px;
     border-radius: 25px;
     border: black 2px;
     background-color: #FCFBFA;
-    width: 110%;
+    width: auto;
 }
 
 .CM-Container h1 {
@@ -160,7 +162,7 @@
 }
 
 .CMFeedbackContainer {
-    background-color: rgb(72, 87, 117);
+    background-color: #FCFBFA;
     min-height: 5vh;
     color: red
 }
@@ -188,4 +190,5 @@
 .change-button {
     border-bottom: 2px solid black;
     margin-bottom: 8.5px;
+    width: auto;
 }

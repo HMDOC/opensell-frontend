@@ -1,5 +1,5 @@
 import { faItalic, faLocationDot, faReceipt, faScroll, faX } from "@fortawesome/free-solid-svg-icons";
-import { Component, FormEvent, ReactNode } from "react";
+import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 import "../../css/component/page/AdModif.scss";
 import "../../css/component/page/CustomerModification.css";
@@ -37,6 +37,7 @@ class AdCreationInput extends Component<AdCreationInputProperties, any> {
                     step={this.props.step}
                     accept={this.props.accept}
                     required={this.props.required}
+                    onChange={(changeEvent) => this.props.onChange(changeEvent)}
                 />
             </div>
         )
@@ -68,6 +69,15 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                 typeArray: rep?.data
             })
         })
+    }
+
+    private handleChange(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
+        const {value, name} = changeEvent.currentTarget;
+        if (formValidation[name]) {
+            console.log(value)
+            if (!formValidation[name].isValid(value)) this.setState({globalErrorMessage: formValidation[name].errorMessage});
+            else this.setState({globalErrorMessage: ""});
+        }
     }
 
     formIsValid(formData: FormData): boolean {
@@ -113,12 +123,12 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
             <div>
                 <button onClick={() => this.props.closeModalCallback()} className="AdCreationExitButton"><FontAwesomeIcon icon={faX} /></button>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
-                    <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic} />
-                    <AdCreationInput labelText="Price" name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE} iconProp={faReceipt} />
-                    <AdCreationInput labelText="Address" name="address" type="text" required={false} iconProp={faLocationDot} />
+                    <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic} onChange={(changeEvent) => this.handleChange(changeEvent)}/>
+                    <AdCreationInput labelText="Price" name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE} iconProp={faReceipt} onChange={(changeEvent) => this.handleChange(changeEvent)}/>
+                    <AdCreationInput labelText="Address" name="address" type="text" required={false} iconProp={faLocationDot} onChange={(changeEvent) => this.handleChange(changeEvent)} />
                     <div>
                         <IconLabelError iconProp={faScroll} title="Description" />
-                        <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false}></textarea>
+                        <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false} onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     </div>
 
                     <AdVisibilitySelect />
