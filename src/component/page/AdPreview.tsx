@@ -7,7 +7,7 @@ import AdPricePart from "../part/AdView/AdPricePart";
     The preview component for the Ads. Clicking on it will
     @author Davide
 */
-const AdPreview = (props) : ReactElement => {
+const AdPreview = (props): ReactElement => {
 
     const gotoAd = () => {
         //adNav(`/ad/${props?.link}`, {state : 0});
@@ -20,16 +20,16 @@ const AdPreview = (props) : ReactElement => {
 
     return (
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
-            <img style={{width : "100%", height : "65%"}} className="card-img-top imgFit imgOffset" 
-                src={props?.firstImagePath} 
-                alt="The image cant load!"/>
+            <img style={{ width: "100%", height: "65%" }} className="card-img-top imgFit imgOffset"
+                src={props?.firstImagePath}
+                alt="The image cant load!" />
             <div className="adPreviewBottom">
                 <h3 className="adPreviewText"> {props?.title}</h3>
                 <div className="adPreviewAlign">
-                    <AdPricePart price={props?.price} isSold={props?.isSold}/>
+                    <AdPricePart price={props?.price} isSold={props?.isSold} />
                 </div>
             </div>
-            
+
         </div>
     )
 }

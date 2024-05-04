@@ -1,14 +1,14 @@
 .adPreview{
     transition: background-color 0.2s;
     color: black;
-    width: 16.5em;
+    width: 19em;
     background-color: #FCFBFA;
     overflow: hidden;
     display: inline-block;
     flex-direction: column;
     justify-content: start;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    height: 28vh;
+    height: 25vh;
     border-radius: 15px;
 }
 
