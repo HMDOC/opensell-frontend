@@ -17,7 +17,6 @@ const AdView = lazy(() => (import("./component/page/AdView")));
 const UserProfil = lazy(() => (import("./component/page/UserProfil")));
 const NotFound = lazy(() => (import("./component/page/NotFound")));
 const Catalog = lazy(() => (import("./component/page/Catalog")));
-const FileUploader = lazy(() => (import("./component/page/FileUploader")));
 const CustomerModification = lazy(() => (import("./component/page/CustomerModification")));
 const AdModification = lazy(() => (import("./component/page/AdModification")));
 const MyAds = lazy(() => (import("./component/page/MyAds")));
@@ -49,7 +48,7 @@ export default function App() {
 						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
 						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
 						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
-						<Route path="/u/my-profil" element={<UserProfil customerDto={customerDto} isMyProfil />}></Route>
+						<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
 					</Route>
 					<Route path="/" element={<MainMenu />}></Route>
 					<Route path='/about' element={<About />}></Route>
@@ -57,8 +56,7 @@ export default function App() {
 					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login getCustomerInfo={getCustomerInfo}/>}></Route>
 					<Route path="/catalog" element={<Catalog />}></Route>
 					<Route path="/ad/:link" element={<AdView />}></Route>
-					<Route path="/file-uploader/" element={<FileUploader />}></Route>
-					<Route path="/user/:link" element={<UserProfil customerDto={customerDto} />}></Route>
+					<Route path="/user/:link" element={<UserProfil />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>

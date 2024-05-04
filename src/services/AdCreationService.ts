@@ -6,6 +6,7 @@ import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
 import http from "../../src/http-commons";
 import { BlockImage } from "../entities/dto/BlockImages";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { ChangeEvent } from "react";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -44,7 +45,8 @@ export interface AdCreationInputProperties {
     step?: number,
     accept?: string,
     required?: boolean,
-    iconProp?: IconProp
+    iconProp?: IconProp,
+    onChange?(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void,
 }
 
 export interface AdCreationpProperties {

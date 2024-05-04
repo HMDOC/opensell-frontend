@@ -7,7 +7,7 @@ import { faEnvelope, faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../../css/component/page/signup.css";
 
 
-export default function Signup(props: { getCustomerInfo(): void }) {
+export default function Signup(props) {
     const naviguate = useNavigate();
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
     const [isAuthentified, setIsAuthentified] = useState(false);
@@ -72,8 +72,7 @@ export default function Signup(props: { getCustomerInfo(): void }) {
                 } else if (res?.data === 3) {
                     setIsAuthentified(true);
                 } else {
-                    // naviguate("/error");
-                    setIsAuthentified(true);
+                    naviguate("/error");
                 }
             });
         }
@@ -82,30 +81,32 @@ export default function Signup(props: { getCustomerInfo(): void }) {
     return (
         <div className="main-background">
             {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo} />) : (
-                <div className="signup-form">
-                    <p className="top-text">Welcome</p>
-                    <p className="middle-text">Create an account</p>
-                    <form className="form">
-                        <div className="input-div">
-                            <FontAwesomeIcon icon={faEnvelope} className="signup-icon" />
-                            <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.email}</span>
-                        </div><br />
-                        <div className="input-div">
-                            <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
-                            <input placeholder="Username" className="signup-input" type="text" name="username" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.username}</span>
-                        </div><br />
-                        <div className="input-div">
-                            <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
-                            <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.password}</span>
-                        </div><br />
-                        <button className="signup-button" type="submit" onClick={handleClick}>SIGN UP</button>
-                        <p className="bottom-text">Already have an account? Login <NavLink to="/login" style={{ textDecoration: "underline", fontWeight: "bold", color: "#232751" }}>here</NavLink></p>
-                    </form>
-                </div>
+                <>
+                    <div className="signup-form">
+                        <p className="top-text">Welcome</p>
+                        <p className="middle-text">Create an account</p>
+                        <form className="form">
+                            <div className="input-div">
+                                <FontAwesomeIcon icon={faEnvelope} className="signup-icon" />
+                                <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.email}</span>
+                            </div><br />
+                            <div className="input-div">
+                                <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
+                                <input placeholder="Username" className="signup-input" type="text" name="username" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.username}</span>
+                            </div><br />
+                            <div className="input-div">
+                                <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
+                                <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.password}</span>
+                            </div><br />
+                            <button className="signup-button" type="submit" onClick={handleClick}>SIGN UP</button>
+                            <p className="bottom-text">Already have an account? Login <NavLink to="/login" style={{ textDecoration: "underline", fontWeight: "bold", color: "#232751" }}>here</NavLink></p>
+                        </form>
+                    </div>
+                    <div className="decoration-div">
+                        <img className="deco-pic" src="/img/auth-deco.jpg"></img>
+                    </div>
+                </>
             )}
-            <div className="decoration-div">
-                <img className="deco-pic" src="/img/auth-deco.jpg"></img>
-            </div>
         </div>
     )
 }

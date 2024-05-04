@@ -1,16 +1,16 @@
 .modificationContainer{
     background-color: rgba(252, 251, 250, 0.39);
     margin: 40px auto auto auto;
-    padding: 30px;
     width: 75%;
     border-radius: 27px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border: #FCFBFA solid 2px;
-    height: 90vh;
+    height: 85vh;
+    overflow-y: scroll;
 }
 
 .modificationPage{
-    width: 60%;
+    width: 85%;
     min-width: 20vh;
     margin: 2vh auto;
     padding-left: 10px;
@@ -29,6 +29,7 @@
 .modificationLabel{
     font-weight: 700;
     font-size: large;
+    border-radius: 25px;
 }
 
 .modificationTextArea{
@@ -86,8 +87,8 @@
 }
 
 .modificationSubmit .CMExitButton{
-    background-color: white;
-    color: red;
+    background-color: blue;
+    color: white;
     margin-right: 79.4%;
 }
 
@@ -118,49 +119,49 @@
 
 .CMDisplay-Container {
     display: flex;
+    width: 100%;
 }
 
 .CMDisplay-Container div {
-    margin: 10px;
+    margin: 0 10px 10px 0;
+    width: 100%;
 }
 
 .CMDisplay-Container button {
-    background-color: rgb(184, 210, 216);
     font-weight: bolder;
     color: #000000;
     border-radius: 25px;
 }
 
 .CMDisplay-Label-Container {
-    min-width: 11vw;
     padding: 10px;
     background-color: rgba(220, 233, 252, 0.807);
 }
 
 .CMDisplay-Default-Value-Container {
     padding: 10px;
-    background-color: rgb(124, 134, 148);
-    min-width: 20vw;
+    background-color: rgba(124, 134, 148, 0.5);
 }
 
 .CM-Container {
     margin: 10px;
-    padding: 100px;
+    padding: 10px;
     border-radius: 25px;
     border: black 2px;
     background-color: #FCFBFA;
-    width: fit-content;
+    width: 100%;
 }
 
 .CM-Container h1 {
     font-size: 30px;
     font-weight: bold;
     border-bottom: 2px #2e3440 solid;
-    color: #2e3440
+    color: #2e3440;
+    width: 69%;
 }
 
 .CMFeedbackContainer {
-    background-color: rgb(72, 87, 117);
+    background-color: #FCFBFA;
     min-height: 5vh;
     color: red
 }
@@ -175,4 +176,23 @@
     outline: none;
     position: relative;
     left: 48vw;
+}
+
+.CM-Title-Button-Container {
+    display: flex;
+}
+
+.CM-Title-Button-Container button  {
+    border-radius: 25px;
+}
+
+.change-button {
+    width: fit-content;
+    margin-bottom: 8px;
+    border-bottom: solid black 2px;
+}
+
+.input-div {
+    width: 100%;
+    margin-left: 5%;
 }

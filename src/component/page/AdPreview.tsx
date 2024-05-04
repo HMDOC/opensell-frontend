@@ -20,7 +20,7 @@ const AdPreview = (props) : ReactElement => {
 
     return (
         <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
-            <img className="card-img-top imgFit imgOffset" 
+            <img style={{width : "100%", height : "65%"}} className="card-img-top imgFit imgOffset" 
                 src={props?.firstImagePath} 
                 alt="The image cant load!"/>
             <div className="adPreviewBottom">

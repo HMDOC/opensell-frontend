@@ -121,6 +121,7 @@ const ResultList = (): ReactElement => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
+            
             setLoading(false);
         }).catch((e: AxiosError) => {
             switch (e.code) {

@@ -8,10 +8,14 @@
   --sr3: #E6E6E6;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   color: var(--sr2);
   background-image: url("../public/img/main-background.jpg");
-  background-repeat:repeat;
+  background-repeat:no-repeat;
   background-size: 100vw 100vh;
 }
 

@@ -5,7 +5,8 @@ import { setToken } from "../../services/SetToken";
 import { checkLogin } from "../../services/LogInService";
 import "../../css/component/page/verification.css";
 
-export default function Verification(props: {email: string, pwd: string, getCustomerInfo(): void}) {
+export default function Verification(props) {
+    let customerId: number;
     const [code, setCode] = useState<string>();
     const [message, setMessage] = useState<string>();
     const navigate = useNavigate();
@@ -22,11 +23,11 @@ export default function Verification(props: {email: string, pwd: string, getCust
                 console.log("Account verified");
                 setMessage("Account verified");
                 checkLogin(props.email, props.pwd).then(res => {
-                    setToken(res?.data).then(res => {
+                    customerId = res?.data;
+                    setToken(customerId).then(() => {
                         props.getCustomerInfo();
                     });
                 });
-
                 navigate("/");
             }
             else {

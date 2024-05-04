@@ -36,7 +36,10 @@ export const getCheckResult = async (request: string): Promise<AxiosResponse<num
     return await http.get<number>(request);
 }
 
-
-
-
-
+export const getProfileIconPath = async (file: File , idCustomer: number) => {
+    let formData: FormData = new FormData();
+    formData.append("multipartFiles", file);
+    let path: string = (await http.post<string>("change/get-image-icon-path", formData))?.data;
+    let res = (await executeChange("change/change-icon-path", {id: idCustomer, value: path}))?.data;
+    return res;
+}

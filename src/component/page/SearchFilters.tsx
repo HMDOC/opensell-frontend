@@ -61,7 +61,7 @@ const SearchFilters = (props) : ReactElement =>{
                 </select>
                 
                 <input ref={props.reverseSort} type="checkbox" name="reverseSort" id="reverseSort" 
-                    defaultValue={""} value={searchOrder} onChange={(e) =>{
+                    defaultValue={""} onChange={(e) =>{
                         setSearchOrder((searchOrder===0) ? 1 : 0)
                     }}/>
 

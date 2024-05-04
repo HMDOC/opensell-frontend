@@ -75,17 +75,13 @@
 
     &-images-zoom-in {
         font-size: 50px;
-        color: black;
+        color: rgb(255, 255, 255);
         border: none;
         display: flex;
         justify-content: center;
         align-items: center;
-    }
-
-    &-zoomed-image {
-        width: 100%;
-        height: 100%;
-        filter: blur(5px) grayscale(1);
+        background-position : center; 
+        background-size : 100%;
     }
 
     &-first-images {
