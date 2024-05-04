@@ -80,6 +80,7 @@ export default function Signup(props) {
 
     return (
         <div className="main-background">
+        <title>Signup</title>
             {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo} />) : (
                 <>
                     <div className="signup-form">

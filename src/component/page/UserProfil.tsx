@@ -22,6 +22,7 @@ export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?:
     console.log(customerProfil)
     return (
         <div className="main-background">
+            <title>{ customerProfil?.username }</title>
             <div className="front-div">
                 {props.isMyProfil ?
                     (

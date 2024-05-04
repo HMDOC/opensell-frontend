@@ -6,6 +6,7 @@ export default class NotFound extends Component<{}> {
     public render(): ReactNode {
         return(
             <div className="main-background d-flex"  style={{width:"90vw", maxWidth:"70em", height:"67vh"}}>
+            <title>Not Found</title>
                 <div style={{width:"70%"}} className="d-flex">
                     <div style={{ marginTop:"15vh"}}>
                         <h1 className="mb-4"><b>404 Not-Found</b></h1> 

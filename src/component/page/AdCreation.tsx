@@ -121,6 +121,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     render(): ReactNode {
         return (
             <div>
+            <title>New ad</title>
                 <button onClick={() => this.props.closeModalCallback()} className="AdCreationExitButton"><FontAwesomeIcon icon={faX} /></button>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
                     <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic} onChange={(changeEvent) => this.handleChange(changeEvent)}/>

@@ -7,6 +7,7 @@ import { Button } from "react-bootstrap";
 export default function About(): ReactElement {
     return (
         <div className="main-background">
+        <title>About Opensell</title>
             <div className="about-div">
                 <div className="about-text">
                     <div className="top-about">

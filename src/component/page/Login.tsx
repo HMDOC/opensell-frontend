@@ -49,6 +49,7 @@ export default function Login(props) {
 
     return (
         <div className="main-background">
+        <title>Login</title>
             <div className="signup-form">
                 <p className="top-text">Log in</p>
                 <p className="middle-text">Welcome back</p>

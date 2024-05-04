@@ -159,6 +159,7 @@ const ResultList = (): ReactElement => {
 
     return (
         <div className="catalog-div">
+        <title>Catalog</title>
             <div className="div-filters catalog-div-bg">
                 <SearchBar
                     filterUpdate={setFiltersUpdated}
