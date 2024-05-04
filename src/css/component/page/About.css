@@ -1,0 +1,51 @@
+.about-div {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.about-text {
+    text-align: center;
+    font-size: 6vw;
+    line-height: 5vw;
+    font-weight: 500;
+    color: #3A3A3A;
+    margin-left: 25%;
+    margin-bottom: 20px;
+}
+
+.top-about * {
+    display: inline-block;
+}
+
+.top-about-line {
+    height: 2px;
+    width: 18vw;
+    background-color: #3A3A3A;
+    display: inline-block;
+    margin-bottom: 2vw;
+}
+
+.about-middle * {
+    display: inline-block;
+}
+
+.about-middle {
+    text-align: left;
+    margin-left: -8%;
+}
+
+.about-line {
+    height: 2px;
+    width: 18vw;
+    background-color: #3A3A3A;
+    margin-bottom: 2vw;
+    margin-right: 3vw;
+}
+
+.about-bottom {
+    width: 50%;
+    text-align: right;
+    margin: auto 33% auto auto;
+    font-size: 1vw;
+    font-weight: lighter;
+}

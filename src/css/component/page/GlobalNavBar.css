@@ -1,0 +1,102 @@
+.nav {
+  width: 100%;
+  padding: 20px;
+}
+
+.nav-left * {
+  text-decoration: none;
+  color: black;
+  margin-left: 50px;
+  font-size: 2vh;
+}
+
+.nav-left {
+  position: absolute;
+  left: 0;
+  width: fit-content;
+  margin-left: 10px;
+}
+
+.brand-logo {
+  height: 2.5vh;
+}
+
+.nav-center {
+  text-align: center;
+  margin-left: 50%;
+  width: fit-content;
+  height: fit-content;
+}
+
+.nav-right {
+  position: absolute;
+  right: 0;
+  margin: 0 50px 0 0;
+}
+
+#basic-nav-dropdown {
+  color: black;
+}
+
+.is-active {
+  text-decoration: underline solid black 2px;
+}
+
+.nav-button {
+  margin-left: 20px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 1.25vh;
+}
+
+.nav-button * {
+  padding: 1.15vh 1.5vw;
+  border-radius: 50px;
+}
+
+.button1 {
+  color: #151925;
+  display: inline;
+  background: none;
+  border: solid rgba(21, 25, 37, 0.5) 2px;
+}
+
+.button2 {
+  display: inline;
+  background-color: #151925;
+  border: none;
+  color: #FCFBFA;
+}
+
+.dropdown-box {
+  background-color: #FCFBFA;
+  padding: 10px;
+}
+
+.dropdown-username {
+  font-size: 20px;
+  text-align: center;
+}
+
+.dropdown-divider {
+  width: 75%;
+  margin: 10px;
+}
+
+.dropdown-box > .dropdown-item {
+  color: #151925;
+}
+
+.dropdown-box > .dropdown-item:hover {
+  color: #a9a9a9;
+  background: none;
+}
+
+.dropdown-box > .dropdown-username:hover {
+  color: black;
+}
+
+.user-def {
+  margin-top: 15px;
+}

@@ -1,0 +1,22 @@
+.single-info-flex {
+    display: flex;
+    align-items: center;
+    height: 20px;
+}
+
+.single-info-flex p {
+    margin: 10px;
+    overflow: auto;
+}
+
+.ad-info-part {
+    color: rgb(0, 0, 0);
+    padding: 20px;
+    width: 300px;
+    border-radius: 30px;
+    height: fit-content;
+}
+
+.info-icon {
+    max-height: 15px;
+}

@@ -1,3 +1,60 @@
+@import "./css/component//part/TagSelector.css";
+
+:root {
+  --sr1: #4C566A;
+  --sr2: #2E3440;
+  --inputborder: #a0a0a0;
+  --dark-mode-text: white;
+  --sr3: #E6E6E6;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  color: var(--sr2);
+  background-image: url("../public/img/main-background.jpg");
+  background-repeat:no-repeat;
+  background-size: 100vw 100vh;
+}
+
+.main-background {
+  background-color: rgba(252, 251, 250, 0.39);
+  width: 60%;
+  backdrop-filter: blur(2px);
+  margin: 50px auto auto auto;
+  border-radius: 27px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: #FCFBFA solid 2px;
+  height: 75vh;
+  padding: 30px;
+}
+
+
+.reg-background {
+  width: 90vw;
+  max-width: 60em;
+  min-height: 80vh;
+  margin: 30px auto auto auto;
+  background-color: white;
+  border-radius: 20px;
+  padding: 50px 20px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
+.reg-background div{
+  margin: 0.5em 0;
+}
+
+.reg-background label{
+  font-weight: bold;
+}
+
+.dark-shadow {
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+}
+
 .App {
   text-align: center;
 }
@@ -32,6 +89,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

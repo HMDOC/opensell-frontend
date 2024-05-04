@@ -1,0 +1,30 @@
+{
+        "quickMenu": [
+        {
+            "path" : "/",
+            "label" : "Home"
+        },
+        {
+            "path" : "/about",
+            "label" : "About"
+        },
+        {
+            "path" : "/catalog",
+            "label" : "Catalog"
+        }
+    ],
+    "dropdownMenu": [
+        {
+            "path" : "/u/my-profil",
+            "label" : "My Profil"
+        },
+        {
+            "path" : "/u/my-ads",
+            "label" : "My Ads"
+        },
+        {
+            "path" : "/u/customer-modification",
+            "label" : "Settings"
+        }
+    ]
+}

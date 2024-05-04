@@ -1,10 +1,13 @@
 {
     "compilerOptions": {
-        /* Pour enlever les erreurs dans VScode, 
-        quand on met des balises HTML dans React*/
+        /* To delete the errors in VScode when we put 
+        HTML code in React */
         "jsx": "react-jsx",
-        /* Permettre d'importer de cette façon:
-           import React from 'react'; */
-        "allowSyntheticDefaultImports": true
+        /* To be able to import in this way :
+        import React from 'react'; */
+        "allowSyntheticDefaultImports": true,
+
+        // To delete the error when importing a JSON in Typescript
+        "resolveJsonModule": true,
     }
 }

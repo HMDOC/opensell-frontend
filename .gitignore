@@ -3,6 +3,11 @@
 # dependencies
 /node_modules
 /src/data.json
+<<<<<<< HEAD
+/package-lock.json
+.idea
+=======
+>>>>>>> 7e02d632276611fdf060e877ae30698b36c8eaca
 /.pnp
 .pnp.js
 
@@ -22,3 +27,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+node_modules/

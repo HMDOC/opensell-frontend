@@ -1,0 +1,25 @@
+.ad-modif-input {
+    width: 380px;
+    background-color: var(--sr3);
+    border: none;
+    border-radius: 5px;
+    padding: 7px;
+}
+
+.ad-modif-textarea {
+    @extend .ad-modif-input;
+    width: 800px;
+    height: 200px;
+}
+
+.ad-modif-div {
+    background-color: rgba(252, 251, 250, 0.39);
+    width: fit-content;
+    padding: 0 25px 20px 25px;
+    backdrop-filter: blur(2px);
+    margin: auto;
+    border-radius: 27px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: #FCFBFA solid 2px;
+    height: auto;
+}

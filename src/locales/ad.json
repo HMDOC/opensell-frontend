@@ -1,0 +1,34 @@
+{
+    "en": {
+        "sold": "sold",
+        "visibility": [
+            "public",
+            "private",
+            "not listed"
+        ],
+        "shape": [
+            "new",
+            "like new",
+            "good shape",
+            "usable",
+            "bad shape",
+            "unknow shape"
+        ]
+    },
+    "fr": {
+        "sold": "vendu",
+        "visibility": [
+            "public",
+            "privé",
+            "non répertorié"
+        ],
+        "shape": [
+            "neuf",
+            "comme neuf",
+            "bon état",
+            "utilisable",
+            "mauvais état",
+            "état inconnu"
+        ]
+    }
+}
