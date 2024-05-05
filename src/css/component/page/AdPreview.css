@@ -1,14 +1,14 @@
 .adPreview{
     transition: background-color 0.2s;
     color: black;
-    width: 19em;
+    width: 25.5em;
     background-color: #FCFBFA;
     overflow: hidden;
     display: inline-block;
     flex-direction: column;
     justify-content: start;
     box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-    height: 25vh;
+    height: fit-content;
     border-radius: 15px;
 }
 
@@ -39,6 +39,7 @@
     padding: 0;
     margin: 0px 4px;
     padding-bottom: 2px;
+    font-size: 27px;
 }
 
 .adPreviewAlign{
@@ -59,7 +60,5 @@
 }
 
 .adPreviewBottom{
-    padding: 12px;
-    padding-top: 4px;
-    padding-bottom: 10px;
+    padding: 4px 12px 10px 12px;
 }
