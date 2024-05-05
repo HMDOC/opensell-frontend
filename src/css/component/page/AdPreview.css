@@ -1,7 +1,7 @@
 .adPreview{
     transition: background-color 0.2s;
     color: black;
-    width: 25.5em;
+    width: 17.75em;
     background-color: #FCFBFA;
     overflow: hidden;
     display: inline-block;
@@ -11,7 +11,6 @@
     height: fit-content;
     border-radius: 15px;
 }
-
 .adPreview:hover{
     transition: background-color box-shadow color 0.2s;
     background-color: #1a253a;
