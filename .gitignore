@@ -7,6 +7,8 @@
 .idea
 /.pnp
 .pnp.js
+/public/ad-image
+/public/customer-profil
 
 # testing
 /coverage
@@ -26,6 +28,4 @@ yarn-debug.log*
 yarn-error.log*
 node_modules/
 
-#dev
-public/ad-image
-public/customer-profil
+
