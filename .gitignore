@@ -25,3 +25,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 node_modules/
+
+#dev
+public/ad-image
+public/customer-profil
