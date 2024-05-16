@@ -153,6 +153,7 @@ export default function AdModification(): ReactElement {
 
     return (
         <div className="ad-modif-div">
+        <title>Modify my ads</title>
         <div className="reg-background" style={{overflowY : "scroll", height :"90vh"}}>
             <>
                 <SimpleInputPart />

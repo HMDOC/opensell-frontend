@@ -43,6 +43,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
     render(): ReactNode {
         return (
             <div className="modificationContainer">
+            <title>Settings</title>
                 <div id="customer-modification-form" className="modificationPage">
                     <div className="CM-Container">
                         <div className="input-div">

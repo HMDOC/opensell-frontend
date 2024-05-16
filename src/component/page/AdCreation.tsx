@@ -99,7 +99,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         let formData = getFormData(event);
         let formIsValid = this.formIsValid(formData);
         if (formIsValid && this.state.images.length >= 2) {
-            await createAd(formatCreationData(formData, this.state.selectedTags, this.props.idCustomer)).then((rep) => {
+            await createAd(formatCreationData(formData, this.state.selectedTags, this.props.idCustomer)).then(async(rep) => {
                 const { errorMessage, result, adId } = rep?.data;
                 if (result == 0) this.setGlobalErrorMessage(errorMessage);
                 else {
@@ -107,7 +107,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     this.state.images.map(elem => {
                         fileArray.push(elem.file);
                     })
-                    saveAdImages(fileArray, adId);
+                    await saveAdImages(fileArray, adId);
                     this.setGlobalErrorMessage("Ad created...");
                     this.setState({ adWasCreated: true });
                     this.props.closeModalCallback();
@@ -121,6 +121,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     render(): ReactNode {
         return (
             <div>
+            <title>New ad</title>
                 <button onClick={() => this.props.closeModalCallback()} className="AdCreationExitButton"><FontAwesomeIcon icon={faX} /></button>
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
                     <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic} onChange={(changeEvent) => this.handleChange(changeEvent)}/>

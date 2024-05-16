@@ -50,6 +50,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
         return (
             <>
                 <div className="display-post">
+            <title>My ads</title>
                     <div className="display-post-flex-with-img-desc">
                         <div className="dislay-post-img-section">
                             <img className="display-post-img imgFit" src={this.props.firstImage} />

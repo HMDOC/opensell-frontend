@@ -17,6 +17,7 @@ export default function MainMenu(): ReactElement {
     }
     return (
         <>
+            <title>Opensell</title>
             <div className="splash-div">
                 <div className="splash-text">
                     <p style={{ paddingRight: "100px" }}>OpenSell</p>

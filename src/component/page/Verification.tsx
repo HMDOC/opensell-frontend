@@ -39,6 +39,7 @@ export default function Verification(props) {
     }
     return (
         <div className="verify-div">
+        <title>Verification</title>
             <img className="email-pic" alt="email-verification" src="/img/email-vef.png"></img>
             <p className="vef-top">Verify your account</p>
             <p className="vef-bottom">A code has been sent to this email: {props.email}</p>
