@@ -8,7 +8,7 @@ import './App.css';
 import getUserInfos from './services/GetUser';
 import PrivateRoute from './component/page/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
-import { ApplicationContext } from './ApplicationContext';
+import { ApplicationContext, Theme, ThemeOption } from './ApplicationContext';
 
 const About = lazy(() => import("./component/page/About"));
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
@@ -27,7 +27,7 @@ const AdCreation = lazy(() => (import("./component/page/AdCreation")));
 export default function App() {
 	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
 	const [refresh, setRefresh] = useState(false);
-	const [isDarkMode, setIsDarkMode] = useState(false);
+	const [isDarkMode, setIsDarkMode] = useState<ThemeOption>(Theme.getStorageTheme());
 
 	async function getCustomerInfo() {
 		const data = (await getUserInfos("token"))?.data;
@@ -40,14 +40,16 @@ export default function App() {
 		getCustomerInfo();
 	}, [refresh])
 
-	useEffect(() => {
-		// This is to put the element into <html />
-		document.documentElement.setAttribute("is-dark-mode", isDarkMode.toString());
-	}, [isDarkMode])
+	function changeTheme(theme: ThemeOption) {
+		console.log("THEME CHANGED")
+		setIsDarkMode(theme);
+		Theme.setTheme(theme);
+	}
 	
+	console.log("From App : "+isDarkMode);
 	return (
 		<>
-		<ApplicationContext.Provider value={{ isDarkMode, setIsDarkMode, customerDto, getCustomerInfo }}>
+		<ApplicationContext.Provider value={{ isDarkMode, changeTheme, customerDto, getCustomerInfo }}>
 			<BrowserRouter>
 				<Suspense fallback={<LazyLoad />}>
 					<GlobalNavBar logout={() => setCustomerDto(undefined)} />

@@ -1,25 +1,26 @@
 import { ReactElement, useContext, useState } from 'react';
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Form, Link, NavLink, useNavigate } from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "../../css/component/page/GlobalNavBar.css";
 import navLinks from "./Navbar.json";
 import ProfilIcon from './ProfilIcon';
 import { createRandomKey } from '../../services/RandomKeys';
-import { CustomerDto } from '../../entities/dto/CustomerDto';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { ApplicationContext } from '../../ApplicationContext';
-import { Button } from 'react-bootstrap';
+import { ApplicationContext, ThemeOption } from '../../ApplicationContext';
+import { Button, Dropdown, DropdownItem, FormCheck } from 'react-bootstrap';
+import { string } from 'yup';
 
 /**
  * 
  * @author Quoc 
  */
-export default function GlobalNavBar(props: { logout(): void}): ReactElement {
+export default function GlobalNavBar(props: { logout(): void }): ReactElement {
     const naviguate = useNavigate();
-    const {customerDto, setIsDarkMode, isDarkMode} = useContext(ApplicationContext);
-    
+    const { customerDto, changeTheme, isDarkMode } = useContext(ApplicationContext);
+    console.log("isDarkMode from Navbar : " + isDarkMode);
+
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""
     };
@@ -30,16 +31,35 @@ export default function GlobalNavBar(props: { logout(): void}): ReactElement {
         naviguate('/');
     }
 
+    const CheckBox = (props: { label: string, theme: ThemeOption }) => {
+        return (
+            <FormCheck
+                defaultChecked={props.theme == isDarkMode}
+                name="theme-option"
+                type="radio"
+                label={props.label}
+                onClick={() => changeTheme(props.theme)} />
+        )
+    }
+
     return (
         <>
             <Container fluid>
                 <Row className='nav'>
                     <Col className='nav-left'>
+                        <Dropdown>
+                            <Dropdown.Toggle className="display-dropdown-color">Theme</Dropdown.Toggle>
+                            <Dropdown.Menu variant="light">
+                                <DropdownItem as={CheckBox} label="dark" theme={ThemeOption.DARK} />
+                                <DropdownItem as={CheckBox} label="light" theme={ThemeOption.LIGHT} />
+                                <DropdownItem as={CheckBox} label="browser theme" theme={ThemeOption.BROWSER_DEFAULT} />
+                            </Dropdown.Menu>
+                        </Dropdown>
+
                         {navLinks.quickMenu.map((nav) =>
                         (
                             <NavLink key={createRandomKey()} className={b} to={nav.path}>{nav.label}</NavLink>
                         ))}
-                        <Button onClick={() => setIsDarkMode(!isDarkMode)}>{isDarkMode ? "dark" : "light"}</Button>
                     </Col>
 
                     <Col xs={12} md={12}>
@@ -52,19 +72,19 @@ export default function GlobalNavBar(props: { logout(): void}): ReactElement {
 
                     <Col>
                         {customerDto?.customerInfo ? (
-                            <NavDropdown style={{marginTop : "-25px"}} className='nav-right' title={
+                            <NavDropdown style={{ marginTop: "-25px" }} className='nav-right' title={
                                 <ProfilIcon src={customerDto?.customerInfo?.iconPath} />
                             } id='basic-nav-dropdown'>
                                 <div className='dropdown-box'>
-                                <NavDropdown.Item className='dropdown-username'>{customerDto?.link == undefined ? "Guest" : customerDto?.username}</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                {navLinks.dropdownMenu.map((nav) =>
-                                (
-                                    <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
-                                ))}
-                                <NavDropdown.Divider />
-                                
-                                <NavDropdown.Item onClick={logoutAction}>Logout</NavDropdown.Item>
+                                    <NavDropdown.Item className='dropdown-username'>{customerDto?.link == undefined ? "Guest" : customerDto?.username}</NavDropdown.Item>
+                                    <NavDropdown.Divider />
+                                    {navLinks.dropdownMenu.map((nav) =>
+                                    (
+                                        <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
+                                    ))}
+                                    <NavDropdown.Divider />
+
+                                    <NavDropdown.Item onClick={logoutAction}>Logout</NavDropdown.Item>
                                 </div>
                             </NavDropdown>
                         ) : (
