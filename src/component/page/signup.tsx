@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { checkSignup } from "../../services/SignupService";
 import { NavLink, useNavigate } from "react-router-dom";
 import Verification from "./Verification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faKey, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../../css/component/page/signup.css";
+import { ApplicationContext } from "../../ApplicationContext";
 
 
 export default function Signup(props) {
@@ -81,7 +82,7 @@ export default function Signup(props) {
     return (
         <div className="main-background">
         <title>Signup</title>
-            {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} getCustomerInfo={props.getCustomerInfo} />) : (
+            {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} />) : (
                 <>
                     <div className="signup-form">
                         <p className="top-text">Welcome</p>

@@ -2,19 +2,30 @@
 
 :root {
   --sr1: #4C566A;
-  --sr2: #2E3440;
   --inputborder: #a0a0a0;
-  --dark-mode-text: white;
-  --sr3: #E6E6E6;
 }
 
 ::-webkit-scrollbar {
   display: none;
 }
 
+[is-dark-mode="true"] {
+  --defaultText: #ffffff;
+  --sr3: #2E3440;
+  --imageUrl: url("../public/img/dark-background.jpg");
+  --input: white;
+}
+
+
+[is-dark-mode="false"] {
+  --defaultText: #2E3440;
+  --sr3: #E6E6E6;
+  --imageUrl: url("../public/img/main-background.jpg");
+}
+
 body {
-  color: var(--sr2);
-  background-image: url("../public/img/main-background.jpg");
+  color: var(--defaultText);
+  background-image: var(--imageUrl);
   background-repeat:no-repeat;
   background-size: 100vw 100vh;
 }

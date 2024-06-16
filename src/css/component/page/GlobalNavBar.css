@@ -5,7 +5,7 @@
 
 .nav-left * {
   text-decoration: none;
-  color: black;
+  color: var(--defaultText);
   margin-left: 50px;
   font-size: 25px;
 }
@@ -39,7 +39,7 @@
 }
 
 .is-active {
-  text-decoration: underline solid black 2px;
+  text-decoration: underline solid var(--defaultText) 2px;
 }
 
 .nav-button {

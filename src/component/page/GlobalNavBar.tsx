@@ -1,4 +1,4 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useContext, useState } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "../../css/component/page/GlobalNavBar.css";
@@ -9,13 +9,16 @@ import { CustomerDto } from '../../entities/dto/CustomerDto';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { ApplicationContext } from '../../ApplicationContext';
 
 /**
  * 
  * @author Quoc 
  */
-export default function GlobalNavBar(props: { customerDto: CustomerDto, logout(): void}): ReactElement {
+export default function GlobalNavBar(props: { logout(): void}): ReactElement {
     const naviguate = useNavigate();
+    const {customerDto} = useContext(ApplicationContext);
+    
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""
     };
@@ -47,12 +50,12 @@ export default function GlobalNavBar(props: { customerDto: CustomerDto, logout()
                     </Col>
 
                     <Col>
-                        {props.customerDto?.customerInfo ? (
+                        {customerDto?.customerInfo ? (
                             <NavDropdown style={{marginTop : "-25px"}} className='nav-right' title={
-                                <ProfilIcon src={props.customerDto?.customerInfo?.iconPath ? props.customerDto?.customerInfo?.iconPath : "https://cdn-icons-png.freepik.com/512/149/149071.png"} />
+                                <ProfilIcon src={customerDto?.customerInfo?.iconPath} />
                             } id='basic-nav-dropdown'>
                                 <div className='dropdown-box'>
-                                <NavDropdown.Item className='dropdown-username'>{props.customerDto?.link == undefined ? "Guest" : props.customerDto?.username}</NavDropdown.Item>
+                                <NavDropdown.Item className='dropdown-username'>{customerDto?.link == undefined ? "Guest" : customerDto?.username}</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 {navLinks.dropdownMenu.map((nav) =>
                                 (

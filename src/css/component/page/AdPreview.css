@@ -1,6 +1,6 @@
 .adPreview{
     transition: background-color 0.2s;
-    color: black;
+    color: var(--defaultText);
     width: 17.75em;
     background-color: #FCFBFA;
     overflow: hidden;

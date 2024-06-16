@@ -1,4 +1,4 @@
-import { PureComponent, ReactNode, useEffect, useState } from "react";
+import { PureComponent, ReactNode, useContext, useEffect, useState } from "react";
 import "../../css/component/page/MyAds.css";
 import "../../css/component/part/ImageFit.css";
 import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
@@ -47,6 +47,8 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
     }
 
     public render(): ReactNode {
+        console.log("Rendered MyAds!!");
+
         return (
             <>
                 <div className="display-post">

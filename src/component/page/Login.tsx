@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { checkLogin } from '../../services/LogInService';
 import { NavLink, useNavigate } from "react-router-dom";
 import { CustomerInfo } from "../../entities/dto/CustomerInfo";
@@ -6,11 +6,14 @@ import { setToken } from "../../services/SetToken";
 import "../../css/component/page/signup.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
+import { ApplicationContext } from "../../ApplicationContext";
 
 export default function Login(props) {
     const username = useRef(null);
     const password = useRef(null);
     const naviguate = useNavigate();
+    const { getCustomerInfo } = useContext(ApplicationContext);
+
     const [error, setErrors] = useState(
         {
             username: "",
@@ -37,7 +40,7 @@ export default function Login(props) {
                 } else {
                     customerId = res?.data;
                     setToken(customerId).then(() => {
-                        props.getCustomerInfo();
+                        getCustomerInfo();
                     });
                     naviguate("/");
                     console.log("Login successful");

@@ -1,15 +1,19 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { verifyCode } from "../../services/CodeService";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../../services/SetToken";
 import { checkLogin } from "../../services/LogInService";
 import "../../css/component/page/verification.css";
+import { ApplicationContext } from "../../ApplicationContext";
 
 export default function Verification(props) {
     let customerId: number;
     const [code, setCode] = useState<string>();
     const [message, setMessage] = useState<string>();
     const navigate = useNavigate();
+    const {getCustomerInfo} = useContext(ApplicationContext);
+
+
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         setCode(e.target.value);
@@ -25,7 +29,7 @@ export default function Verification(props) {
                 checkLogin(props.email, props.pwd).then(res => {
                     customerId = res?.data;
                     setToken(customerId).then(() => {
-                        props.getCustomerInfo();
+                        getCustomerInfo();
                     });
                 });
                 navigate("/");

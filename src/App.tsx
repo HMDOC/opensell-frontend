@@ -8,6 +8,7 @@ import './App.css';
 import getUserInfos from './services/GetUser';
 import PrivateRoute from './component/page/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
+import { ApplicationContext } from './ApplicationContext';
 
 const About = lazy(() => import("./component/page/About"));
 const MainMenu = lazy(() => (import("./component/page/MainMenu")));
@@ -26,6 +27,7 @@ const AdCreation = lazy(() => (import("./component/page/AdCreation")));
 export default function App() {
 	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
 	const [refresh, setRefresh] = useState(false);
+	const [isDarkMode, setIsDarkMode] = useState(false);
 
 	async function getCustomerInfo() {
 		await getUserInfos("token")?.then((res) => {
@@ -39,28 +41,37 @@ export default function App() {
 		getCustomerInfo();
 	}, [refresh])
 
+	useEffect(() => {
+		// This is to put the element into <html />
+		document.documentElement.setAttribute("is-dark-mode", isDarkMode.toString());
+	}, [isDarkMode])
+
 	return (
-		<BrowserRouter>
-			<Suspense fallback={<LazyLoad />}>
-				<GlobalNavBar customerDto={customerDto} logout={() => setCustomerDto(undefined)} />
-				<Routes>
-					<Route path="/u" element={<PrivateRoute />}>
-						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
-						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
-						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
-						<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
-					</Route>
-					<Route path="/" element={<MainMenu />}></Route>
-					<Route path='/about' element={<About />}></Route>
-					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup getCustomerInfo={getCustomerInfo}/>}></Route>
-					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login getCustomerInfo={getCustomerInfo}/>}></Route>
-					<Route path="/catalog" element={<Catalog />}></Route>
-					<Route path="/ad/:link" element={<AdView />}></Route>
-					<Route path="/user/:link" element={<UserProfil />}></Route>
-					<Route path="*" element={<NotFound />}></Route>
-				</Routes>
-			</Suspense>
-		<title>Opensell</title>
-		</BrowserRouter>
+		<>
+		<ApplicationContext.Provider value={{ isDarkMode, setIsDarkMode, customerDto, getCustomerInfo }}>
+			<BrowserRouter>
+				<Suspense fallback={<LazyLoad />}>
+					<GlobalNavBar logout={() => setCustomerDto(undefined)} />
+					<Routes>
+						<Route path="/u" element={<PrivateRoute />}>
+							<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
+							<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
+							<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
+							<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
+						</Route>
+						<Route path="/" element={<MainMenu />}></Route>
+						<Route path='/about' element={<About />}></Route>
+						<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
+						<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
+						<Route path="/catalog" element={<Catalog />}></Route>
+						<Route path="/ad/:link" element={<AdView />}></Route>
+						<Route path="/user/:link" element={<UserProfil />}></Route>
+						<Route path="*" element={<NotFound />}></Route>
+					</Routes>
+				</Suspense>
+			<title>Opensell</title>
+			</BrowserRouter>
+		</ApplicationContext.Provider>
+		</>
 	);
 }
