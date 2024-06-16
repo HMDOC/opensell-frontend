@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
-import { Navigate, Outlet } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import getUserInfos from "../../services/GetUser";
 import Loading from "../part/Loading";
+import { ApplicationContext } from "../../ApplicationContext";
 
 enum ValidationCase {
     VALID,
@@ -10,24 +11,28 @@ enum ValidationCase {
 }
 
 export default function PrivateRoute() {
+    const { getCustomerInfo, customerDto } = useContext(ApplicationContext);
     const [validationCase, setValidationCase] = useState<ValidationCase>(ValidationCase.IN_PROGRESS);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("NAVIGATED")
         let promise = getUserInfos("token");
-
+        
         if (promise) {
-            promise.then(res => {
+            promise.then(async (res) => {
                 if (res?.data) {
                     setValidationCase(ValidationCase.VALID);
                 } else {
                     localStorage.removeItem("token");
+                    await getCustomerInfo();
                     setValidationCase(ValidationCase.INVALID);
                 }
             })
         } else {
             setValidationCase(ValidationCase.INVALID);
         }
-    }, [])
+    }, [navigate]);
 
     return (
         <>
@@ -39,7 +44,7 @@ export default function PrivateRoute() {
                 ) : (
                     <>
                         {
-                            validationCase == ValidationCase.VALID ? <Outlet /> : <Navigate to="/login" />
+                            validationCase == ValidationCase.VALID ? <Outlet /> : <Navigate to="/login" replace />
                         }
                     </>
                 )

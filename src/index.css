@@ -11,16 +11,3 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-/* potential dark mode (?)
-(this should not be the way its used, but the style its possible)
-*/
-
-/*
-html{
-  filter: invert(100%) hue-rotate(180deg);
-}
-img{
-  filter: invert(100%) hue-rotate(-180deg);
-}
-*/

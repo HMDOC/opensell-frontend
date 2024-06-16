@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { ApplicationContext } from '../../ApplicationContext';
+import { Button } from 'react-bootstrap';
 
 /**
  * 
@@ -17,7 +18,7 @@ import { ApplicationContext } from '../../ApplicationContext';
  */
 export default function GlobalNavBar(props: { logout(): void}): ReactElement {
     const naviguate = useNavigate();
-    const {customerDto} = useContext(ApplicationContext);
+    const {customerDto, setIsDarkMode, isDarkMode} = useContext(ApplicationContext);
     
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""
@@ -38,7 +39,7 @@ export default function GlobalNavBar(props: { logout(): void}): ReactElement {
                         (
                             <NavLink key={createRandomKey()} className={b} to={nav.path}>{nav.label}</NavLink>
                         ))}
-
+                        <Button onClick={() => setIsDarkMode(!isDarkMode)}>{isDarkMode ? "dark" : "light"}</Button>
                     </Col>
 
                     <Col xs={12} md={12}>

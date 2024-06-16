@@ -5,5 +5,5 @@ export const ApplicationContext = createContext({
     isDarkMode: false,
     setIsDarkMode: (isDarkMode: boolean) => {},
     customerDto: null,
-    getCustomerInfo: () => {}
+    getCustomerInfo: async () => undefined
 });

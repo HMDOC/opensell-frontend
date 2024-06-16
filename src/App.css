@@ -2,6 +2,9 @@
 
 :root {
   --sr1: #4C566A;
+  --defaultText: #2E3440;
+  --sr3: #E6E6E6;
+  --imageUrl: url("../public/img/main-background.jpg");
   --inputborder: #a0a0a0;
 }
 
@@ -9,18 +12,25 @@
   display: none;
 }
 
+html{
+  filter: var(--invert) var(--htmlHue);
+}
+
+img{
+  filter: var(--invert) hue-rotate(-180deg);
+}
+
 [is-dark-mode="true"] {
-  --defaultText: #ffffff;
-  --sr3: #2E3440;
-  --imageUrl: url("../public/img/dark-background.jpg");
-  --input: white;
+  --invert: invert(100%);
+  --htmlHue: hue-rotate(180deg);
+  --imgHue: hue-rotate(-180deg);
 }
 
 
 [is-dark-mode="false"] {
-  --defaultText: #2E3440;
-  --sr3: #E6E6E6;
-  --imageUrl: url("../public/img/main-background.jpg");
+  --invert: 0;
+  --htmlHue: hue-rotate(0);
+  --imgHue: 0;
 }
 
 body {

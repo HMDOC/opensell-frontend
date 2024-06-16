@@ -30,11 +30,10 @@ export default function App() {
 	const [isDarkMode, setIsDarkMode] = useState(false);
 
 	async function getCustomerInfo() {
-		await getUserInfos("token")?.then((res) => {
-			if(res?.data) {
-				setCustomerDto(res?.data);
-			}
-		});
+		const data = (await getUserInfos("token"))?.data;
+		if(customerDto != data) setCustomerDto(data);
+		console.log("CUSTOMER DTO : "+customerDto)
+		return data;
 	}
 
 	useEffect(() => {
@@ -45,7 +44,7 @@ export default function App() {
 		// This is to put the element into <html />
 		document.documentElement.setAttribute("is-dark-mode", isDarkMode.toString());
 	}, [isDarkMode])
-
+	
 	return (
 		<>
 		<ApplicationContext.Provider value={{ isDarkMode, setIsDarkMode, customerDto, getCustomerInfo }}>
