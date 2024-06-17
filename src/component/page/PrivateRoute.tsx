@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import getUserInfos from "../../services/GetUser";
-import Loading from "../part/Loading";
-import { ApplicationContext } from "../../ApplicationContext";
+import Loading from "@shared/part/Loading";
+import { AppContext } from "../../context/AppContext";
 
 enum ValidationCase {
     VALID,
@@ -11,7 +11,7 @@ enum ValidationCase {
 }
 
 export default function PrivateRoute() {
-    const { getCustomerInfo, customerDto } = useContext(ApplicationContext);
+    const { getCustomerInfo, customerDto } = useContext(AppContext);
     const [validationCase, setValidationCase] = useState<ValidationCase>(ValidationCase.IN_PROGRESS);
     const navigate = useNavigate();
 

@@ -1,11 +1,11 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { createRef, PureComponent, ReactNode, useEffect, useState } from "react";
 import { Schema } from "yup";
-import "../../css/component/part/SharedAdPart.scss";
+import "@css/component/part/SharedAdPart.scss";
 import { adModification } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import IconLabelError from "../part/IconLabelError";
+import IconLabelError from "@shared/part/IconLabelError";
 
 export const MAX_PRICE = 999990;
 

@@ -1,10 +1,10 @@
 import { ChangeEvent, PureComponent, ReactNode } from "react";
 import { saveAdImages } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
-import "../../css/component/part/AdImages.scss";
+import "@css/component/part/AdImages.scss";
 import { BlockImage } from "../../entities/dto/BlockImages";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import IconLabelError from "../part/IconLabelError";
+import IconLabelError from "@shared/part/IconLabelError";
 
 interface AdImagesProps {
     images: Array<BlockImage>;

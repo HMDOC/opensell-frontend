@@ -19,6 +19,8 @@
     "jwt-decode": "^4.0.0",
     "node-jose": "^2.2.0",
     "react": "^18.2.0",
+    "react-app-rewire-alias": "^1.1.7",
+    "react-app-rewired": "^2.2.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.2.0",
     "react-image": "^4.1.0",
@@ -31,7 +33,7 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-app-rewired start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

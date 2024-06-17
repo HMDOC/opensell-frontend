@@ -1,26 +1,27 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import LazyLoad from './component/part/LazyLoad';
+import LazyLoad from './component/shared/part/LazyLoad';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import GlobalNavBar from './component/page/GlobalNavBar';
 import './App.css';
 import getUserInfos from './services/GetUser';
 import PrivateRoute from './component/page/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
-import { ApplicationContext, Theme, ThemeOption } from './ApplicationContext';
+import { AppContext } from './context/AppContext';
+import { Theme, ThemeOption } from './context/Theme';
 
-const About = lazy(() => import("./component/page/About"));
-const MainMenu = lazy(() => (import("./component/page/MainMenu")));
-const Signup = lazy(() => (import("./component/page/signup")));
-const Login = lazy(() => (import("./component/page/Login")));
-const AdView = lazy(() => (import("./component/page/AdView")));
-const UserProfil = lazy(() => (import("./component/page/UserProfil")));
-const NotFound = lazy(() => (import("./component/page/NotFound")));
-const Catalog = lazy(() => (import("./component/page/Catalog")));
-const CustomerModification = lazy(() => (import("./component/page/CustomerModification")));
-const AdModification = lazy(() => (import("./component/page/AdModification")));
-const MyAds = lazy(() => (import("./component/page/MyAds")));
+const About = lazy(() => import("./pages/about"));
+const MainMenu = lazy(() => (import("./pages/main-menu")));
+const Signup = lazy(() => (import("./pages/auth/Signup")));
+const Login = lazy(() => (import("./pages/auth/Login")));
+const AdView = lazy(() => (import("./pages/ad-view")));
+const UserProfil = lazy(() => (import("./pages/user-profil")));
+const NotFound = lazy(() => (import("./pages/not-found")));
+const Catalog = lazy(() => (import("./pages/catalog")));
+const CustomerModification = lazy(() => (import("./pages/customer-modification")));
+const AdModification = lazy(() => (import("./pages/ad-modification")));
+const MyAds = lazy(() => (import("./pages/my-ads")));
 
 export default function App() {
 	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
@@ -43,9 +44,11 @@ export default function App() {
 		Theme.setTheme(theme);
 	}
 
+	console.log("ENV PORT : "+process.env.REACT_APP_JACK);
+
 	return (
 		<>
-		<ApplicationContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme) }}>
+		<AppContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme) }}>
 			<BrowserRouter>
 				<Suspense fallback={<LazyLoad />}>
 					<GlobalNavBar logout={() => setCustomerDto(undefined)} />
@@ -68,7 +71,7 @@ export default function App() {
 				</Suspense>
 			<title>Opensell</title>
 			</BrowserRouter>
-		</ApplicationContext.Provider>
+		</AppContext.Provider>
 		</>
 	);
 }

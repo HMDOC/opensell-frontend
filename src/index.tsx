@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApplicationContext } from './ApplicationContext';
+import { AppContext } from './context/AppContext';
 
 const root = createRoot(document.getElementById('root')!);
 

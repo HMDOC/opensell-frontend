@@ -5,11 +5,12 @@ import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Row from 'react-bootstrap/Row';
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ApplicationContext, ThemeOption } from '../../ApplicationContext';
+import { AppContext } from '../../context/AppContext';
 import "../../css/component/page/GlobalNavBar.css";
 import { createRandomKey } from '../../services/RandomKeys';
 import navLinks from "./Navbar.json";
-import ProfilIcon from './ProfilIcon';
+import ProfilIcon from '../shared/ProfilIcon';
+import { ThemeOption } from '../../context/Theme';
 
 /**
  * 
@@ -17,7 +18,7 @@ import ProfilIcon from './ProfilIcon';
  */
 export default function GlobalNavBar(props: { logout(): void }): ReactElement {
     const naviguate = useNavigate();
-    const { customerDto, changeTheme, theme, isDarkMode } = useContext(ApplicationContext);
+    const { customerDto, changeTheme, theme, isDarkMode } = useContext(AppContext);
 
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""

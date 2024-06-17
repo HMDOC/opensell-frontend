@@ -1,5 +1,5 @@
 import { faShapes } from "@fortawesome/free-solid-svg-icons";
-import { SelectorReader } from "./SharedAdPart";
+import { SelectorReader } from "@shared/SharedAdPart";
 import { AdShape } from "../../entities/dto/AdBuyerView";
 
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];

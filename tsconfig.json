@@ -1,25 +1,14 @@
 {
     "compilerOptions": {
-        /* To delete the errors in VScode when we put 
-        HTML code in React */
         "jsx": "react-jsx",
-        /* To be able to import in this way :
-        import React from 'react'; */
         "allowSyntheticDefaultImports": true,
-        // To delete the error when importing a JSON in Typescript
         "resolveJsonModule": true,
-        "plugins": [
-            {
-                "name": "typescript-plugin-css-modules",
-                "options": {
-                    "classnameTransform": "dashes",
-                    "customMatcher": "\\.m\\.css$",
-                    "customRenderer": "./myRenderer.js",
-                    "dotenvOptions": {},
-                    "postcssOptions": {},
-                    "rendererOptions": {}
-                }
-            }
-        ]
+        "paths": {
+            "@shared/*": ["./src/component/shared/*"],
+            "@services/*": ["./src/services/*"],
+            "@pages/*": ["./src/pages/*"],
+            "@entities/*": ["./src/entities/*"],
+            "@css/*": ["./src/css/*"]
+        }
     }
 }

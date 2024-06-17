@@ -2,8 +2,8 @@ import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import AdTagPart from "../part/AdView/AdTagPart";
-import IconLabelError from "../part/IconLabelError";
+import AdTagPart from "@shared/part/AdView/AdTagPart";
+import IconLabelError from "@shared/part/IconLabelError";
 
 interface AdTagsProps {
     /**
