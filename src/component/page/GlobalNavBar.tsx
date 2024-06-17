@@ -1,16 +1,15 @@
-import { ReactElement, useContext, useState } from 'react';
-import { Form, Link, NavLink, useNavigate } from "react-router-dom";
+import { ReactElement, useContext } from 'react';
+import { Dropdown, DropdownItem, FormCheck } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Row from 'react-bootstrap/Row';
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ApplicationContext, ThemeOption } from '../../ApplicationContext';
 import "../../css/component/page/GlobalNavBar.css";
+import { createRandomKey } from '../../services/RandomKeys';
 import navLinks from "./Navbar.json";
 import ProfilIcon from './ProfilIcon';
-import { createRandomKey } from '../../services/RandomKeys';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { ApplicationContext, ThemeOption } from '../../ApplicationContext';
-import { Button, Dropdown, DropdownItem, FormCheck } from 'react-bootstrap';
-import { string } from 'yup';
 
 /**
  * 
@@ -18,8 +17,7 @@ import { string } from 'yup';
  */
 export default function GlobalNavBar(props: { logout(): void }): ReactElement {
     const naviguate = useNavigate();
-    const { customerDto, changeTheme, isDarkMode } = useContext(ApplicationContext);
-    console.log("isDarkMode from Navbar : " + isDarkMode);
+    const { customerDto, changeTheme, theme, isDarkMode } = useContext(ApplicationContext);
 
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""
@@ -34,7 +32,7 @@ export default function GlobalNavBar(props: { logout(): void }): ReactElement {
     const CheckBox = (props: { label: string, theme: ThemeOption }) => {
         return (
             <FormCheck
-                defaultChecked={props.theme == isDarkMode}
+                defaultChecked={props.theme == theme}
                 name="theme-option"
                 type="radio"
                 label={props.label}
@@ -65,7 +63,7 @@ export default function GlobalNavBar(props: { logout(): void }): ReactElement {
                     <Col xs={12} md={12}>
                         <div className='nav-center'>
                             <NavLink to="/">
-                                <img src="/img/opensell_logo.png" alt="Opensell logo" className="brand-logo" />
+                                <img src={`./img/${isDarkMode() ? "dark" : "light"}-logo.svg`} alt="Opensell logo" className="brand-logo" />
                             </NavLink>
                         </div>
                     </Col>

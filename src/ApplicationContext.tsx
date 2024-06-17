@@ -1,6 +1,4 @@
 import { createContext } from "react";
-import { CustomerDto } from "./entities/dto/CustomerDto";
-import { boolean } from "yup";
 
 export enum ThemeOption {
     BROWSER_DEFAULT,
@@ -15,7 +13,7 @@ export class Theme {
         return window.matchMedia('(prefers-color-scheme: dark)').matches;
     }
     
-    private static isDarkMode(theme: ThemeOption): boolean {
+    public static isDarkMode(theme: ThemeOption): boolean {
         switch(theme) {
             case ThemeOption.BROWSER_DEFAULT: return this.isBrowserThemeDark();
             case ThemeOption.DARK: return true;
@@ -54,7 +52,8 @@ export class Theme {
 }
 
 export const ApplicationContext = createContext({
-    isDarkMode: ThemeOption.BROWSER_DEFAULT,
+    theme: ThemeOption.BROWSER_DEFAULT,
+    isDarkMode: (): boolean => true,
     changeTheme: (theme: ThemeOption) => {},
     customerDto: null,
     getCustomerInfo: async () => undefined
