@@ -34,7 +34,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     }
 
     protected getDefaultValueOf(name: string): string {
-        if (name == "username") return this.props.defaultValues.username;
+        if (name === "username") return this.props.defaultValues.username;
         return this.props.defaultValues?.customerInfo?.[name];
     }
 
@@ -74,14 +74,14 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         let tempRequests: ArrayOfRequests = [];
         for (let elem of getFormDataAsArray(formData)) {
             const {fieldName, value} = elem;
-            if (this.isValid(fieldName, value) == true) tempRequests.push({mapping: FormValidationObject?.[fieldName].modificationEndPoint, data: {id: this.getCustomerIdentification(), value: value}});
+            if (this.isValid(fieldName, value) === true) tempRequests.push({mapping: FormValidationObject?.[fieldName].modificationEndPoint, data: {id: this.getCustomerIdentification(), value: value}});
         }
         return tempRequests;
     }
 
     private async checkForUniques(fieldName: string, value: string, hasChanged: boolean) {
         const {errors, uniqueCheck} = FormValidationObject?.[fieldName];
-        if (uniqueCheck != null && hasChanged == true) {
+        if (uniqueCheck !== null && hasChanged === true) {
             if ((await getCheckResult(replaceInString(uniqueCheck, value, this.props.defaultValues.customerId.toString()))).data > 0) { this.addFeedbackMessage(errors?.unique); return false }
             else return true;
         } else return null;
@@ -95,7 +95,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
             currentInputIsValid = this.isValid(fieldName, value);
             if (currentInputIsValid === false) return false;
             else if (currentInputIsValid === true) nothingChanged = false;
-            if (await this.checkForUniques(fieldName, value, currentInputIsValid) === false && currentInputIsValid == true) return false;
+            if (await this.checkForUniques(fieldName, value, currentInputIsValid) === false && currentInputIsValid === true) return false;
         }
         return nothingChanged ? null : true;
     }
@@ -111,7 +111,7 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     }
 
     private setChangeFeedback(array: ModificationFeedback[]) {
-        for (let elem of array) if (elem.code != 200) this.addFeedbackMessage("Something went wrong...")
+        for (let elem of array) if (elem.code !== 200) this.addFeedbackMessage("Something went wrong...")
         this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
     }
 
@@ -119,11 +119,11 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         formEvent.preventDefault();
         let formData: FormData = getFormData(formEvent);
         await this.formIsValid(formData).then(async(res) => {
-            if (res == true) {
+            if (res === true) {
                 await this.makeChanges(this.getRequests(formData)).then((rep) => {
                     this.setChangeFeedback(rep);
                 })
-            } else if (res == null) this.addFeedbackMessage(this.NOTHING_CHANGED);
+            } else if (res === null) this.addFeedbackMessage(this.NOTHING_CHANGED);
         })
     }
 }
@@ -185,7 +185,7 @@ export class CMPasswordForm extends CMForm {
             replaceInString(FormValidationObject["pwd"]?.uniqueCheck, 
                             this.oldPwdInputRef.current.value, 
                             this.props.defaultValues.customerId.toString()));
-        if (oldPasswordCheck?.data == 1) this.saveChanges(formEvent);
+        if (oldPasswordCheck?.data === 1) this.saveChanges(formEvent);
         else this.addFeedbackMessage("Old password value is wrong!");
     }
 
@@ -235,7 +235,7 @@ export class CMIconForm extends CMForm {
     private async saveIconChange(formEvent: FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
         let res: ModificationFeedback = (await getProfileIconPath(this.currentFile, this.props.defaultValues.customerId));
-       if (res.code == 200) this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
+       if (res.code === 200) this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
        else this.addFeedbackMessage("Something went wrong...");
     }
 

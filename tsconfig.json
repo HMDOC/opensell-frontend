@@ -4,7 +4,8 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "paths": {
-            "@shared/*": ["./src/component/shared/*"],
+            "@animations/*": ["./src/components/animations/*"],
+            "@shared/*": ["./src/components/shared/*"],
             "@services/*": ["./src/services/*"],
             "@pages/*": ["./src/pages/*"],
             "@entities/*": ["./src/entities/*"],

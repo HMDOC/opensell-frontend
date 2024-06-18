@@ -1,0 +1,198 @@
+.modificationContainer{
+    background-color: rgba(252, 251, 250, 0.39);
+    margin: 40px auto auto auto;
+    width: 75%;
+    border-radius: 27px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: #FCFBFA solid 2px;
+    height: 85vh;
+    overflow-y: scroll;
+}
+
+.modificationPage{
+    width: 85%;
+    min-width: 20vh;
+    margin: 2vh auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    min-height: 1000px;
+}
+
+.modificationSection{
+    margin: 0.5vh 1vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.modificationLabel{
+    font-weight: 700;
+    font-size: large;
+    border-radius: 25px;
+}
+
+.modificationTextArea{
+    height: 18vh;
+    padding-top: 0.75em;
+    padding-bottom: 1vh;
+    resize: vertical;
+}
+
+.modificationSocials div{
+    margin: 0.35vh 0.25vh;
+}
+
+.modificationSubmit{
+    width: 100%;
+    margin: auto;
+    display: flex;
+}
+
+.modificationSubmit button{
+    transition: border 0.1s, 
+        background-color 0.2s, 
+        color 0.2s, 
+        bottom 0.2s;
+    margin: 1vh; margin-left: auto; margin-right: 1.5em;
+    background-color: var(--defaultText);
+    color: white;
+    padding: 0.5vh 1.25vh;
+    border-radius: 20px;
+    border: none;
+    position: relative;
+    bottom: 0;
+}
+
+.modificationSubmit button:hover,button:target{
+    transition: border 0.3s, 
+        background-color 0.3s, 
+        color 0.3s, 
+        bottom 0.3s;
+    background-color: var(--sr1);
+    color: black;
+    border-bottom: var(--defaultText) solid 2px;
+    bottom: 2px;
+}
+
+.modificationSubmit button:active{
+    transition: border 0.1s, 
+        background-color 0.1s, 
+        color 0.1s, 
+        bottom 0.1s;
+    background-color: var(--sr1);
+    color: black;
+    border-bottom: 0;
+    bottom: 0px;
+}
+
+.modificationSubmit .CMExitButton{
+    background-color: blue;
+    color: white;
+    margin-right: 79.4%;
+}
+
+.modificationSubmit .CMExitButton:hover,.CMExitButton:target{
+    background-color: red;
+    color: white;
+    border-color: darkred;
+}
+
+.modificationStatus{
+    color: red;
+    height: 30px;
+}
+
+/* https://reactcommunity.org/react-modal/styles/transitions/ */
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
+
+.CMDisplay-Container {
+    display: flex;
+    width: 100%;
+}
+
+.CMDisplay-Container div {
+    margin: 0 10px 10px 0;
+    width: 100%;
+}
+
+.CMDisplay-Container button {
+    font-weight: bolder;
+    color: #000000;
+    border-radius: 25px;
+}
+
+.CMDisplay-Label-Container {
+    padding: 10px;
+    background-color: rgba(220, 233, 252, 0.807);
+}
+
+.CMDisplay-Default-Value-Container {
+    padding: 10px;
+    background-color: rgba(124, 134, 148, 0.5);
+}
+
+.CM-Container {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 25px;
+    border: black 2px;
+    background-color: #FCFBFA;
+    width: 100%;
+}
+
+.CM-Container h1 {
+    font-size: 30px;
+    font-weight: bold;
+    border-bottom: 2px #2e3440 solid;
+    color: #2e3440;
+    width: 69%;
+}
+
+.CMFeedbackContainer {
+    background-color: #FCFBFA;
+    min-height: 5vh;
+    color: red
+}
+
+/* Source : https://stackoverflow.com/questions/22672368/how-to-make-a-transparent-html-button */
+.AdCreationExitButton {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    position: relative;
+    left: 48vw;
+}
+
+.CM-Title-Button-Container {
+    display: flex;
+}
+
+.CM-Title-Button-Container button  {
+    border-radius: 25px;
+}
+
+.change-button {
+    width: fit-content;
+    margin-bottom: 8px;
+    border-bottom: solid black 2px;
+}
+
+.input-div {
+    width: 100%;
+    margin-left: 5%;
+}

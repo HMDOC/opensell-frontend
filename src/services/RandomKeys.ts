@@ -20,7 +20,7 @@ function nextInt(min: number, max: number): number {
  */
 function randAsciiLetter(): string {
     // Random to choose between upper(1) or lower(0).
-    if(Math.floor(Math.random()) == 1) {
+    if(Math.floor(Math.random()) === 1) {
         return String.fromCharCode(nextInt(AsciLetter.FIRST_UPPER, AsciLetter.LAST_UPPER));
     } else {
         return String.fromCharCode(nextInt(AsciLetter.FIRST_LOWER, AsciLetter.LAST_LOWER));

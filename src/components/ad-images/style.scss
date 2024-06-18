@@ -1,0 +1,14 @@
+$marginAll: 10px;
+
+.ad-image {
+    height: 215px;
+    margin-right: $marginAll;
+    margin-bottom: $marginAll;
+
+    &-action {
+        border: none;
+        background-color: var(--sr3);
+        margin-right: 10px;
+        border-radius: 5px;
+    }
+}

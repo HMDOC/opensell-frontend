@@ -1,0 +1,63 @@
+.adPreview{
+    transition: background-color 0.2s;
+    color: var(--defaultText);
+    width: 17.75em;
+    background-color: #FCFBFA;
+    overflow: hidden;
+    display: inline-block;
+    flex-direction: column;
+    justify-content: start;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    height: fit-content;
+    border-radius: 15px;
+}
+.adPreview:hover{
+    transition: background-color box-shadow color 0.2s;
+    background-color: #1a253a;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.adSold{
+    background-color: #FCFBFA;
+}
+
+.ad-price-part{
+    margin-left: 5px;
+}
+
+.adPreview img {
+    height: 9.75em;
+    border-width: 2px;
+}
+
+.adPreviewText{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0;
+    margin: 0px 4px;
+    padding-bottom: 2px;
+    font-size: 27px;
+}
+
+.adPreviewAlign{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.imgOffset{
+    margin-bottom: 0.45em;
+}
+
+.adShapeIcon{
+    position: relative;
+    width: 2rem;
+    bottom: 1px;
+    right: 1px;
+}
+
+.adPreviewBottom{
+    padding: 4px 12px 10px 12px;
+}

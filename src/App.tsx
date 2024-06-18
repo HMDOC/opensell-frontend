@@ -1,12 +1,12 @@
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
-import LazyLoad from './component/shared/part/LazyLoad';
+import { LazyLoad } from './components/animations/loading';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import GlobalNavBar from './component/page/GlobalNavBar';
+import Navbar from './components/navbar';
 import './App.css';
 import getUserInfos from './services/GetUser';
-import PrivateRoute from './component/page/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
 import { AppContext } from './context/AppContext';
 import { Theme, ThemeOption } from './context/Theme';
@@ -30,9 +30,13 @@ export default function App() {
 
 	async function getCustomerInfo() {
 		const data = (await getUserInfos("token"))?.data;
-		if(customerDto != data) setCustomerDto(data);
+		if(customerDto !== data) setCustomerDto(data);
 		console.log("CUSTOMER DTO : "+customerDto)
 		return data;
+	}
+
+	function logout() {
+		if(customerDto) setCustomerDto(undefined);
 	}
 
 	useEffect(() => {
@@ -48,10 +52,10 @@ export default function App() {
 
 	return (
 		<>
-		<AppContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme) }}>
+		<AppContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme), logout }}>
 			<BrowserRouter>
 				<Suspense fallback={<LazyLoad />}>
-					<GlobalNavBar logout={() => setCustomerDto(undefined)} />
+					<Navbar logout={() => setCustomerDto(undefined)} />
 					<Routes>
 						<Route path="/u" element={<PrivateRoute />}>
 							<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>

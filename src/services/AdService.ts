@@ -1,4 +1,4 @@
-import { ModifType } from "@shared/SharedAdPart";
+import { ModifType } from "../components/shared/SharedAdPart";
 import { AdBuyerView, AdImage } from "../entities/dto/AdBuyerView";
 import { AdModifView } from "../entities/dto/AdModifView";
 import { AdTag } from "../entities/dto/AdTag";
