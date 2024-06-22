@@ -51,11 +51,13 @@ export default function App() {
 	console.log("ENV PORT : "+process.env.REACT_APP_JACK);
 
 	return (
-		<>
 		<AppContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme), logout }}>
 			<BrowserRouter>
 				<Suspense fallback={<LazyLoad />}>
 					<Navbar logout={() => setCustomerDto(undefined)} />
+					<br />
+					<br />
+
 					<Routes>
 						<Route path="/u" element={<PrivateRoute />}>
 							<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
@@ -76,6 +78,5 @@ export default function App() {
 			<title>Opensell</title>
 			</BrowserRouter>
 		</AppContext.Provider>
-		</>
 	);
 }

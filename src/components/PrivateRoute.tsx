@@ -6,27 +6,31 @@ import getUserInfos from "../services/GetUser";
 
 export default function PrivateRoute() {
     const { logout } = useContext(AppContext);
-    const [isLogin, setIsLogin] = useState<boolean>(false);
+    const [isOutlet, setIsOutlet] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();
 
     useEffect(() => {
         setIsLoading(true);
 
-        console.log("NAVIGATED")
-        let promise = getUserInfos("token");
+        // If the token does not exists logout and go to Outlet.
+        if(!localStorage.getItem("token")) {
+            logout();
+            setIsOutlet(false);
+            setIsLoading(false);
+            return;
+        }
 
-        if (!promise) setIsLoading(false);
-
-        promise?.then(async (res) => {
+        // If the token is valid
+        getUserInfos("token")?.then((res) => {
             if (res?.data) {
-                setIsLogin(true);
                 setIsLoading(false);
+                setIsOutlet(true);
             } else {
-                setIsLogin(false);
                 localStorage.removeItem("token");
                 logout();
                 setIsLoading(false);
+                setIsOutlet(false);
             }
         })
     }, [navigate]);
@@ -37,7 +41,7 @@ export default function PrivateRoute() {
                 (
                     <Loading />
                 ) : (
-                    isLogin ? <Outlet /> : <Navigate to="/login" replace />
+                    isOutlet ? <Outlet /> : <Navigate to="/login" replace />
                 )
             }
         </>
