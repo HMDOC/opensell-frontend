@@ -17,6 +17,7 @@ export interface CMInputProperties extends AdCreationInputProperties {
     cols?: number,
     rows?: number,
     inputRef?: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>,
+    onChange?(changeEvent: ChangeEvent<any>): void;
 }
 
 export interface CMRepeatInputProperties extends CMInputProperties {

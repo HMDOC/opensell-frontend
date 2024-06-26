@@ -1,13 +1,7 @@
-import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooleanSchema, NumberSchema, StringSchema } from "yup";
-import "./style.scss";
-import { AdModifView } from "../../entities/dto/AdModifView";
-import { BlockImage } from "../../entities/dto/BlockImages";
-import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
-import { createRandomKey } from "../../services/RandomKeys";
-import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages, SaveCancelButton } from "../../components/ad-images";
 import AdShapeSelect from "../../components/shared/AdShapeSelect";
 import { AdTags } from "../../components/shared/AdTags";
@@ -16,23 +10,30 @@ import AdVisibilitySelect from "../../components/shared/AdVisibilitySelect";
 import {
     InputType,
     ModifType,
-    SelectorReaderProps,
     SimpleInput,
     SimpleInputProps
 } from "../../components/shared/SharedAdPart";
+import { AdModifView } from "../../entities/dto/AdModifView";
+import { BlockImage } from "../../entities/dto/BlockImages";
+import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
+import { createRandomKey } from "../../services/RandomKeys";
+import { HtmlCode } from "../../services/verification/HtmlCode";
+import "./style.scss";
 
-function notEmptyWithMaxAndMin(max: number, min: number) {
+export function notEmptyWithMaxAndMin(max: number, min: number, label?: string) {
     return new StringSchema()
-        .required(" cannot be empty")
-        .max(max, ` length cannot be more than ${max}`)
-        .min(min, ` length cannot be less than ${min}`);
+        .required(`${label ?? ""} is required`)
+        .max(max, `${label ?? ""} length cannot be more than ${max}`)
+        .min(min, `${label ?? ""} length cannot be less than ${min}`);
 }
 
-function priceWithMinAndMax(max: number, min: number) {
+export function priceWithMinAndMax(max: number, min: number, label?: string) {
     return new NumberSchema()
-        .max(max, ` cannot be more than ${max}`)
-        .min(min, ` cannot be less than ${min}`)
-        .typeError(" is a number");
+        // To do not get a error if the user put the input empty
+        .transform( cv => isNaN(cv) ? undefined : cv)
+        .max(max, `${label ?? ""} cannot be more than ${max}`)
+        .min(min, `${label ?? ""} cannot be less than ${min}`)
+        .required(`${label ?? ""} is required`);
 }
 
 const SIMPLE: Array<SimpleInputProps> = [
@@ -66,6 +67,28 @@ const SIMPLE: Array<SimpleInputProps> = [
         verifyProperty: new BooleanSchema()
     }
 ];
+
+
+export const SimpleInputPart = ({ start = 0, end = 2, ad }): any => {
+    return (
+        <div style={{display : "flex"}}>
+            {SIMPLE.slice(start, end).map(value => (
+                <div style={{marginRight : "40px"}} key={createRandomKey()}>
+                    <SimpleInput
+                        iconProp={value?.iconProp}
+                        title={value.title}
+                        defaultValue={ad?.[value.name]}
+                        modifType={value?.modifType}
+                        idAd={ad?.idAd}
+                        name={value?.name}
+                        type={value?.type}
+                        isNumber={value?.isNumber}
+                        verifyProperty={value.verifyProperty} />
+                </div>
+            ))}
+        </div>
+    );
+}
 
 // { name: "images", multiple: true, reference: createRef(), isFile: true },
 export default function AdModification(): ReactElement {
@@ -130,34 +153,13 @@ export default function AdModification(): ReactElement {
         setAdTags(adTags.filter(t => t !== tag));
     }
 
-    const SimpleInputPart = ({ start = 0, end = 2 }): any => {
-        return (
-            <div style={{display : "flex"}}>
-                {SIMPLE.slice(start, end).map(value => (
-                    <div style={{marginRight : "40px"}} key={createRandomKey()}>
-                        <SimpleInput
-                            iconProp={value?.iconProp}
-                            title={value.title}
-                            defaultValue={ad?.[value.name]}
-                            modifType={value?.modifType}
-                            idAd={ad?.idAd}
-                            name={value?.name}
-                            type={value?.type}
-                            isNumber={value?.isNumber}
-                            verifyProperty={value.verifyProperty} />
-                    </div>
-                ))}
-            </div>
-        );
-    }
-
     return (
         <div className="ad-modif-div">
         <title>Modify my ads</title>
         <div className="reg-background" style={{overflowY : "scroll", height :"90vh"}}>
             <>
-                <SimpleInputPart />
-                <SimpleInputPart start={2} end={4} />
+                <SimpleInputPart ad={ad} />
+                <SimpleInputPart ad={ad} start={2} end={4} />
 
                 <SimpleInput
                     defaultValue={ad?.adDescription}

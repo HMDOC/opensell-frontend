@@ -2,7 +2,7 @@ import { faItalic, faLocationDot, faReceipt, faScroll, faX } from "@fortawesome/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@pages/ad-modification/style.scss";
 import { AxiosError, HttpStatusCode } from "axios";
-import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
+import { ChangeEvent, Component, FormEvent, ReactNode, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { AdImages } from "../../components/ad-images";
 import AdShapeSelect from "../../components/shared/AdShapeSelect";
@@ -16,68 +16,91 @@ import { getAllAdTypes } from "../../services/AdService";
 import { getFormData, getFormDataAsArray } from "../../services/FormService";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import { Button } from "react-bootstrap";
+import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@pages/ad-modification";
+
+import { TextField } from "@mui/material";
 
 /**
  * @author Olivier Mansuy
  */
-class AdCreationInput extends Component<AdCreationInputProperties, any> {
-    constructor(properties: AdCreationInputProperties) {
-        super(properties)
-    }
-    render(): ReactNode {
-        return (
-            <div className="">
-                <IconLabelError iconProp={this.props.iconProp} title={this.props.labelText} />
-                <input
-                    className="ad-modif-input"
-                    type={this.props.type}
-                    min={this.props.min}
-                    max={this.props.max}
-                    name={this.props.name}
-                    id={this.props.name}
-                    step={this.props.step}
-                    accept={this.props.accept}
-                    required={this.props.required}
-                    onChange={(changeEvent) => this.props.onChange(changeEvent)}
-                />
-            </div>
-        )
-    }
+export function AdCreationInput(props: AdCreationInputProperties) {
+    const [error, setError] = useState("");
+    
+    const handleChange = (e: any) => {
+        props.validateSchema
+            .validate(e.target.value)
+            .then(() => {
+                if (!!error) {
+                    setError("");
+                    props.changeErrorKeys(props.name, true);
+                }
+            })
+            .catch(ex => {
+                if (ex != error) {
+                    setError(ex.message);
+                    props.changeErrorKeys(props.name);
+                }
+            })
+
+            ;
+    };
+
+    return (
+        <>
+            <TextField
+                label={<IconLabelError iconProp={props.iconProp} title={props.labelText} />}
+                multiline={props.isTextArea}
+                error={!!error}
+                type={props.type ?? "text"}
+                variant="outlined"
+                helperText={error}
+                name={props.name}
+                onChange={handleChange}
+            />
+            <br />
+            <br />
+        </>
+    )
 }
 
 export default class AdCreation extends Component<AdCreationpProperties, AdCreationState> {
-    constructor(properties: AdCreationpProperties) {
-        super(properties)
-        this.state = {
-            globalErrorMessage: "",
-            typeArray: [],
-            errorAdTags: HtmlCode.SUCCESS,
-            selectedTags: [],
-            images: [],
-            errorImages: "",
-            adWasCreated: false
-        }
+    state = {
+        globalErrorMessage: "",
+        typeArray: [],
+        errorAdTags: HtmlCode.SUCCESS,
+        selectedTags: [],
+        images: [],
+        errorImages: "",
+        adWasCreated: false,
+        errorKeys: new Array<string>()
     }
 
     setGlobalErrorMessage(error?: string) {
-        this.setState({ ...this.state, globalErrorMessage: error ? error : "" });
+        this.setState({ globalErrorMessage: error ? error : "" });
     }
 
     componentDidMount(): void {
         getAllAdTypes().then((rep) => {
-            this.setState({
-                ...this.state,
-                typeArray: rep?.data
-            })
+            this.setState({ typeArray: rep?.data })
         })
     }
 
     private handleChange(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
-        const {value, name} = changeEvent.currentTarget;
+        const { value, name } = changeEvent.currentTarget;
         if (formValidation[name]) {
             console.log(value)
-            if (!formValidation[name].isValid(value)) this.setState({globalErrorMessage: formValidation[name].errorMessage});
-            else this.setState({globalErrorMessage: ""});
+            if (!formValidation[name].isValid(value)) this.setState({ globalErrorMessage: formValidation[name].errorMessage });
+            else this.setState({ globalErrorMessage: "" });
+        }
+    }
+
+    private changeErrorKeys(key: string, isRemove?: boolean) {
+        if (isRemove) {
+            this.setState({ errorKeys: this.state.errorKeys.filter(e => e != key) });
+        }
+
+        else {
+            this.setState({ errorKeys: [...this.state.errorKeys, key] });
         }
     }
 
@@ -107,7 +130,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
             await v2CreateAd(formData).then(
                 res => {
-                    if(res.status == HttpStatusCode.Ok) {
+                    if (res.status == HttpStatusCode.Ok) {
                         this.setState({ adWasCreated: true });
                         this.props.closeModalCallback();
                     }
@@ -124,16 +147,14 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     render(): ReactNode {
         return (
             <div>
-            <title>New ad</title>
                 <button onClick={() => this.props.closeModalCallback()} className="AdCreationExitButton"><FontAwesomeIcon icon={faX} /></button>
+                <br /><br />
+
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
-                    <AdCreationInput labelText="Title" name="title" type="text" required={false} iconProp={faItalic} onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                    <AdCreationInput labelText="Price" name="price" type="number" min={0} step={0.01} required={false} max={MAX_PRICE} iconProp={faReceipt} onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                    <AdCreationInput labelText="Address" name="address" type="text" required={false} iconProp={faLocationDot} onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <div>
-                        <IconLabelError iconProp={faScroll} title="Description" />
-                        <textarea name="description" id="description" className="ad-modif-textarea" cols={30} rows={5} required={false} onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                    </div>
+                    <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Title" name="title" type="text" iconProp={faItalic} validateSchema={notEmptyWithMaxAndMin(80, 3, "Title")} />
+                    <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Price" name="price" type="number" min={0} step={0.01} max={MAX_PRICE} iconProp={faReceipt} validateSchema={priceWithMinAndMax(MAX_PRICE, 0, "Price")} />
+                    <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Address" name="address" type="text" iconProp={faLocationDot} validateSchema={notEmptyWithMaxAndMin(256, 4, "Address")} />
+                    <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Description" name="description" isTextArea iconProp={faScroll} validateSchema={notEmptyWithMaxAndMin(5000, 10, "Description")} />
 
                     <AdVisibilitySelect />
                     <AdShapeSelect />
@@ -153,7 +174,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         deleteTag={(tag) => { this.setState({ selectedTags: [...this.state.selectedTags.filter(elem => elem !== tag)] }) }}
                         tags={this.state.selectedTags}
                     />
-                    <Button type="submit">Create</Button>
+                    <Button disabled={this.state.errorKeys.length != 0} type="submit">Create</Button>
                     <br />
                     <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 </form>

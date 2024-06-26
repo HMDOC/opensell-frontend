@@ -1,11 +1,11 @@
 import { AdType } from "../entities/dto/AdType"
 import { HtmlCode } from "./verification/HtmlCode"
-import { AxiosResponse } from "axios";
 import http from "../../src/http-commons";
 import { BlockImage } from "../entities/dto/BlockImages";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { ChangeEvent } from "react";
+import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import { AdImage } from "@entities/dto/AdBuyerView";
+import { Schema } from "yup";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -32,20 +32,22 @@ export interface AdCreationState {
     images: Array<BlockImage>,
     errorImages: string,
     adWasCreated: boolean
+    errorKeys?: Array<string>;
 }
 
 export interface AdCreationInputProperties {
-    type: string,
-    name: string,
-    labelText: string,
-    min?: number,
-    max?: number,
-    placeholder?: string,
-    step?: number,
-    accept?: string,
-    required?: boolean,
-    iconProp?: IconProp,
-    onChange?(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void,
+    type?: HTMLInputTypeAttribute;
+    name: string;
+    labelText: string;
+    min?: number;
+    max?: number;
+    isTextArea?: boolean;
+    placeholder?: string;
+    step?: number;
+    accept?: string;
+    iconProp?: IconProp;
+    validateSchema?: Schema;
+    changeErrorKeys?(key: string, isRemove?: boolean): void;
 }
 
 export interface AdCreationpProperties {
