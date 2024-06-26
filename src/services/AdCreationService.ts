@@ -1,12 +1,11 @@
 import { AdType } from "../entities/dto/AdType"
 import { HtmlCode } from "./verification/HtmlCode"
 import { AxiosResponse } from "axios";
-import { AdCreationFeedback } from "../entities/dto/adCreation/AdCreationFeedback";
-import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
 import http from "../../src/http-commons";
 import { BlockImage } from "../entities/dto/BlockImages";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ChangeEvent } from "react";
+import { AdImage } from "@entities/dto/AdBuyerView";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -54,21 +53,6 @@ export interface AdCreationpProperties {
     closeModalCallback(): void;
 }
 
-export const createAd = async (data: AdCreationData):Promise<AxiosResponse<AdCreationFeedback>> => {
-    return await http.post<AdCreationFeedback>('ad/create-ad', data);
-}
-
-export const formatCreationData = (formData: FormData, tags: string[], customerId: number): AdCreationData => {
-    return {
-        adTypeId: parseInt(formData.get("type").toString()), //
-        address: formData.get("address").toString(), //
-        customerId: customerId, //
-        description: formData.get("description").toString(), //
-        price: parseFloat(formData.get("price").toString()), //
-        shape: parseInt(formData.get("shapeId").toString()), //
-        visibility: parseInt(formData.get("visibility").toString()), //
-        reference: null, //
-        title: formData.get("title").toString(), //
-        tags: tags //
-    };
-} 
+export const v2CreateAd = async (formData: FormData) => {
+    return await http.post<Array<AdImage>>("/ad/v2/update", formData);
+};

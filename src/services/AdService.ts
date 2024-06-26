@@ -1,3 +1,4 @@
+import { AdCreator } from "@entities/dto/v2/AdCreator";
 import { ModifType } from "../components/shared/SharedAdPart";
 import { AdBuyerView, AdImage } from "../entities/dto/AdBuyerView";
 import { AdModifView } from "../entities/dto/AdModifView";

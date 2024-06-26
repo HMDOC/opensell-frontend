@@ -10,6 +10,8 @@ import PrivateRoute from './components/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
 import { AppContext } from './context/AppContext';
 import { Theme, ThemeOption } from './context/Theme';
+import { AdImages } from './components/ad-images';
+import { AdImage } from '@entities/dto/AdBuyerView';
 
 const About = lazy(() => import("./pages/about"));
 const MainMenu = lazy(() => (import("./pages/main-menu")));
@@ -47,8 +49,6 @@ export default function App() {
 		setTheme(theme);
 		Theme.setTheme(theme);
 	}
-
-	console.log("ENV PORT : "+process.env.REACT_APP_JACK);
 
 	return (
 		<AppContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme), logout }}>

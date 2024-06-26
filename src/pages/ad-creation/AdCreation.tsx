@@ -1,11 +1,9 @@
 import { faItalic, faLocationDot, faReceipt, faScroll, faX } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "@pages/ad-modification/style.scss";
+import { AxiosError, HttpStatusCode } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import "@pages/ad-modification/style.scss";
-import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, createAd, formValidation, formatCreationData } from "../../services/AdCreationService";
-import { getAllAdTypes, saveAdImages } from "../../services/AdService";
-import { getFormData, getFormDataAsArray } from "../../services/FormService";
-import { HtmlCode } from "../../services/verification/HtmlCode";
 import { AdImages } from "../../components/ad-images";
 import AdShapeSelect from "../../components/shared/AdShapeSelect";
 import { AdTags } from "../../components/shared/AdTags";
@@ -13,7 +11,11 @@ import AdTypeSelect from "../../components/shared/AdTypeSelect";
 import AdVisibilitySelect from "../../components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "../../components/shared/SharedAdPart";
 import IconLabelError from "../../components/shared/part/IconLabelError";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, formValidation, v2CreateAd } from "../../services/AdCreationService";
+import { getAllAdTypes } from "../../services/AdService";
+import { getFormData, getFormDataAsArray } from "../../services/FormService";
+import { HtmlCode } from "../../services/verification/HtmlCode";
+import { Button } from "react-bootstrap";
 
 /**
  * @author Olivier Mansuy
@@ -98,20 +100,22 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
         let formData = getFormData(event);
         let formIsValid = this.formIsValid(formData);
         if (formIsValid && this.state.images.length >= 2) {
-            await createAd(formatCreationData(formData, this.state.selectedTags, this.props.idCustomer)).then(async(rep) => {
-                const { errorMessage, result, adId } = rep?.data;
-                if (result === 0) this.setGlobalErrorMessage(errorMessage);
-                else {
-                    let fileArray: File[] = []
-                    this.state.images.map(elem => {
-                        fileArray.push(elem.file);
-                    })
-                    await saveAdImages(fileArray, adId);
-                    this.setGlobalErrorMessage("Ad created...");
-                    this.setState({ adWasCreated: true });
-                    this.props.closeModalCallback();
+            this.state.images.forEach(elem => formData.append("images", elem.file));
+            formData.append("tags", JSON.stringify(this.state.selectedTags));
+            formData.append("isSold", `${true}`);
+            formData.append("customerId", `${this.props.idCustomer}`);
+
+            await v2CreateAd(formData).then(
+                res => {
+                    if(res.status == HttpStatusCode.Ok) {
+                        this.setState({ adWasCreated: true });
+                        this.props.closeModalCallback();
+                    }
                 }
-            })
+            ).catch((error: AxiosError) => {
+                // IT IS NOT FIXED YET.
+                this.setGlobalErrorMessage((error.response.data as any).message);
+            });
         } else if (!(this.state.images.length >= 2) && formIsValid) {
             this.setGlobalErrorMessage("An ad must be created with at least 2 images!");
         }
@@ -141,7 +145,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         setImages={(images) => this.setState({ images })}
                     />
 
-                    <AdTypeSelect inputName="type" inputId="type" />
+                    <AdTypeSelect inputName="adTypeId" inputId="adTypeId" />
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({ errorAdTags: error })}
@@ -149,7 +153,8 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         deleteTag={(tag) => { this.setState({ selectedTags: [...this.state.selectedTags.filter(elem => elem !== tag)] }) }}
                         tags={this.state.selectedTags}
                     />
-                    <button type="submit" className="btn bg-primary text-white align-self-end mt-2">Create</button> <br />
+                    <Button type="submit">Create</Button>
+                    <br />
                     <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 </form>
                 {this.state.adWasCreated ? <Navigate to='/u/my-ads' /> : null}

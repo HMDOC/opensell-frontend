@@ -12,7 +12,7 @@ export interface AdShapePartProps {
 export default function AdShapeSelect(props: AdShapePartProps) {
     return(
         <SelectorReader
-            name="shapeId"
+            name="shape"
             iconProp={faShapes} 
             title="Shape" 
             options={SHAPE_ARRAY} 
