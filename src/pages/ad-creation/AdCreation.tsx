@@ -1,4 +1,4 @@
-import { faItalic, faLocationDot, faReceipt, faScroll, faX } from "@fortawesome/free-solid-svg-icons";
+import { faDollar, faDollarSign, faItalic, faLocationDot, faReceipt, faScroll, faX } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "@pages/ad-modification/style.scss";
 import { AxiosError, HttpStatusCode } from "axios";
@@ -25,7 +25,7 @@ import { TextField } from "@mui/material";
  */
 export function AdCreationInput(props: AdCreationInputProperties) {
     const [error, setError] = useState("");
-    
+
     const handleChange = (e: any) => {
         props.validateSchema
             .validate(e.target.value)
@@ -49,14 +49,17 @@ export function AdCreationInput(props: AdCreationInputProperties) {
         <>
             <TextField
                 label={<IconLabelError iconProp={props.iconProp} title={props.labelText} />}
-                multiline={props.isTextArea}
                 error={!!error}
+                multiline={props.isTextArea}
+                rows={props.isTextArea ? 10 : undefined}
                 type={props.type ?? "text"}
                 variant="outlined"
                 helperText={error}
+                sx={{width : props.isTextArea ? "1000px" : "300px"}}
                 name={props.name}
                 onChange={handleChange}
             />
+
             <br />
             <br />
         </>
@@ -152,7 +155,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
 
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
                     <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Title" name="title" type="text" iconProp={faItalic} validateSchema={notEmptyWithMaxAndMin(80, 3, "Title")} />
-                    <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Price" name="price" type="number" min={0} step={0.01} max={MAX_PRICE} iconProp={faReceipt} validateSchema={priceWithMinAndMax(MAX_PRICE, 0, "Price")} />
+                    <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Price" name="price" type="number" min={0} step={0.01} max={MAX_PRICE} iconProp={faDollar} validateSchema={priceWithMinAndMax(MAX_PRICE, 0, "Price")} />
                     <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Address" name="address" type="text" iconProp={faLocationDot} validateSchema={notEmptyWithMaxAndMin(256, 4, "Address")} />
                     <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Description" name="description" isTextArea iconProp={faScroll} validateSchema={notEmptyWithMaxAndMin(5000, 10, "Description")} />
 
