@@ -19,6 +19,7 @@ import { Button } from "react-bootstrap";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@pages/ad-modification";
 
 import { TextField } from "@mui/material";
+import { MUI_INPUT_VARIANT } from "@context/AppContext";
 
 /**
  * @author Olivier Mansuy
@@ -53,7 +54,7 @@ export function AdCreationInput(props: AdCreationInputProperties) {
                 multiline={props.isTextArea}
                 rows={props.isTextArea ? 10 : undefined}
                 type={props.type ?? "text"}
-                variant="outlined"
+                variant={MUI_INPUT_VARIANT}
                 helperText={error}
                 sx={{width : props.isTextArea ? "1000px" : "300px"}}
                 name={props.name}
@@ -170,13 +171,18 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     />
 
                     <AdTypeSelect inputName="adTypeId" inputId="adTypeId" />
+                    <br />
+                    <br />
+
                     <AdTags
                         error={this.state.errorAdTags}
                         setError={(error) => this.setState({ errorAdTags: error })}
                         addTag={(tag) => { this.setState({ selectedTags: [...this.state.selectedTags, tag] }) }}
-                        deleteTag={(tag) => { this.setState({ selectedTags: [...this.state.selectedTags.filter(elem => elem !== tag)] }) }}
+                        deleteTag={(tag) => { this.setState({ selectedTags: this.state.selectedTags.filter(elem => elem !== tag) }) }}
                         tags={this.state.selectedTags}
                     />
+                    <br />
+
                     <Button disabled={this.state.errorKeys.length != 0} type="submit">Create</Button>
                     <br />
                     <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>

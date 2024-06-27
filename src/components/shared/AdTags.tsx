@@ -4,6 +4,8 @@ import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import AdTagPart from "./part/AdView/AdTagPart";
 import IconLabelError from "./part/IconLabelError";
+import { TextField } from "@mui/material";
+import { MUI_INPUT_VARIANT } from "@context/AppContext";
 
 interface AdTagsProps {
     /**
@@ -64,6 +66,9 @@ export function AdTags(props: AdTagsProps): ReactElement {
     }
 
     const addEvent = (e: any): void => {
+        e.preventDefault();
+        console.log("AdEvent");
+
         if (props.tags) {
 
             let addError = verifyTag(e.target.value);
@@ -80,10 +85,19 @@ export function AdTags(props: AdTagsProps): ReactElement {
     };
 
     const onTypeEvent = (e: any): void => {
-        e.target.value = e.target.value.toLowerCase()
+        let nTarget = (e.target.value)
+            .toLowerCase()
             .replaceAll(' ', '-')
             .replaceAll('--', '-')
-            .trim();
+            .trim()
+        ;
+
+        // To do not let a user but a - at index 0
+        if(nTarget[0] == '-' && nTarget.length == 1) {
+            e.target.value = "";
+        }
+        
+        else e.target.value = nTarget;
     }
 
     /**
@@ -94,29 +108,36 @@ export function AdTags(props: AdTagsProps): ReactElement {
     */
     const getErrorValue = (): string => {
         switch (props.error) {
-            case HtmlCode.LENGTH_EMPTY: return " cannot be empty";
-            case HtmlCode.UNIQUE_FAILED: return " already exists";
-            case HtmlCode.VALUE_AS_NOT_CHANGE: return " as no value changed."
+            case HtmlCode.LENGTH_EMPTY: return "Tags cannot be empty";
+            case HtmlCode.UNIQUE_FAILED: return "Tags already exists";
+            case HtmlCode.VALUE_AS_NOT_CHANGE: return "Tags as no value changed."
         }
     }
 
     const deleteEvent = (tag: string): void => {
         props.deleteTag(tag);
-        props.setError(HtmlCode.SUCCESS);
+
+        if(props.error != HtmlCode.SUCCESS) {
+            props.setError(HtmlCode.SUCCESS);
+        }
     }
 
     return (
         <>
             <div>
-                <IconLabelError iconProp={faHashtag} title="Tags" error={props.isSearch ? undefined : getErrorValue()} isTitle={props.isSearch} />
-                {props.isSearch ?
-                    <p style={{color : "red"}}>{getErrorValue()}</p> : <></>
-                }
-
-                <input placeholder={props.placeholder}
-                    className={(props.isSearch) ? "" : "ad-tags-section"}
+                <TextField 
+                    label={
+                        <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
+                    }
+                    variant={MUI_INPUT_VARIANT}
                     onChange={onTypeEvent}
-                    onDoubleClick={(e: any) => addEvent(e)} name="adTags" />
+                    type="text"
+                    error={!!getErrorValue()}
+                    helperText={getErrorValue()}
+                    onDoubleClick={(e: any) => addEvent(e)} name="adTags"
+                />
+                <br />
+
             </div>
             <div>
                 {props.tags?.map(value => (
