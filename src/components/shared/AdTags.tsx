@@ -124,22 +124,21 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
     return (
         <>
+            <TextField 
+                label={
+                    <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
+                }
+                variant={MUI_INPUT_VARIANT}
+                onChange={onTypeEvent}
+                type="text"
+                error={!!getErrorValue()}
+                helperText={getErrorValue()}
+                onDoubleClick={(e: any) => addEvent(e)} name="adTags"
+            />
+
             <div>
-                <TextField 
-                    label={
-                        <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
-                    }
-                    variant={MUI_INPUT_VARIANT}
-                    onChange={onTypeEvent}
-                    type="text"
-                    error={!!getErrorValue()}
-                    helperText={getErrorValue()}
-                    onDoubleClick={(e: any) => addEvent(e)} name="adTags"
-                />
                 <br />
 
-            </div>
-            <div>
                 {props.tags?.map(value => (
                     <AdTagPart label={value} onDoubleClick={() => deleteEvent(value)} key={createRandomKey()} />
                 ))}
