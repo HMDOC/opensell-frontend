@@ -1,7 +1,6 @@
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
-import { HtmlCode } from "../../services/verification/HtmlCode";
 import AdTagPart from "./part/AdView/AdTagPart";
 import IconLabelError from "./part/IconLabelError";
 import { TextField } from "@mui/material";
@@ -53,7 +52,7 @@ interface AdTagsProps {
  * @returns 
  */
 export function AdTags(props: AdTagsProps): ReactElement {
-    const addEvent = (e: any, tag: string): void => {
+    const handleError = (tag: string): AdTagsError => {
         let addError: AdTagsError = "NONE";
 
         // Check for error
@@ -64,28 +63,32 @@ export function AdTags(props: AdTagsProps): ReactElement {
         if (addError !== "NONE") {
             if (addError != props.error) props.setError(addError);
         } else {
-            props.addTag(tag);
             if (props.error !== "NONE") props.setError("NONE");
         }
 
-        e.target.value = "";
-    };
+        return addError;
+    }
 
-    const onTypeEvent = (e: any): void => {
-        let nTarget = (e.target.value)
-            .toLowerCase()
-            .replaceAll(' ', '-')
-            .replaceAll('--', '-')
-            .trim()
-        ;
+    const handleChange = (e: any): void => {
+        let currentTag = (e.target.value).toLowerCase().replaceAll(' ', '-').replaceAll('--', '-').trim();
 
         // To do not let a user but a - at index 0
-        if(nTarget[0] == '-' && nTarget.length == 1) {
+        if(currentTag[0] == '-' && currentTag.length == 1) {
             e.target.value = "";
         }
+
+        else e.target.value = currentTag;
         
-        else e.target.value = nTarget;
+        handleError(currentTag);
     }
+
+    const addEvent = (e: any): void => {
+        // The second statement is to verify the current target in case a onChange event as not to it yet. 
+        if(props.error == "NONE" && handleError(e.target.value) == "NONE") {
+            props.addTag(e.target.value);
+            e.target.value = "";
+        }
+    };
 
     const deleteEvent = (tag: string): void => {
         props.deleteTag(tag);
@@ -102,11 +105,11 @@ export function AdTags(props: AdTagsProps): ReactElement {
                     <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
                 }
                 variant={MUI_INPUT_VARIANT}
-                onChange={onTypeEvent}
+                onChange={handleChange}
                 type="text"
                 error={props.error != "NONE"}
                 helperText={props.error == "NONE" ? "" : props.error}
-                onDoubleClick={(e: any) => addEvent(e, e.target.value)} name="tags"
+                onDoubleClick={(e: any) => addEvent(e)} name="tags"
             />
 
             <div>
