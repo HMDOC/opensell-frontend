@@ -169,6 +169,7 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                         removeImage={(link) => this.setState({ images: this.state.images.filter(img => img.link !== link) })}
                         setImages={(images) => this.setState({ images })}
                     />
+                    <br />
 
                     <AdTypeSelect inputName="adTypeId" inputId="adTypeId" />
                     <br />

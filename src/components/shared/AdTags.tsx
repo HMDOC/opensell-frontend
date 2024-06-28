@@ -138,7 +138,6 @@ export function AdTags(props: AdTagsProps): ReactElement {
 
             <div>
                 <br />
-
                 {props.tags?.map(value => (
                     <AdTagPart label={value} onDoubleClick={() => deleteEvent(value)} key={createRandomKey()} />
                 ))}

@@ -1,14 +1,11 @@
-import "@css/component/part/AdView/AdTagPart.scss";
+import { Chip } from "@mui/material";
 
 export default function AdTagPart({label = "", onDoubleClick = undefined, isAdView = false}) {
     return(
-        <button 
-            style={{fontSize : isAdView ? "20px" : "16px"}} 
-            onDoubleClick={onDoubleClick ? onDoubleClick : null} 
-            className="ad-tag-part"
-            type="button"
-        >
-            #{label}
-        </button>
+        <Chip
+            sx={{ fontSize: "16px"}}
+            onDelete={onDoubleClick}
+            label={label}
+        />
     );
 }

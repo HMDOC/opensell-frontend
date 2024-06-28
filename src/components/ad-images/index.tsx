@@ -17,7 +17,7 @@ interface AdImagesProps {
     setError(error: string): void;
 }
 
-export const SaveCancelButton = (props: {save(): void, cancel(): void}) => {
+export const SaveCancelButton = (props: { save(): void, cancel(): void }) => {
     return (
         <>
             <button className="ad-image-action" onClick={props.save}>save</button>
@@ -150,15 +150,13 @@ export class AdImages extends PureComponent<AdImagesProps> {
                     {this.props.images?.map(img => (
                         <img onDoubleClick={() => this.deleteImg(img)} className="ad-image" key={createRandomKey()} src={img.link} />
                     ))}
-                    <br />
-                    <br />
 
                     {this.props.isModification && this.state.isEditing ?
                         (
                             <>
+                                <br />
+                                <br />
                                 <SaveCancelButton save={() => this.save()} cancel={() => this.cancel()} />
-                                <br />
-                                <br />
                             </>
                         ) : (
                             <></>
