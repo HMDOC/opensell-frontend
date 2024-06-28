@@ -46,7 +46,7 @@ export interface AdCreationInputProperties {
     placeholder?: string;
     step?: number;
     accept?: string;
-    iconProp?: IconProp;
+    icon?: any;
     validateSchema?: Schema;
     changeErrorKeys?(key: string, isRemove?: boolean): void;
 }

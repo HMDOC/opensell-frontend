@@ -22,18 +22,18 @@ import "./style.scss";
 
 export function notEmptyWithMaxAndMin(max: number, min: number, label?: string) {
     return new StringSchema()
-        .required(`${label ?? ""} is required`)
-        .max(max, `${label ?? ""} length cannot be more than ${max}`)
-        .min(min, `${label ?? ""} length cannot be less than ${min}`);
+        .required(`${label ?? ""} is required.`)
+        .max(max, `${label ?? ""} cannot have more than ${max} characters.`)
+        .min(min, `${label ?? ""} cannot have less than ${min} characters.`);
 }
 
 export function priceWithMinAndMax(max: number, min: number, label?: string) {
     return new NumberSchema()
         // To do not get a error if the user put the input empty
         .transform( cv => isNaN(cv) ? undefined : cv)
-        .max(max, `${label ?? ""} cannot be more than ${max}`)
-        .min(min, `${label ?? ""} cannot be less than ${min}`)
-        .required(`${label ?? ""} is required`);
+        .max(max, `${label ?? ""} cannot be more than ${max}$.`)
+        .min(min, `${label ?? ""} cannot be less than ${min}$.`)
+        .required(`${label ?? ""} is required.`);
 }
 
 const SIMPLE: Array<SimpleInputProps> = [
