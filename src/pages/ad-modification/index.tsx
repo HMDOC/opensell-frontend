@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { BooleanSchema, NumberSchema, StringSchema } from "yup";
 import { AdImages, SaveCancelButton } from "../../components/ad-images";
 import AdShapeSelect from "../../components/shared/AdShapeSelect";
-import { AdTags } from "../../components/shared/AdTags";
+import { AdTags, AdTagsError } from "../../components/shared/AdTags";
 import AdTypeSelect from "../../components/shared/AdTypeSelect";
 import AdVisibilitySelect from "../../components/shared/AdVisibilitySelect";
 import {
@@ -96,7 +96,7 @@ export default function AdModification(): ReactElement {
     const [ad, setAd] = useState<AdModifView>(undefined);
     const navigate = useNavigate();
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
-    const [errorTags, setErrorTags] = useState<HtmlCode>(HtmlCode.SUCCESS);
+    const [errorTags, setErrorTags] = useState<AdTagsError>("NONE");
     const [adImages, setAdImages] = useState<Array<BlockImage>>([]);
     const [errorImages, setErrorImages] = useState<string>();
     console.log(ad);
@@ -132,7 +132,7 @@ export default function AdModification(): ReactElement {
         setOldTags({ ...oldTags, isOldValueSaved: false });
         if (isReset) setAdTags(oldTags.tagsForReset);
         setIsEditing(false);
-        setErrorTags(HtmlCode.SUCCESS);
+        setErrorTags("NONE");
     }
 
     function save() {

@@ -6,6 +6,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import { AdImage } from "@entities/dto/AdBuyerView";
 import { Schema } from "yup";
+import { AdTagsError } from "@shared/AdTags";
 
 export interface AdCreationInputObject {
     errorMessage: string,
@@ -26,7 +27,7 @@ export const formValidation: {[key:string]: AdCreationInputObject} = {
 
 export interface AdCreationState {
     globalErrorMessage: string,
-    errorAdTags: HtmlCode,
+    errorAdTags: AdTagsError,
     typeArray: AdType[],
     selectedTags: string[],
     images: Array<BlockImage>,

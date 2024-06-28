@@ -68,10 +68,10 @@ export function AdCreationInput(props: AdCreationInputProperties) {
 }
 
 export default class AdCreation extends Component<AdCreationpProperties, AdCreationState> {
-    state = {
+    state: AdCreationState = {
         globalErrorMessage: "",
         typeArray: [],
-        errorAdTags: HtmlCode.SUCCESS,
+        errorAdTags: "NONE",
         selectedTags: [],
         images: [],
         errorImages: "",

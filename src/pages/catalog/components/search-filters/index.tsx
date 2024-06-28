@@ -1,7 +1,7 @@
 import {ReactElement, useState } from "react";
 import { MAX_PRICE} from "../../../../components/shared/SharedAdPart";
 import AdTypeSelect from "../../../../components/shared/AdTypeSelect";
-import { AdTags } from "../../../../components/shared/AdTags";
+import { AdTags, AdTagsError } from "../../../../components/shared/AdTags";
 import { HtmlCode } from "@services/verification/HtmlCode";
 import { SHAPE_ARRAY } from "../../../../components/shared/AdShapeSelect";
 import IconLabelError from "../../../../components/shared/part/IconLabelError";
@@ -24,7 +24,7 @@ const SearchFilters = (props) : ReactElement =>{
     ];
 
     // Tag error and emplacement container
-    const [searchTagsError, setSearchTagsError] = useState<HtmlCode>(HtmlCode.SUCCESS);
+    const [searchTagsError, setSearchTagsError] = useState<AdTagsError>("NONE");
 
     const [searchOrder, setSearchOrder] = useState<number>(props.defValue);
 

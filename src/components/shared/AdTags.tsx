@@ -7,12 +7,15 @@ import IconLabelError from "./part/IconLabelError";
 import { TextField } from "@mui/material";
 import { MUI_INPUT_VARIANT } from "@context/AppContext";
 
+export type AdTagsError =
+    "NONE" |
+    "Tag cannot be empty" |
+    "Tag already exists"
+    ;
+
 interface AdTagsProps {
-    /**
-     * Error are handled at distance.
-     */
-    error: HtmlCode;
-    setError(error: HtmlCode): void;
+    error: AdTagsError;
+    setError(error: AdTagsError): void;
 
     /**
      * @brief
@@ -50,38 +53,22 @@ interface AdTagsProps {
  * @returns 
  */
 export function AdTags(props: AdTagsProps): ReactElement {
-    /**
-     * @brief
-     * Check if the new tag have an error before putting it in the list.
-     * 
-     * @return The error type.
-    */
-    const verifyTag = (tag: string): HtmlCode => {
-        // If empty
-        if (!tag) return HtmlCode.LENGTH_EMPTY;
+    const addEvent = (e: any, tag: string): void => {
+        let addError: AdTagsError = "NONE";
 
-        // If tag already in the box
-        if (props.tags.includes(tag)) return HtmlCode.UNIQUE_FAILED;
-        else return HtmlCode.SUCCESS;
-    }
+        // Check for error
+        if (!tag) addError = "Tag cannot be empty";
+        else if (props.tags.includes(tag)) addError = "Tag already exists";
 
-    const addEvent = (e: any): void => {
-        e.preventDefault();
-        console.log("AdEvent");
-
-        if (props.tags) {
-
-            let addError = verifyTag(e.target.value);
-
-            if (addError !== HtmlCode.SUCCESS) {
-                props.setError(addError);
-            } else {
-                props.addTag(e.target.value);
-                if (props.error !== HtmlCode.SUCCESS) props.setError(HtmlCode.SUCCESS);
-            }
-
-            e.target.value = "";
+        // if error and error is not already their.
+        if (addError !== "NONE") {
+            if (addError != props.error) props.setError(addError);
+        } else {
+            props.addTag(tag);
+            if (props.error !== "NONE") props.setError("NONE");
         }
+
+        e.target.value = "";
     };
 
     const onTypeEvent = (e: any): void => {
@@ -100,25 +87,11 @@ export function AdTags(props: AdTagsProps): ReactElement {
         else e.target.value = nTarget;
     }
 
-    /**
-     * @brief
-     * Get a HtmlCode error and get the string result. This function should have a switch case.
-     * 
-     * @return The string representation of the error.
-    */
-    const getErrorValue = (): string => {
-        switch (props.error) {
-            case HtmlCode.LENGTH_EMPTY: return "Tags cannot be empty";
-            case HtmlCode.UNIQUE_FAILED: return "Tags already exists";
-            case HtmlCode.VALUE_AS_NOT_CHANGE: return "Tags as no value changed."
-        }
-    }
-
     const deleteEvent = (tag: string): void => {
         props.deleteTag(tag);
 
-        if(props.error != HtmlCode.SUCCESS) {
-            props.setError(HtmlCode.SUCCESS);
+        if (props.error != "NONE") {
+            props.setError("NONE");
         }
     }
 
@@ -131,9 +104,9 @@ export function AdTags(props: AdTagsProps): ReactElement {
                 variant={MUI_INPUT_VARIANT}
                 onChange={onTypeEvent}
                 type="text"
-                error={!!getErrorValue()}
-                helperText={getErrorValue()}
-                onDoubleClick={(e: any) => addEvent(e)} name="adTags"
+                error={props.error != "NONE"}
+                helperText={props.error == "NONE" ? "" : props.error}
+                onDoubleClick={(e: any) => addEvent(e, e.target.value)} name="tags"
             />
 
             <div>
