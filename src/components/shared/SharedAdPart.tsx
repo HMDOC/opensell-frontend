@@ -6,6 +6,8 @@ import { adModification } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import IconLabelError from "./part/IconLabelError";
+import { MenuItem, TextField } from "@mui/material";
+import { MUI_INPUT_VARIANT } from "@context/AppContext";
 
 export const MAX_PRICE = 999990;
 
@@ -231,7 +233,7 @@ export interface SelectorReaderProps extends AdInputProps {
 Added the useEffect and the useState because the component was not working in AdModification.
 */
 export function SelectorReader(props: SelectorReaderProps) {
-    const [selectValue, setSelectValue] = useState();
+    const [selectValue, setSelectValue] = useState(0);
 
     useEffect(() => {
         if (props.defaultValue) {
@@ -247,15 +249,26 @@ export function SelectorReader(props: SelectorReaderProps) {
 
     return (
         <>
-            <IconLabelError iconProp={props.iconProp} title={props.title} />
-            <select name={props.name} value={selectValue} className="selector-reader" onChange={handleChange} >
+            <TextField
+                label={
+                    <IconLabelError iconProp={props.iconProp} title={props.title} />
+                }
+                value={selectValue}
+                onChange={handleChange}
+                variant={MUI_INPUT_VARIANT}
+                sx={{
+                    width: 200
+                }}
+                name={props.name}
+                select
+            >
                 {
                     props.options.map((option, index) => (
-                        <option key={createRandomKey()} value={index}>{option}</option>
+                        <MenuItem key={createRandomKey()} value={index}>{option}</MenuItem>
                     ))
                 }
-            </select>
 
+            </TextField>
             <br />
             <br />
         </>

@@ -1,8 +1,10 @@
-import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
+import { MUI_INPUT_VARIANT } from "@context/AppContext";
+import { faList } from "@fortawesome/free-solid-svg-icons";
+import { MenuItem, TextField } from "@mui/material";
+import { AxiosError } from "axios";
+import { ChangeEvent, Component, ReactNode } from "react";
 import { AdType } from "../../entities/dto/AdType";
 import { getAllAdTypes } from "../../services/AdService";
-import { AxiosError } from "axios";
-import { faList } from "@fortawesome/free-solid-svg-icons";
 import IconLabelError from "./part/IconLabelError";
 
 interface AdTypeSelectProperties {
@@ -38,7 +40,7 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
     //https://stackoverflow.com/questions/14976495/get-selected-option-text-with-javascript
     handleChange(event: ChangeEvent<HTMLSelectElement>) {
         const { value, options, selectedIndex } = event.target;
-        this.props.externalOnChange({ idAdType: parseInt(value), name: options[selectedIndex].text });
+        this.props.externalOnChange?.({ idAdType: parseInt(value), name: options[selectedIndex].text });
     }
 
     setTypeArray(array: AdType[]): void {
@@ -47,7 +49,13 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
 
     componentDidMount(): void {
         getAllAdTypes().then((rep) => {
-            if (rep?.data) this.setTypeArray(rep?.data); 
+            let array = rep?.data;
+            
+            if(this.props.defaultOptionText) {
+                array = [{idAdType : "" as any, name : this.props.defaultOptionText}, ...array]
+            }
+            
+            if (rep?.data) this.setTypeArray(array);
         }).catch((error: AxiosError) => { this.setTypeArray([{ idAdType: 1, name: "No tags found..." }]); }
         );
     }
@@ -55,27 +63,30 @@ export default class AdTypeSelect extends Component<AdTypeSelectProperties, AdTy
     render(): ReactNode {
         return (
             <>
-                {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ? 
+                {!this.props.isModification || (this.state.typeArray && this.props.selectedIndex) ?
                     (
                         <>
-                            <IconLabelError iconProp={faList} title="Category" isTitle={this.props.defaultOptionText !== undefined} />
-
-                            <select
-                                className={this.props.cName ? "" : "selector-reader"}
+                            <TextField
                                 id={this.props.inputId}
                                 name={this.props.inputName}
-                                defaultValue={this.props.selectedIndex ? this.props.selectedIndex : ""}
-                                onChange={this.props.isModification ? (event: ChangeEvent<HTMLSelectElement>) => { this.handleChange(event) } : null}>
-
-                                {this.props.defaultOptionText ? <option value={""}>{this.props.defaultOptionText}</option> : <></>}
+                                label={
+                                    <IconLabelError iconProp={faList} title="Category" />
+                                }
+                                defaultValue={this.props.selectedIndex ?? ""}
+                                variant={MUI_INPUT_VARIANT}
+                                sx={{
+                                    width: 200
+                                }}
+                                onChange={this.props.isModification ? (event) => { this.handleChange(event as any) } : undefined}
+                                select
+                            >
                                 {this.state.typeArray?.map((type, key) => (
-                                    <option value={type.idAdType} key={key}>{type.name}</option>
+                                    <MenuItem value={type.idAdType} key={key}>{type.name}</MenuItem>
                                 ))}
-
-                            </select>
+                            </TextField>
                         </>
-                    ) 
-                    : 
+                    )
+                    :
                     <></>}
             </>
 
