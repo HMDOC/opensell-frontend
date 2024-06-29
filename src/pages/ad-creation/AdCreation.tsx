@@ -1,10 +1,10 @@
-import { faDollar, faItalic, faLocationDot, faScroll, faX } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MUI_INPUT_VARIANT } from "@context/AppContext";
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import { Box, Button, TextField } from "@mui/material";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@pages/ad-modification";
 import "@pages/ad-modification/style.scss";
 import { AxiosError, HttpStatusCode } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, useState } from "react";
-import { Button } from "react-bootstrap";
 import { Navigate } from "react-router-dom";
 import { AdImages } from "../../components/ad-images";
 import AdShapeSelect from "../../components/shared/AdShapeSelect";
@@ -12,15 +12,10 @@ import { AdTags } from "../../components/shared/AdTags";
 import AdTypeSelect from "../../components/shared/AdTypeSelect";
 import AdVisibilitySelect from "../../components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "../../components/shared/SharedAdPart";
-import IconLabelError from "../../components/shared/part/IconLabelError";
 import { AdCreationInputProperties, AdCreationState, AdCreationpProperties, formValidation, v2CreateAd } from "../../services/AdCreationService";
 import { getAllAdTypes } from "../../services/AdService";
 import { getFormData, getFormDataAsArray } from "../../services/FormService";
-import PaidIcon from '@mui/icons-material/Paid';
-import { MUI_INPUT_VARIANT } from "@context/AppContext";
-import { Icon, TextField } from "@mui/material";
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import SellIcon from '@mui/icons-material/Sell';
+
 /**
  * @author Olivier Mansuy
  */
@@ -50,7 +45,7 @@ export function AdCreationInput(props: AdCreationInputProperties) {
         <>
             <TextField
                 label={
-                    <label style={{display : "flex", justifyContent : "center", alignItems : "center"}}>
+                    <label style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
                         {props.icon}
                         {props.labelText}
                     </label>
@@ -61,7 +56,7 @@ export function AdCreationInput(props: AdCreationInputProperties) {
                 type={props.type ?? "text"}
                 variant={MUI_INPUT_VARIANT}
                 helperText={error}
-                sx={{width : props.isTextArea ? "1000px" : "300px"}}
+                sx={{ width: props.isTextArea ? "1000px" : "300px" }}
                 name={props.name}
                 onChange={handleChange}
             />
@@ -156,10 +151,10 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
     render(): ReactNode {
         return (
             <div>
-                <button onClick={() => this.props.closeModalCallback()} className="AdCreationExitButton"><FontAwesomeIcon icon={faX} /></button>
-                <br /><br />
-
                 <form onSubmit={(formEvent) => this.saveAd(formEvent)}>
+                    <h3>Create Ad</h3>
+                    <br />
+
                     <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Title" name="title" type="text" validateSchema={notEmptyWithMaxAndMin(80, 3, "Title")} />
                     <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Price" name="price" type="number" min={0} step={0.01} max={MAX_PRICE} validateSchema={priceWithMinAndMax(MAX_PRICE, 0, "Price")} />
                     <AdCreationInput changeErrorKeys={(key, isRemove) => this.changeErrorKeys(key, isRemove)} labelText="Description" name="description" isTextArea validateSchema={notEmptyWithMaxAndMin(5000, 10, "Description")} />
@@ -189,7 +184,11 @@ export default class AdCreation extends Component<AdCreationpProperties, AdCreat
                     />
                     <br />
 
-                    <Button disabled={this.state.errorKeys.length != 0} type="submit">Create</Button>
+
+                    <Box display="flex" justifyContent="space-between" width="180px" sx={{ float: "right" }}>
+                        <Button variant="text" onClick={() => this.props.closeModalCallback()}>Cancel</Button>
+                        <Button type="submit" variant="contained">{"Create"}</Button>
+                    </Box>
                     <br />
                     <h5 className="text-center text-danger"><span>{this.state.globalErrorMessage}</span></h5>
                 </form>

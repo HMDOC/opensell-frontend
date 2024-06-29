@@ -67,7 +67,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
         }
 
         return addError;
-    }
+    };
 
     const handleChange = (e: any): void => {
         let currentTag = (e.target.value).toLowerCase().replaceAll(' ', '-').replaceAll('--', '-').trim();
@@ -80,7 +80,7 @@ export function AdTags(props: AdTagsProps): ReactElement {
         else e.target.value = currentTag;
         
         handleError(currentTag);
-    }
+    };
 
     const addEvent = (e: any): void => {
         // The second statement is to verify the current target in case a onChange event as not to it yet. 
@@ -96,11 +96,11 @@ export function AdTags(props: AdTagsProps): ReactElement {
         if (props.error != "NONE") {
             props.setError("NONE");
         }
-    }
+    };
 
     return (
         <>
-            <TextField 
+            <TextField
                 label={
                     <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
                 }

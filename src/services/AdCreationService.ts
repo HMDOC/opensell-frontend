@@ -1,12 +1,10 @@
-import { AdType } from "../entities/dto/AdType"
-import { HtmlCode } from "./verification/HtmlCode"
-import http from "../../src/http-commons";
-import { BlockImage } from "../entities/dto/BlockImages";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { ChangeEvent, HTMLInputTypeAttribute } from "react";
 import { AdImage } from "@entities/dto/AdBuyerView";
-import { Schema } from "yup";
 import { AdTagsError } from "@shared/AdTags";
+import { HTMLInputTypeAttribute } from "react";
+import { Schema } from "yup";
+import http from "../../src/http-commons";
+import { AdType } from "../entities/dto/AdType";
+import { BlockImage } from "../entities/dto/BlockImages";
 
 export interface AdCreationInputObject {
     errorMessage: string,

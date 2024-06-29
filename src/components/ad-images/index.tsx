@@ -5,6 +5,8 @@ import "./style.scss";
 import { BlockImage } from "../../entities/dto/BlockImages";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import IconLabelError from "../shared/part/IconLabelError";
+import { Box, Button } from "@mui/material";
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 interface AdImagesProps {
     images: Array<BlockImage>;
@@ -59,7 +61,7 @@ export class AdImages extends PureComponent<AdImagesProps> {
         let error = "";
 
         if (this.props.images.length <= 2 && isDelete) {
-            error = " need to be at least two";
+            error = "You need to have at least two images.";
 
             if (error !== this.props.error) {
                 this.props.setError(error);
@@ -143,8 +145,25 @@ export class AdImages extends PureComponent<AdImagesProps> {
     public render(): ReactNode {
         return (
             <>
-                <IconLabelError title="Images" iconProp={faImage} error={this.props.error} />
-                <input className="ad-image-input" onChange={(e) => this.handleChange(e)} type="file" multiple accept="image/png" />
+                <IconLabelError title="Images" iconProp={faImage}></IconLabelError>
+                {!!this.props.error ? (
+                    <p style={{ color: "red" }}>{this.props.error}</p>
+                ) : (<></>)}
+                <label htmlFor="ad-image-input">
+                    <Button component="span" variant="contained">
+                        upload
+                    </Button>
+                </label>
+
+
+                <input
+                    id="ad-image-input"
+                    onChange={(e) => this.handleChange(e)}
+                    type="file"
+                    multiple
+                    accept="image/png"
+                    hidden
+                />
 
                 <div>
                     {this.props.images?.map(img => (
