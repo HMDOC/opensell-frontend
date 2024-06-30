@@ -1,17 +1,15 @@
-import { faEarthAmerica, faList, faShapes } from "@fortawesome/free-solid-svg-icons";
-import { SelectorReader } from "./SharedAdPart";
-import { AdShapePartProps } from "./AdShapeSelect";
+import { faEarthAmerica } from "@fortawesome/free-solid-svg-icons";
+import { SelectorReader, SelectorReaderProps } from "./SharedAdPart";
 
 export const VISIBILITY_ARRAY: string[] = ["public", "private", "link only"];
 
-export default function AdVisibilitySelect(props: AdShapePartProps) {
-    return(
+export default function AdVisibilitySelect(props: SelectorReaderProps) {
+    return (
         <SelectorReader
-            name="visibility"
-            iconProp={faEarthAmerica} 
-            title="Visibility" 
-            options={VISIBILITY_ARRAY} 
-            request={props.request} 
-            defaultValue={props.defaultValue} />
+            {...props}
+            iconProp={faEarthAmerica}
+            title="Visibility"
+            options={VISIBILITY_ARRAY}
+        />
     );
 }

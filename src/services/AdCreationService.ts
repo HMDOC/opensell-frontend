@@ -31,7 +31,6 @@ export interface AdCreationState {
     images: Array<BlockImage>,
     errorImages: string,
     adWasCreated: boolean
-    errorKeys?: Array<string>;
 }
 
 export interface AdCreationInputProperties {
@@ -40,18 +39,9 @@ export interface AdCreationInputProperties {
     labelText: string;
     min?: number;
     max?: number;
-    isTextArea?: boolean;
     placeholder?: string;
     step?: number;
     accept?: string;
-    icon?: any;
-    validateSchema?: Schema;
-    changeErrorKeys?(key: string, isRemove?: boolean): void;
-}
-
-export interface AdCreationpProperties {
-    idCustomer: number;
-    closeModalCallback(): void;
 }
 
 export const v2CreateAd = async (formData: FormData) => {

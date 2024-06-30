@@ -1,22 +1,15 @@
 import { faShapes } from "@fortawesome/free-solid-svg-icons";
-import { SelectorReader } from "./SharedAdPart";
-import { AdShape } from "../../entities/dto/AdBuyerView";
+import { SelectorReader, SelectorReaderProps } from "./SharedAdPart";
 
 export const SHAPE_ARRAY: string[] = ["new", "like new", "good", "usable", "bad", "unknown"];
 
-export interface AdShapePartProps {
-    defaultValue?: any;
-    request?(value: any): void;
-}
-
-export default function AdShapeSelect(props: AdShapePartProps) {
-    return(
+export default function AdShapeSelect(props: SelectorReaderProps) {
+    return (
         <SelectorReader
-            name="shape"
-            iconProp={faShapes} 
-            title="Shape" 
-            options={SHAPE_ARRAY} 
-            request={props.request} 
-            defaultValue={props.defaultValue} />
+            {...props}
+            iconProp={faShapes}
+            title="Shape"
+            options={SHAPE_ARRAY}
+        />
     );
 }

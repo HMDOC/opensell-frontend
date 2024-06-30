@@ -1,13 +1,14 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { createRef, PureComponent, ReactNode, useEffect, useState } from "react";
-import { Schema } from "yup";
+import { MUI_INPUT_VARIANT } from "@context/AppContext";
 import "@css/component/part/SharedAdPart.scss";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { MenuItem, TextField } from "@mui/material";
+import { ErrorMessage, FieldProps } from "formik";
+import { createRef, PureComponent, ReactNode } from "react";
+import { Schema } from "yup";
 import { adModification } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import IconLabelError from "./part/IconLabelError";
-import { MenuItem, TextField } from "@mui/material";
-import { MUI_INPUT_VARIANT } from "@context/AppContext";
 
 export const MAX_PRICE = 999990;
 
@@ -15,6 +16,8 @@ export const MAX_PRICE = 999990;
  * To identify the field when we send the query to modify and Ad,
  * 
  * @author Achraf
+ * @deprecated
+ * @forRemoval
  */
 export enum ModifType {
     TITLE,
@@ -31,6 +34,8 @@ export enum ModifType {
  * The type for the SimpleInput component.
  * 
  * @auhtor Achraf
+ * @deprecated
+ * @forRemoval
  */
 export enum InputType {
     DEFAULT,
@@ -40,7 +45,8 @@ export enum InputType {
 
 /**
  * This interface is here to enable polymorphisme with the props.
- * 
+ * @deprecated
+ * @forRemoval
  */
 export interface AdInputProps {
 
@@ -50,6 +56,8 @@ export interface AdInputProps {
  * The props of the SimpleInput Component.
  * 
  * @author Achraf
+ * @deprecated
+ * @forRemoval
  */
 export interface SimpleInputProps extends AdInputProps {
     idAd?: number;
@@ -67,12 +75,20 @@ export interface SimpleInputProps extends AdInputProps {
     verifyProperty?: Schema;
 }
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export enum BlurScopeType {
     CANCEL,
     SAVE,
     INPUT
 };
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export class SimpleInput extends PureComponent<SimpleInputProps> {
     public oldValue: any;
 
@@ -220,57 +236,44 @@ export class SimpleInput extends PureComponent<SimpleInputProps> {
     }
 }
 
-export interface SelectorReaderProps extends AdInputProps {
+export interface SelectorReaderProps extends AdInputProps, FieldProps {
     title: string;
-    name: string;
     iconProp: IconProp;
-    options: Array<String>;
-    defaultValue?: any;
-    request?(value: any): any;
+    options?: Array<String>;
+    children?: ReactNode;
 }
 
 /*
 Added the useEffect and the useState because the component was not working in AdModification.
 */
 export function SelectorReader(props: SelectorReaderProps) {
-    const [selectValue, setSelectValue] = useState(0);
-
-    useEffect(() => {
-        if (props.defaultValue) {
-            setSelectValue(props.defaultValue);
-        }
-    }, [props.defaultValue]);
-
-    const handleChange = (e: any) => {
-        let value = e.target.value;
-        setSelectValue(value);
-        props.request?.(value);
-    }
+    const { name } = props.field;
+    const { errors, touched } = props.form;
 
     return (
         <>
             <TextField
                 label={
-                    <IconLabelError iconProp={props.iconProp} title={props.title} />
+                    <IconLabelError {...props} />
                 }
-                value={selectValue}
-                onChange={handleChange}
                 variant={MUI_INPUT_VARIANT}
                 sx={{
                     width: 200
                 }}
-                name={props.name}
+                {...props.field}
+                error={!!errors[name] && touched[name] as boolean}
+                helperText={<ErrorMessage name={props.field.name} />}
                 select
             >
                 {
-                    props.options.map((option, index) => (
-                        <MenuItem key={createRandomKey()} value={index}>{option}</MenuItem>
-                    ))
+                    (props.children) ??
+                    (
+                        props.options?.map((option, index) => (
+                            <MenuItem key={createRandomKey()} value={index}>{option}</MenuItem>
+                        ))
+                    )
                 }
-
             </TextField>
-            <br />
-            <br />
         </>
     );
 }

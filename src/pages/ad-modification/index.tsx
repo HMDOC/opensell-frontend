@@ -30,7 +30,7 @@ export function notEmptyWithMaxAndMin(max: number, min: number, label?: string) 
 export function priceWithMinAndMax(max: number, min: number, label?: string) {
     return new NumberSchema()
         // To do not get a error if the user put the input empty
-        .transform( cv => isNaN(cv) ? undefined : cv)
+        .transform(cv => isNaN(cv) ? undefined : cv)
         .max(max, `${label ?? ""} cannot be more than ${max}$.`)
         .min(min, `${label ?? ""} cannot be less than ${min}$.`)
         .required(`${label ?? ""} is required.`);
@@ -71,9 +71,9 @@ const SIMPLE: Array<SimpleInputProps> = [
 
 export const SimpleInputPart = ({ start = 0, end = 2, ad }): any => {
     return (
-        <div style={{display : "flex"}}>
+        <div style={{ display: "flex" }}>
             {SIMPLE.slice(start, end).map(value => (
-                <div style={{marginRight : "40px"}} key={createRandomKey()}>
+                <div style={{ marginRight: "40px" }} key={createRandomKey()}>
                     <SimpleInput
                         iconProp={value?.iconProp}
                         title={value.title}
@@ -155,71 +155,68 @@ export default function AdModification(): ReactElement {
 
     return (
         <div className="ad-modif-div">
-        <title>Modify my ads</title>
-        <div className="reg-background" style={{overflowY : "scroll", height :"90vh"}}>
-            <>
-                <SimpleInputPart ad={ad} />
-                <SimpleInputPart ad={ad} start={2} end={4} />
+            <title>Modify my ads</title>
+            <div className="reg-background" style={{ overflowY: "scroll", height: "90vh" }}>
+                <>
+                    <SimpleInputPart ad={ad} />
+                    <SimpleInputPart ad={ad} start={2} end={4} />
 
-                <SimpleInput
-                    defaultValue={ad?.adDescription}
-                    iconProp={faScroll}
-                    title="Descripiton"
-                    modifType={ModifType.DESCRIPTION}
-                    idAd={ad?.idAd}
-                    name={"adDescription"}
-                    type={InputType.TEXTARIA}
-                    verifyProperty={notEmptyWithMaxAndMin(5000, 10)}
-                    key={createRandomKey()} />
+                    <SimpleInput
+                        defaultValue={ad?.adDescription}
+                        iconProp={faScroll}
+                        title="Descripiton"
+                        modifType={ModifType.DESCRIPTION}
+                        idAd={ad?.idAd}
+                        name={"adDescription"}
+                        type={InputType.TEXTARIA}
+                        verifyProperty={notEmptyWithMaxAndMin(5000, 10)}
+                        key={createRandomKey()} />
 
-                <AdImages
-                    setError={setErrorImages}
-                    error={errorImages}
-                    idAd={ad?.idAd}
-                    images={adImages}
-                    setImages={setAdImages}
-                    reset={(backup) => setAdImages(backup)}
-                    removeImage={(link) => setAdImages(adImages.filter(img => img.link !== link))}
-                    isModification={true}
-                />
+                    <AdImages
+                        setError={setErrorImages}
+                        error={errorImages}
+                        idAd={ad?.idAd}
+                        images={adImages}
+                        setImages={setAdImages}
+                        reset={(backup) => setAdImages(backup)}
+                        removeImage={(link) => setAdImages(adImages.filter(img => img.link !== link))}
+                        isModification={true}
+                    />
 
-                <AdTags
-                    error={errorTags}
-                    setError={setErrorTags}
-                    tags={adTags}
-                    addTag={addEvent}
-                    deleteTag={deleteEvent}
-                />
+                    <AdTags
+                        error={errorTags}
+                        setError={setErrorTags}
+                        tags={adTags}
+                        addTag={addEvent}
+                        deleteTag={deleteEvent}
+                    />
 
-                {isEditing ?
-                    (
-                        <>
-                            <SaveCancelButton save={save} cancel={reset} />
-                            <br /><br />
-                        </>
-                    ) : (<></>)
+                    {isEditing ?
+                        (
+                            <>
+                                <SaveCancelButton save={save} cancel={reset} />
+                                <br /><br />
+                            </>
+                        ) : (<></>)
 
-                }
+                    }
 
-                <br />
+                    <br />
 
-                <AdTypeSelect
-                    inputName="AdType"
-                    inputId="adType"
-                    isModification
-                    selectedIndex={ad?.adType?.idAdType}
-                    externalOnChange={(type) => adModification(ModifType.AD_TYPE, type, ad?.idAd)} />
-                <br />
-                <br />
+                    {/* In revision */}
+                    {/* <AdTypeSelect  /> */}
+                    <br />
+                    <br />
 
-                <AdShapeSelect
+                    {/* In revision */}
+                    {/* <AdShapeSelect
                     defaultValue={ad?.adShape} 
                     request={(value: any) => adModification(ModifType.SHAPE, value, ad?.idAd)} />
                 <AdVisibilitySelect 
                     defaultValue={ad?.adVisibility} 
-                    request={(value: any) => adModification(ModifType.VISIBILITY, value, ad?.idAd)} />
-            </>
-        </div>
+                    request={(value: any) => adModification(ModifType.VISIBILITY, value, ad?.idAd)} /> */}
+                </>
+            </div>
         </div>
     );
 }

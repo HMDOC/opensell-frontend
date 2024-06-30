@@ -19,6 +19,7 @@
     "bootstrap": "^5.3.3",
     "emailjs": "^4.0.3",
     "emailjs-com": "^3.2.0",
+    "formik": "^2.4.6",
     "jose": "^5.2.3",
     "jwt-decode": "^4.0.0",
     "node-jose": "^2.2.0",

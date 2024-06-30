@@ -1,7 +1,7 @@
 import "./style.css";
 import { faEarthAmericas, faLink, faLock, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import AdCreationModal from "@pages/ad-creation/AdCreationModal";
+import AdCreationModal from "@pages/ad-creation/";
 import AdPricePart from "../../components/shared/part/AdView/AdPricePart";
 import { AxiosResponse } from "axios";
 import { PureComponent, ReactNode, useEffect, useState } from "react";

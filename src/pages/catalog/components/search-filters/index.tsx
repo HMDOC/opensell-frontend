@@ -49,8 +49,8 @@ const SearchFilters = (props) : ReactElement =>{
                 <input type="date" name="dateMax" id="dateMax"
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
-                <AdTypeSelect inputId="typeId" inputName="typeId" defaultOptionText="All"/>
-
+                {/* Cannot work without Formik! */}
+                {/* <AdTypeSelect /> */}
 
                 <IconLabelError iconProp={faSort} title="Sorting" isTitle />
                 <select name="sortBy" id="sortBy" className="selector-reader">
