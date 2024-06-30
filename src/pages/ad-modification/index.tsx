@@ -1,12 +1,9 @@
 import { faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BooleanSchema, NumberSchema, StringSchema } from "yup";
+import { BooleanSchema, number, string } from "yup";
 import { AdImages, SaveCancelButton } from "../../components/ad-images";
-import AdShapeSelect from "../../components/shared/AdShapeSelect";
 import { AdTags, AdTagsError } from "../../components/shared/AdTags";
-import AdTypeSelect from "../../components/shared/AdTypeSelect";
-import AdVisibilitySelect from "../../components/shared/AdVisibilitySelect";
 import {
     InputType,
     ModifType,
@@ -15,20 +12,20 @@ import {
 } from "../../components/shared/SharedAdPart";
 import { AdModifView } from "../../entities/dto/AdModifView";
 import { BlockImage } from "../../entities/dto/BlockImages";
-import { adModification, adModificationTags, getAdToModif } from "../../services/AdService";
+import { adModificationTags, getAdToModif } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import "./style.scss";
 
 export function notEmptyWithMaxAndMin(max: number, min: number, label?: string) {
-    return new StringSchema()
+    return string()
         .required(`${label ?? ""} is required.`)
         .max(max, `${label ?? ""} cannot have more than ${max} characters.`)
         .min(min, `${label ?? ""} cannot have less than ${min} characters.`);
 }
 
 export function priceWithMinAndMax(max: number, min: number, label?: string) {
-    return new NumberSchema()
+    return number()
         // To do not get a error if the user put the input empty
         .transform(cv => isNaN(cv) ? undefined : cv)
         .max(max, `${label ?? ""} cannot be more than ${max}$.`)

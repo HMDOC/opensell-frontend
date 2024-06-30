@@ -5,6 +5,7 @@
         "resolveJsonModule": true,
         "paths": {
             "@animations/*": ["./src/components/animations/*"],
+            "@components/*": ["./src/components/*"],
             "@shared/*": ["./src/components/shared/*"],
             "@services/*": ["./src/services/*"],
             "@pages/*": ["./src/pages/*"],

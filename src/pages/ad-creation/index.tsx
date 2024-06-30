@@ -1,19 +1,15 @@
-import { AdType } from "@entities/dto/AdType";
+import AdShapeSelect from "@components/shared/AdShapeSelect";
+import { AdTagsError } from "@components/shared/AdTags";
+import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
+import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Stack } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@pages/ad-modification";
-import "@pages/ad-modification/style.scss";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { Field, Form, Formik } from "formik";
-import { useEffect, useState } from "react";
-import { ObjectSchema, StringSchema } from "yup";
-import AdShapeSelect from "../../components/shared/AdShapeSelect";
-import { AdTags, AdTagsError } from "../../components/shared/AdTags";
-import AdVisibilitySelect from "../../components/shared/AdVisibilitySelect";
-import { MAX_PRICE } from "../../components/shared/SharedAdPart";
+import { useState } from "react";
+import { object, string } from "yup";
 import { AdCreationInput } from "./components/ad-creation-input";
-import { getAllAdTypes } from "@services/AdService";
-import { AdImages } from "../../components/ad-images";
 
 interface AdCreationModalProperties {
     idCustomer: number;
@@ -22,53 +18,50 @@ interface AdCreationModalProperties {
 }
 
 export default function AdCreationModal(props: AdCreationModalProperties) {
-    const [adTypeArray, setAdTypeArray] = useState<AdType[]>();
+    // These useState are temporary their. They will be removed after fixing AdImages and AdTags with Formik.
     const [errorAdTags, setErrorAdTags] = useState<AdTagsError>("NONE");
     const [selectedTags, setSelectedTags] = useState<AdTagsError>("NONE");
     const [images, setImages] = useState();
     const [errorImages, setErrorImages] = useState();
-    const [adWasCreated, setAdWasCreated] = useState(false);
 
-    useEffect(() => {
-        getAllAdTypes().then((res) => {
-            setAdTypeArray(res?.data)
-        })
-    }, []);
+    const initialValues = {
+        title: "",
+        price: "",
+        description: "",
+        address: "",
+        adTypeId: "",
+        visibility: 0,
+        shape: ""
+    };
 
     return (
         <Dialog
             open={props.isOpen}
             onClose={props.onCloseRequest}
             maxWidth={false}
+            PaperProps={{ sx: { borderRadius: "10px" } }}
         >
-            <DialogTitle variant="h4">Create Ad</DialogTitle>
+            <DialogTitle variant="h5" sx={{fontWeight : "bold"}}>Create Ad</DialogTitle>
+            <Divider />
 
             <DialogContent>
                 <Formik
-                    initialValues={{
-                        title: "",
-                        price: "",
-                        description: "",
-                        address: "",
-                        adTypeId: "",
-                        visibility: 0,
-                        shape: ""
-                    }}
+                    initialValues={initialValues}
                     validationSchema={
-                        new ObjectSchema({
+                        object({
                             title: notEmptyWithMaxAndMin(80, 3, "Title"),
                             price: priceWithMinAndMax(MAX_PRICE, 0, "Price"),
                             description: notEmptyWithMaxAndMin(5000, 10, "Description"),
                             address: notEmptyWithMaxAndMin(256, 4, "Address"),
-                            adTypeId: new StringSchema().required("Category is required."),
-                            visibility: new StringSchema().required("Visibility is required."),
-                            shape: new StringSchema().required("Shape is required.")
+                            adTypeId: string().required("Category is required."),
+                            visibility: string().required("Visibility is required."),
+                            shape: string().required("Shape is required.")
                         })}
                     onSubmit={(values) => {
                         console.log("SUBMITTED!");
                         console.log(values);
-                        setAdWasCreated(true);
                         alert("Refactoring in progress!");
+                        props.onCloseRequest();
                     }}
                 >
                     <Form id="create-ad">
@@ -104,6 +97,7 @@ export default function AdCreationModal(props: AdCreationModalProperties) {
                     </Form >
                 </Formik >
             </DialogContent>
+            <Divider />
 
             <DialogActions>
                 <Button variant="text" onClick={props.onCloseRequest}>Cancel</Button>
