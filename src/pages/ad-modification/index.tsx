@@ -3,7 +3,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooleanSchema, number, string } from "yup";
 import { AdImages, SaveCancelButton } from "../../components/ad-images";
-import { AdTags, AdTagsError } from "../../components/shared/AdTags";
+import { AdTags } from "../../components/shared/AdTags";
 import {
     InputType,
     ModifType,
@@ -93,7 +93,7 @@ export default function AdModification(): ReactElement {
     const [ad, setAd] = useState<AdModifView>(undefined);
     const navigate = useNavigate();
     const [adTags, setAdTags] = useState<Array<string>>(undefined);
-    const [errorTags, setErrorTags] = useState<AdTagsError>("NONE");
+    const [errorTags, setErrorTags] = useState("NONE");
     const [adImages, setAdImages] = useState<Array<BlockImage>>([]);
     const [errorImages, setErrorImages] = useState<string>();
     console.log(ad);
@@ -180,13 +180,14 @@ export default function AdModification(): ReactElement {
                         isModification={true}
                     />
 
-                    <AdTags
+                    {/* In revision */}
+                    {/* <AdTags
                         error={errorTags}
                         setError={setErrorTags}
                         tags={adTags}
                         addTag={addEvent}
                         deleteTag={deleteEvent}
-                    />
+                    /> */}
 
                     {isEditing ?
                         (

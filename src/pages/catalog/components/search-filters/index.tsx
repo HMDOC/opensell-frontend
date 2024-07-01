@@ -1,11 +1,8 @@
-import {ReactElement, useState } from "react";
-import { MAX_PRICE} from "../../../../components/shared/SharedAdPart";
-import AdTypeSelect from "../../../../components/shared/AdTypeSelect";
-import { AdTags, AdTagsError } from "../../../../components/shared/AdTags";
-import { HtmlCode } from "@services/verification/HtmlCode";
+import { faClock, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
+import { ReactElement, useState } from "react";
 import { SHAPE_ARRAY } from "../../../../components/shared/AdShapeSelect";
 import IconLabelError from "../../../../components/shared/part/IconLabelError";
-import { faClock, faDollarSign, faList, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
+import { MAX_PRICE } from "../../../../components/shared/SharedAdPart";
 
 /** 
     The component that holds all of the filter options.
@@ -24,8 +21,7 @@ const SearchFilters = (props) : ReactElement =>{
     ];
 
     // Tag error and emplacement container
-    const [searchTagsError, setSearchTagsError] = useState<AdTagsError>("NONE");
-
+    const [searchTagsError, setSearchTagsError] = useState("NONE");
     const [searchOrder, setSearchOrder] = useState<number>(props.defValue);
 
     // {adTypes.forEach( (value, key) => {} )}
@@ -65,14 +61,15 @@ const SearchFilters = (props) : ReactElement =>{
                     }}/>
 
                 <div>
-                    <AdTags 
-                        addTag={(tag) => props.setSearchTags([...props.searchTags, tag])}
-                        deleteTag={(tag) => props.setSearchTags(props.searchTags.filter(adTags => adTags !== tag))}
-                        isSearch
-                        tags={props.searchTags}
-                        error={searchTagsError}
-                        setError={setSearchTagsError} 
-                        placeholder={"list all tags"} />
+                {/* Cannot work without Formik! */}
+                {/* <AdTags 
+                    addTag={(tag) => props.setSearchTags([...props.searchTags, tag])}
+                    deleteTag={(tag) => props.setSearchTags(props.searchTags.filter(adTags => adTags !== tag))}
+                    isSearch
+                    tags={props.searchTags}
+                    error={searchTagsError}
+                    setError={setSearchTagsError} 
+                    placeholder={"list all tags"} /> */}
                 </div>
                 
                 <IconLabelError iconProp={faShapes} title="Shape" isTitle />
