@@ -1,3 +1,4 @@
+import { AdImages } from "@components/ad-images";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
 import { AdTags } from "@components/shared/AdTags";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
@@ -7,7 +8,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Sta
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@pages/ad-modification";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { Field, Form, Formik } from "formik";
-import { useState } from "react";
 import { array, object, string } from "yup";
 import { AdCreationInput } from "./components/ad-creation-input";
 
@@ -18,11 +18,6 @@ interface AdCreationModalProperties {
 }
 
 export default function AdCreationModal(props: AdCreationModalProperties) {
-    // These useState are temporary their. They will be removed after fixing AdImages and AdTags with Formik.
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
-    const [images, setImages] = useState();
-    const [errorImages, setErrorImages] = useState();
-
     const initialValues = {
         title: "",
         price: "",
@@ -31,7 +26,8 @@ export default function AdCreationModal(props: AdCreationModalProperties) {
         adTypeId: "",
         visibility: 0,
         shape: "",
-        tags : []
+        tags: [],
+        images: []
     };
 
     return (
@@ -41,7 +37,7 @@ export default function AdCreationModal(props: AdCreationModalProperties) {
             maxWidth={false}
             PaperProps={{ sx: { borderRadius: "10px" } }}
         >
-            <DialogTitle variant="h5" sx={{fontWeight : "bold"}}>Create Ad</DialogTitle>
+            <DialogTitle variant="h5" sx={{ fontWeight: "bold" }}>Create Ad</DialogTitle>
             <Divider />
 
             <DialogContent>
@@ -56,7 +52,8 @@ export default function AdCreationModal(props: AdCreationModalProperties) {
                             adTypeId: string().required("Category is required."),
                             visibility: string().required("Visibility is required."),
                             shape: string().required("Shape is required."),
-                            tags: array().min(3, "Tags should be at least 3.")
+                            tags: array().min(3, "Tags should be at least 3."),
+                            images: array().min(2, " should be at least 2.")
                         })}
                     onSubmit={(values) => {
                         console.log("SUBMITTED!");
@@ -75,18 +72,11 @@ export default function AdCreationModal(props: AdCreationModalProperties) {
                             <Field name="visibility" component={AdVisibilitySelect} />
                             <Field name="shape" component={AdShapeSelect} />
 
-                            {/* Refactoring in progress */}
-                            {/* <AdImages
-                                error={this.state.errorImages}
-                                setError={(errorImages) => this.setState({ errorImages })}
-                                images={this.state.images}
-                                removeImage={(link) => this.setState({ images: this.state.images.filter(img => img.link !== link) })}
-                                setImages={(images) => this.setState({ images })}
-                            /> */}
+                            <AdImages name="images" />
 
                             <Field name="adTypeId" component={AdTypeSelect} />
- 
-                            <AdTags />
+
+                            <AdTags name="tags" />
                         </Stack>
                     </Form >
                 </Formik >

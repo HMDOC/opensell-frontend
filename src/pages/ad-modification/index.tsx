@@ -2,8 +2,6 @@ import { faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@for
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooleanSchema, number, string } from "yup";
-import { AdImages, SaveCancelButton } from "../../components/ad-images";
-import { AdTags } from "../../components/shared/AdTags";
 import {
     InputType,
     ModifType,
@@ -33,6 +31,10 @@ export function priceWithMinAndMax(max: number, min: number, label?: string) {
         .required(`${label ?? ""} is required.`);
 }
 
+/**
+ * @forRemoval
+ * @deprecated
+ */
 const SIMPLE: Array<SimpleInputProps> = [
     {
         name: "adTitle",
@@ -66,6 +68,10 @@ const SIMPLE: Array<SimpleInputProps> = [
 ];
 
 
+/**
+ * @forRemoval
+ * @deprecated
+ */
 export const SimpleInputPart = ({ start = 0, end = 2, ad }): any => {
     return (
         <div style={{ display: "flex" }}>
@@ -87,7 +93,10 @@ export const SimpleInputPart = ({ start = 0, end = 2, ad }): any => {
     );
 }
 
-// { name: "images", multiple: true, reference: createRef(), isFile: true },
+/**
+ * @forRemoval
+ * @deprecated
+ */
 export default function AdModification(): ReactElement {
     const { link } = useParams();
     const [ad, setAd] = useState<AdModifView>(undefined);
@@ -169,7 +178,8 @@ export default function AdModification(): ReactElement {
                         verifyProperty={notEmptyWithMaxAndMin(5000, 10)}
                         key={createRandomKey()} />
 
-                    <AdImages
+                    {/* In revision */}
+                    {/* <AdImages
                         setError={setErrorImages}
                         error={errorImages}
                         idAd={ad?.idAd}
@@ -178,7 +188,7 @@ export default function AdModification(): ReactElement {
                         reset={(backup) => setAdImages(backup)}
                         removeImage={(link) => setAdImages(adImages.filter(img => img.link !== link))}
                         isModification={true}
-                    />
+                    /> */}
 
                     {/* In revision */}
                     {/* <AdTags
@@ -192,7 +202,8 @@ export default function AdModification(): ReactElement {
                     {isEditing ?
                         (
                             <>
-                                <SaveCancelButton save={save} cancel={reset} />
+                                {/* In revision */}
+                                {/* <SaveCancelButton save={save} cancel={reset} /> */}
                                 <br /><br />
                             </>
                         ) : (<></>)

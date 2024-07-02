@@ -1,8 +1,8 @@
 import { faClock, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useState } from "react";
-import { SHAPE_ARRAY } from "../../../../components/shared/AdShapeSelect";
-import IconLabelError from "../../../../components/shared/part/IconLabelError";
-import { MAX_PRICE } from "../../../../components/shared/SharedAdPart";
+import { SHAPE_ARRAY } from "@components/shared/AdShapeSelect";
+import IconLabelError from "@components/shared/part/IconLabelError";
+import { MAX_PRICE } from "@components/shared/SharedAdPart";
 
 /** 
     The component that holds all of the filter options.

@@ -15,7 +15,7 @@ import IconLabelError from "./part/IconLabelError";
  * @param props
  * @returns 
  */
-export function AdTags(props: { isSearch?: boolean, placeholder?: string }) {
+export function AdTags(props: { name: string, isSearch?: boolean, placeholder?: string }) {
     const handleChange = (e: any): void => {
         let currentTag = (e.target.value).toLowerCase().replaceAll(' ', '-').replaceAll('--', '-').trim();
 
@@ -28,7 +28,7 @@ export function AdTags(props: { isSearch?: boolean, placeholder?: string }) {
     };
 
     return (
-        <FieldArray name="tags">
+        <FieldArray name={props.name}>
             {({ push, remove, form }) => (
                 <>
                     <TextField
@@ -38,11 +38,11 @@ export function AdTags(props: { isSearch?: boolean, placeholder?: string }) {
                         variant={MUI_INPUT_VARIANT}
                         onChange={handleChange}
                         type="text"
-                        name="tags"
+                        name={props.name}
                         sx={{width : "250px"}}
                         onBlur={form.handleBlur}
-                        error={form.errors.tags && Boolean(form.touched.tags)}
-                        helperText={<ErrorMessage name="tags" />}
+                        error={form.errors[props.name] && Boolean(form.touched[props.name])}
+                        helperText={<ErrorMessage name={props.name} />}
                         onDoubleClickCapture={(e: any) => {
                             if (e.target.value?.length > 0 && !form.values.tags?.includes(e.target.value)) {
                                 push(e.target.value);
