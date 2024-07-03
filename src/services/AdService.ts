@@ -1,7 +1,5 @@
 import { AdCreator } from "@entities/dto/v2/AdCreator";
-import { ModifType } from "../components/shared/SharedAdPart";
 import { AdBuyerView, AdImage } from "../entities/dto/AdBuyerView";
-import { AdModifView } from "../entities/dto/AdModifView";
 import { AdTag } from "../entities/dto/AdTag";
 import { AdType } from "../entities/dto/AdType";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
@@ -45,21 +43,6 @@ export const getAdToModify = async (link: string) => {
     return await http.get<AdCreator>(`/ad/to-modify/${link}`);
 };
 
-/**
- * Modify a field of an Ad.
- * 
- * @param modifType The field we want to cahnge
- * @param value The new value.
- * @param idAd The id of the ad
- * @author Achraf
- * 
- * @deprecated
- * @forRemoval
- */
-export const adModification = async (modifType: ModifType, value: any, idAd: number) => {
-    return await http.patch<HtmlCode>("/ad/modification", {value}, {params : {modifType, idAd}});
-};
-
 export const getAllAdTypes = async () => {
     return await http.get<Array<AdType>>("/ad/get-all-ad-type");
 };
@@ -92,14 +75,6 @@ export const deleteAd = async (idAd: number) => {
 // GET THE AdPreview but ONLY FOR THE AD OWNER NOT FOR THE NORMAL USER
 export const getCustomerAdPreview = async (idAd: number) => {
     return await http.get<AdBuyerView>(`/ad/get-ad-preview-for-customer/${idAd}`);
-};
-
-/**
- * @deprecated
- * @forRemoval
- */
-export const adModificationTags = async (tags: Array<string>, idAd: number) => {
-    return await http.patch<HtmlCode>(`/ad/modification/tags`, tags, {params : {idAd}});
 };
 
 export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: Array<number> = null) => {

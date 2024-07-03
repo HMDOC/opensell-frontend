@@ -1,18 +1,17 @@
-import { useContext, useRef, useState } from "react";
-import { checkLogin } from '../../services/LogInService';
+import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { CustomerInfo } from "../../entities/dto/CustomerInfo";
+import { useAppContext } from "../../context/AppContext";
+import { checkLogin } from '../../services/LogInService';
 import { setToken } from "../../services/SetToken";
 import "./style.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
-import { AppContext } from "../../context/AppContext";
 
 export default function Login(props) {
     const username = useRef(null);
     const password = useRef(null);
     const naviguate = useNavigate();
-    const { getCustomerInfo } = useContext(AppContext);
+    const { getCustomerInfo } = useAppContext();
 
     const [error, setErrors] = useState(
         {

@@ -3,6 +3,7 @@ import { ReactElement, useState } from "react";
 import { SHAPE_ARRAY } from "@components/shared/AdShapeSelect";
 import IconLabelError from "@components/shared/part/IconLabelError";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
+import AdTypeSelect from "@components/shared/AdTypeSelect";
 
 /** 
     The component that holds all of the filter options.
@@ -21,10 +22,8 @@ const SearchFilters = (props) : ReactElement =>{
     ];
 
     // Tag error and emplacement container
-    const [searchTagsError, setSearchTagsError] = useState("NONE");
     const [searchOrder, setSearchOrder] = useState<number>(props.defValue);
 
-    // {adTypes.forEach( (value, key) => {} )}
     return (
         <>            
             <div id="filterContainer" ref={props.filterElementRef} onChange={filtersUpdated}>
@@ -46,7 +45,7 @@ const SearchFilters = (props) : ReactElement =>{
                     min={dateMin} max={dateMax} defaultValue={null}/>
                 
                 {/* Cannot work without Formik! */}
-                {/* <AdTypeSelect /> */}
+                {/* <AdTypeSelect  /> */}
 
                 <IconLabelError iconProp={faSort} title="Sorting" isTitle />
                 <select name="sortBy" id="sortBy" className="selector-reader">
@@ -63,13 +62,9 @@ const SearchFilters = (props) : ReactElement =>{
                 <div>
                 {/* Cannot work without Formik! */}
                 {/* <AdTags 
-                    addTag={(tag) => props.setSearchTags([...props.searchTags, tag])}
-                    deleteTag={(tag) => props.setSearchTags(props.searchTags.filter(adTags => adTags !== tag))}
+                    name="tags"
                     isSearch
-                    tags={props.searchTags}
-                    error={searchTagsError}
-                    setError={setSearchTagsError} 
-                    placeholder={"list all tags"} /> */}
+                    placeholder="list all tags" /> */}
                 </div>
                 
                 <IconLabelError iconProp={faShapes} title="Shape" isTitle />

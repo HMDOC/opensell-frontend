@@ -1,16 +1,16 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement } from 'react';
 import { Dropdown, DropdownItem, FormCheck } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Row from 'react-bootstrap/Row';
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { AppContext } from '../../context/AppContext';
-import "./style.css";
-import { createRandomKey } from '../../services/RandomKeys';
-import navLinks from "./links.json";
-import ProfilIcon from '../shared/ProfilIcon';
+import { useAppContext } from '../../context/AppContext';
 import { ThemeOption } from '../../context/Theme';
+import { createRandomKey } from '../../services/RandomKeys';
+import ProfilIcon from '../shared/ProfilIcon';
+import navLinks from "./links.json";
+import "./style.css";
 
 /**
  * 
@@ -18,7 +18,7 @@ import { ThemeOption } from '../../context/Theme';
  */
 export default function Navbar(props: { logout(): void }): ReactElement {
     const naviguate = useNavigate();
-    const { customerDto, changeTheme, theme, isDarkMode } = useContext(AppContext);
+    const { customerDto, changeTheme, theme, isDarkMode } = useAppContext();
 
     const b = ({ isActive }) => {
         return isActive ? "is-active" : ""

@@ -2,13 +2,16 @@ import { faList } from "@fortawesome/free-solid-svg-icons";
 import { MenuItem } from "@mui/material";
 import { createRandomKey } from "@services/RandomKeys";
 import { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { AdType } from "../../entities/dto/AdType";
 import { getAllAdTypes } from "../../services/AdService";
-import { SelectorReader, SelectorReaderProps } from "./SharedAdPart";
+import { SelectorReader } from "./SharedAdPart";
+import { FieldProps } from "formik";
 
-export interface AdTypeSelectProps extends SelectorReaderProps {
+export interface AdTypeSelectProps extends FieldProps {
     isSearch?: boolean;
+    options?: Array<String>;
+    children?: ReactNode;
 }
 
 /**

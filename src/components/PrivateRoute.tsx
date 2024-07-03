@@ -1,11 +1,11 @@
 import { Loading } from "@animations/loading";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
+import { useAppContext } from "../context/AppContext";
 import getUserInfos from "../services/GetUser";
 
 export default function PrivateRoute() {
-    const { logout } = useContext(AppContext);
+    const { logout } = useAppContext();
     const [isOutlet, setIsOutlet] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const navigate = useNavigate();

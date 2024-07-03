@@ -1,3 +1,7 @@
+/**
+ * @forRemoval
+ * @deprecated
+ */
 export enum HtmlCode {
     SUCCESS = 200,
     FAILURE = 400,

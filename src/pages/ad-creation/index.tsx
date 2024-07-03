@@ -2,7 +2,6 @@ import { AdImages } from "@components/ad-images";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
 import { AdTags } from "@components/shared/AdTags";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
-import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
@@ -15,15 +14,18 @@ import { array, object, string } from "yup";
 import { AdCreationInput } from "./components/ad-creation-input";
 import { AdImage } from "@entities/dto/AdBuyerView";
 import { AdCreator } from "@entities/dto/v2/AdCreator";
+import { MAX_PRICE } from "@components/shared/SharedAdPart";
+import { useAppContext } from "@context/AppContext";
 
 interface AdCreationModalProps {
-    idCustomer: number;
     open: boolean;
     onClose(): void;
     adCreator?: AdCreator;
 }
 
 export default function AdCreationModal(props: AdCreationModalProps) {
+    const { customerDto } = useAppContext();
+    
     const isUpdate: boolean = props.adCreator != undefined;
     
     const initialValues = {
@@ -41,7 +43,8 @@ export default function AdCreationModal(props: AdCreationModalProps) {
 
     return (
         <Dialog
-            {...props}
+            open={props.open}
+            onClose={props.onClose}
             maxWidth={false}
             PaperProps={{ sx: { borderRadius: "10px" } }}
         >
@@ -65,7 +68,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         })}
                     onSubmit={async (values) => {
                         let formData = new FormData();
-                        formData.append("customerId", `${props.idCustomer}`);
+                        formData.append("customerId", `${customerDto.customerId}`);
 
                         for (let key in values) {
                             if (key != "images") formData.append(key, values[key]);

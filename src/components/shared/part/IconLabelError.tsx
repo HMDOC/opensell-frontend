@@ -3,6 +3,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const MARGIN_RIGHT = "3px";
 
+/**
+ * @forRemoval
+ * @deprecated
+ * 
+ * @param props 
+ * @returns 
+ */
 export default function IconLabelError(props: { iconProp?: IconProp, title: string, error?: string, isTitle?: boolean }) {
     return (
         <label style={{ display: "flex", alignItems: "center" }}>

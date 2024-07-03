@@ -6,7 +6,6 @@ import AdPricePart from "../../components/shared/part/AdView/AdPricePart";
 import { AxiosResponse } from "axios";
 import { PureComponent, ReactNode, useEffect, useState } from "react";
 import { Button, Dropdown, DropdownItem } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { AdBuyerView } from "../../entities/dto/AdBuyerView";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
 import { deleteAd, getAdToModify, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
@@ -171,7 +170,7 @@ function MyAds(props: { idCustomer?: number }) {
                     </div>
                 )
             }
-            <AdCreationModal idCustomer={props.idCustomer} onClose={onClose} {...dialogState} />
+            <AdCreationModal onClose={onClose} {...dialogState} />
         </>
     );
 }

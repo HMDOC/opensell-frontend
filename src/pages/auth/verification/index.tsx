@@ -1,17 +1,17 @@
-import { ChangeEvent, useContext, useState } from "react";
-import { verifyCode } from "../../../services/CodeService";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { setToken } from "../../../services/SetToken";
+import { useAppContext } from "../../../context/AppContext";
+import { verifyCode } from "../../../services/CodeService";
 import { checkLogin } from "../../../services/LogInService";
+import { setToken } from "../../../services/SetToken";
 import "./style.css";
-import { AppContext } from "../../../context/AppContext";
 
 export default function Verification(props) {
     let customerId: number;
     const [code, setCode] = useState<string>();
     const [message, setMessage] = useState<string>();
     const navigate = useNavigate();
-    const {getCustomerInfo} = useContext(AppContext);
+    const {getCustomerInfo} = useAppContext();
 
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
