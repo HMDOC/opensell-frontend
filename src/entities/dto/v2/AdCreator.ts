@@ -1,3 +1,5 @@
+import { AdImage } from "../AdBuyerView";
+
 export class AdCreator {
     public adId: number;
     public customerId: number;

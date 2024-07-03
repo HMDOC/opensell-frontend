@@ -1,5 +1,9 @@
 import { AdImage } from "./AdBuyerView";
 
+/**
+ * @forRemoval
+ * @deprecated
+*/
 export class BlockImage {
     public isBackend: boolean;
     public link: string;

@@ -41,8 +41,8 @@ export const getAdBySearch = async (query: string, filters) => {
  * @param link
  * @author Achraf
  */
-export const getAdToModif = async (link: string) => {
-    return await http.get<AdModifView>(`/ad/to-modify/${link}`);
+export const getAdToModify = async (link: string) => {
+    return await http.get<AdCreator>(`/ad/to-modify/${link}`);
 };
 
 /**
@@ -52,6 +52,9 @@ export const getAdToModif = async (link: string) => {
  * @param value The new value.
  * @param idAd The id of the ad
  * @author Achraf
+ * 
+ * @deprecated
+ * @forRemoval
  */
 export const adModification = async (modifType: ModifType, value: any, idAd: number) => {
     return await http.patch<HtmlCode>("/ad/modification", {value}, {params : {modifType, idAd}});
@@ -91,6 +94,10 @@ export const getCustomerAdPreview = async (idAd: number) => {
     return await http.get<AdBuyerView>(`/ad/get-ad-preview-for-customer/${idAd}`);
 };
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export const adModificationTags = async (tags: Array<string>, idAd: number) => {
     return await http.patch<HtmlCode>(`/ad/modification/tags`, tags, {params : {idAd}});
 };

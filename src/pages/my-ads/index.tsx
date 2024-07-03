@@ -9,13 +9,15 @@ import { Button, Dropdown, DropdownItem } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AdBuyerView } from "../../entities/dto/AdBuyerView";
 import { DisplayAdView } from "../../entities/dto/DisplayAdView";
-import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
+import { deleteAd, getAdToModify, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import { AdMapping } from "../ad-view";
+import { AdCreator } from "@entities/dto/v2/AdCreator";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
     seeAdPreview(idAd: number): void;
+    launchUpdate?(adCreator: AdCreator): void;
 }
 
 class DisplayAd extends PureComponent<DisplayAdProps> {
@@ -51,7 +53,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
         return (
             <>
                 <div className="display-post">
-            <title>My ads</title>
+                    <title>My ads</title>
                     <div className="display-post-flex-with-img-desc">
                         <div className="dislay-post-img-section">
                             <img className="display-post-img imgFit" src={this.props.firstImage} />
@@ -64,7 +66,7 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
                                 <Dropdown >
                                     <Dropdown.Toggle size="lg" className="display-dropdown-color" />
                                     <Dropdown.Menu variant="light">
-                                        <DropdownItem as={Link} to={`/u/ad-modification/${this.props.link}`} target="_blank">Modify</DropdownItem>
+                                        <DropdownItem as={Button} onClick={async () => this.props.launchUpdate((await getAdToModify(this.props.link)).data)}>Modify</DropdownItem>
                                         <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
                                         <DropdownItem bsPrefix="dropdown-item btn-danger" as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                                     </Dropdown.Menu>
@@ -88,14 +90,14 @@ class DisplayAd extends PureComponent<DisplayAdProps> {
     }
 }
 
-const MyAds = (props: { idCustomer?: number }) => {
+function MyAds(props: { idCustomer?: number }) {
     const [displayAds, setDisplayAds] = useState<Array<DisplayAdView>>([]);
     const [isPreview, setIsPreview] = useState<boolean>(false);
     const [currentAdPreview, setCurrentAdPreview] = useState<Promise<AxiosResponse<AdBuyerView, any>>>();
-    const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+    const [dialogState, setDialogState] = useState<{ open: boolean, adCreator: AdCreator }>({ open: false, adCreator: undefined });
 
     useEffect(() => {
-        if (props.idCustomer && !modalIsOpen) {
+        if (props.idCustomer && !dialogState.open) {
             getCustomerAds(props.idCustomer)
                 .then(res => {
                     if (res?.data) {
@@ -103,23 +105,27 @@ const MyAds = (props: { idCustomer?: number }) => {
                     }
                 })
         }
-    }, [props.idCustomer, modalIsOpen]);
+    }, [props.idCustomer, dialogState]);
 
-    function onDelete(idAd: number) {
+    const onDelete = (idAd: number) => {
         setDisplayAds(displayAds.filter(ad => ad.idAd !== idAd));
     }
 
-    function getCurrentPromise(idAd: number) {
+    const getCurrentPromise = (idAd: number) => {
         setCurrentAdPreview(getCustomerAdPreview(idAd));
         setIsPreview(true);
     }
 
-    function openModal() {
-        setModalIsOpen(true);
+    const launchUpdate = (adCreator: AdCreator) => {
+        setDialogState({ open: true, adCreator });
     }
 
-    function closeModal() {
-        setModalIsOpen(false);
+    const launchCreate = () => {
+        setDialogState({ open: true, adCreator: undefined });
+    }
+
+    const onClose = () => {
+        setDialogState({open : false, adCreator : undefined});
     }
 
     return (
@@ -134,37 +140,38 @@ const MyAds = (props: { idCustomer?: number }) => {
                     <div className="back-div">
                         <div className="display-header d-flex justify-content-between">
                             <h1 className="fs-1 text-black"> <b>My ads</b></h1>
-                            <Button onClick={() => openModal()}><FontAwesomeIcon icon={faPlus} /></Button>
+                            <Button onClick={launchCreate}><FontAwesomeIcon icon={faPlus} /></Button>
                         </div>
                         {displayAds.length > 0 ? (
-                        <>
+                            <>
 
-                            <div style={{ overflowY: "scroll", height: "87.25vh" }} className="ads-view">
-                                {displayAds?.map(value => (
-                                    <DisplayAd
-                                        key={createRandomKey()}
-                                        idAd={value.idAd}
-                                        description={value.description}
-                                        firstImage={value.firstImage}
-                                        isSold={value.isSold}
-                                        price={value.price}
-                                        title={value.title}
-                                        visibility={value.visibility}
-                                        link={value.link}
-                                        onDelete={(idAd) => onDelete(idAd)}
-                                        seeAdPreview={(idAd) => getCurrentPromise(idAd)}
-                                    />))}
-                            </div>
+                                <div style={{ overflowY: "scroll", height: "87.25vh" }} className="ads-view">
+                                    {displayAds?.map(value => (
+                                        <DisplayAd
+                                            key={createRandomKey()}
+                                            idAd={value.idAd}
+                                            description={value.description}
+                                            firstImage={value.firstImage}
+                                            isSold={value.isSold}
+                                            price={value.price}
+                                            title={value.title}
+                                            visibility={value.visibility}
+                                            link={value.link}
+                                            onDelete={(idAd) => onDelete(idAd)}
+                                            seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                                            launchUpdate={launchUpdate}
+                                        />))}
+                                </div>
                             </>
                         ) : (
-                            <div style={{textAlign : "center"}} className="back-div">
+                            <div style={{ textAlign: "center" }} className="back-div">
                                 <h4>You have no ads</h4>
                             </div>
                         )}
                     </div>
                 )
             }
-            <AdCreationModal idCustomer={props.idCustomer} isOpen={modalIsOpen} onCloseRequest={() => closeModal()} />
+            <AdCreationModal idCustomer={props.idCustomer} onClose={onClose} {...dialogState} />
         </>
     );
 }

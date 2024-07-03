@@ -1,7 +1,8 @@
 import { faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { BooleanSchema, number, string } from "yup";
+import { BooleanSchema } from "yup";
 import {
     InputType,
     ModifType,
@@ -10,26 +11,10 @@ import {
 } from "../../components/shared/SharedAdPart";
 import { AdModifView } from "../../entities/dto/AdModifView";
 import { BlockImage } from "../../entities/dto/BlockImages";
-import { adModificationTags, getAdToModif } from "../../services/AdService";
+import { adModificationTags, getAdToModify } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
 import { HtmlCode } from "../../services/verification/HtmlCode";
 import "./style.scss";
-
-export function notEmptyWithMaxAndMin(max: number, min: number, label?: string) {
-    return string()
-        .required(`${label ?? ""} is required.`)
-        .max(max, `${label ?? ""} cannot have more than ${max} characters.`)
-        .min(min, `${label ?? ""} cannot have less than ${min} characters.`);
-}
-
-export function priceWithMinAndMax(max: number, min: number, label?: string) {
-    return number()
-        // To do not get a error if the user put the input empty
-        .transform(cv => isNaN(cv) ? undefined : cv)
-        .max(max, `${label ?? ""} cannot be more than ${max}$.`)
-        .min(min, `${label ?? ""} cannot be less than ${min}$.`)
-        .required(`${label ?? ""} is required.`);
-}
 
 /**
  * @forRemoval
@@ -112,12 +97,12 @@ export default function AdModification(): ReactElement {
     });
 
     useEffect(() => {
-        getAdToModif(link).then(res => {
+        getAdToModify(link).then(res => {
             // il faut aussi gérer les anciens images.
             if (res?.data) {
-                setAd(res?.data);
-                setAdTags(res?.data.adTagsName);
-                setAdImages(BlockImage.fromBackend(res?.data.adImages));
+                //setAd(res?.data);
+                //setAdTags(res?.data.adTagsName);
+                //setAdImages(BlockImage.fromBackend(res?.data.adImages));
             }
 
             else navigate("/not-found");

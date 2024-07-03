@@ -11,7 +11,8 @@
             "@pages/*": ["./src/pages/*"],
             "@entities/*": ["./src/entities/*"],
             "@css/*": ["./src/css/*"],
-            "@context/*": ["./src/context/*"]
+            "@context/*": ["./src/context/*"],
+            "@utils/*": ["./src/utils/*"]
         }
     }
 }
