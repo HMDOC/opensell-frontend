@@ -4,7 +4,6 @@ import { AdTag } from "../entities/dto/AdTag";
 import { AdType } from "../entities/dto/AdType";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
 import http from "../http-commons";
-import { HtmlCode } from "./verification/HtmlCode";
 
 /**
  * Get part of an Ad to show and ad in a customer view.
@@ -26,10 +25,12 @@ export const getAdBySearch = async (query: string, filters) => {
     filters.query = query;
     //filters.filterSold = false;
     let params = filters;
-    
-    return await http.get<AdSearchPreview[]>(`/ad/search`, {params, paramsSerializer : {
-        indexes : null
-    }})
+
+    return await http.get<AdSearchPreview[]>(`/ad/search`, {
+        params, paramsSerializer: {
+            indexes: null
+        }
+    })
 };
 
 /**
@@ -80,5 +81,15 @@ export const getCustomerAdPreview = async (idAd: number) => {
 export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: Array<number> = null) => {
     let imagesFormData = new FormData();
     images.forEach(img => imagesFormData.append("adImages", img));
-    return await http.post<Array<AdImage>>("/ad/save-ad-images", imagesFormData, {params : {idAd, isModif, idsToDelete}, paramsSerializer: {indexes: null}});
+    return await http.post<Array<AdImage>>("/ad/save-ad-images", imagesFormData, { params: { idAd, isModif, idsToDelete }, paramsSerializer: { indexes: null } });
 };
+
+/**
+ * To check if a user already have an ad with this title.
+ * 
+ * @param title
+ * @param customerId
+ */
+export const isTitleConstraintOk = async (title: string, customerId: number, adId?: number) => {
+    return http.get<boolean>(`ad/v2/is-title-constraint-ok`, { params: { title, customerId, adId } });
+}

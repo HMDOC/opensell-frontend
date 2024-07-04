@@ -8,15 +8,16 @@ import { AdImage } from "@entities/dto/AdBuyerView";
 import { AdCreator } from "@entities/dto/v2/AdCreator";
 import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Stack, Switch } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 import { createOrUpdateAd } from "@services/AdCreationService";
+import { isTitleConstraintOk } from "@services/AdService";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
 import { Field, Form, Formik } from "formik";
 import { array, object, string } from "yup";
-import { AdCreationInput } from "./components/ad-creation-input";
 import { AdCheckbox } from "./components/ad-checkbox";
+import { AdCreationInput } from "./components/ad-creation-input";
 
 interface AdCreationModalProps {
     open: boolean;
@@ -26,7 +27,6 @@ interface AdCreationModalProps {
 
 export default function AdCreationModal(props: AdCreationModalProps) {
     const { customerDto } = useAppContext();
-
     const isUpdate: boolean = props.adCreator != undefined;
 
     const initialValues = {
@@ -57,7 +57,18 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     initialValues={initialValues}
                     validationSchema={
                         object({
-                            title: notEmptyWithMaxAndMin(80, 3, "Title"),
+                            title: notEmptyWithMaxAndMin(80, 3, "Title").test(
+                                "titleUniqueConstraint",
+                                "You already have an ad with this title",
+                                (value) => {
+                                    return new Promise((resolve) => {
+                                        // Need to reduce the amount of time it makes the query to the backend.
+                                        isTitleConstraintOk(value, customerDto?.customerId, props.adCreator?.adId).then(
+                                            res => resolve(res?.data)
+                                        );
+                                    })
+                                }
+                            ),
                             price: priceWithMinAndMax(MAX_PRICE, 0, "Price"),
                             description: notEmptyWithMaxAndMin(5000, 10, "Description"),
                             address: notEmptyWithMaxAndMin(256, 4, "Address"),
@@ -114,7 +125,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                             <Field name="description" component={AdCreationInput} label="Description" isTextArea />
                             <Field name="address" component={AdCreationInput} label="Address" icon={<LocationOnIcon />} />
 
-                            {isUpdate ? <Field name="isSold" component={AdCheckbox} label="Is your ad sold?" /> : <></>}
+                            {isUpdate ? <Field name="isSold" component={AdCheckbox} type="checkbox" label="Is your ad sold?" /> : <></>}
 
                             <Field name="visibility" component={AdVisibilitySelect} />
                             <Field name="shape" component={AdShapeSelect} />

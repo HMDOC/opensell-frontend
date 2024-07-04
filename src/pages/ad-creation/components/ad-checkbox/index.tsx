@@ -8,9 +8,9 @@ export interface AdCheckboxProps extends FieldProps {
 export function AdCheckbox(props: AdCheckboxProps) {
     return (
         <FormControlLabel 
-            label={props.label} 
+            label={props.label}
             control={
-                <Switch name={props.field.name} {...props.field} checked={props.form.values[props.field.name]} />
+                <Switch name={props.field.name} {...props.field} />
             } 
         />
     );
