@@ -2,24 +2,25 @@ import { AdImages } from "@components/ad-images";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
 import { AdTags } from "@components/shared/AdTags";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
+import { MAX_PRICE } from "@components/shared/SharedAdPart";
+import { useAppContext } from "@context/AppContext";
+import { AdImage } from "@entities/dto/AdBuyerView";
+import { AdCreator } from "@entities/dto/v2/AdCreator";
 import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
-import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, Stack, Switch } from "@mui/material";
 import { createOrUpdateAd } from "@services/AdCreationService";
 import AdTypeSelect from "@shared/AdTypeSelect";
+import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
 import { Field, Form, Formik } from "formik";
 import { array, object, string } from "yup";
 import { AdCreationInput } from "./components/ad-creation-input";
-import { AdImage } from "@entities/dto/AdBuyerView";
-import { AdCreator } from "@entities/dto/v2/AdCreator";
-import { MAX_PRICE } from "@components/shared/SharedAdPart";
-import { useAppContext } from "@context/AppContext";
+import { AdCheckbox } from "./components/ad-checkbox";
 
 interface AdCreationModalProps {
     open: boolean;
-    onClose(): void;
+    onClose(isChange?: boolean): void;
     adCreator?: AdCreator;
 }
 
@@ -44,7 +45,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
     return (
         <Dialog
             open={props.open}
-            onClose={props.onClose}
+            onClose={() => props.onClose()}
             maxWidth={false}
             PaperProps={{ sx: { borderRadius: "10px" } }}
         >
@@ -63,7 +64,6 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                             adTypeId: string().required("Category is required."),
                             visibility: string().required("Visibility is required."),
                             shape: string().required("Shape is required."),
-                            tags: array().min(3, "Tags should be at least 3."),
                             images: array().min(2, " should be at least 2."),
                         })}
                     onSubmit={async (values) => {
@@ -101,7 +101,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         await createOrUpdateAd(formData).then(
                             res => {
                                 if (res.status == HttpStatusCode.Ok) {
-                                    props.onClose();
+                                    props.onClose(true);
                                 }
                             }
                         );
@@ -113,6 +113,8 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                             <Field name="price" type="number" component={AdCreationInput} label="Price" />
                             <Field name="description" component={AdCreationInput} label="Description" isTextArea />
                             <Field name="address" component={AdCreationInput} label="Address" icon={<LocationOnIcon />} />
+
+                            {isUpdate ? <Field name="isSold" component={AdCheckbox} label="Is your ad sold?" /> : <></>}
 
                             <Field name="visibility" component={AdVisibilitySelect} />
                             <Field name="shape" component={AdShapeSelect} />
@@ -129,7 +131,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
             <Divider />
 
             <DialogActions>
-                <Button variant="text" onClick={props.onClose}>Cancel</Button>
+                <Button variant="text" onClick={() => props.onClose()}>Cancel</Button>
                 <Button type="submit" variant="contained" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
             </DialogActions>
         </Dialog>

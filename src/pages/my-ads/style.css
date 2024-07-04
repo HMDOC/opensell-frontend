@@ -71,10 +71,6 @@
     height: 240px;
 }
 
-.display-post-options {
-    align-self: flex-start;
-}
-
 .display-post-flex-with-img-desc {
     display: flex;
     align-items: top;

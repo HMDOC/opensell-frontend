@@ -38,18 +38,24 @@ export default function AdTypeSelect(props: AdTypeSelectProps) {
     }, [])
 
     return (
-        <SelectorReader
-            {...props}
-            iconProp={faList}
-            title="Category"
-        >
-            {
-                adTypeArray?.map((option) => (
-                    <MenuItem key={createRandomKey()} value={option.idAdType}>{option.name}</MenuItem>
-                )) ??
-                // The ?? is their to remove a warning from MUI.
-                (<MenuItem></MenuItem>)
-            }
-        </SelectorReader>
+        // To remove a warning from MUI with the MenuItem
+        adTypeArray ?
+            (
+                <SelectorReader
+                    {...props}
+                    iconProp={faList}
+                    title="Category"
+                >
+                    {
+                        adTypeArray.map((option) => (
+                            <MenuItem key={createRandomKey()} value={option.idAdType}>{option.name}</MenuItem>
+                        )) ??
+                        // The ?? is their to remove a warning from MUI.
+                        (<MenuItem></MenuItem>)
+                    }
+                </SelectorReader>
+            ) : (
+                <></>
+            )
     );
 }

@@ -57,7 +57,7 @@ export default function App() {
 
 					<Routes>
 						<Route path="/u" element={<PrivateRoute />}>
-							<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
+							<Route path='/u/my-ads' element={<MyAds />}/>
 							<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
 							<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
 						</Route>

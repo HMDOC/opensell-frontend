@@ -32,6 +32,12 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
     } else return 0;
 };
 
+/**
+ * Use getVisibility icon in SharedAdPart.tsx instead.
+ * 
+ * @deprecated
+ * @forRemoval
+ */
 export function AdVisibilityPart(props: { adVisibility?: AdVisibility }): ReactElement {
     return (props.adVisibility && props.adVisibility !== null ?
         (
