@@ -13,7 +13,6 @@ export function AdImages(props: { name: string }) {
     const images: ImageBox[] = values[props.name];
 
     useEffect(() => {
-
         return (
             images?.forEach(revokeUrl)
         );
@@ -32,14 +31,15 @@ export function AdImages(props: { name: string }) {
     };
 
     const revokeUrl = (currentImg: ImageBox): void => {
-        if (currentImg.content instanceof FrontendImage) {
-            URL.revokeObjectURL(currentImg.content.blobUrl);
-        }
+        URL.revokeObjectURL((currentImg.content as FrontendImage).blobUrl);
     };
 
     const removeImageBox = (img: ImageBox, removeCallback: any) => {
         removeCallback(images?.indexOf(img));
-        revokeUrl(img);
+
+        if (img.content instanceof FrontendImage) {
+            revokeUrl(img);
+        }
     };
 
     return (

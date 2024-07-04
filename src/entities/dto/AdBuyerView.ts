@@ -40,7 +40,7 @@ export const getShapeStr = (shape?: AdShape): string => {
  * @author Achraf
  */
 export interface AdImage {
-    idAdImage: number;
+    id: number;
     path: string; 
     spot: number; 
     isLocal: boolean;
