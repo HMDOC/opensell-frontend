@@ -71,7 +71,10 @@ export default function Signup(props) {
                     setEErrors({ ...eErrors, username: "Username already exists" });
                 } else if (res?.data === 3) {
                     setIsAuthentified(true);
-                } else {
+                } else if (res?.data === 5) {
+                    setEErrors({ ...eErrors, email: "Email not verified. Please check the inbox" });
+                }
+                else {
                     naviguate("/error");
                 }
             });
@@ -80,7 +83,7 @@ export default function Signup(props) {
 
     return (
         <div className="main-background">
-        <title>Signup</title>
+            <title>Signup</title>
             {isAuthentified ? (<Verification email={infos.email} pwd={infos.password} />) : (
                 <>
                     <div className="signup-form">
