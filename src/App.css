@@ -38,6 +38,7 @@ body {
 	background-image: var(--imageUrl);
 	background-repeat: no-repeat;
 	background-size: 100vw 100vh;
+	background-color: #e3d9cd;
 }
 
 .main-background {

@@ -1,7 +1,7 @@
-import "@css/component/part/ProfilIcon.css";
+import { Avatar } from "@mui/material";
 
-export default function ProfilIcon(props: { src?: string , className?: string }) {
+export default function ProfilIcon(props: { username: string, src?: string }) {
     return (
-        <img className={`user-profil-picture ${props.className}`} src={props.src ? props.src : "https://cdn-icons-png.freepik.com/512/149/149071.png"} />
+        <Avatar src={props.src}>{props.src ? null : props.username?.[0]}</Avatar>
     )
 }

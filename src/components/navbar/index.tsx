@@ -72,7 +72,7 @@ export default function Navbar(props: { logout(): void }): ReactElement {
                     <Col>
                         {customerDto?.customerInfo ? (
                             <NavDropdown style={{ marginTop: "-25px" }} className='nav-right' title={
-                                <ProfilIcon src={customerDto?.customerInfo?.iconPath} />
+                                <ProfilIcon src={customerDto?.customerInfo?.iconPath} username={customerDto?.username} />
                             } id='basic-nav-dropdown'>
                                 <div className='dropdown-box'>
                                     <NavDropdown.Item className='dropdown-username'>{customerDto?.link === undefined ? "Guest" : customerDto?.username}</NavDropdown.Item>

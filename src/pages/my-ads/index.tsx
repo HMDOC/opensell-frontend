@@ -21,7 +21,7 @@ export default function MyAds() {
     const [isPreview, setIsPreview] = useState<boolean>(false);
     const [currentAdPreview, setCurrentAdPreview] = useState<Promise<AxiosResponse<AdBuyerView, any>>>();
     const [dialogState, setDialogState] = useState<{ open: boolean, adCreator?: AdCreator }>({ open: false });
-    
+
     // To only get data when something as been added or updated.
     const [isGetData, setIsGetData] = useState(true);
 
@@ -57,7 +57,7 @@ export default function MyAds() {
     }
 
     const onClose = (isChange?: boolean) => {
-        if(isChange) {
+        if (isChange) {
             setIsGetData(true);
         }
 
@@ -79,19 +79,16 @@ export default function MyAds() {
                             <Button onClick={launchCreate}><FontAwesomeIcon icon={faPlus} /></Button>
                         </div>
                         {displayAds.length > 0 ? (
-                            <>
-
-                                <div style={{ overflowY: "scroll", height: "87.25vh" }} className="ads-view">
-                                    {displayAds?.map(value => (
-                                        <DisplayAd
-                                            key={createRandomKey()}
-                                            {...value}
-                                            onDelete={(idAd) => onDelete(idAd)}
-                                            seeAdPreview={(idAd) => getCurrentPromise(idAd)}
-                                            launchUpdate={launchUpdate}
-                                        />))}
-                                </div>
-                            </>
+                            <div style={{ overflowY: "scroll", height: "87.25vh" }} className="ads-view">
+                                {displayAds?.map(value => (
+                                    <DisplayAd
+                                        key={createRandomKey()}
+                                        {...value}
+                                        onDelete={(idAd) => onDelete(idAd)}
+                                        seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                                        launchUpdate={launchUpdate}
+                                    />))}
+                            </div>
                         ) : (
                             <div style={{ textAlign: "center" }} className="back-div">
                                 <h4>You have no ads</h4>

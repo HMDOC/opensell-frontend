@@ -73,7 +73,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                             <div className="CM-Title-Button-Container">
                                 <h1 style={{width : "fit-content", marginRight : "25px", border : "none"}}>Profile Icon</h1>
                                 <div style={{border : "none"}} className="change-button">
-                                <ProfilIcon src={this.props.customerData?.customerInfo?.iconPath}/>
+                                <ProfilIcon src={this.props.customerData?.customerInfo?.iconPath} username={this.props.customerData?.username} />
                                     <button style={{marginLeft : "10px"}} className="modificationLabel" onClick={() => this.openModal(CMModalType.ICON)}>Change</button>
                                 </div>
                             </div>

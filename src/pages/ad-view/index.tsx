@@ -1,18 +1,20 @@
+import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { faLink, faLock, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
 import { AxiosResponse } from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import Modal from "react-modal";
 import { Link, useParams } from "react-router-dom";
-import "./style.scss";
-import { AdBuyerView, AdVisibility } from "../../entities/dto/AdBuyerView";
-import { getAdByLink } from "../../services/AdService";
 import AdInfosPart from "../../components/shared/part/AdView/AdInfosPart";
 import AdPricePart from "../../components/shared/part/AdView/AdPricePart";
 import AdTagPart from "../../components/shared/part/AdView/AdTagPart";
 import AdTypePart from "../../components/shared/part/AdView/AdTypePart";
 import ProfilIcon from "../../components/shared/ProfilIcon";
+import { AdBuyerView, AdVisibility } from "../../entities/dto/AdBuyerView";
+import { getAdByLink } from "../../services/AdService";
 import { createRandomKey } from "../../services/RandomKeys";
+import "./style.scss";
 
 /**
  * Function that increase the index of the current picture
@@ -86,27 +88,38 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
     };
 
     return (
-        <div className="ad-view-position">
-        <title>{adBuyerView?.adTitle}</title>
-            <div style={{ maxWidth: "1400px", overflowY: 'scroll', height: "86vh" }} className="reg-background">
+        <Card component={Container} sx={{ borderRadius: "20px" }}>
+            <CardHeader
+                title={
+                    <>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                            <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
+                                {getVisibilityIcon(adBuyerView?.adVisibility)}
+                                <h1>{adBuyerView?.adTitle}</h1>
+                                <AdTypePart type={adBuyerView?.adType?.name} />
+                            </Stack>
+
+                            <Chip
+                                component={Link}
+                                clickable
+                                sx={{ height: "100%" }}
+                                to={`/user/${adBuyerView?.userLink}`}
+                                icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
+                                label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
+                            />
+                        </Stack>
+
+                        <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
+                    </>
+                }
+            >
+
+            </CardHeader>
+            <CardContent>
+                <title>{adBuyerView?.adTitle}</title>
                 {adBuyerView ?
                     (
                         <>
-                            <div className="user-profil dark-shadow">
-                                <Link className="icon-ad" to={`/user/${adBuyerView?.userLink}`}>
-                                    <ProfilIcon src={adBuyerView?.userIcon} />
-                                </Link>
-
-                                <Link className="user-profil-username" to={`/user/${adBuyerView?.userLink}`}>
-                                    {adBuyerView?.username}
-                                </Link>
-                            </div>
-
-                            <div className="ad-view-title-section">
-                                <AdVisibilityPart adVisibility={adBuyerView?.adVisibility} />
-                                <h1>{adBuyerView?.adTitle}</h1>
-                                <AdTypePart type={adBuyerView?.adType?.name} />
-                            </div>
 
                             {/* Images Popup */}
                             <Modal
@@ -138,8 +151,6 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                     </div>
                                 </>
                             </Modal>
-
-                            <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
 
                             {adBuyerView?.adImages?.length === 0 ?
                                 (
@@ -200,8 +211,9 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                         </>
                     )
                 }
-            </div>
-        </div>);
+            </CardContent>
+        </Card>
+    );
 }
 
 /**

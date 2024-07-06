@@ -2,6 +2,7 @@ import AdPricePart from "@components/shared/part/AdView/AdPricePart";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { DisplayAdView } from "@entities/dto/DisplayAdView";
 import { AdCreator } from "@entities/dto/v2/AdCreator";
+import { Container, Stack } from "@mui/material";
 import { deleteAd, getAdToModify } from "@services/AdService";
 import { PureComponent, ReactNode } from "react";
 import { Button, Dropdown, DropdownItem } from "react-bootstrap";
@@ -41,13 +42,14 @@ export default class DisplayAd extends PureComponent<DisplayAdProps> {
 
                     <div className="mt-2 w-100">
                         <div className="d-flex justify-content-between">
-                            <h1 className="my-0">{getVisibilityIcon(this.props.visibility)} {this.props.title}</h1>
+                            <h2 className="my-0">{getVisibilityIcon(this.props.visibility)}{this.props.title}</h2>
+                            
                             <Dropdown >
                                 <Dropdown.Toggle size="lg" className="display-dropdown-color" />
                                 <Dropdown.Menu variant="light">
                                     <DropdownItem as={Button} onClick={async () => this.props.launchUpdate((await getAdToModify(this.props.link)).data)}>Modify</DropdownItem>
                                     <DropdownItem as={Button} onClick={() => this.props.seeAdPreview(this.props.idAd)}>Preview</DropdownItem>
-                                    <DropdownItem bsPrefix="dropdown-item btn-danger" as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
+                                    <DropdownItem as={Button} className="dropdown-link" onClick={() => this.handleDelete()}>Delete</DropdownItem>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </div>

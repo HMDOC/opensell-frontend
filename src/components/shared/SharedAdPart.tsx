@@ -1,14 +1,15 @@
 import { MUI_INPUT_VARIANT } from "@context/AppContext";
 import "@css/component/part/SharedAdPart.scss";
+import { AdVisibility } from "@entities/dto/AdBuyerView";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import LinkIcon from '@mui/icons-material/Link';
+import LockIcon from '@mui/icons-material/Lock';
+import PublicIcon from '@mui/icons-material/Public';
 import { MenuItem, TextField } from "@mui/material";
 import { ErrorMessage, FieldProps } from "formik";
 import { ReactNode } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import IconLabelError from "./part/IconLabelError";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEarthAmericas, faLink, faLock } from "@fortawesome/free-solid-svg-icons";
-import { AdVisibility } from "@entities/dto/AdBuyerView";
 
 export const MAX_PRICE = 999990;
 
@@ -21,11 +22,11 @@ export const MAX_PRICE = 999990;
 export function getVisibilityIcon(visibility: AdVisibility): ReactNode {
     switch (visibility) {
         case 0:
-            return <FontAwesomeIcon icon={faEarthAmericas} />;
+            return <PublicIcon fontSize="large" />;
         case 1:
-            return <FontAwesomeIcon icon={faLock} />
+            return <LockIcon fontSize="large" />
         case 2:
-            return <FontAwesomeIcon icon={faLink} />
+            return <LinkIcon fontSize="large" />
     }
 }
 

@@ -2,11 +2,11 @@ import { faEnvelope, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import "./style.css";
+import ProfilIcon from "../../components/shared/ProfilIcon";
 import CustomerProfil from "../../entities/dto/CustomerProfil";
 import { getCustomerProfil } from "../../services/CustomerInfo";
 import AdPreview from "../catalog/components/ad-preview";
-import ProfilIcon from "../../components/shared/ProfilIcon";
+import "./style.css";
 
 export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?: boolean}): ReactElement {
     const { link } = useParams();
@@ -33,7 +33,7 @@ export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?:
 
                 <div className="top-div">
                     <div className="pfp-div">
-                        <ProfilIcon className="pfp" src={customerProfil?.customerInfo?.iconPath} />
+                        <ProfilIcon src={customerProfil?.customerInfo?.iconPath} username={customerProfil?.username} />
                     </div>
                     <div className="info-div">
                         <div style={{ fontWeight: "bold", fontSize: "1.25vw", marginBottom: "1vh" }}>{customerProfil?.username} <span style={{ color: "#D3D3D3", fontSize: "0.5vw", fontWeight: "lighter" }}>Since {customerProfil?.joinedDate?.split("-")[0]}</span></div>
