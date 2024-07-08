@@ -1,10 +1,10 @@
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
-import { faLink, faLock, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faLink, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { Box, Card, CardContent, CardHeader, Chip, Container, Dialog, DialogContent, ImageListItem, Stack, Typography } from "@mui/material";
 import { AxiosResponse } from "axios";
 import { ReactElement, useEffect, useState } from "react";
-import Modal from "react-modal";
 import { Link, useParams } from "react-router-dom";
 import AdInfosPart from "../../components/shared/part/AdView/AdInfosPart";
 import AdPricePart from "../../components/shared/part/AdView/AdPricePart";
@@ -120,22 +120,26 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                 {adBuyerView ?
                     (
                         <>
-
                             {/* Images Popup */}
-                            <Modal
-                                isOpen={isPicturePopup}
-                                shouldCloseOnEsc
-                                style={{
-                                    content: {
-                                        backgroundColor: "white",
-                                        color: "var(--dark-mode-text)",
-                                    }
-                                }}
-                                onRequestClose={() => setIsPicturePopup(false)}>
-                                <>
-                                    <FontAwesomeIcon color="black" style={{ cursor: "pointer" }} onClick={() => setIsPicturePopup(false)} size="2x" icon={faXmark} />
-                                    <div className="ad-view-popup-section">
-                                        <img className="ad-view-popup-image imgFit" src={adBuyerView?.adImages?.[currentPicture]?.path} />
+                            <Dialog
+                                fullScreen
+                                open={isPicturePopup}
+                                onClose={() => setIsPicturePopup(false)}>
+                                <DialogContent>
+                                    <ClearRoundedIcon sx={{ cursor: "pointer" }} onClick={() => setIsPicturePopup(false)} fontSize="large" />
+
+                                    <Container>
+                                        <Box sx={{
+                                            backgroundImage: `url(${adBuyerView?.adImages?.[currentPicture]?.path})`,
+                                            height: "800px",
+                                            width: "1200px",
+                                            border : "20px solid red",
+                                            backgroundSize : "100%",
+                                            alignItems : "center",
+                                            backgroundRepeat : "no-repeat",
+                                            backgroundColor : "blue"
+                                        }
+                                        } />
 
                                         <div className="ad-view-popup-controls">
                                             <button className="ad-view-popup-image-change-btn" onClick={() => nextOrPrevious(false)}>
@@ -148,9 +152,9 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                                 <img src="/img/prev-img.webp"></img>
                                             </button>
                                         </div>
-                                    </div>
-                                </>
-                            </Modal>
+                                    </Container>
+                                </DialogContent>
+                            </Dialog>
 
                             {adBuyerView?.adImages?.length === 0 ?
                                 (
