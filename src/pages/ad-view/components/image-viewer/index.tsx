@@ -1,42 +1,38 @@
 import { AdImage } from "@entities/dto/AdBuyerView";
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import { Box, Container, Dialog, DialogContent } from "@mui/material";
+import { Container, Dialog, DialogContent, DialogTitle, IconButton, Stack, Typography } from "@mui/material";
+
+const arrowStyle = {
+    fontSize: "55px",
+    color: "black"
+};
 
 export default function ImageViewer(props: { open: boolean, onClose: any, currentPicture: number, adImages?: Array<AdImage>, nextOrPrevious: any }) {
     return (
-        <Dialog
-            fullScreen
-            open={props.open}
-            onClose={props.onClose}>
-            <DialogContent>
+        <Dialog fullScreen open={props.open} onClose={props.onClose}>
+            <DialogTitle>
                 <ClearRoundedIcon sx={{ cursor: "pointer" }} onClick={props.onClose} fontSize="large" />
+            </DialogTitle>
 
-                <Container>
-                    <Box sx={{
-                        backgroundImage: `url(${props.adImages?.[props.currentPicture]?.path})`,
-                        height: "800px",
-                        width: "1200px",
-                        border: "20px solid red",
-                        backgroundSize: "100%",
-                        alignItems: "center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundColor: "blue"
-                    }
-                    } />
+            <DialogContent>
+                <Stack direction="row" justifyContent="center" alignItems="center">
+                    <IconButton onClick={() => props.nextOrPrevious(false)}>
+                        <ArrowCircleLeftIcon sx={arrowStyle} />
+                    </IconButton>
 
-                    <div className="ad-view-popup-controls">
-                        <button className="ad-view-popup-image-change-btn" onClick={() => props.nextOrPrevious(false)}>
-                            <img style={{ rotate: "180deg" }} src="/img/prev-img.webp"></img>
-                        </button>
+                    <Typography color="black" variant="h6">{props.currentPicture + 1} / {props.adImages?.length}</Typography>
 
-                        <p className="ad-view-popup-image-count">{props.currentPicture + 1} / {props.adImages?.length}</p>
+                    <IconButton onClick={() => props.nextOrPrevious(false)}>
+                        <ArrowCircleRightIcon sx={arrowStyle} />
+                    </IconButton>
+                </Stack>
 
-                        <button className="ad-view-popup-image-change-btn" onClick={() => props.nextOrPrevious(true)}>
-                            <img src="/img/prev-img.webp"></img>
-                        </button>
-                    </div>
-                </Container>
+                <Stack component={Container} justifyContent="center" alignItems="center">
+                    <img style={{ width: "100%", height: "100%" }} src={props.adImages?.[props.currentPicture]?.path} />
+                </Stack>
             </DialogContent>
-        </Dialog >
+        </Dialog>
     );
 }
