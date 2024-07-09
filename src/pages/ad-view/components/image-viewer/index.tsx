@@ -24,7 +24,7 @@ export default function ImageViewer(props: { open: boolean, onClose: any, curren
 
                     <Typography color="black" variant="h6">{props.currentPicture + 1} / {props.adImages?.length}</Typography>
 
-                    <IconButton onClick={() => props.nextOrPrevious(false)}>
+                    <IconButton onClick={() => props.nextOrPrevious(true)}>
                         <ArrowCircleRightIcon sx={arrowStyle} />
                     </IconButton>
                 </Stack>
