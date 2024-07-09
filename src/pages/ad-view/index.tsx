@@ -1,19 +1,17 @@
+import AdInfosPart from "@components/shared/part/AdView/AdInfosPart";
+import AdPricePart from "@components/shared/part/AdView/AdPricePart";
+import AdTagPart from "@components/shared/part/AdView/AdTagPart";
+import AdTypePart from "@components/shared/part/AdView/AdTypePart";
+import ProfilIcon from "@components/shared/ProfilIcon";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
-import { faLink, faLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import { Box, Card, CardContent, CardHeader, Chip, Container, Dialog, DialogContent, ImageListItem, Stack, Typography } from "@mui/material";
+import { AdBuyerView } from "@entities/dto/AdBuyerView";
+import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
+import { getAdByLink } from "@services/AdService";
+import { createRandomKey } from "@services/RandomKeys";
 import { AxiosResponse } from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import AdInfosPart from "../../components/shared/part/AdView/AdInfosPart";
-import AdPricePart from "../../components/shared/part/AdView/AdPricePart";
-import AdTagPart from "../../components/shared/part/AdView/AdTagPart";
-import AdTypePart from "../../components/shared/part/AdView/AdTypePart";
-import ProfilIcon from "../../components/shared/ProfilIcon";
-import { AdBuyerView, AdVisibility } from "../../entities/dto/AdBuyerView";
-import { getAdByLink } from "../../services/AdService";
-import { createRandomKey } from "../../services/RandomKeys";
+import ImageViewer from "./components/image-viewer";
 import "./style.scss";
 
 /**
@@ -33,31 +31,6 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
         }
     } else return 0;
 };
-
-/**
- * Use getVisibility icon in SharedAdPart.tsx instead.
- * 
- * @deprecated
- * @forRemoval
- */
-export function AdVisibilityPart(props: { adVisibility?: AdVisibility }): ReactElement {
-    return (props.adVisibility && props.adVisibility !== null ?
-        (
-            <FontAwesomeIcon
-                style={{ fontSize: "35px", marginBottom: "10px" }}
-                icon={
-                    props.adVisibility === AdVisibility.LINK_ONLY ?
-                        (faLink) : (
-                            props.adVisibility === AdVisibility.PRIVATE ?
-                                (faLock) : (null)
-                        )
-                }
-            />
-        ) : (
-            <></>
-        )
-    );
-}
 
 export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, any>>, children?: any }) {
     const [currentPicture, setCurrentPicture] = useState<number>(0);
@@ -120,41 +93,14 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                 {adBuyerView ?
                     (
                         <>
-                            {/* Images Popup */}
-                            <Dialog
-                                fullScreen
+                            <ImageViewer
+                                adImages={adBuyerView?.adImages} 
+                                currentPicture={currentPicture}
+                                nextOrPrevious={nextOrPrevious}
+                                onClose={() => setIsPicturePopup(false)}
                                 open={isPicturePopup}
-                                onClose={() => setIsPicturePopup(false)}>
-                                <DialogContent>
-                                    <ClearRoundedIcon sx={{ cursor: "pointer" }} onClick={() => setIsPicturePopup(false)} fontSize="large" />
 
-                                    <Container>
-                                        <Box sx={{
-                                            backgroundImage: `url(${adBuyerView?.adImages?.[currentPicture]?.path})`,
-                                            height: "800px",
-                                            width: "1200px",
-                                            border : "20px solid red",
-                                            backgroundSize : "100%",
-                                            alignItems : "center",
-                                            backgroundRepeat : "no-repeat",
-                                            backgroundColor : "blue"
-                                        }
-                                        } />
-
-                                        <div className="ad-view-popup-controls">
-                                            <button className="ad-view-popup-image-change-btn" onClick={() => nextOrPrevious(false)}>
-                                                <img style={{ rotate: "180deg" }} src="/img/prev-img.webp"></img>
-                                            </button>
-
-                                            <p className="ad-view-popup-image-count">{currentPicture + 1} / {adBuyerView?.adImages?.length}</p>
-
-                                            <button className="ad-view-popup-image-change-btn" onClick={() => nextOrPrevious(true)}>
-                                                <img src="/img/prev-img.webp"></img>
-                                            </button>
-                                        </div>
-                                    </Container>
-                                </DialogContent>
-                            </Dialog>
+                            />
 
                             {adBuyerView?.adImages?.length === 0 ?
                                 (
