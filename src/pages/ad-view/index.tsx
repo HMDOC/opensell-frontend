@@ -13,6 +13,7 @@ import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ImageViewer from "./components/image-viewer";
 import "./style.scss";
+import SideImages from "./components/side-images";
 
 /**
  * Function that increase the index of the current picture
@@ -94,7 +95,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                     (
                         <>
                             <ImageViewer
-                                adImages={adBuyerView?.adImages} 
+                                adImages={adBuyerView?.adImages}
                                 currentPicture={currentPicture}
                                 nextOrPrevious={nextOrPrevious}
                                 onClose={() => setIsPicturePopup(false)}
@@ -102,40 +103,16 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
 
                             />
 
-                            {adBuyerView?.adImages?.length === 0 ?
+                            {adBuyerView?.adImages?.length !== 0 ?
                                 (
-                                    <></>
-                                ) :
-                                (
-                                    <div className="ad-view-images">
+                                    <Stack direction="row" >
                                         <img onClick={() => loadImageFromClick(0)} className="ad-view-first-images ad-view-big-image imgFit" src={adBuyerView?.adImages[0]?.path} />
 
-                                        <div className="ad-view-images-column">
-                                            {adBuyerView?.adImages.slice(1, 3)?.map(
-                                                (value, index) => (
-                                                    value ?
-                                                        (
-                                                            <img key={createRandomKey()} onClick={() => loadImageFromClick(index + 1)} className="ad-view-first-images ad-view-images-column-element imgFit" src={value?.path} />
-                                                        ) : (
-                                                            <></>
-                                                        )
-                                                )
-                                            )}
-
-                                            {/* Last image terner */}
-                                            {adBuyerView?.adImages.length > 4 ?
-                                                (
-                                                    // ad-view-zoomed-image
-                                                    <p onClick={() => loadImageFromClick(3)} style={{ backgroundImage: `url(${adBuyerView?.adImages[3]?.path})` }} className="ad-view-images-zoom-in ad-view-first-images ad-view-images-column-element imgFit">+{adBuyerView?.adImages.length - 4}</p>
-                                                ) : (
-                                                    adBuyerView?.adImages.length === 4 ?
-                                                        <img onClick={() => loadImageFromClick(3)} src={adBuyerView?.adImages[3]?.path} className="ad-view-first-images ad-view-images-column-element imgFit" />
-                                                        :
-                                                        <></>
-                                                )
-                                            }
-                                        </div>
-                                    </div>
+                                        <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => img.path)} openImageAction={loadImageFromClick} />
+                                    </Stack>
+                                ) :
+                                (
+                                    <></>
                                 )
                             }
                             <br />
