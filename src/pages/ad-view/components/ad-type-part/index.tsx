@@ -1,4 +1,4 @@
-import "@css/component/part/AdView/AdTypePart.scss";
+import "./style.scss";
 
 export default function AdTypePart(props: {type: string}) {
     return(

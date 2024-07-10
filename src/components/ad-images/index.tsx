@@ -5,7 +5,7 @@ import { createRandomKey } from "../../services/RandomKeys";
 import "./style.scss";
 import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import IconLabelError from "@components/shared/part/IconLabelError";
+import IconLabelError from "@components/shared/IconLabelError";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 export function AdImages(props: { name: string }) {

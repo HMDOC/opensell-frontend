@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 import "./style.css"
-import AdPricePart from "../../../../components/shared/part/AdView/AdPricePart";
+import AdPricePart from "../../../../components/shared/ad/price-part";
 
 /** 
     The preview component for the Ads. Clicking on it will

@@ -1,7 +1,7 @@
-import AdInfosPart from "@components/shared/part/AdView/AdInfosPart";
-import AdPricePart from "@components/shared/part/AdView/AdPricePart";
-import AdTagPart from "@components/shared/part/AdView/AdTagPart";
-import AdTypePart from "@components/shared/part/AdView/AdTypePart";
+import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
+import AdPricePart from "@components/shared/ad/price-part";
+import AdTagPart from "@components/shared/ad/tag-part";
+import AdTypePart from "./components/ad-type-part";
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { AdBuyerView } from "@entities/dto/AdBuyerView";

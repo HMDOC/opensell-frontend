@@ -2,9 +2,9 @@ import { MUI_INPUT_VARIANT } from "@context/AppContext";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { TextField, Stack } from "@mui/material";
 import { ErrorMessage, FieldArray } from "formik";
-import { createRandomKey } from "../../services/RandomKeys";
-import AdTagPart from "./part/AdView/AdTagPart";
-import IconLabelError from "./part/IconLabelError";
+import { createRandomKey } from "../../../../services/RandomKeys";
+import AdTagPart from "../tag-part";
+import IconLabelError from "../../IconLabelError";
 
 /**
  * @brief

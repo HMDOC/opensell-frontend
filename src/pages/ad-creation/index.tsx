@@ -1,6 +1,6 @@
 import { AdImages } from "@components/ad-images";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
-import { AdTags } from "@components/shared/AdTags";
+import { AdTags } from "@components/shared/ad/tags";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { useAppContext } from "@context/AppContext";

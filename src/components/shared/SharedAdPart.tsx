@@ -1,5 +1,4 @@
 import { MUI_INPUT_VARIANT } from "@context/AppContext";
-import "@css/component/part/SharedAdPart.scss";
 import { AdVisibility } from "@entities/dto/AdBuyerView";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import LinkIcon from '@mui/icons-material/Link';
@@ -9,7 +8,7 @@ import { MenuItem, TextField } from "@mui/material";
 import { ErrorMessage, FieldProps } from "formik";
 import { ReactNode } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
-import IconLabelError from "./part/IconLabelError";
+import IconLabelError from "./IconLabelError";
 
 export const MAX_PRICE = 999990;
 

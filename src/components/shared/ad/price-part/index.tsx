@@ -1,4 +1,4 @@
-import "@css/component/part/AdView/AdPricePart.scss";
+import "./style.scss";
 
 export default function AdPricePart({price = 0, isSold = true}) {
     return(

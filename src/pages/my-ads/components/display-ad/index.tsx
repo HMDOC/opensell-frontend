@@ -1,5 +1,5 @@
+import AdPricePart from "@components/shared/ad/price-part";
 import MuiMenu from "@components/shared/mui-menu";
-import AdPricePart from "@components/shared/part/AdView/AdPricePart";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { DisplayAdView } from "@entities/dto/DisplayAdView";
 import { AdCreator } from "@entities/dto/v2/AdCreator";
@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PanoramaIcon from '@mui/icons-material/Panorama';
-import { Card, CardContent, CardHeader, CardMedia, Stack } from "@mui/material";
+import { Card, CardHeader, CardMedia } from "@mui/material";
 import { deleteAd, getAdToModify } from "@services/AdService";
 
 interface DisplayAdProps extends DisplayAdView {

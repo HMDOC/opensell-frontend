@@ -1,7 +1,7 @@
 import { faClock, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useState } from "react";
 import { SHAPE_ARRAY } from "@components/shared/AdShapeSelect";
-import IconLabelError from "@components/shared/part/IconLabelError";
+import IconLabelError from "@components/shared/IconLabelError";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import AdTypeSelect from "@components/shared/AdTypeSelect";
 
