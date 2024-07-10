@@ -1,40 +1,35 @@
-import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
-import "@css/component/part/AdView/AdInfosPart.scss";
 import { AdShape, getShapeStr } from "@entities/dto/AdBuyerView";
-import { faClock, faLocationDot, faPhone, faShapes } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import InterestsIcon from '@mui/icons-material/Interests';
+import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
+import PlaceIcon from '@mui/icons-material/Place';
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import { Stack } from "@mui/material";
 
-function SingleInfo(props: { icon: IconProp, labelValue: string, isEnd?: boolean }) {
+function SingleInfo(props: { icon: any, labelValue?: string, isEnd?: boolean }) {
     return (
-        <>
-            {props.labelValue ?
-                (
-                    <>
-                        <div className="single-info-flex" >
-                            <FontAwesomeIcon className="info-icon" size="lg" icon={props.icon} />
-                            <p>{props.labelValue}</p>
-                        </div>
-                        
-                        {props.isEnd ? 
-                            <></> : <hr className="separator" />
-                        }
-                    </>
-                ) : (
-                    <></>
-                )
-            }
-        </>
+        props.labelValue ?
+            (
+                <>
+                    <Stack direction="row" alignItems="center" spacing={0.4}>
+                        {props.icon}
+                        <p>{props.labelValue}</p>
+                    </Stack>
+
+                    {props.isEnd ? <></> : <hr />}
+                </>
+            ) : (
+                <></>
+            )
     );
 }
 
-export default function AdInfosPart(props: { location: string, publishDate: Date, phone: string, shape: AdShape }) {
+export default function AdInfosPart(props: { location?: string, publishDate?: Date, phone?: string, shape?: AdShape }) {
     return (
-        <div className="ad-info-part dark-shadow">
-            {/* Address */}
-            <SingleInfo labelValue={props.location} icon={faLocationDot} />
-            <SingleInfo labelValue={props.publishDate?.toString()} icon={faClock} />
-            <SingleInfo labelValue={props.phone} icon={faPhone} />
-            <SingleInfo labelValue={getShapeStr(props.shape)} icon={faShapes} isEnd />
-        </div>
+        <Stack padding={3} borderRadius="30px" width="300px" className="dark-shadow" color="black">
+            <SingleInfo labelValue={props.location} icon={<PlaceIcon />} />
+            <SingleInfo labelValue={props.publishDate?.toString()} icon={<WatchLaterIcon />} />
+            <SingleInfo labelValue={props.phone} icon={<PhoneIphoneIcon />} />
+            <SingleInfo labelValue={getShapeStr(props.shape)} icon={<InterestsIcon />} isEnd />
+        </Stack>
     );
 }
