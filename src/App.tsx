@@ -31,7 +31,6 @@ export default function App() {
 	async function getCustomerInfo() {
 		const data = (await getUserInfos("token"))?.data;
 		if (customerDto !== data) setCustomerDto(data);
-		console.log("CUSTOMER DTO : " + customerDto)
 		return data;
 	}
 

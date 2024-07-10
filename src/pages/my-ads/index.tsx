@@ -59,7 +59,7 @@ export default function MyAds() {
             setIsGetData(true);
         }
 
-        setDialogState({ open: false });
+        setDialogState({ ...dialogState, open: false });
     }
 
     return (
