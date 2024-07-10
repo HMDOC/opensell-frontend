@@ -1,18 +1,16 @@
 import { AdBuyerView } from "@entities/dto/AdBuyerView";
 import { DisplayAdView } from "@entities/dto/DisplayAdView";
 import { AdCreator } from "@entities/dto/v2/AdCreator";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AdCreationModal from "@pages/ad-creation/";
 import { AdMapping } from "@pages/ad-view";
 import { getCustomerAdPreview, getCustomerAds } from "@services/AdService";
 import { createRandomKey } from "@services/RandomKeys";
 import { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import DisplayAd from "./components/display-ad";
-import "./style.css";
 import { useAppContext } from "@context/AppContext";
+import { Container, IconButton, Stack, Typography, Button } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default function MyAds() {
     const { customerDto } = useAppContext();
@@ -65,39 +63,45 @@ export default function MyAds() {
     }
 
     return (
-        <>
+        <Container component={Stack} spacing={1}>
+            <title>My ads</title>
+
             {isPreview ?
                 (
                     <>
-                        <Button className="my-ads-go-back" onClick={() => setIsPreview(false)}>Go Back</Button>
+                        <Button onClick={() => setIsPreview(false)}>Go Back</Button>
                         <AdMapping request={currentAdPreview} />
                     </>
                 ) : (
-                    <div className="back-div">
-                        <div className="display-header d-flex justify-content-between">
-                            <h1 className="fs-1 text-black"> <b>My ads</b></h1>
-                            <Button onClick={launchCreate}><FontAwesomeIcon icon={faPlus} /></Button>
-                        </div>
-                        {displayAds.length > 0 ? (
-                            <div style={{ overflowY: "scroll", height: "87.25vh" }} className="ads-view">
-                                {displayAds?.map(value => (
-                                    <DisplayAd
-                                        key={createRandomKey()}
-                                        {...value}
-                                        onDelete={(idAd) => onDelete(idAd)}
-                                        seeAdPreview={(idAd) => getCurrentPromise(idAd)}
-                                        launchUpdate={launchUpdate}
-                                    />))}
-                            </div>
-                        ) : (
-                            <div style={{ textAlign: "center" }} className="back-div">
-                                <h4>You have no ads</h4>
-                            </div>
-                        )}
-                    </div>
+                    <>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center">
+                            <Typography variant="h3" fontWeight="bold">My ads</Typography>
+
+                            <IconButton onClick={launchCreate} color="primary">
+                                <AddCircleIcon sx={{ fontSize: "55px" }} />
+                            </IconButton>
+                        </Stack>
+
+                        {displayAds?.length > 0 ?
+                            (
+                                <Stack spacing={2} direction="row" flexWrap="wrap" justifyContent="center" useFlexGap>
+                                    {displayAds?.map(value => (
+                                        <DisplayAd
+                                            key={createRandomKey()}
+                                            {...value}
+                                            onDelete={(idAd) => onDelete(idAd)}
+                                            seeAdPreview={(idAd) => getCurrentPromise(idAd)}
+                                            launchUpdate={launchUpdate}
+                                        />))}
+                                </Stack>
+                            ) : (
+                                <Typography variant="h4" textAlign="center">You have no ads</Typography>
+                            )
+                        }
+                    </>
                 )
             }
             <AdCreationModal onClose={onClose} {...dialogState} />
-        </>
+        </Container>
     );
 }

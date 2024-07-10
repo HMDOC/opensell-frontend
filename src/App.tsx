@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import { CustomerDto } from './entities/dto/CustomerDto';
 import { AppContext } from './context/AppContext';
 import { Theme, ThemeOption } from './context/Theme';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 const About = lazy(() => import("./pages/about"));
 const MainMenu = lazy(() => (import("./pages/main-menu")));
@@ -29,13 +30,13 @@ export default function App() {
 
 	async function getCustomerInfo() {
 		const data = (await getUserInfos("token"))?.data;
-		if(customerDto !== data) setCustomerDto(data);
-		console.log("CUSTOMER DTO : "+customerDto)
+		if (customerDto !== data) setCustomerDto(data);
+		console.log("CUSTOMER DTO : " + customerDto)
 		return data;
 	}
 
 	function logout() {
-		if(customerDto) setCustomerDto(undefined);
+		if (customerDto) setCustomerDto(undefined);
 	}
 
 	useEffect(() => {
@@ -47,32 +48,48 @@ export default function App() {
 		Theme.setTheme(theme);
 	}
 
+	const muiTheme = createTheme({
+		palette : {
+
+		},
+		components : {
+			MuiButton : {
+				defaultProps : {
+					variant : "contained"
+				}
+			}
+		}
+	});
+
 	return (
 		<AppContext.Provider value={{ theme, changeTheme, customerDto, getCustomerInfo, isDarkMode: () => Theme.isDarkMode(theme), logout }}>
-			<BrowserRouter>
-				<Suspense fallback={<LazyLoad />}>
-					<Navbar logout={() => setCustomerDto(undefined)} />
-					<br />
-					<br />
+			<ThemeProvider theme={muiTheme}>
 
-					<Routes>
-						<Route path="/u" element={<PrivateRoute />}>
-							<Route path='/u/my-ads' element={<MyAds />}/>
-							<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
-							<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
-						</Route>
-						<Route path="/" element={<MainMenu />}></Route>
-						<Route path='/about' element={<About />}></Route>
-						<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
-						<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
-						<Route path="/catalog" element={<Catalog />}></Route>
-						<Route path="/ad/:link" element={<AdView />}></Route>
-						<Route path="/user/:link" element={<UserProfil />}></Route>
-						<Route path="*" element={<NotFound />}></Route>
-					</Routes>
-				</Suspense>
-			<title>Opensell</title>
-			</BrowserRouter>
+				<BrowserRouter>
+					<Suspense fallback={<LazyLoad />}>
+						<Navbar logout={() => setCustomerDto(undefined)} />
+						<br />
+						<br />
+
+						<Routes>
+							<Route path="/u" element={<PrivateRoute />}>
+								<Route path='/u/my-ads' element={<MyAds />} />
+								<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
+								<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
+							</Route>
+							<Route path="/" element={<MainMenu />}></Route>
+							<Route path='/about' element={<About />}></Route>
+							<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
+							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
+							<Route path="/catalog" element={<Catalog />}></Route>
+							<Route path="/ad/:link" element={<AdView />}></Route>
+							<Route path="/user/:link" element={<UserProfil />}></Route>
+							<Route path="*" element={<NotFound />}></Route>
+						</Routes>
+					</Suspense>
+					<title>Opensell</title>
+				</BrowserRouter>
+			</ThemeProvider>
 		</AppContext.Provider>
 	);
 }

@@ -43,108 +43,112 @@ export default function AdCreationModal(props: AdCreationModalProps) {
     };
 
     return (
-        <Dialog
-            open={props.open}
-            onClose={() => props.onClose()}
-            maxWidth={false}
-            PaperProps={{ sx: { borderRadius: "10px" } }}
+        <Formik
+            initialValues={initialValues}
+            validationSchema={
+                object({
+                    title: notEmptyWithMaxAndMin(80, 3, "Title").test(
+                        "titleUniqueConstraint",
+                        "You already have an ad with this title",
+                        (value) => {
+                            return new Promise((resolve) => {
+                                // Need to reduce the amount of time it makes the query to the backend.
+                                isTitleConstraintOk(value, customerDto?.customerId, props.adCreator?.adId).then(
+                                    res => resolve(res?.data)
+                                );
+                            })
+                        }
+                    ),
+                    price: priceWithMinAndMax(MAX_PRICE, 0, "Price"),
+                    description: notEmptyWithMaxAndMin(5000, 10, "Description"),
+                    address: notEmptyWithMaxAndMin(256, 4, "Address"),
+                    adTypeId: string().required("Category is required."),
+                    visibility: string().required("Visibility is required."),
+                    shape: string().required("Shape is required."),
+                    images: array().min(2, " should be at least 2."),
+                })}
+            onSubmit={async (values) => {
+                if (isUpdate && JSON.stringify(values) == JSON.stringify(initialValues)) {
+                    console.log("NOTHING UPDATED!");
+                    props.onClose();
+                    return;
+                }
+
+                let formData = new FormData();
+                formData.append("customerId", `${customerDto.customerId}`);
+
+                for (let key in values) {
+                    if (!["images", "deletedImg"].includes(key)) formData.append(key, values[key]);
+                }
+
+                // For update
+                let adImages: AdImage[] = [];
+
+                values.images.forEach((img: ImageBox, index) => {
+                    if (img.content instanceof FrontendImage) {
+                        formData.append("images", img.content.file);
+                        formData.append("imagePositions", index + "");
+                    } else {
+                        // Will not be called if it is a create.
+                        adImages.push({ id: img.id, path: img.content, spot: index, isLocal: true })
+                    }
+                });
+
+                if (isUpdate) {
+                    formData.append("adImagesJson", JSON.stringify(adImages));
+                    formData.append("adId", props.adCreator.adId + "");
+                }
+
+                await createOrUpdateAd(formData).then(
+                    res => {
+                        if (res.status == HttpStatusCode.Ok) {
+                            props.onClose(true);
+                        }
+                    }
+                );
+            }}
         >
-            <DialogTitle variant="h5" sx={{ fontWeight: "bold" }}>{isUpdate ? "Update" : "Create"} Ad</DialogTitle>
-            <Divider />
+            {({ isValid }) => (
 
-            <DialogContent>
-                <Formik
-                    initialValues={initialValues}
-                    validationSchema={
-                        object({
-                            title: notEmptyWithMaxAndMin(80, 3, "Title").test(
-                                "titleUniqueConstraint",
-                                "You already have an ad with this title",
-                                (value) => {
-                                    return new Promise((resolve) => {
-                                        // Need to reduce the amount of time it makes the query to the backend.
-                                        isTitleConstraintOk(value, customerDto?.customerId, props.adCreator?.adId).then(
-                                            res => resolve(res?.data)
-                                        );
-                                    })
-                                }
-                            ),
-                            price: priceWithMinAndMax(MAX_PRICE, 0, "Price"),
-                            description: notEmptyWithMaxAndMin(5000, 10, "Description"),
-                            address: notEmptyWithMaxAndMin(256, 4, "Address"),
-                            adTypeId: string().required("Category is required."),
-                            visibility: string().required("Visibility is required."),
-                            shape: string().required("Shape is required."),
-                            images: array().min(2, " should be at least 2."),
-                        })}
-                    onSubmit={async (values) => {
-                        if (isUpdate && JSON.stringify(values) == JSON.stringify(initialValues)) {
-                            console.log("NOTHING UPDATED!");
-                            props.onClose();
-                            return;
-                        }
-
-                        let formData = new FormData();
-                        formData.append("customerId", `${customerDto.customerId}`);
-
-                        for (let key in values) {
-                            if (!["images", "deletedImg"].includes(key)) formData.append(key, values[key]);
-                        }
-
-                        // For update
-                        let adImages: AdImage[] = [];
-
-                        values.images.forEach((img: ImageBox, index) => {
-                            if (img.content instanceof FrontendImage) {
-                                formData.append("images", img.content.file);
-                                formData.append("imagePositions", index + "");
-                            } else {
-                                // Will not be called if it is a create.
-                                adImages.push({ id: img.id, path: img.content, spot: index, isLocal: true })
-                            }
-                        });
-
-                        if (isUpdate) {
-                            formData.append("adImagesJson", JSON.stringify(adImages));
-                            formData.append("adId", props.adCreator.adId + "");
-                        }
-
-                        await createOrUpdateAd(formData).then(
-                            res => {
-                                if (res.status == HttpStatusCode.Ok) {
-                                    props.onClose(true);
-                                }
-                            }
-                        );
-                    }}
+                <Dialog
+                    open={props.open}
+                    onClose={() => props.onClose()}
+                    maxWidth={false}
+                    PaperProps={{ sx: { borderRadius: "10px" } }}
                 >
-                    <Form id="create-ad">
-                        <Stack spacing={3}>
-                            <Field name="title" component={AdCreationInput} label="Title" />
-                            <Field name="price" type="number" component={AdCreationInput} label="Price" />
-                            <Field name="description" component={AdCreationInput} label="Description" isTextArea />
-                            <Field name="address" component={AdCreationInput} label="Address" icon={<LocationOnIcon />} />
+                    <DialogTitle variant="h5" sx={{ fontWeight: "bold" }}>{isUpdate ? "Update" : "Create"} Ad</DialogTitle>
+                    <Divider />
 
-                            {isUpdate ? <Field name="isSold" component={AdCheckbox} type="checkbox" label="Is your ad sold?" /> : <></>}
+                    <DialogContent>
 
-                            <Field name="visibility" component={AdVisibilitySelect} />
-                            <Field name="shape" component={AdShapeSelect} />
+                        <Form id="create-ad">
+                            <Stack spacing={3}>
+                                <Field name="title" component={AdCreationInput} label="Title" />
+                                <Field name="price" type="number" component={AdCreationInput} label="Price" />
+                                <Field name="description" component={AdCreationInput} label="Description" isTextArea />
+                                <Field name="address" component={AdCreationInput} label="Address" icon={<LocationOnIcon />} />
 
-                            <AdImages name="images" />
+                                {isUpdate ? <Field name="isSold" component={AdCheckbox} type="checkbox" label="Is your ad sold?" /> : <></>}
 
-                            <Field name="adTypeId" component={AdTypeSelect} />
+                                <Field name="visibility" component={AdVisibilitySelect} />
+                                <Field name="shape" component={AdShapeSelect} />
 
-                            <AdTags name="tags" />
-                        </Stack>
-                    </Form >
-                </Formik >
-            </DialogContent>
-            <Divider />
+                                <AdImages name="images" />
 
-            <DialogActions>
-                <Button variant="text" onClick={() => props.onClose()}>Cancel</Button>
-                <Button type="submit" variant="contained" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
-            </DialogActions>
-        </Dialog>
+                                <Field name="adTypeId" component={AdTypeSelect} />
+
+                                <AdTags name="tags" />
+                            </Stack>
+                        </Form >
+                    </DialogContent>
+                    <Divider />
+
+                    <DialogActions>
+                        <Button variant="text" onClick={() => props.onClose()}>Cancel</Button>
+                        <Button disabled={!isValid} type="submit" variant="contained" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
+                    </DialogActions>
+                </Dialog>
+            )}
+        </Formik>
     );
 }
