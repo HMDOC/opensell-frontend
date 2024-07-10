@@ -8,9 +8,9 @@
 	--inputborder: #a0a0a0;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
 	display: none;
-}
+} */
 
 html {
 	filter: var(--invert) var(--htmlHue);

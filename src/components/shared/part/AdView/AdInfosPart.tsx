@@ -12,7 +12,7 @@ function SingleInfo(props: { icon: any, labelValue?: string, isEnd?: boolean }) 
                 <>
                     <Stack direction="row" alignItems="center" spacing={0.4}>
                         {props.icon}
-                        <p>{props.labelValue}</p>
+                        <p style={{ overflow: "auto" }}>{props.labelValue}</p>
                     </Stack>
 
                     {props.isEnd ? <></> : <hr />}
