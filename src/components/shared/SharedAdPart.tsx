@@ -1,4 +1,3 @@
-import { MUI_INPUT_VARIANT } from "@context/AppContext";
 import { AdVisibility } from "@entities/dto/AdBuyerView";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import LinkIcon from '@mui/icons-material/Link';
@@ -49,7 +48,6 @@ export function SelectorReader(props: SelectorReaderProps) {
                 label={
                     <IconLabelError {...props} />
                 }
-                variant={MUI_INPUT_VARIANT}
                 sx={{
                     width: 200
                 }}

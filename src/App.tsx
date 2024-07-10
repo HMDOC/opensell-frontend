@@ -57,6 +57,11 @@ export default function App() {
 				defaultProps : {
 					variant : "contained"
 				}
+			},
+			MuiTextField : {
+				defaultProps : {
+					variant : "outlined"
+				}
 			}
 		}
 	});

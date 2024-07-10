@@ -1,4 +1,3 @@
-import { MUI_INPUT_VARIANT } from "@context/AppContext";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 import { TextField, Stack } from "@mui/material";
 import { ErrorMessage, FieldArray } from "formik";
@@ -35,7 +34,6 @@ export function AdTags(props: { name: string, isSearch?: boolean, placeholder?: 
                         label={
                             <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
                         }
-                        variant={MUI_INPUT_VARIANT}
                         onChange={handleChange}
                         type="text"
                         name={props.name}
