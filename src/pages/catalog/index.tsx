@@ -66,7 +66,6 @@ const ResultList = (): ReactElement => {
 
     const [filtersUpdated, setFiltersUpdated] = useState();
     const filterRef = useRef<HTMLDivElement>();
-    const reverseSortRef = useRef<HTMLInputElement>();
     const [filterOptions, setFilterOptions] = useState<any>({ query: "" });
 
     // AdTags
@@ -82,21 +81,15 @@ const ResultList = (): ReactElement => {
         });
 
         tmpFilterOptions["adTags"] = searchTags;
-        if (reverseSortRef.current.checked)
-            tmpFilterOptions["reverseSort"] = 1;
 
         setFilterOptions(tmpFilterOptions);
     }, [filtersUpdated]);
 
     useEffect(() => {
         searchBarRef.current.value = searchParams.get("query");
-        reverseSortRef.current.checked = searchParams.get("reverseSort") === "1"
 
         let tmpFilterOptions = filterOptions;
         tmpFilterOptions["adTags"] = searchTags;
-        if (reverseSortRef.current.checked) {
-            tmpFilterOptions["reverseSort"] = 1;
-        }
 
         searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
@@ -168,7 +161,6 @@ const ResultList = (): ReactElement => {
                     click={setSearchClick}
                     searchTags={searchTags}
                     setSearchTags={setSearchTags}
-                    reverseSort={reverseSortRef}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
             </div>
             <div id="searchResult" className="catalog-div-bg">

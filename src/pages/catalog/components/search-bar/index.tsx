@@ -33,7 +33,6 @@ const SearchBar = (props) : ReactElement => {
                 setSearchTags={props.setSearchTags} 
                 filterUpdate={props.filterUpdate} 
                 filterElementRef={props.filters} 
-                reverseSort={props.reverseSort} 
                 defValue={props.defSortValue} />
         </div>
         
