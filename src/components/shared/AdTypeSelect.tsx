@@ -26,7 +26,7 @@ export default function AdTypeSelect(props: AdTypeSelectProps) {
             .then((rep) => {
                 if (rep?.data) {
                     if (props.isSearch) {
-                        setAdTypeArray([{ idAdType: "" as any, name: "All" }, ...rep?.data]);
+                        setAdTypeArray([{ idAdType: "ALL" as any, name: "ALL" }, ...rep?.data]);
                     }
 
                     else setAdTypeArray(rep?.data);

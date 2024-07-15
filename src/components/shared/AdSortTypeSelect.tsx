@@ -9,7 +9,7 @@ export default function AdSortTypeSelect(props: SelectorReaderProps) {
             <SelectorReader
                 {...props}
                 iconProp={faEarthAmerica}
-                title="Visibility"
+                title="SortBy"
                 options={SORT_ARRAY}
             />
         </>

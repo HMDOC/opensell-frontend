@@ -45,13 +45,13 @@ export function SelectorReader(props: SelectorReaderProps) {
     return (
         <>
             <TextField
+                {...props.field}
                 label={
                     <IconLabelError {...props} />
                 }
                 sx={{
                     width: 200
                 }}
-                {...props.field}
                 error={!!errors[name] && touched[name] as boolean}
                 helperText={<ErrorMessage name={props.field.name} />}
                 select

@@ -114,7 +114,7 @@ const ResultList = (): ReactElement => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
-            
+
             setLoading(false);
         }).catch((e: AxiosError) => {
             switch (e.code) {
@@ -152,7 +152,7 @@ const ResultList = (): ReactElement => {
 
     return (
         <div className="catalog-div">
-        <title>Catalog</title>
+            <title>Catalog</title>
             <div className="div-filters catalog-div-bg">
                 <SearchBar
                     filterUpdate={setFiltersUpdated}
@@ -163,6 +163,7 @@ const ResultList = (): ReactElement => {
                     setSearchTags={setSearchTags}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
             </div>
+            
             <div id="searchResult" className="catalog-div-bg">
                 {
                     (isLoading) ?
