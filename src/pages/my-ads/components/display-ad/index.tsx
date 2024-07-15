@@ -1,5 +1,5 @@
 import AdPricePart from "@components/shared/ad/price-part";
-import MuiMenu from "@components/shared/mui-menu";
+import MuiMenuWithOptions from "@components/shared/mui-menu";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { DisplayAdView } from "@entities/dto/DisplayAdView";
 import { AdCreator } from "@entities/dto/v2/AdCreator";
@@ -34,7 +34,7 @@ export default function DisplayAd(props: DisplayAdProps) {
                     <AdPricePart price={props.price} isSold={props.isSold} />
                 }
                 action={
-                    <MuiMenu
+                    <MuiMenuWithOptions
                         menuIcon={<MoreHorizIcon />}
                         options={[
                             { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.link)).data) },

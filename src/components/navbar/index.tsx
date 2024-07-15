@@ -1,109 +1,157 @@
-import { ReactElement } from 'react';
-import { Dropdown, DropdownItem, FormCheck } from 'react-bootstrap';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Row from 'react-bootstrap/Row';
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useAppContext } from '../../context/AppContext';
-import { ThemeOption } from '../../context/Theme';
-import { createRandomKey } from '../../services/RandomKeys';
-import ProfilIcon from '../shared/ProfilIcon';
-import navLinks from "./links.json";
+import { MuiMenu, MuiMenuItem } from '@components/shared/mui-menu';
+import { useAppContext } from '@context/AppContext';
+import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
+import PersonIcon from "@mui/icons-material/Person";
+import SettingsIcon from '@mui/icons-material/Settings';
+import WebIcon from '@mui/icons-material/Web';
+import { Divider, IconButton, MenuItem } from '@mui/material';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Stack from '@mui/material/Stack';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { createRandomKey } from '@services/RandomKeys';
+import { ReactElement, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import AppNavLink from './components/app-nav-link';
+import links from "./links.json";
 import "./style.css";
+import ThemeToggle from './components/theme-toggle';
+
+const DESKTOP_VIEW = { xs: 'none', md: 'flex' };
+const MOBILE_VIEW = { xs: 'flex', md: 'none' };
+
+const DROPDOWN_MENU = [
+    {
+        path: "/u/my-profil",
+        label: "My profil",
+        icon: <PersonIcon />
+    },
+    {
+        path: "/u/my-ads",
+        label: "My Ads",
+        icon: <WebIcon />
+    },
+    {
+        path: "/u/customer-modification",
+        label: "Settings",
+        icon: <SettingsIcon />
+    }
+];
 
 /**
  * 
- * @author Quoc 
+ * @author Quoc
+ * @modifiedBy Achraf
  */
 export default function Navbar(props: { logout(): void }): ReactElement {
-    const naviguate = useNavigate();
-    const { customerDto, changeTheme, theme, isDarkMode } = useAppContext();
-
-    const b = ({ isActive }) => {
-        return isActive ? "is-active" : ""
-    };
+    const navigate = useNavigate();
+    const [isMenuDisplayed, setIsMenuDisplayed] = useState(false);
+    const { customerDto } = useAppContext();
 
     const logoutAction = () => {
         props.logout();
         localStorage.removeItem('token');
-        naviguate('/');
-    }
-
-    const CheckBox = (props: { label: string, theme: ThemeOption }) => {
-        return (
-            <FormCheck
-                defaultChecked={props.theme === theme}
-                name="theme-option"
-                type="radio"
-                label={props.label}
-                onClick={() => changeTheme(props.theme)} />
-        )
+        navigate('/');
     }
 
     return (
-        <>
-            <Container fluid>
-                <Row className='nav'>
-                    <Col className='nav-left'>
-                        <Dropdown>
-                            <Dropdown.Toggle className="display-dropdown-color">Theme</Dropdown.Toggle>
-                            <Dropdown.Menu variant="light">
-                                <DropdownItem as={CheckBox} label="dark" theme={ThemeOption.DARK} />
-                                <DropdownItem as={CheckBox} label="light" theme={ThemeOption.LIGHT} />
-                                <DropdownItem as={CheckBox} label="browser theme" theme={ThemeOption.BROWSER_DEFAULT} />
-                            </Dropdown.Menu>
-                        </Dropdown>
+        <AppBar position="static" enableColorOnDark>
+            <Container maxWidth={false}>
+                <Toolbar disableGutters>
+                    <ThemeToggle />
 
-                        {navLinks.quickMenu.map((nav) =>
-                        (
-                            <NavLink key={createRandomKey()} className={b} to={nav.path}>{nav.label}</NavLink>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="a"
+                        sx={{
+                            mr: 2,
+                            display: DESKTOP_VIEW,
+                            fontFamily: "monospace",
+                            letterSpacing: '.1rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        Opensell
+                    </Typography>
+
+                    <Box sx={{ flexGrow: 1, display: MOBILE_VIEW }}>
+                        <IconButton onClick={() => setIsMenuDisplayed(!isMenuDisplayed)}>
+                            <MenuIcon color='inherit' />
+                        </IconButton>
+                    </Box>
+
+                    <Typography
+                        variant="h5"
+                        noWrap
+                        component="a"
+                        href="#app-bar-with-responsive-menu"
+                        sx={{
+                            display: MOBILE_VIEW,
+                            flexGrow: 1,
+                            fontFamily: 'monospace',
+                            letterSpacing: '.1rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                        }}
+                    >
+                        Opensell
+                    </Typography>
+                    <Stack direction="row" spacing={5} sx={{ flexGrow: 1, display: DESKTOP_VIEW }}>
+                        {links.navbar?.map((link) => (
+                            <AppNavLink {...link} />
                         ))}
-                    </Col>
+                    </Stack>
 
-                    <Col xs={12} md={12}>
-                        <div className='nav-center'>
-                            <NavLink to="/">
-                                <img src={`/img/${isDarkMode() ? "dark" : "light"}-logo.svg`} alt="Opensell logo" className="brand-logo" />
-                            </NavLink>
-                        </div>
-                    </Col>
+                    {customerDto ?
+                        (
+                            <MuiMenu menuIcon={<Avatar>V</Avatar>}>
+                                <Stack component={MenuItem}>
+                                    <Typography textAlign="center" variant="h6">{customerDto?.username ?? "Guest"}</Typography>
+                                </Stack>
+                                <Divider />
 
-                    <Col>
-                        {customerDto?.customerInfo ? (
-                            <NavDropdown style={{ marginTop: "-25px" }} className='nav-right' title={
-                                <ProfilIcon src={customerDto?.customerInfo?.iconPath} username={customerDto?.username} />
-                            } id='basic-nav-dropdown'>
-                                <div className='dropdown-box'>
-                                    <NavDropdown.Item className='dropdown-username'>{customerDto?.link === undefined ? "Guest" : customerDto?.username}</NavDropdown.Item>
-                                    <NavDropdown.Divider />
-                                    {navLinks.dropdownMenu.map((nav) =>
-                                    (
-                                        <NavDropdown.Item key={createRandomKey()} as={Link} to={nav.path}>{nav.label}</NavDropdown.Item>
-                                    ))}
-                                    <NavDropdown.Divider />
+                                {DROPDOWN_MENU.map(item => (
+                                    <MuiMenuItem
+                                        {...item}
+                                        key={createRandomKey()}
+                                        action={() => navigate(item.path)}
+                                    />
+                                ))}
+                                <Divider />
 
-                                    <NavDropdown.Item onClick={logoutAction}>Logout</NavDropdown.Item>
-                                </div>
-                            </NavDropdown>
+                                <MuiMenuItem
+                                    icon={<LogoutIcon />}
+                                    action={logoutAction}
+                                    label="Logout"
+                                />
+                            </MuiMenu>
                         ) : (
+                            <Stack direction="row" spacing={1.5}>
+                                <NavLink className="nav-button sign-in" to="/login">SIGN IN</NavLink>
+                                <NavLink className="nav-button get-started" to="/signup">GET STARTED</NavLink>
+                            </Stack>
+                        )
+                    }
+                </Toolbar>
 
-                            <div className='nav-right'>
-                                <NavLink className="nav-button" to="/login">
-                                    <div className='button1'>
-                                        SIGN IN
-                                    </div>
-                                </NavLink>
-                                <NavLink className="nav-button" to="/signup">
-                                    <div className='button2'>
-                                        GET STARTED
-                                    </div>
-                                </NavLink>
-                            </div>
-                        )}
-                    </Col>
-                </Row>
+                {isMenuDisplayed ?
+                    (
+                        <Stack sx={{ display: MOBILE_VIEW }} justifyContent="center" alignItems="center">
+                            {links.navbar.map((link) => (
+                                <AppNavLink {...link} />
+                            ))}
+                        </Stack>
+                    ) : (
+                        <></>
+                    )
+                }
             </Container>
-        </>
+        </AppBar>
     );
 }

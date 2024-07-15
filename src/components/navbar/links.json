@@ -1,5 +1,5 @@
 {
-    "quickMenu": [
+    "navbar": [
         {
             "path": "/",
             "label": "Home"
@@ -11,20 +11,6 @@
         {
             "path": "/catalog",
             "label": "Catalog"
-        }
-    ],
-    "dropdownMenu": [
-        {
-            "path": "/u/my-profil",
-            "label": "My Profil"
-        },
-        {
-            "path": "/u/my-ads",
-            "label": "My Ads"
-        },
-        {
-            "path": "/u/customer-modification",
-            "label": "Settings"
         }
     ]
 }
