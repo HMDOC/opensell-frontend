@@ -10,8 +10,8 @@ import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
  */
 function getThemeIcon(theme: ThemeOption) {
     switch (theme) {
-        case ThemeOption.DARK: return <LightModeIcon />
-        case ThemeOption.LIGHT: return <DarkModeIcon />
+        case ThemeOption.LIGHT: return <LightModeIcon />
+        case ThemeOption.DARK: return <DarkModeIcon />
         default: return <SettingsBrightnessIcon />
     }
 }

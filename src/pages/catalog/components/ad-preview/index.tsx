@@ -1,12 +1,21 @@
 import { ReactElement } from "react";
 import "./style.css"
-import AdPricePart from "../../../../components/shared/ad/price-part";
+import AdPricePart from "@components/shared/ad/price-part";
+
+type AdPreviewProps = {
+    link: string;
+    isSold?: boolean;
+    firstImagePath: string;
+    title: string;
+    price: number;
+    shape: number;
+};
 
 /** 
     The preview component for the Ads. Clicking on it will
     @author Davide
 */
-const AdPreview = (props): ReactElement => {
+const AdPreview = (props: AdPreviewProps): ReactElement => {
 
     const gotoAd = () => {
         //adNav(`/ad/${props?.link}`, {state : 0});
