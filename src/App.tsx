@@ -14,7 +14,7 @@ import { Theme, ThemeOption } from './context/Theme';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 const About = lazy(() => import("./pages/about"));
-const MainMenu = lazy(() => (import("./pages/main-menu")));
+const Home = lazy(() => (import("./pages/home")));
 const Signup = lazy(() => (import("./pages/auth/Signup")));
 const Login = lazy(() => (import("./pages/auth/Login")));
 const AdView = lazy(() => (import("./pages/ad-view")));
@@ -82,7 +82,7 @@ export default function App() {
 								<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
 								<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
 							</Route>
-							<Route path="/" element={<MainMenu />}></Route>
+							<Route path="/" element={<Home />}></Route>
 							<Route path='/about' element={<About />}></Route>
 							<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
 							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
