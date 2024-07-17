@@ -21,7 +21,7 @@ const AdView = lazy(() => (import("./pages/ad-view")));
 const UserProfil = lazy(() => (import("./pages/user-profil")));
 const NotFound = lazy(() => (import("./pages/not-found")));
 const Catalog = lazy(() => (import("./pages/catalog")));
-const CustomerModification = lazy(() => (import("./pages/customer-modification")));
+const Setting = lazy(() => (import("./pages/setting")));
 const MyAds = lazy(() => (import("./pages/my-ads")));
 
 export default function App() {
@@ -79,7 +79,7 @@ export default function App() {
 						<Routes>
 							<Route path="/u" element={<PrivateRoute />}>
 								<Route path='/u/my-ads' element={<MyAds />} />
-								<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
+								<Route path="/u/customer-modification" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
 								<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
 							</Route>
 							<Route path="/" element={<Home />}></Route>
