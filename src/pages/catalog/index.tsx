@@ -1,3 +1,4 @@
+import { Stack } from "@mui/material";
 import { AxiosError } from "axios";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
@@ -6,7 +7,6 @@ import { getAdBySearch } from "../../services/AdService";
 import AdPreview from "./components/ad-preview";
 import SearchBar from "./components/search-bar";
 import "./style.css";
-import { Container, Grid, Stack } from "@mui/material";
 
 /** 
     The catalog page and all of its important components

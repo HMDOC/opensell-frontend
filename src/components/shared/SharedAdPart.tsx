@@ -30,6 +30,12 @@ export function getVisibilityIcon(visibility: AdVisibility): ReactNode {
 
 export interface SelectorReaderProps extends FieldProps {
     title: string;
+    
+    /**
+     * Need to be replaced by MUI icon.
+     * @deprecated
+     * @forRemoval
+     */
     iconProp: IconProp;
     options?: Array<String>;
     children?: ReactNode;

@@ -1,8 +1,9 @@
+import "@fontsource/inter";
+
 import { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { LazyLoad } from './components/animations/loading';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from './components/navbar';
 import './App.css';
 import getUserInfos from './services/GetUser';

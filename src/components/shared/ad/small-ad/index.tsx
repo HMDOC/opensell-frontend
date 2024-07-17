@@ -1,6 +1,6 @@
 import AdPricePart from "@components/shared/ad/price-part";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
-import { Card, CardHeader, CardMedia } from "@mui/material";
+import { Card, CardHeader, CardMedia, Stack, Typography } from "@mui/material";
 import { ReactNode } from "react";
 
 type SmallAd = {
@@ -26,7 +26,7 @@ export const SmallAd = (props: SmallAd) => {
             <CardMedia component="img" image={props.firstImage} width="220px" height="150px" />
 
             <CardHeader
-                title={<h2>{props.isSearch ? <></> : getVisibilityIcon(props.visibility)}{props.title}</h2>}
+                title={<Typography component={Stack} direction="row" alignItems="center" variant="h4">{props.isSearch ? <></> : getVisibilityIcon(props.visibility)}{props.title}</Typography>}
                 subheader={
                     <AdPricePart price={props.price} isSold={props.isSold} />
                 }
