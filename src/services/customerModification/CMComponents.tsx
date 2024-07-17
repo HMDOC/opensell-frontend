@@ -1,6 +1,7 @@
-import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react"
-import { AdCreationInputProperties } from "../AdCreationService"
+import { Button, Card, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
 import { CustomerDto } from "../../entities/dto/CustomerDto";
+import { AdCreationInputProperties } from "../AdCreationService";
 
 export interface CMState {
     modalIsOpen: boolean;
@@ -27,8 +28,8 @@ export interface CMRepeatInputProperties extends CMInputProperties {
 }
 
 interface CMButtonProperties {
-    type: "button" | "reset" | "submit", 
-    buttonText: string, 
+    type: "button" | "reset" | "submit",
+    buttonText: string,
     isExitButton?: boolean,
     onClick?(event: any): void
 }
@@ -38,7 +39,6 @@ export interface CMDisplayProperties {
     defaultValue?: string;
     isPassword?: boolean;
     hasButton?: boolean;
-    buttonText?: string;
     buttonOnClickCallback?(): void
 }
 
@@ -54,13 +54,14 @@ export interface CMFormState {
 
 export class CMInput extends Component<CMInputProperties, any> {
     render(): ReactNode {
-        return(
-            <div className="modificationSection">
-                <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
-                <input className="modificationInput" id={this.props.name} type={this.props.type} name={this.props.name} defaultValue={this.props?.defaultValue} 
-                onChange={this.props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>): null}
-                ref={this.props.inputRef as RefObject<HTMLInputElement>}/>
-            </div>
+        return (
+            <TextField
+                label={this.props.labelText}
+                id={this.props.name}
+                {...this.props}
+                ref={this.props.inputRef as RefObject<HTMLInputElement>}
+                onChange={this.props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null}
+            />
         )
     }
 }
@@ -77,10 +78,10 @@ export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
     }
 
     render(): ReactNode {
-        return(
+        return (
             <>
-                <CMInput labelText={this.props.labelText} name={this.props.name} type={this.props.type} inputRef={this.inputRef} onChange={(changeEvent) => this.props.onChange(changeEvent)}/>
-                <CMInput labelText={"Confirm " + this.props.labelText} name={null} type={this.props.type} onChange={(changeEvent) => this.handleRepeatInputChange(changeEvent)}/>
+                <CMInput labelText={this.props.labelText} name={this.props.name} type={this.props.type} inputRef={this.inputRef} onChange={(changeEvent) => this.props.onChange(changeEvent)} />
+                <CMInput labelText={"Confirm " + this.props.labelText} name={null} type={this.props.type} onChange={(changeEvent) => this.handleRepeatInputChange(changeEvent)} />
             </>
         )
     }
@@ -88,11 +89,11 @@ export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
 
 export class CMTextArea extends CMInput {
     render(): ReactNode {
-        return(
+        return (
             <div className="modificationSection">
                 <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
-                <textarea className="modificationInput modificationTextArea" id={this.props.name} name={this.props.name} defaultValue={this.props?.defaultValue} 
-                onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLTextAreaElement>)} cols={this.props.cols} rows={this.props.rows}/>
+                <textarea className="modificationInput modificationTextArea" id={this.props.name} name={this.props.name} defaultValue={this.props?.defaultValue}
+                    onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLTextAreaElement>)} cols={this.props.cols} rows={this.props.rows} />
             </div>
         )
     }
@@ -100,11 +101,11 @@ export class CMTextArea extends CMInput {
 
 export class CMButton extends Component<CMButtonProperties, any> {
     render(): ReactNode {
-        return(
+        return (
             <div className="modificationSubmit">
-                <button 
-                className={"modificationLabel" + (this.props.isExitButton === true ? " CMExitButton" : "")} 
-                type={this.props.type} onClick={this.props.isExitButton === true ? (e) => this.props.onClick(e) : null}>
+                <button
+                    className={"modificationLabel" + (this.props.isExitButton === true ? " CMExitButton" : "")}
+                    type={this.props.type} onClick={this.props.isExitButton === true ? (e) => this.props.onClick(e) : null}>
                     {this.props.buttonText}
                 </button>
             </div>
@@ -112,26 +113,62 @@ export class CMButton extends Component<CMButtonProperties, any> {
     }
 }
 
-export class CMDisplay extends Component<CMDisplayProperties, any> {
-    constructor(properties: CMDisplayProperties) {
-        super(properties)
+export function CMEditButton(props: { onClick: any, label: string }) {
+    return (
+        <Button onClick={props.onClick}>{props.label}</Button>
+    );
+}
+
+export function CMContainer(props: { children: any, title: string, editButton?: any }) {
+    return (
+        <TableContainer component={Card} sx={{ borderRadius: "10px" }}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant="h5" fontWeight="bold">{props.title}</Typography>
+                        </TableCell>
+
+                        <TableCell></TableCell>
+
+                        <TableCell align="right">
+                            {props.editButton ?? <></>}
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                    {props.children}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
+
+export function CMDisplay(props: CMDisplayProperties) {
+    const getDisplayedDefaultValue = () => {
+        if (props.isPassword) return "***************"
+        else if (props.defaultValue === null || props.defaultValue === "") return <span style={{ color: 'brown' }}>{"<Empty>"}</span>
+        else return props.defaultValue;
     }
 
-    private getDisplayedDefaultValue() {
-        if (this.props.isPassword) return "***************"
-        else if (this.props.defaultValue === null || this.props.defaultValue === "") return <span style={{color: 'brown'}}>{"<Empty>"}</span>
-        else return this.props.defaultValue;
-    }
+    return (
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+            <TableCell>
+                <label>{props.labelText}</label>
+            </TableCell>
 
-    render(): ReactNode {
-        return(
-            <div className="CMDisplay-Container">
-                <div className="CMDisplay-Label-Container"><label>{this.props.labelText}</label></div>
-                <div className="CMDisplay-Default-Value-Container">{this.getDisplayedDefaultValue()}</div>
-                <div>
-                    {this.props.hasButton ? <button type="button" onClick={() => this.props.buttonOnClickCallback()} className="modificationLabel">{this.props.buttonText ? this.props.buttonText : "Change"}</button> : null}
-                </div>
-            </div>
-        )
-    }
+            <TableCell align="left">
+                {getDisplayedDefaultValue()}
+            </TableCell>
+
+            <TableCell align="right">
+                {props.hasButton ?
+                    (
+                        <CMEditButton label="Edit" onClick={() => props.buttonOnClickCallback()} />
+                    ) : (<></>)
+                }
+            </TableCell>
+        </TableRow>
+    )
 }
