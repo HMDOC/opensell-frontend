@@ -1,6 +1,5 @@
-import { ReactElement } from "react";
-import "./style.css"
-import AdPricePart from "@components/shared/ad/price-part";
+import { SmallAd } from "@components/shared/ad/small-ad";
+import "./style.css";
 
 type AdPreviewProps = {
     link: string;
@@ -11,35 +10,22 @@ type AdPreviewProps = {
     shape: number;
 };
 
-/** 
-    The preview component for the Ads. Clicking on it will
-    @author Davide
+/**
+ * The preview component for the Ads. Clicking on it will
+ * 
+ * @author Davide
+ * @modifiedBy Achraf
 */
-const AdPreview = (props: AdPreviewProps): ReactElement => {
-
-    const gotoAd = () => {
-        //adNav(`/ad/${props?.link}`, {state : 0});
-        window.open(`/ad/${props?.link}`, "_blank", "noreferrer");
-    }
-
-    const addSoldCSS = (style: string) => {
-        return (props?.isSold ? style : "");
-    }
-
+export default function AdPreview(props: AdPreviewProps) {
     return (
-        <div id={props?.link} className={"adPreview " + addSoldCSS("adSold")} onClick={gotoAd} >
-            <img style={{ width: "100%", height: "11em" }} className="card-img-top imgFit imgOffset"
-                src={props?.firstImagePath}
-                alt="The image cant load!" />
-            <div className="adPreviewBottom">
-                <h3 className="adPreviewText"> {props?.title}</h3>
-                <div className="adPreviewAlign">
-                    <AdPricePart price={props?.price} isSold={props?.isSold} />
-                </div>
-            </div>
-
-        </div>
+        <SmallAd
+            className="adPreview"
+            {...props}
+            firstImage={props.firstImagePath}
+            isSearch
+            goToAd={() => {
+                window.open(`/ad/${props?.link}`, "_blank", "noreferrer")
+            }}
+        />
     )
 }
-
-export default AdPreview;

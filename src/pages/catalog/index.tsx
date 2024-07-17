@@ -6,6 +6,7 @@ import { getAdBySearch } from "../../services/AdService";
 import AdPreview from "./components/ad-preview";
 import SearchBar from "./components/search-bar";
 import "./style.css";
+import { Container, Grid, Stack } from "@mui/material";
 
 /** 
     The catalog page and all of its important components
@@ -163,25 +164,29 @@ const ResultList = (): ReactElement => {
                     setSearchTags={setSearchTags}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
             </div>
-            
-            <div id="searchResult" className="catalog-div-bg">
+
+            <div >
                 {
                     (isLoading) ?
                         <LoadingIcon /> :
+
                         (listOfAds.length > 0) ?
-                            listOfAds.map((data: AdSearchPreview, i: number) => {
-                                return (
-                                    <AdPreview
-                                        key={`ad-preview-${i}`}
-                                        link={data?.adLink}
-                                        price={data?.adPrice}
-                                        shape={data?.adShape}
-                                        title={data?.adTitle}
-                                        isSold={data?.isAdSold}
-                                        firstImagePath={data?.adFirstImagePath}
-                                    />
-                                )
-                            }) :
+                            <Stack direction="row" flexWrap={"wrap"} spacing={2} useFlexGap>
+                                {
+                                    listOfAds?.map((data: AdSearchPreview, i: number) => (
+                                        <AdPreview
+                                            key={`ad-preview-${i}`}
+                                            link={data?.adLink}
+                                            price={data?.adPrice}
+                                            shape={data?.adShape}
+                                            title={data?.adTitle}
+                                            isSold={data?.isAdSold}
+                                            firstImagePath={data?.adFirstImagePath}
+                                        />
+                                    ))
+                                }
+                            </Stack>
+                            :
                             <div className="searchEmpty">
                                 {searchError.map((val, index) => {
                                     return (
