@@ -110,7 +110,11 @@ export default function Navbar(props: { logout(): void }): ReactElement {
 
                     {customerDto ?
                         (
-                            <MuiMenu menuIcon={<Avatar>V</Avatar>}>
+                            <MuiMenu menuIcon={
+                                <Avatar src={customerDto?.customerInfo?.iconPath}>
+                                    {customerDto?.customerInfo?.iconPath ? null : customerDto?.username?.at(0)}
+                                </Avatar>
+                            }>
                                 <Stack component={MenuItem}>
                                     <Typography textAlign="center" variant="h6">{customerDto?.username ?? "Guest"}</Typography>
                                 </Stack>
