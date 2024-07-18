@@ -3,7 +3,7 @@ import InterestsIcon from '@mui/icons-material/Interests';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import PlaceIcon from '@mui/icons-material/Place';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import { Stack } from "@mui/material";
+import { Divider, Stack } from "@mui/material";
 
 function SingleInfo(props: { icon: any, labelValue?: string, isEnd?: boolean }) {
     return (
@@ -15,7 +15,7 @@ function SingleInfo(props: { icon: any, labelValue?: string, isEnd?: boolean }) 
                         <p style={{ overflow: "auto" }}>{props.labelValue}</p>
                     </Stack>
 
-                    {props.isEnd ? <></> : <hr />}
+                    {props.isEnd ? <></> : <Divider />}
                 </>
             ) : (
                 <></>
@@ -25,7 +25,7 @@ function SingleInfo(props: { icon: any, labelValue?: string, isEnd?: boolean }) 
 
 export default function AdInfosPart(props: { location?: string, publishDate?: Date, phone?: string, shape?: AdShape }) {
     return (
-        <Stack padding={3} borderRadius="30px" width="300px" className="dark-shadow" color="black">
+        <Stack spacing={1.5} padding={3} borderRadius="30px" width="300px" className="dark-shadow" color="black">
             <SingleInfo labelValue={props.location} icon={<PlaceIcon />} />
             <SingleInfo labelValue={props.publishDate?.toString()} icon={<WatchLaterIcon />} />
             <SingleInfo labelValue={props.phone} icon={<PhoneIphoneIcon />} />
