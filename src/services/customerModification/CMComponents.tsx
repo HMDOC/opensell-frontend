@@ -1,4 +1,4 @@
-import { Button, Card, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
 import { CustomerDto } from "../../entities/dto/CustomerDto";
 import { AdCreationInputProperties } from "../AdCreationService";
