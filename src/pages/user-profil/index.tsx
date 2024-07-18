@@ -26,7 +26,7 @@ export default function UserProfil(props: { loggedUserLink?: string, isMyProfil?
             <div className="front-div">
                 {props.isMyProfil ?
                     (
-                        <Link to="/u/customer-modification"><EditIcon className="pencil" /></Link>
+                        <Link to="/u/setting"><EditIcon className="pencil" /></Link>
                     ) : (
                         <></>
                     )

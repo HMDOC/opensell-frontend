@@ -1,11 +1,21 @@
 import { Stack } from "@mui/material";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, formToJSON } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "../FormService";
-import { CMButton, CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
+import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
 import { ArrayOfRequests, executeChange, getCheckResult, getProfileIconPath, replaceInString } from "./CMService";
+
+export function CMFormContainer(props: { children: ReactNode, saveChanges(formEvent: any): void }) {
+    return (
+        <form onSubmit={props.saveChanges} id="setting-form">
+            <Stack spacing={2}>
+                {props.children}
+            </Stack>
+        </form>
+    );
+}
 
 abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     protected NOTHING_CHANGED = "Nothing changed...";
@@ -49,15 +59,6 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
             <>
                 {this.state.feedbackMessages.length > 0 ? <div className="CMFeedbackContainer">{this.state.feedbackMessages[this.state.feedbackMessages.length - 1]}</div> : null}
             </>
-        )
-    }
-
-    protected getButtons(): ReactNode {
-        return (
-            <div style={{ display: "flex" }}>
-                <CMButton type="button" buttonText="Exit" onClick={() => this.props.closeModalCallback()} isExitButton={true} />
-                <CMButton type="submit" buttonText="Save" />
-            </div>
         )
     }
 
@@ -135,16 +136,13 @@ export class CMBasicModificationsForm extends CMForm {
         return (
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
-                    <Stack spacing={1}>
-                        <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                        <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                        <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                        <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                        <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} />
-                        {this.getButtons()}
-                    </Stack>
-                </form>
+                <CMFormContainer saveChanges={(formEvent) => this.saveChanges(formEvent)}>
+                    <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                    <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                    <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                    <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                    <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio" onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} />
+                </CMFormContainer>
             </div>
         )
     }
@@ -163,7 +161,7 @@ export class CMPersonalEmailForm extends CMForm {
         return (
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
+                <CMFormContainer saveChanges={(formEvent) => this.saveChanges(formEvent)}>
                     <CMRepeatInput
                         labelText="New Private Email"
                         name="personalEmail"
@@ -172,8 +170,7 @@ export class CMPersonalEmailForm extends CMForm {
                         setRepeatInputState={(res: boolean) => this.setState({ confirmInputIsValid: res })}
                         addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                         removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)} />
-                    {this.getButtons()}
-                </form>
+                </CMFormContainer>
             </div>
         )
     }
@@ -196,7 +193,7 @@ export class CMPasswordForm extends CMForm {
         return (
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent) => this.savePasswordChanges(formEvent)}>
+                <CMFormContainer saveChanges={(formEvent) => this.savePasswordChanges(formEvent)}>
                     <CMInput labelText="Old Password" name={null} type="password" inputRef={this.oldPwdInputRef} />
                     <CMRepeatInput
                         labelText="New Password"
@@ -206,8 +203,7 @@ export class CMPasswordForm extends CMForm {
                         setRepeatInputState={(res: boolean) => this.setState({ confirmInputIsValid: res })}
                         addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                         removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)} />
-                    {this.getButtons()}
-                </form>
+                </CMFormContainer>
             </div>
         )
     }
@@ -219,10 +215,9 @@ export class CMPhoneNumberForm extends CMForm {
         return (
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
+                <CMFormContainer saveChanges={(formEvent) => this.saveChanges(formEvent)}>
                     <CMInput labelText="New Phone Number" type="text" name="phoneNumber" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    {this.getButtons()}
-                </form>
+                </CMFormContainer>
             </div>
         )
     }
@@ -246,11 +241,10 @@ export class CMIconForm extends CMForm {
         return (
             <div>
                 {this.getFeedbackElement()}
-                <form onSubmit={(formEvent) => this.saveIconChange(formEvent)}>
+                <CMFormContainer saveChanges={(formEvent) => this.saveIconChange(formEvent)}>
                     <CMInput name="file" type="file" accept="image/png" labelText="Icon"
                         onChange={(changeEvent) => this.handleIconChange(changeEvent as ChangeEvent<HTMLInputElement>)} />
-                    {this.getButtons()}
-                </form>
+                </CMFormContainer>
             </div>
         )
     }

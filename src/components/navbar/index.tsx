@@ -36,7 +36,7 @@ const DROPDOWN_MENU = [
         icon: <WebIcon />
     },
     {
-        path: "/u/customer-modification",
+        path: "/u/setting",
         label: "Settings",
         icon: <SettingsIcon />
     }

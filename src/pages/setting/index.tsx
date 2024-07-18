@@ -4,7 +4,7 @@ import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@se
 import "./style.css"
 import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm } from "@services/customerModification/CMForm";
 import ProfilIcon from "@components/shared/ProfilIcon";
-import { Container, Dialog, DialogContent, Stack } from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, Typography } from "@mui/material";
 
 /**
  *
@@ -17,20 +17,18 @@ import { Container, Dialog, DialogContent, Stack } from "@mui/material";
  *
  */
 export default class CustomerModification extends Component<CMProperties, CMState> {
-    constructor(properties: CMProperties) {
-        super(properties);
-        this.state = {
-            modalIsOpen: false,
-            currentModalContent: null
-        }
+    public state = {
+        modalIsOpen: false,
+        currentModalContent: null,
+        currentModalTitle: ""
     }
 
     public openModal(type: CMModalType): void {
-        if (type === CMModalType.BASIC_CHANGES) this.setState({ currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.PERSONNAL_EMAIL) this.setState({ currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.PASSWORD) this.setState({ currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.PHONE_NUMBER) this.setState({ currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.ICON) this.setState({ currentModalContent: <CMIconForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
+        if (type === CMModalType.BASIC_CHANGES) this.setState({ currentModalTitle: "other informations", currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
+        else if (type === CMModalType.PERSONNAL_EMAIL) this.setState({ currentModalTitle: "personnal email", currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
+        else if (type === CMModalType.PASSWORD) this.setState({ currentModalTitle: "password", currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
+        else if (type === CMModalType.PHONE_NUMBER) this.setState({ currentModalTitle: "phone number", currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
+        else if (type === CMModalType.ICON) this.setState({ currentModalTitle: "icon", currentModalContent: <CMIconForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
         this.setState({ modalIsOpen: true });
     }
 
@@ -68,9 +66,22 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                 </Stack>
 
                 <Dialog open={this.state.modalIsOpen} onClose={() => this.closeModal()} fullWidth>
+                    <DialogTitle>
+                        <Typography variant="h5">
+                            Edit {this.state.currentModalTitle}
+                        </Typography>
+                    </DialogTitle>
+                    <Divider />
+
                     <DialogContent>
                         {this.state.currentModalContent}
                     </DialogContent>
+                    <Divider />
+
+                    <DialogActions>
+                        <Button onClick={() => this.closeModal()}>Cancel</Button>
+                        <Button type="submit" form="setting-form">Save</Button>
+                    </DialogActions>
                 </Dialog>
             </Container>
         )

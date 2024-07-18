@@ -6,6 +6,7 @@ import { AdCreationInputProperties } from "../AdCreationService";
 export interface CMState {
     modalIsOpen: boolean;
     currentModalContent: ReactNode;
+    currentModalTitle: string;
 }
 
 export interface CMProperties {
