@@ -1,8 +1,8 @@
 import { ReactElement } from "react";
 import "./style.css";
 import SearchFilters from "../search-filters";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import SearchIcon from '@mui/icons-material/Search';
+import { IconButton, Stack } from "@mui/material";
 
 /** 
     The component for the search bar.
@@ -19,15 +19,14 @@ const SearchBar = (props): ReactElement => {
 
     return (
         <div className="catSearchBar">
-            <div className="catInputContainer">
-                <div>
-                    <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="Search" />
-                    <button type="submit" form="searchFilters" className="catSearchButton" onClick={props.click}>
-                        <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
-                    </button>
-                </div>
-            </div>
-            
+            <Stack direction="row" alignItems="center" className="catInputContainer">
+                <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="Search" />
+
+                <IconButton type="submit" form="searchFilters" className="catSearchButton" onClick={props.click}>
+                    <SearchIcon />
+                </IconButton>
+            </Stack>
+
             <SearchFilters
                 searchTags={props.searchTags}
                 setSearchTags={props.setSearchTags}

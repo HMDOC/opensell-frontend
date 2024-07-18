@@ -1,4 +1,3 @@
-import { faList } from "@fortawesome/free-solid-svg-icons";
 import { MenuItem } from "@mui/material";
 import { createRandomKey } from "@services/RandomKeys";
 import { AxiosError } from "axios";
@@ -7,6 +6,7 @@ import { AdType } from "../../entities/dto/AdType";
 import { getAllAdTypes } from "../../services/AdService";
 import { SelectorReader } from "./SharedAdPart";
 import { FieldProps } from "formik";
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
 export interface AdTypeSelectProps extends FieldProps {
     isSearch?: boolean;
@@ -43,7 +43,7 @@ export default function AdTypeSelect(props: AdTypeSelectProps) {
             (
                 <SelectorReader
                     {...props}
-                    iconProp={faList}
+                    icon={<FormatListBulletedIcon />}
                     title="Category"
                 >
                     {

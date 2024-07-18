@@ -1,11 +1,11 @@
-import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
 import { checkLogin } from '../../services/LogInService';
 import { setToken } from "../../services/SetToken";
 import "./style.css";
+import PersonIcon from '@mui/icons-material/Person';
+import KeyIcon from '@mui/icons-material/Key';
 
 export default function Login(props) {
     const username = useRef(null);
@@ -57,11 +57,11 @@ export default function Login(props) {
                 <p className="middle-text">Welcome back</p>
                 <form className="form">
                     <div className="input-div">
-                        <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
+                        <PersonIcon className="signup-icon" />
                         <input placeholder="Email or username" className="signup-input" type="text" ref={username} id="username"></input><span style={{textAlign : "right"}}>{error.username}</span>
                     </div><br />
                     <div className="input-div">
-                        <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
+                        <KeyIcon className="signup-icon" />
                         <input placeholder="Password" className="signup-input" type="password" ref={password}></input><span style={{textAlign : "right"}}>{error.password}</span>
                     </div><br />
                     <button className="signup-button" type="submit" onClick={handleSubmit}>LOG IN</button>

@@ -1,5 +1,4 @@
 import { AdVisibility } from "@entities/dto/AdBuyerView";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import LinkIcon from '@mui/icons-material/Link';
 import LockIcon from '@mui/icons-material/Lock';
 import PublicIcon from '@mui/icons-material/Public';
@@ -7,7 +6,7 @@ import { MenuItem, TextField } from "@mui/material";
 import { ErrorMessage, FieldProps } from "formik";
 import { ReactNode } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
-import IconLabelError from "./IconLabelError";
+import { IconLabel } from "./IconLabel";
 
 export const MAX_PRICE = 999990;
 
@@ -30,13 +29,7 @@ export function getVisibilityIcon(visibility: AdVisibility): ReactNode {
 
 export interface SelectorReaderProps extends FieldProps {
     title: string;
-    
-    /**
-     * Need to be replaced by MUI icon.
-     * @deprecated
-     * @forRemoval
-     */
-    iconProp: IconProp;
+    icon: ReactNode;
     options?: Array<String>;
     children?: ReactNode;
 }
@@ -53,7 +46,7 @@ export function SelectorReader(props: SelectorReaderProps) {
             <TextField
                 {...props.field}
                 label={
-                    <IconLabelError {...props} />
+                    <IconLabel {...props} />
                 }
                 sx={{
                     width: 200

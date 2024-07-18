@@ -17,6 +17,7 @@ export interface CMInputProperties extends AdCreationInputProperties {
     defaultValue?: string,
     cols?: number,
     rows?: number,
+    isTextArea?: boolean;
     inputRef?: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>,
     onChange?(changeEvent: ChangeEvent<any>): void;
 }
@@ -52,18 +53,18 @@ export interface CMFormState {
     confirmInputIsValid?: boolean
 }
 
-export class CMInput extends Component<CMInputProperties, any> {
-    render(): ReactNode {
-        return (
+export function CMInput(props: CMInputProperties){
+    return(
             <TextField
-                label={this.props.labelText}
-                id={this.props.name}
-                {...this.props}
-                ref={this.props.inputRef as RefObject<HTMLInputElement>}
-                onChange={this.props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null}
+                label = { props.labelText }
+                id = { props.name }
+                multiline={props.isTextArea}
+                rows={props.isTextArea ? 5 : undefined}
+                { ...props }
+                ref = { props.inputRef as RefObject<HTMLInputElement> }
+                onChange = { props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null }
             />
         )
-    }
 }
 
 export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
@@ -83,18 +84,6 @@ export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
                 <CMInput labelText={this.props.labelText} name={this.props.name} type={this.props.type} inputRef={this.inputRef} onChange={(changeEvent) => this.props.onChange(changeEvent)} />
                 <CMInput labelText={"Confirm " + this.props.labelText} name={null} type={this.props.type} onChange={(changeEvent) => this.handleRepeatInputChange(changeEvent)} />
             </>
-        )
-    }
-}
-
-export class CMTextArea extends CMInput {
-    render(): ReactNode {
-        return (
-            <div className="modificationSection">
-                <label className="modificationLabel" htmlFor={this.props.name}>{this.props?.labelText}</label>
-                <textarea className="modificationInput modificationTextArea" id={this.props.name} name={this.props.name} defaultValue={this.props?.defaultValue}
-                    onChange={(changeEvent: ChangeEvent<HTMLElement>) => this.props.onChange(changeEvent as ChangeEvent<HTMLTextAreaElement>)} cols={this.props.cols} rows={this.props.rows} />
-            </div>
         )
     }
 }

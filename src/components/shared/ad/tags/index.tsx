@@ -1,9 +1,10 @@
-import { faHashtag } from "@fortawesome/free-solid-svg-icons";
-import { TextField, Stack } from "@mui/material";
+import { IconLabel } from "@components/shared/IconLabel";
+import TagIcon from '@mui/icons-material/Tag';
+import Stack from "@mui/material/Stack";
+import TextField from "@mui/material/TextField";
 import { ErrorMessage, FieldArray } from "formik";
 import { createRandomKey } from "../../../../services/RandomKeys";
 import AdTagPart from "../tag-part";
-import IconLabelError from "../../IconLabelError";
 
 /**
  * @brief
@@ -32,12 +33,12 @@ export function AdTags(props: { name: string, isSearch?: boolean, placeholder?: 
                 <>
                     <TextField
                         label={
-                            <IconLabelError iconProp={faHashtag} title="Tags" isTitle={props.isSearch} />
+                            <IconLabel icon={<TagIcon />} title="Tags" />
                         }
                         onChange={handleChange}
                         type="text"
                         name={props.name}
-                        sx={{width : "250px"}}
+                        sx={{ width: "250px" }}
                         onBlur={form.handleBlur}
                         error={form.errors[props.name] && Boolean(form.touched[props.name])}
                         helperText={<ErrorMessage name={props.name} />}

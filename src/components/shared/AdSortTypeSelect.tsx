@@ -1,6 +1,5 @@
-import { faEarthAmerica } from "@fortawesome/free-solid-svg-icons";
 import { SelectorReader, SelectorReaderProps } from "./SharedAdPart";
-
+import PublicIcon from '@mui/icons-material/Public';
 export const SORT_ARRAY: string[] = ["addedDate", "title", "price"];
 
 export default function AdSortTypeSelect(props: SelectorReaderProps) {
@@ -8,7 +7,7 @@ export default function AdSortTypeSelect(props: SelectorReaderProps) {
         <>
             <SelectorReader
                 {...props}
-                iconProp={faEarthAmerica}
+                icon={<PublicIcon />}
                 title="SortBy"
                 options={SORT_ARRAY}
             />

@@ -1,10 +1,11 @@
+import { Stack } from "@mui/material";
+import { AxiosResponse } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react";
-import { CMButton, CMFormProperties, CMFormState, CMInput, CMRepeatInput, CMTextArea } from "./CMComponents";
+import ModificationFeedback from "../../entities/dto/ModificationFeedback";
+import { getFormData, getFormDataAsArray } from "../FormService";
+import { CMButton, CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
 import { ArrayOfRequests, executeChange, getCheckResult, getProfileIconPath, replaceInString } from "./CMService";
-import { getFormData, getFormDataAsArray } from "../FormService";
-import ModificationFeedback from "../../entities/dto/ModificationFeedback";
-import { AxiosResponse } from "axios";
 
 abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     protected NOTHING_CHANGED = "Nothing changed...";
@@ -135,12 +136,14 @@ export class CMBasicModificationsForm extends CMForm {
             <div>
                 {this.getFeedbackElement()}
                 <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
-                    <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} />
-                    {this.getButtons()}
+                    <Stack spacing={1}>
+                        <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                        <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                        <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                        <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
+                        <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} />
+                        {this.getButtons()}
+                    </Stack>
                 </form>
             </div>
         )

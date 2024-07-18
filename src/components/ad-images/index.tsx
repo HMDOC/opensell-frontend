@@ -1,12 +1,12 @@
-import { Button } from "@mui/material";
+import { IconLabel } from "@components/shared/IconLabel";
+import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import ImageIcon from '@mui/icons-material/Image';
+import { Button, Stack, Typography } from "@mui/material";
 import { ErrorMessage, FieldArray, useFormikContext } from "formik";
 import { ChangeEvent, useEffect } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import "./style.scss";
-import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import IconLabelError from "@components/shared/IconLabelError";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 export function AdImages(props: { name: string }) {
     const { values, setFieldValue } = useFormikContext();
@@ -46,7 +46,15 @@ export function AdImages(props: { name: string }) {
         <FieldArray name={props.name}>
             {({ remove }) => (
                 <>
-                    <IconLabelError title="Images" iconProp={faImage} error={(<ErrorMessage name={props.name} /> as any) as string}></IconLabelError>
+                    <Stack spacing={0.5}>
+                        <IconLabel
+                            title="Images"
+                            icon={<ImageIcon />}
+                        />
+                        <Typography variant="body2" color={"error"}>
+                            <ErrorMessage name={props.name} />
+                        </Typography>
+                    </Stack>
 
                     <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
                         upload

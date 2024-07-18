@@ -1,11 +1,11 @@
-import { faEnvelope, faKey, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Verification from "./verification";
 import "./style.css";
 import { checkSignup } from "../../services/SignupService";
-
+import PersonIcon from '@mui/icons-material/Person';
+import KeyIcon from '@mui/icons-material/Key';
+import EmailIcon from '@mui/icons-material/Email';
 
 export default function Signup(props) {
     const naviguate = useNavigate();
@@ -91,15 +91,15 @@ export default function Signup(props) {
                         <p className="middle-text">Create an account</p>
                         <form className="form">
                             <div className="input-div">
-                                <FontAwesomeIcon icon={faEnvelope} className="signup-icon" />
+                                <EmailIcon className="signup-icon" />
                                 <input className="signup-input" placeholder="Email" type="email" name="email" id="email" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.email}</span>
                             </div><br />
                             <div className="input-div">
-                                <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>
+                                <PersonIcon className="signup-icon" />
                                 <input placeholder="Username" className="signup-input" type="text" name="username" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.username}</span>
                             </div><br />
                             <div className="input-div">
-                                <FontAwesomeIcon icon={faKey} className="signup-icon"></FontAwesomeIcon>
+                                <KeyIcon className="signup-icon" />
                                 <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.password}</span>
                             </div><br />
                             <button className="signup-button" type="submit" onClick={handleClick}>SIGN UP</button>

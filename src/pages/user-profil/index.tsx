@@ -1,5 +1,5 @@
-import { faEnvelope, faPencil, faPhone } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EditIcon from '@mui/icons-material/Edit';
+import PhoneIcon from '@mui/icons-material/Phone';
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProfilIcon from "../../components/shared/ProfilIcon";
@@ -7,8 +7,9 @@ import CustomerProfil from "../../entities/dto/CustomerProfil";
 import { getCustomerProfil } from "../../services/CustomerInfo";
 import AdPreview from "../catalog/components/ad-preview";
 import "./style.css";
+import EmailIcon from '@mui/icons-material/Email';
 
-export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?: boolean}): ReactElement {
+export default function UserProfil(props: { loggedUserLink?: string, isMyProfil?: boolean }): ReactElement {
     const { link } = useParams();
     const [customerProfil, setCustomerProfil] = useState<CustomerProfil>();
 
@@ -21,11 +22,11 @@ export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?:
     console.log(customerProfil)
     return (
         <div className="main-background">
-            <title>{ customerProfil?.username }</title>
+            <title>{customerProfil?.username}</title>
             <div className="front-div">
                 {props.isMyProfil ?
                     (
-                        <Link to="/u/customer-modification"><FontAwesomeIcon className="pencil" icon={faPencil} /></Link>
+                        <Link to="/u/customer-modification"><EditIcon className="pencil" /></Link>
                     ) : (
                         <></>
                     )
@@ -39,7 +40,7 @@ export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?:
                         <div style={{ fontWeight: "bold", fontSize: "1.25vw", marginBottom: "1vh" }}>{customerProfil?.username} <span style={{ color: "#D3D3D3", fontSize: "0.5vw", fontWeight: "lighter" }}>Since {customerProfil?.joinedDate?.split("-")[0]}</span></div>
                         {customerProfil?.customerInfo?.phoneNumber ?
                             (
-                                <div className="user-infos"><p><FontAwesomeIcon icon={faPhone} />  {customerProfil?.customerInfo?.phoneNumber}</p></div>
+                                <div className="user-infos"><p><PhoneIcon />  {customerProfil?.customerInfo?.phoneNumber}</p></div>
                             ) : (
                                 <></>
                             )
@@ -47,7 +48,7 @@ export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?:
 
                         {customerProfil?.customerInfo?.exposedEmail ?
                             (
-                                <div className="user-infos"><p><FontAwesomeIcon icon={faEnvelope} />  {customerProfil?.customerInfo?.exposedEmail}</p></div>
+                                <div className="user-infos"><p><EmailIcon />  {customerProfil?.customerInfo?.exposedEmail}</p></div>
                             ) : (
                                 <></>
                             )
@@ -71,10 +72,8 @@ export default function UserProfil(props: {loggedUserLink?: string, isMyProfil?:
                                 />
                             )
                         }) : <div className="searchEmpty">No ads posted, yet</div>}
-
                     </div>
                 </div>
-
             </div>
         </div>
     );
