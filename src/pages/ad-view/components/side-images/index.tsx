@@ -1,3 +1,5 @@
+import { DESKTOP_VIEW } from '@context/AppContext';
+import { Stack } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
@@ -7,8 +9,8 @@ export default function SideImages(props: { images?: string[], openImageAction(i
             {props.images?.map((img, index) => (
                 <ImageListItem key={img}>
                     <img
-                        onClick={() => props.openImageAction(index+1)}
-                        style={{cursor : "pointer"}}
+                        onClick={() => props.openImageAction(index + 1)}
+                        style={{ cursor: "pointer" }}
                         src={img}
                         alt={"Ad image."}
                         loading="lazy"

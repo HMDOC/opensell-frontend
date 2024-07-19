@@ -2,6 +2,9 @@ import { createContext, useContext } from "react";
 import { ThemeOption } from "./Theme";
 import { CustomerDto } from "@entities/dto/CustomerDto";
 
+export const DESKTOP_VIEW = { xs: 'none', md: 'flex' };
+export const MOBILE_VIEW = { xs: 'flex', md: 'none' };
+
 function getCustomerDto(): CustomerDto | undefined {
     return undefined;
 }

@@ -1,5 +1,5 @@
 import { MuiMenu, MuiMenuItem } from '@components/shared/mui-menu';
-import { useAppContext } from '@context/AppContext';
+import { DESKTOP_VIEW, MOBILE_VIEW, useAppContext } from '@context/AppContext';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from "@mui/icons-material/Person";
@@ -21,8 +21,6 @@ import links from "./links.json";
 import "./style.css";
 import ThemeToggle from './components/theme-toggle';
 
-const DESKTOP_VIEW = { xs: 'none', md: 'flex' };
-const MOBILE_VIEW = { xs: 'flex', md: 'none' };
 
 const DROPDOWN_MENU = [
     {
