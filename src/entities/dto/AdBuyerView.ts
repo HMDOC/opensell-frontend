@@ -66,6 +66,5 @@ export interface AdBuyerView {
     adImages?: Array<AdImage>;
 	userPhone?: string;
     username?: string;
-    userLink?: string;
     userIcon?: string;
 }

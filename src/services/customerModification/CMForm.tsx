@@ -1,5 +1,5 @@
 import { Stack } from "@mui/material";
-import { AxiosResponse, formToJSON } from "axios";
+import { AxiosResponse } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "../FormService";
