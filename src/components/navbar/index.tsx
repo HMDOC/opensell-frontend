@@ -104,7 +104,7 @@ export default function Navbar(props: { logout(): void }): ReactElement {
                     </Typography>
                     <Stack direction="row" spacing={5} sx={{ flexGrow: 1, display: DESKTOP_VIEW }}>
                         {links.navbar?.map((link) => (
-                            <AppNavLink {...link} />
+                            <AppNavLink key={link.label} {...link} />
                         ))}
                     </Stack>
 

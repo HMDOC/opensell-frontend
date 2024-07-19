@@ -141,7 +141,7 @@ export class CMBasicModificationsForm extends CMForm {
                     <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                     <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                     <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio" onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10} />
+                    <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} labelText="Bio" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                 </CMFormContainer>
             </div>
         )

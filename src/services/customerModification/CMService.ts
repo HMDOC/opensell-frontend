@@ -23,7 +23,7 @@ export type ArrayOfRequests = {mapping: string, data: CustomerModificationData}[
 export const replaceInString = (...values: string[]): string => {
     if (values.length >= 2) {
         let res: string = values[0];
-        for (let elem = 1; elem < values.length + 1; elem++) res = res.replace(REPLACE_SEQUENCE + elem, values[elem]);
+        for (let elem = 1; elem < values.length + 1; elem++) res = res?.replace(REPLACE_SEQUENCE + elem, values[elem]);
         return res;
     } else return values[0];
 }

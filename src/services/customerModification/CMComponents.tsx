@@ -16,8 +16,6 @@ export interface CMProperties {
 
 export interface CMInputProperties extends AdCreationInputProperties {
     defaultValue?: string,
-    cols?: number,
-    rows?: number,
     isTextArea?: boolean;
     inputRef?: RefObject<HTMLInputElement> | RefObject<HTMLTextAreaElement>,
     onChange?(changeEvent: ChangeEvent<any>): void;
@@ -54,18 +52,18 @@ export interface CMFormState {
     confirmInputIsValid?: boolean
 }
 
-export function CMInput(props: CMInputProperties){
-    return(
-            <TextField
-                label = { props.labelText }
-                id = { props.name }
-                multiline={props.isTextArea}
-                rows={props.isTextArea ? 5 : undefined}
-                { ...props }
-                ref = { props.inputRef as RefObject<HTMLInputElement> }
-                onChange = { props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null }
-            />
-        )
+export function CMInput(props: CMInputProperties) {
+    return (
+        <TextField
+            label={props.labelText}
+            id={props.name}
+            multiline={props.isTextArea}
+            rows={props.isTextArea ? 5 : undefined}
+            {...props}
+            ref={props.inputRef as RefObject<HTMLInputElement>}
+            onChange={props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null}
+        />
+    )
 }
 
 export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {

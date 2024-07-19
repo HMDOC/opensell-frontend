@@ -1,7 +1,10 @@
-import { Avatar } from "@mui/material";
+import { Theme } from "@context/Theme";
+import { Avatar, SxProps } from "@mui/material";
 
-export default function ProfilIcon(props: { username: string, src?: string }) {
+export const AVATAR_SIZE = { width: 150, height: 150 };
+
+export default function ProfilIcon(props: { username: string, src?: string, avatarSize?: SxProps<Theme> }) {
     return (
-        <Avatar src={props.src}>{props.src ? null : props.username?.[0]}</Avatar>
+        <Avatar sx={props.avatarSize} src={props.src}>{props.src ? null : props.username?.[0]}</Avatar>
     )
 }
