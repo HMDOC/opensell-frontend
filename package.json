@@ -24,7 +24,6 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.25.1",
     "react-scripts": "5.0.1",
-    "sass": "^1.77.8",
     "util": "^0.12.5",
     "web-vitals": "^4.2.2",
     "yup": "^1.4.0"

@@ -6,7 +6,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import { ErrorMessage, FieldArray, useFormikContext } from "formik";
 import { ChangeEvent, useEffect } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
-import "./style.scss";
+import "./style.css";
 
 export function AdImages(props: { name: string }) {
     const { values, setFieldValue } = useFormikContext();

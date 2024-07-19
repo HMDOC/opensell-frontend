@@ -1,0 +1,11 @@
+.ad-price-part-sold {
+    text-decoration: line-through;
+    color: #E20000;
+}
+
+.ad-price-part-box-sold {
+    background-color: red;
+    color: white;
+    padding: 2px 6px;
+    font-weight: bold;
+}
