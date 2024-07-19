@@ -12,7 +12,7 @@ import { AxiosResponse } from "axios";
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ImageViewer from "./components/image-viewer";
-import "./style.scss";
+import "./style.css";
 import SideImages from "./components/side-images";
 
 /**
@@ -62,84 +62,86 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
     };
 
     return (
-        <Card component={Container} sx={{ borderRadius: "20px" }}>
-            <CardHeader
-                title={
-                    <>
-                        <Stack direction="row" justifyContent="space-between" alignItems="center">
-                            <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
-                                {getVisibilityIcon(adBuyerView?.adVisibility)}
-                                <h1>{adBuyerView?.adTitle}</h1>
-                                <AdTypePart type={adBuyerView?.adType?.name} />
+        <>
+            <title>{adBuyerView?.adTitle}</title>
+            <Card component={Container} sx={{ borderRadius: "20px" }}>
+                <CardHeader
+                    title={
+                        <>
+                            <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
+                                    {getVisibilityIcon(adBuyerView?.adVisibility)}
+                                    <h1>{adBuyerView?.adTitle}</h1>
+                                    <AdTypePart type={adBuyerView?.adType?.name} />
+                                </Stack>
+
+                                <Chip
+                                    component={Link}
+                                    clickable
+                                    sx={{ height: "100%" }}
+                                    to={`/user/${adBuyerView?.username}`}
+                                    icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
+                                    label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
+                                />
                             </Stack>
 
-                            <Chip
-                                component={Link}
-                                clickable
-                                sx={{ height: "100%" }}
-                                to={`/user/${adBuyerView?.username}`}
-                                icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
-                                label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
-                            />
-                        </Stack>
+                            <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
+                        </>
+                    }
+                >
 
-                        <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
-                    </>
-                }
-            >
+                </CardHeader>
+                <CardContent component={Stack} spacing={1.5}>
+                    {adBuyerView ?
+                        (
+                            <>
+                                <ImageViewer
+                                    adImages={adBuyerView?.adImages}
+                                    currentPicture={currentPicture}
+                                    nextOrPrevious={nextOrPrevious}
+                                    onClose={() => setIsPicturePopup(false)}
+                                    open={isPicturePopup}
 
-            </CardHeader>
-            <CardContent>
-                <title>{adBuyerView?.adTitle}</title>
-                {adBuyerView ?
-                    (
-                        <>
-                            <ImageViewer
-                                adImages={adBuyerView?.adImages}
-                                currentPicture={currentPicture}
-                                nextOrPrevious={nextOrPrevious}
-                                onClose={() => setIsPicturePopup(false)}
-                                open={isPicturePopup}
+                                />
 
-                            />
+                                {adBuyerView?.adImages?.length !== 0 ?
+                                    (
+                                        <Stack direction="row" >
+                                            <img onClick={() => loadImageFromClick(0)} className="ad-view-big-image imgFit" src={adBuyerView?.adImages[0]?.path} />
 
-                            {adBuyerView?.adImages?.length !== 0 ?
-                                (
-                                    <Stack direction="row" >
-                                        <img onClick={() => loadImageFromClick(0)} className="ad-view-first-images ad-view-big-image imgFit" src={adBuyerView?.adImages[0]?.path} />
+                                            <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => img.path)} openImageAction={loadImageFromClick} />
+                                        </Stack>
+                                    ) :
+                                    (
+                                        <></>
+                                    )
+                                }
 
-                                        <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => img.path)} openImageAction={loadImageFromClick} />
+                                <Stack direction="column" spacing={1}>
+                                    <Stack direction="row" spacing={1}>
+                                        {adBuyerView?.adTagsName?.map(value => (
+                                            <AdTagPart key={createRandomKey()} label={value} isAdView />
+                                        ))}
                                     </Stack>
-                                ) :
-                                (
-                                    <></>
-                                )
-                            }
-                            <br />
 
-                            {/* AdTags */}
-                            {adBuyerView?.adTagsName?.map(value => (
-                                <AdTagPart key={createRandomKey()} label={value} isAdView />
-                            ))}
-
-                            <div className="ad-view-flex-desc-infos">
-                                <p className="ad-view-description">{adBuyerView?.adDescription}</p>
-                                <AdInfosPart
-                                    location={adBuyerView?.adAddress}
-                                    phone={adBuyerView?.userPhone}
-                                    publishDate={adBuyerView?.adAddedDate}
-                                    shape={adBuyerView?.adShape} />
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <p>The ad does not exists.</p>
-                            <Link to="/">Main menu</Link>
-                        </>
-                    )
-                }
-            </CardContent>
-        </Card>
+                                    <Typography variant="body1">{adBuyerView?.adDescription}</Typography>
+                                    <AdInfosPart
+                                        location={adBuyerView?.adAddress}
+                                        phone={adBuyerView?.userPhone}
+                                        publishDate={adBuyerView?.adAddedDate}
+                                        shape={adBuyerView?.adShape} />
+                                </Stack>
+                            </>
+                        ) : (
+                            <>
+                                <p>The ad does not exists.</p>
+                                <Link to="/">Main menu</Link>
+                            </>
+                        )
+                    }
+                </CardContent>
+            </Card>
+        </>
     );
 }
 
