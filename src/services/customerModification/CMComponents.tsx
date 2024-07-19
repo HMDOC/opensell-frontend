@@ -143,11 +143,11 @@ export function CMDisplay(props: CMDisplayProperties) {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell>
-                <label>{props.labelText}</label>
+                <Typography variant="subtitle1">{props.labelText}</Typography>
             </TableCell>
 
             <TableCell align="left">
-                {getDisplayedDefaultValue()}
+                <Typography variant="subtitle1">{getDisplayedDefaultValue()}</Typography>
             </TableCell>
 
             <TableCell align="right">
