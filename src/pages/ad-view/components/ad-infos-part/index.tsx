@@ -25,7 +25,7 @@ function SingleInfo(props: { icon: any, labelValue?: string, isEnd?: boolean }) 
 
 export default function AdInfosPart(props: { location?: string, publishDate?: Date, phone?: string, shape?: AdShape }) {
     return (
-        <Stack spacing={1.5} padding={3} borderRadius="30px" width="300px" className="dark-shadow" color="black">
+        <Stack spacing={1.5} padding={3} borderRadius="30px" maxWidth="300px" className="dark-shadow" color="black">
             <SingleInfo labelValue={props.location} icon={<PlaceIcon />} />
             <SingleInfo labelValue={props.publishDate?.toString()} icon={<WatchLaterIcon />} />
             <SingleInfo labelValue={props.phone} icon={<PhoneIphoneIcon />} />

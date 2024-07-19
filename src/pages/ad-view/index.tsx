@@ -67,26 +67,25 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
             <Card component={Container} sx={{ borderRadius: "20px" }}>
                 <CardHeader
                     title={
-                        <>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
-                                    {getVisibilityIcon(adBuyerView?.adVisibility)}
-                                    <h1>{adBuyerView?.adTitle}</h1>
-                                    <AdTypePart type={adBuyerView?.adType?.name} />
-                                </Stack>
-
-                                <Chip
-                                    component={Link}
-                                    clickable
-                                    sx={{ height: "100%" }}
-                                    to={`/user/${adBuyerView?.username}`}
-                                    icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
-                                    label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
-                                />
+                        <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap spacing={1}>
+                            <Stack direction="row" alignItems="center" spacing={0.5} flexWrap="wrap" useFlexGap>
+                                {getVisibilityIcon(adBuyerView?.adVisibility)}
+                                <Typography variant="h3">{adBuyerView?.adTitle}</Typography>
+                                <AdTypePart type={adBuyerView?.adType?.name} />
                             </Stack>
 
-                            <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
-                        </>
+                            <Chip
+                                component={Link}
+                                to={`/user/${adBuyerView?.username}`}
+                                clickable
+                                sx={{ height: "100%" }}
+                                icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
+                                label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
+                            />
+                        </Stack>
+                    }
+                    subheader={
+                        <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
                     }
                 >
 
@@ -101,7 +100,6 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                     nextOrPrevious={nextOrPrevious}
                                     onClose={() => setIsPicturePopup(false)}
                                     open={isPicturePopup}
-
                                 />
 
                                 {adBuyerView?.adImages?.length !== 0 ?

@@ -1,7 +1,8 @@
-import "./style.scss";
+import { Typography } from "@mui/material";
+import "./style.css";
 
 export default function AdTypePart(props: {type: string}) {
     return(
-        <p className="ad-type-part">{props.type?.toUpperCase()}</p>
+        <Typography className="ad-type-part">{props.type?.toUpperCase()}</Typography>
     );
 }
