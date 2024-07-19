@@ -77,7 +77,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
                                 component={Link}
                                 clickable
                                 sx={{ height: "100%" }}
-                                to={`/user/${adBuyerView?.userLink}`}
+                                to={`/user/${adBuyerView?.username}`}
                                 icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
                                 label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
                             />

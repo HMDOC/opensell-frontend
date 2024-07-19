@@ -80,7 +80,7 @@ export default function App() {
 							<Route path="/u" element={<PrivateRoute />}>
 								<Route path='/u/my-ads' element={<MyAds />} />
 								<Route path="/u/setting" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
-								<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
+								<Route path="/u/my-profil" element={<UserProfil isMyProfil />}></Route>
 							</Route>
 							<Route path="/" element={<Home />}></Route>
 							<Route path='/about' element={<About />}></Route>
@@ -88,7 +88,7 @@ export default function App() {
 							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
 							<Route path="/catalog" element={<Catalog />}></Route>
 							<Route path="/ad/:link" element={<AdView />}></Route>
-							<Route path="/user/:link" element={<UserProfil />}></Route>
+							<Route path="/user/:username" element={<UserProfil />}></Route>
 							<Route path="*" element={<NotFound />}></Route>
 						</Routes>
 					</Suspense>

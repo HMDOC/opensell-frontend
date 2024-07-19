@@ -9,13 +9,16 @@ import AdPreview from "../catalog/components/ad-preview";
 import EmailIcon from '@mui/icons-material/Email';
 import { Card, CardContent, CardHeader, Container, Divider, Stack, Typography } from '@mui/material';
 import { IconLabel } from '@components/shared/IconLabel';
+import { useAppContext } from '@context/AppContext';
 
-export default function UserProfil(props: { loggedUserLink?: string, isMyProfil?: boolean }): ReactElement {
-    const { link } = useParams();
+export default function UserProfil(props: { isMyProfil?: boolean }): ReactElement {
+    const { username } = useParams();
     const [customerProfil, setCustomerProfil] = useState<CustomerProfil>();
+    const { customerDto } = useAppContext();
 
     useEffect(() => {
-        getCustomerProfil(props.isMyProfil ? props.loggedUserLink : link).then(res => {
+        console.log(username);
+        getCustomerProfil(props.isMyProfil ? customerDto.username : username).then(res => {
             setCustomerProfil(res?.data)
         });
     }, []);
