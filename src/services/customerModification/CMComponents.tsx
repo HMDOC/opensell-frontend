@@ -1,6 +1,6 @@
 import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
-import { CustomerDto } from "../../entities/dto/CustomerDto";
+import { CustomerDto } from "@entities/dto/CustomerDto";
 import { AdCreationInputProperties } from "../AdCreationService";
 
 export interface CMState {
@@ -56,10 +56,12 @@ export function CMInput(props: CMInputProperties) {
     return (
         <TextField
             label={props.labelText}
+            name={props.name}
             id={props.name}
             multiline={props.isTextArea}
             rows={props.isTextArea ? 5 : undefined}
-            {...props}
+            defaultValue={props.defaultValue}
+            type={props.type}  
             ref={props.inputRef as RefObject<HTMLInputElement>}
             onChange={props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null}
         />

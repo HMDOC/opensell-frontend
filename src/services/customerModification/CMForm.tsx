@@ -1,11 +1,16 @@
 import { Stack } from "@mui/material";
 import { AxiosResponse } from "axios";
-import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef } from "react";
+import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
 import ModificationFeedback from "../../entities/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, executeChange, getCheckResult, getProfileIconPath, replaceInString } from "./CMService";
+import { ArrayOfRequests, changeCustomerPersonalEmail, executeChange, getCheckResult, getProfileIconPath, isEmailExists, replaceInString } from "./CMService";
+import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
+import { object, ref, string } from "yup";
+import { useAppContext } from "@context/AppContext";
+import { RegexCode, verify } from "@services/RegexService";
 
 export function CMFormContainer(props: { children: ReactNode, saveChanges(formEvent: any): void }) {
     return (
@@ -14,6 +19,22 @@ export function CMFormContainer(props: { children: ReactNode, saveChanges(formEv
                 {props.children}
             </Stack>
         </form>
+    );
+}
+
+export function CMFormContainerV2(props: { children: ReactNode, initialValues: any, onSubmit(values: FormikValues, formikHelpers: FormikHelpers<FormikValues>): void, validationSchema?: any }) {
+    return (
+        <Formik
+            initialValues={props.initialValues}
+            onSubmit={props.onSubmit}
+            validationSchema={props.validationSchema}
+        >
+            <Form id="setting-form">
+                <Stack spacing={2}>
+                    {props.children}
+                </Stack>
+            </Form>
+        </Formik>
     );
 }
 
@@ -148,32 +169,52 @@ export class CMBasicModificationsForm extends CMForm {
     }
 }
 
-export class CMPersonalEmailForm extends CMForm {
-    constructor(properties) {
-        super(properties)
-        this.state = {
-            feedbackMessages: [],
-            confirmInputIsValid: false
-        }
-    }
+const EMAIL_ALREADY_EXISTS = "Email already exists."
+export function CMPersonalEmailForm(props: { onClose(): void }) {
+    const [existingEmail, setExistingEmail] = useState<string[]>([])
+    const { customerDto } = useAppContext();
 
-    render(): ReactNode {
-        return (
-            <div>
-                {this.getFeedbackElement()}
-                <CMFormContainer saveChanges={(formEvent) => this.saveChanges(formEvent)}>
-                    <CMRepeatInput
-                        labelText="New Private Email"
-                        name="personalEmail"
-                        type="text"
-                        onChange={(changeEvent) => this.handleChange(changeEvent)}
-                        setRepeatInputState={(res: boolean) => this.setState({ confirmInputIsValid: res })}
-                        addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
-                        removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)} />
-                </CMFormContainer>
-            </div>
-        )
-    }
+    return (
+        <CMFormContainerV2
+            initialValues={{
+                email: "",
+                confirmEmail: ""
+            }}
+            onSubmit={async (values, formikHelper) => {
+                if ((await isEmailExists(customerDto?.customerId, values.email)).data) {
+                    setExistingEmail([...existingEmail, values.email]);
+                    formikHelper.setFieldError("email", EMAIL_ALREADY_EXISTS);
+                    return;
+                }
+
+                else await changeCustomerPersonalEmail(customerDto?.customerId, values.email, values.confirmEmail);
+
+                props.onClose();
+            }}
+            validationSchema={object({
+                email: string()
+                    .required("New private email cannot be empty")
+                    .test("emailValid", "invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
+                    .notOneOf(existingEmail, EMAIL_ALREADY_EXISTS),
+                confirmEmail: string()
+                    .required("Confirm email cannot be empty")
+                    .test("emailValid", "invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
+                    .equals([ref("email")], "Confirm email must equal to new email.")
+            })}
+        >
+            <Field
+                component={AdCreationInput}
+                label="New private email"
+                name="email"
+            />
+
+            <Field
+                component={AdCreationInput}
+                label="Confirm private email"
+                name="confirmEmail"
+            />
+        </CMFormContainerV2>
+    )
 }
 
 export class CMPasswordForm extends CMForm {

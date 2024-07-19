@@ -4,7 +4,7 @@ import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@se
 import "./style.css"
 import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm } from "@services/customerModification/CMForm";
 import ProfilIcon from "@components/shared/ProfilIcon";
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, Typography } from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
 
 /**
  *
@@ -25,7 +25,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
 
     public openModal(type: CMModalType): void {
         if (type === CMModalType.BASIC_CHANGES) this.setState({ currentModalTitle: "other informations", currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.PERSONNAL_EMAIL) this.setState({ currentModalTitle: "personnal email", currentModalContent: <CMPersonalEmailForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
+        else if (type === CMModalType.PERSONNAL_EMAIL) this.setState({ currentModalTitle: "personnal email", currentModalContent: <CMPersonalEmailForm onClose={() => this.closeModal()} /> });
         else if (type === CMModalType.PASSWORD) this.setState({ currentModalTitle: "password", currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
         else if (type === CMModalType.PHONE_NUMBER) this.setState({ currentModalTitle: "phone number", currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
         else if (type === CMModalType.ICON) this.setState({ currentModalTitle: "icon", currentModalContent: <CMIconForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
@@ -58,18 +58,22 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                     </CMContainer>
 
                     <CMContainer title="Profile icon">
-                        <div style={{ border: "none" }} className="change-button">
-                            <ProfilIcon src={this.props.customerData?.customerInfo?.iconPath} username={this.props.customerData?.username} />
-                            <CMEditButton onClick={() => this.openModal(CMModalType.ICON)} label="Edit" />
-                        </div>
+                        <TableRow sx={{ border: "none" }} className="change-button">
+                            <TableCell>
+                                <ProfilIcon src={this.props.customerData?.customerInfo?.iconPath} username={this.props.customerData?.username} />
+                            </TableCell>
+
+                            <TableCell />
+                            <TableCell>
+                                <CMEditButton onClick={() => this.openModal(CMModalType.ICON)} label="Edit" />
+                            </TableCell>
+                        </TableRow>
                     </CMContainer>
                 </Stack>
 
                 <Dialog open={this.state.modalIsOpen} onClose={() => this.closeModal()} fullWidth>
-                    <DialogTitle>
-                        <Typography variant="h5">
-                            Edit {this.state.currentModalTitle}
-                        </Typography>
+                    <DialogTitle variant="h5">
+                        Edit {this.state.currentModalTitle}
                     </DialogTitle>
                     <Divider />
 

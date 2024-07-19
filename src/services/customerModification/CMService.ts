@@ -3,6 +3,8 @@ import { AxiosResponse } from "axios"
 import { CustomerModificationData } from "../../entities/dto/CustomerModificationData"
 import ModificationFeedback from "../../entities/dto/ModificationFeedback"
 
+const REQUEST_MAPPING = "/change";
+
 const REPLACE_SEQUENCE = "?";
 
 export enum CMModalType {
@@ -13,7 +15,7 @@ export enum CMModalType {
     ICON
 }
 
-export type ArrayOfRequests = {mapping: string, data: CustomerModificationData}[];
+export type ArrayOfRequests = { mapping: string, data: CustomerModificationData }[];
 
 /**
  * @Note the first parameter is the original string
@@ -36,10 +38,19 @@ export const getCheckResult = async (request: string): Promise<AxiosResponse<num
     return await http.get<number>(request);
 }
 
-export const getProfileIconPath = async (file: File , idCustomer: number) => {
+export const getProfileIconPath = async (file: File, idCustomer: number) => {
     let formData: FormData = new FormData();
     formData.append("multipartFiles", file);
     let path: string = (await http.post<string>("change/get-image-icon-path", formData))?.data;
-    let res = (await executeChange("change/change-icon-path", {id: idCustomer, value: path}))?.data;
+    let res = (await executeChange("change/change-icon-path", { id: idCustomer, value: path }))?.data;
     return res;
+}
+
+export function isEmailExists(id: number, email: string) {
+    return http.get<boolean>(REQUEST_MAPPING + "/email/exists", { params: { id, email } });
+}
+
+
+export function changeCustomerPersonalEmail(id: number, email: string, confirmEmail: string) {
+    return http.patch(REQUEST_MAPPING + "/change-private-email", undefined, { params: { id, email, confirmEmail } })
 }
