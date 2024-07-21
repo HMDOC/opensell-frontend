@@ -31,7 +31,7 @@ export default function DisplayAd(props: DisplayAdProps) {
                 <MuiMenuWithOptions
                     menuIcon={<MoreHorizIcon />}
                     options={[
-                        { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.link)).data) },
+                        { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.idAd)).data) },
                         { label: "Preview", icon: <PanoramaIcon />, action: () => navigate(`/ad/${props.idAd}`) },
                         { label: "Delete", icon: <DeleteIcon />, action: () => handleDelete() }
                     ]}

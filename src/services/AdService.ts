@@ -36,8 +36,8 @@ export const getAdBySearch = async (query: string, filters) => {
  * @param link
  * @author Achraf
  */
-export const getAdToModify = async (link: string) => {
-    return await http.get<AdCreator>(`/ad/to-modify/${link}`);
+export const getAdToModify = async (idAd: number) => {
+    return await http.get<AdCreator>(`/ad/to-modify/${idAd}`);
 };
 
 export const getAllAdTypes = async () => {
