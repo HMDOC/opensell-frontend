@@ -2,7 +2,7 @@ import { SmallAd } from "@components/shared/ad/small-ad";
 import "./style.css";
 
 type AdPreviewProps = {
-    link: string;
+    id: number;
     isSold?: boolean;
     firstImagePath: string;
     title: string;
@@ -24,7 +24,7 @@ export default function AdPreview(props: AdPreviewProps) {
             firstImage={props.firstImagePath}
             isSearch
             goToAd={() => {
-                window.open(`/ad/${props?.link}`, "_blank", "noreferrer")
+                window.open(`/ad/${props?.id}`, "_blank", "noreferrer")
             }}
         />
     )

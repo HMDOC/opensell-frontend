@@ -10,6 +10,6 @@ interface AdSearchPreview {
     adPrice? : number;
     adShape? : number;
     isAdSold? : boolean;
-    adLink? : string;
+    id? : number;
     adFirstImagePath? : string;
 }

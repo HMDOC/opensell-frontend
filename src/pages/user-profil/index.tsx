@@ -77,7 +77,7 @@ export default function UserProfil(props: { isMyProfil?: boolean }): ReactElemen
                                 {customerProfil?.ads?.map((data: AdSearchPreview, i: number) => (
                                     <AdPreview
                                         key={`ad-preview-${i}`}
-                                        link={data?.adLink}
+                                        id={data?.id}
                                         price={data?.adPrice}
                                         shape={data?.adShape}
                                         title={data?.adTitle}

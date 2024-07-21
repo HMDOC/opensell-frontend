@@ -87,7 +87,7 @@ export default function App() {
 							<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
 							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
 							<Route path="/catalog" element={<Catalog />}></Route>
-							<Route path="/ad/:link" element={<AdView />}></Route>
+							<Route path="/ad/:id" element={<AdView />}></Route>
 							<Route path="/user/:username" element={<UserProfil />}></Route>
 							<Route path="*" element={<NotFound />}></Route>
 						</Routes>

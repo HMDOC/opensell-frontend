@@ -7,10 +7,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PanoramaIcon from '@mui/icons-material/Panorama';
 import { deleteAd, getAdToModify } from "@services/AdService";
+import { useNavigate } from "react-router-dom";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;
-    seeAdPreview(idAd: number): void;
     launchUpdate?(adCreator: AdCreator): void;
 }
 
@@ -22,6 +22,8 @@ export default function DisplayAd(props: DisplayAdProps) {
             });
     }
 
+    const navigate = useNavigate();
+
     return (
         <SmallAd
             {...props}
@@ -30,7 +32,7 @@ export default function DisplayAd(props: DisplayAdProps) {
                     menuIcon={<MoreHorizIcon />}
                     options={[
                         { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.link)).data) },
-                        { label: "Preview", icon: <PanoramaIcon />, action: () => props.seeAdPreview(props.idAd) },
+                        { label: "Preview", icon: <PanoramaIcon />, action: () => navigate(`/ad/${props.idAd}`) },
                         { label: "Delete", icon: <DeleteIcon />, action: () => handleDelete() }
                     ]}
                 />

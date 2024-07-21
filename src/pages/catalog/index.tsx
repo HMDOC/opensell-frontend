@@ -176,7 +176,7 @@ const ResultList = (): ReactElement => {
                                     listOfAds?.map((data: AdSearchPreview, i: number) => (
                                         <AdPreview
                                             key={`ad-preview-${i}`}
-                                            link={data?.adLink}
+                                            id={data?.id}
                                             price={data?.adPrice}
                                             shape={data?.adShape}
                                             title={data?.adTitle}

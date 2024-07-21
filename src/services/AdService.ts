@@ -11,8 +11,8 @@ import http from "../http-commons";
  * @param link 
  * @author Achraf
  */
-export const getAdByLink = async (link: string) => {
-    return await http.get<AdBuyerView>(`/ad/get-ad-buyer-view/${link}`);
+export const getAdByLink = async (id: number) => {
+    return await http.get<AdBuyerView>(`/ad/get-ad-buyer-view/${id}`);
 };
 
 /**
@@ -69,10 +69,6 @@ export const deleteAd = async (idAd: number) => {
     return await http.patch(`/ad/delete-ad/${idAd}`);
 };
 
-// GET THE AdPreview but ONLY FOR THE AD OWNER NOT FOR THE NORMAL USER
-export const getCustomerAdPreview = async (idAd: number) => {
-    return await http.get<AdBuyerView>(`/ad/get-ad-preview-for-customer/${idAd}`);
-};
 
 export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: Array<number> = null) => {
     let imagesFormData = new FormData();

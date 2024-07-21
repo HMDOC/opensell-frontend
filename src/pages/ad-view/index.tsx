@@ -168,10 +168,10 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
  * @author Achraf
 */
 const AdView = (): ReactElement => {
-    const { link } = useParams();
+    const { id } = useParams();
 
     return (
-        <AdMapping request={getAdByLink(link)} />
+        <AdMapping request={getAdByLink(id as any)} />
     );
 }
 
