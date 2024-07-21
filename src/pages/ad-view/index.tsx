@@ -1,20 +1,19 @@
-import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
 import AdPricePart from "@components/shared/ad/price-part";
 import AdTagPart from "@components/shared/ad/tag-part";
-import AdTypePart from "./components/ad-type-part";
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
+import { DESKTOP_VIEW, MOBILE_VIEW } from "@context/AppContext";
 import { AdBuyerView } from "@entities/dto/AdBuyerView";
 import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
+import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
 import { getAdByLink } from "@services/AdService";
 import { createRandomKey } from "@services/RandomKeys";
-import { AxiosResponse } from "axios";
-import { ReactElement, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import AdTypePart from "./components/ad-type-part";
+import FrontImage from "./components/front-image";
 import ImageViewer from "./components/image-viewer";
 import SideImages from "./components/side-images";
-import { DESKTOP_VIEW, MOBILE_VIEW } from "@context/AppContext";
-import FrontImage from "./components/front-image";
 
 /**
  * Function that increase the index of the current picture
@@ -34,7 +33,14 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
     } else return 0;
 };
 
-export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, any>>, children?: any }) {
+/**
+ * Component for that will be shown when a buyer click on a ad.
+ * 
+ * @author Achraf
+*/
+export default function AdView() {
+    const { id } = useParams();
+
     const [currentPicture, setCurrentPicture] = useState<number>(0);
     const [adBuyerView, setAdBuyerView] = useState<AdBuyerView>(undefined);
     const [isPicturePopup, setIsPicturePopup] = useState(false);
@@ -42,7 +48,7 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
     const imagesLength = adBuyerView?.adImages?.length;
 
     useEffect(() => {
-        props.request.then(res => {
+        getAdByLink(id as any).then(res => {
             if (res?.data) {
                 setAdBuyerView(res?.data);
             }
@@ -161,18 +167,3 @@ export function AdMapping(props: { request: Promise<AxiosResponse<AdBuyerView, a
         </>
     );
 }
-
-/**
- * Component for that will be shown when a buyer click on a ad.
- * 
- * @author Achraf
-*/
-const AdView = (): ReactElement => {
-    const { id } = useParams();
-
-    return (
-        <AdMapping request={getAdByLink(id as any)} />
-    );
-}
-
-export default AdView;
