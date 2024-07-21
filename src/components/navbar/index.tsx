@@ -57,7 +57,7 @@ export default function Navbar(props: { logout(): void }): ReactElement {
     }
 
     return (
-        <AppBar position="static" enableColorOnDark>
+        <AppBar position="static" enableColorOnDark color="transparent">
             <Container maxWidth={false}>
                 <Toolbar disableGutters>
                     <ThemeToggle />
@@ -146,7 +146,7 @@ export default function Navbar(props: { logout(): void }): ReactElement {
                     (
                         <Stack sx={{ display: MOBILE_VIEW }} justifyContent="center" alignItems="center">
                             {links.navbar.map((link) => (
-                                <AppNavLink {...link} />
+                                <AppNavLink key={createRandomKey()} {...link} />
                             ))}
                         </Stack>
                     ) : (
