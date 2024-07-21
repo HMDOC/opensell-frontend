@@ -8,11 +8,15 @@ import http from "../http-commons";
 /**
  * Get part of an Ad to show and ad in a customer view.
  * 
- * @param link 
+ * @param id
  * @author Achraf
  */
-export const getAdByLink = async (id: number) => {
-    return await http.get<AdBuyerView>(`/ad/get-ad-buyer-view/${id}`);
+export const getAdById = async (id: number): Promise<any> => {
+    try {
+        return await http.get<AdBuyerView>(`/ad/get-ad-buyer-view/${id}`);
+    } catch (error: any) {
+        return new Promise((resolve) => resolve({ data: undefined, status: error?.response.status }))
+    }
 };
 
 /**

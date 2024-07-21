@@ -3,10 +3,9 @@ import AdTagPart from "@components/shared/ad/tag-part";
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { DESKTOP_VIEW, MOBILE_VIEW } from "@context/AppContext";
-import { AdBuyerView } from "@entities/dto/AdBuyerView";
 import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
 import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
-import { getAdByLink } from "@services/AdService";
+import { getAdById } from "@services/AdService";
 import { createRandomKey } from "@services/RandomKeys";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -42,21 +41,20 @@ export default function AdView() {
     const { id } = useParams();
 
     const [currentPicture, setCurrentPicture] = useState<number>(0);
-    const [adBuyerView, setAdBuyerView] = useState<AdBuyerView>(undefined);
+    const [promiseResult, setPromiseResult] = useState<any>(undefined);
     const [isPicturePopup, setIsPicturePopup] = useState(false);
 
+    const adBuyerView = promiseResult?.data;
     const imagesLength = adBuyerView?.adImages?.length;
 
     useEffect(() => {
-        getAdByLink(id as any).then(res => {
-            if (res?.data) {
-                setAdBuyerView(res?.data);
-            }
+        getAdById(id as any).then(res => {
+            setPromiseResult(res);
         });
     }, []);
 
     const nextOrPrevious = (isNext: boolean) => {
-        let newIndex = changePicture(isNext, currentPicture, adBuyerView?.adImages?.length);
+        let newIndex = changePicture(isNext, currentPicture, imagesLength);
         if (newIndex !== currentPicture) {
             setCurrentPicture(newIndex);
         }
@@ -73,97 +71,104 @@ export default function AdView() {
     return (
         <>
             <title>{adBuyerView?.adTitle}</title>
-            <Card component={Container} sx={{ borderRadius: "20px" }}>
-                <CardHeader
-                    title={
-                        <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap spacing={1}>
-                            <Stack direction="row" alignItems="center" spacing={0.5} flexWrap="wrap" useFlexGap>
-                                {getVisibilityIcon(adBuyerView?.adVisibility)}
-                                <Typography variant="h3">{adBuyerView?.adTitle}</Typography>
-                                <AdTypePart type={adBuyerView?.adType?.name} />
-                            </Stack>
-
-                            <Chip
-                                component={Link}
-                                to={`/user/${adBuyerView?.username}`}
-                                clickable
-                                sx={{ height: "100%" }}
-                                icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
-                                label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
-                            />
-                        </Stack>
-                    }
-                    subheader={
-                        <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
-                    }
-                >
-                </CardHeader>
-
-                <CardContent>
-                    <Stack spacing={1.5}>
-                        {adBuyerView ?
-                            (
-                                <>
-                                    <ImageViewer
-                                        adImages={adBuyerView?.adImages}
-                                        currentPicture={currentPicture}
-                                        nextOrPrevious={nextOrPrevious}
-                                        onClose={() => setIsPicturePopup(false)}
-                                        open={isPicturePopup}
-                                    />
-
-                                    {imagesLength !== 0 ?
-                                        (
-                                            <>
-                                                <Stack direction="row" display={DESKTOP_VIEW} spacing={1.5}>
-                                                    <FrontImage
-                                                        action={() => loadImageFromClick(0)}
-                                                        imagesLength={imagesLength}
-                                                        path={adBuyerView?.adImages[0]?.path}
-                                                    />
-
-                                                    <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => img.path)} openImageAction={loadImageFromClick} />
-                                                </Stack>
-
-                                                <Stack sx={{ display: MOBILE_VIEW }}>
-                                                    <FrontImage
-                                                        action={() => loadImageFromClick(0)}
-                                                        path={adBuyerView?.adImages[0]?.path}
-                                                        isMobile
-                                                    />
-                                                </Stack>
-                                            </>
-                                        ) :
-                                        (
-                                            <></>
-                                        )
-                                    }
-
-                                    <Stack direction="column" spacing={1}>
-                                        <Stack direction="row" spacing={1}>
-                                            {adBuyerView?.adTagsName?.map(value => (
-                                                <AdTagPart key={createRandomKey()} label={value} isAdView />
-                                            ))}
-                                        </Stack>
-
-                                        <Typography variant="body1">{adBuyerView?.adDescription}</Typography>
-                                        <AdInfosPart
-                                            location={adBuyerView?.adAddress}
-                                            phone={adBuyerView?.userPhone}
-                                            publishDate={adBuyerView?.adAddedDate}
-                                            shape={adBuyerView?.adShape} />
+            {adBuyerView ?
+                (
+                    <Card component={Container} sx={{ borderRadius: "20px" }}>
+                        <CardHeader
+                            title={
+                                <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap spacing={1}>
+                                    <Stack direction="row" alignItems="center" spacing={0.5} flexWrap="wrap" useFlexGap>
+                                        {getVisibilityIcon(adBuyerView?.adVisibility)}
+                                        <Typography variant="h3">{adBuyerView?.adTitle}</Typography>
+                                        <AdTypePart type={adBuyerView?.adType?.name} />
                                     </Stack>
-                                </>
-                            ) : (
-                                <>
-                                    <p>The ad does not exists.</p>
-                                    <Link to="/">Main menu</Link>
-                                </>
-                            )
+
+                                    <Chip
+                                        component={Link}
+                                        to={`/user/${adBuyerView?.username}`}
+                                        clickable
+                                        sx={{ height: "100%" }}
+                                        icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
+                                        label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
+                                    />
+                                </Stack>
+                            }
+                            subheader={
+                                <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
+                            }
+                        >
+                        </CardHeader>
+
+                        <CardContent>
+                            <Stack spacing={1.5}>
+
+                                <ImageViewer
+                                    adImages={adBuyerView?.adImages}
+                                    currentPicture={currentPicture}
+                                    nextOrPrevious={nextOrPrevious}
+                                    onClose={() => setIsPicturePopup(false)}
+                                    open={isPicturePopup}
+                                />
+
+                                {imagesLength !== 0 ?
+                                    (
+                                        <>
+                                            <Stack direction="row" display={DESKTOP_VIEW} spacing={1.5}>
+                                                <FrontImage
+                                                    action={() => loadImageFromClick(0)}
+                                                    imagesLength={imagesLength}
+                                                    path={adBuyerView?.adImages?.[0]?.path}
+                                                />
+
+                                                <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => img.path)} openImageAction={loadImageFromClick} />
+                                            </Stack>
+
+                                            <Stack sx={{ display: MOBILE_VIEW }}>
+                                                <FrontImage
+                                                    action={() => loadImageFromClick(0)}
+                                                    path={adBuyerView?.adImages?.[0]?.path}
+                                                    isMobile
+                                                />
+                                            </Stack>
+                                        </>
+                                    ) :
+                                    (
+                                        <></>
+                                    )
+                                }
+
+                                <Stack direction="column" spacing={1}>
+                                    <Stack direction="row" spacing={1}>
+                                        {adBuyerView?.adTagsName?.map(value => (
+                                            <AdTagPart key={createRandomKey()} label={value} isAdView />
+                                        ))}
+                                    </Stack>
+
+                                    <Typography variant="body1">{adBuyerView?.adDescription}</Typography>
+                                    <AdInfosPart
+                                        location={adBuyerView?.adAddress}
+                                        phone={adBuyerView?.userPhone}
+                                        publishDate={adBuyerView?.adAddedDate}
+                                        shape={adBuyerView?.adShape} />
+                                </Stack>
+                            </Stack>
+                        </CardContent>
+                    </Card>
+                ) : (
+                    <Typography variant="h3" textAlign="center">
+                        {
+                            promiseResult?.status == 403 ? "You do not have access to this ad."
+                                : (
+                                    promiseResult?.status == 404 ? "Ad not found."
+                                        : (
+                                            "Server error."
+                                        )
+                                )
                         }
-                    </Stack>
-                </CardContent>
-            </Card>
+                    </Typography>
+                )
+
+            }
         </>
     );
 }
