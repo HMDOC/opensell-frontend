@@ -14,10 +14,11 @@ import { isTitleConstraintOk } from "@services/AdService";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { array, object, string } from "yup";
 import { AdCheckbox } from "./components/ad-checkbox";
 import { AdCreationInput } from "./components/ad-creation-input";
+import { useState } from "react";
 
 interface AdCreationModalProps {
     open: boolean;
@@ -25,9 +26,12 @@ interface AdCreationModalProps {
     adCreator?: AdCreator;
 }
 
+const TITLE_ALREADY_EXISTS = "You already have used this title in another ad.";
+
 export default function AdCreationModal(props: AdCreationModalProps) {
     const { customerDto } = useAppContext();
     const isUpdate: boolean = props.adCreator != undefined;
+    const [alreadyExistingTitles, setAlreadyExistingTitles] = useState<string[]>([]);
 
     const initialValues = {
         title: props.adCreator?.title ?? "",
@@ -52,18 +56,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                 initialValues={initialValues}
                 validationSchema={
                     object({
-                        title: notEmptyWithMaxAndMin(80, 3, "Title").test(
-                            "titleUniqueConstraint",
-                            "You already have an ad with this title",
-                            (value) => {
-                                return new Promise((resolve) => {
-                                    // Need to reduce the amount of time it makes the query to the backend.
-                                    isTitleConstraintOk(value, customerDto?.customerId, props.adCreator?.adId).then(
-                                        res => resolve(res?.data)
-                                    );
-                                })
-                            }
-                        ),
+                        title: notEmptyWithMaxAndMin(80, 3, "Title").notOneOf(alreadyExistingTitles, TITLE_ALREADY_EXISTS),
                         price: priceWithMinAndMax(MAX_PRICE, 0, "Price"),
                         description: notEmptyWithMaxAndMin(5000, 10, "Description"),
                         address: notEmptyWithMaxAndMin(256, 4, "Address"),
@@ -72,7 +65,13 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         shape: string().required("Shape is required."),
                         images: array().min(2, " should be at least 2."),
                     })}
-                onSubmit={async (values) => {
+                onSubmit={async (values: any, formikHelpers: FormikHelpers<FormikValues>) => {
+                    if (!(await isTitleConstraintOk(values.title, customerDto?.customerId, props.adCreator?.adId)).data) {
+                        setAlreadyExistingTitles([...alreadyExistingTitles, values.title]);
+                        formikHelpers.setFieldError("title", TITLE_ALREADY_EXISTS)
+                        return;
+                    }
+
                     if (isUpdate && JSON.stringify(values) == JSON.stringify(initialValues)) {
                         console.log("NOTHING UPDATED!");
                         props.onClose();
@@ -113,7 +112,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     );
                 }}
             >
-                {({ isValid }) => (
+                {({ isValid, submitCount }) => (
 
                     <>
                         <DialogTitle variant="h5" sx={{ fontWeight: "bold" }}>{isUpdate ? "Update" : "Create"} Ad</DialogTitle>
@@ -144,7 +143,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
 
                         <DialogActions>
                             <Button variant="text" onClick={() => props.onClose()}>Cancel</Button>
-                            <Button disabled={!isValid} type="submit" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
+                            <Button disabled={!isValid && (submitCount >= 1)} type="submit" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
                         </DialogActions>
                     </>
                 )}
