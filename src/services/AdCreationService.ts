@@ -12,12 +12,17 @@ export interface AdCreationInputObject {
     isValid?: (value: string) => boolean,
 }
 
+/**
+
+ * @deprecated
+ * @forRemoval
+ */
 export function isBetween(value: string, min: number, max: number): boolean {
     return value.length >= min && value.length < max;
 }
 
 /**
- * 
+
  * @deprecated
  * @forRemoval
  */
@@ -38,7 +43,3 @@ export interface AdCreationInputProperties {
     step?: number;
     accept?: string;
 }
-
-export const createOrUpdateAd = async (formData: FormData) => {
-    return await http.post<Array<AdImage>>("/ad/v2/create-or-update-ad", formData);
-};

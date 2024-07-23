@@ -9,8 +9,8 @@ import { AdCreator } from "@entities/dto/v2/AdCreator";
 import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
-import { createOrUpdateAd } from "@services/AdCreationService";
-import { isTitleConstraintOk } from "@services/AdService";
+import { createAd, updateAd } from "@services/ad/modification";
+import { isTitleConstraintOk } from "@services/ad/modification";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
@@ -101,15 +101,25 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     if (isUpdate) {
                         formData.append("adImagesJson", JSON.stringify(adImages));
                         formData.append("adId", props.adCreator.adId + "");
+                        
+                        await updateAd(formData).then(
+                            res => {
+                                if (res.status == HttpStatusCode.Ok) {
+                                    props.onClose(true);
+                                }
+                            }
+                        );
                     }
 
-                    await createOrUpdateAd(formData).then(
-                        res => {
-                            if (res.status == HttpStatusCode.Ok) {
-                                props.onClose(true);
+                    else {
+                        await createAd(formData).then(
+                            res => {
+                                if (res.status == HttpStatusCode.Ok) {
+                                    props.onClose(true);
+                                }
                             }
-                        }
-                    );
+                        );
+                    }
                 }}
             >
                 {({ isValid, submitCount }) => (

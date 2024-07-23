@@ -1,5 +1,4 @@
-import { AdCreator } from "@entities/dto/v2/AdCreator";
-import { AdBuyerView, AdImage } from "../entities/dto/AdBuyerView";
+import { AdBuyerView } from "../entities/dto/AdBuyerView";
 import { AdTag } from "../entities/dto/AdTag";
 import { AdType } from "../entities/dto/AdType";
 import { DisplayAdView } from "../entities/dto/DisplayAdView";
@@ -33,17 +32,6 @@ export const getAdBySearch = async (query: string, filters) => {
     return await http.post<AdSearchPreview[]>(`/ad/search`, params)
 };
 
-/**
- * Get all the content of an Ad that can be modifiable. It is for
- * the modification page.
- * 
- * @param link
- * @author Achraf
- */
-export const getAdToModify = async (idAd: number) => {
-    return await http.get<AdCreator>(`/ad/to-modify/${idAd}`);
-};
-
 export const getAllAdTypes = async () => {
     return await http.get<Array<AdType>>("/ad/get-all-ad-type");
 };
@@ -62,30 +50,3 @@ export const getCustomerAds = async (customerId: number) => {
     console.log("get it");
     return await http.get<Array<DisplayAdView>>(`/ad/get-customer-ads/${customerId}`);
 };
-
-/**
- * To delete an Ad of an user.
- * 
- * @param idAd 
- * @author Achraf
- */
-export const deleteAd = async (idAd: number) => {
-    return await http.patch(`/ad/delete-ad/${idAd}`);
-};
-
-
-export const saveAdImages = async (images: Array<File>, idAd: number, isModif: boolean = false, idsToDelete: Array<number> = null) => {
-    let imagesFormData = new FormData();
-    images.forEach(img => imagesFormData.append("adImages", img));
-    return await http.post<Array<AdImage>>("/ad/save-ad-images", imagesFormData, { params: { idAd, isModif, idsToDelete }, paramsSerializer: { indexes: null } });
-};
-
-/**
- * To check if a user already have an ad with this title.
- * 
- * @param title
- * @param customerId
- */
-export const isTitleConstraintOk = async (title: string, customerId: number, adId?: number) => {
-    return http.get<boolean>(`ad/v2/is-title-constraint-ok`, { params: { title, customerId, adId } });
-}

@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PanoramaIcon from '@mui/icons-material/Panorama';
-import { deleteAd, getAdToModify } from "@services/AdService";
+import { deleteAd, getAdToModify } from "@services/ad/modification";
 import { useNavigate } from "react-router-dom";
 
 interface DisplayAdProps extends DisplayAdView {
