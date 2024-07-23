@@ -1,6 +1,6 @@
-import { AdCreator } from "@entities/dto/v2/AdCreator";
 import http from "../../../http-commons";
 import { AdImage } from "@entities/dto/AdBuyerView";
+import AdCreatorDto from "./dto/AdCreatorDto";
 
 const REQUEST_MAPPING = "/api/ad/modification";
 
@@ -12,7 +12,7 @@ const REQUEST_MAPPING = "/api/ad/modification";
  * @author Achraf
  */
 export async function getAdToModify(idAd: number) {
-    return await http.get<AdCreator>(`${REQUEST_MAPPING}/${idAd}`);
+    return await http.get<AdCreatorDto>(`${REQUEST_MAPPING}/${idAd}`);
 };
 
 /**

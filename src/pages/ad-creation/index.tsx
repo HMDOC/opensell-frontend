@@ -5,7 +5,6 @@ import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { useAppContext } from "@context/AppContext";
 import { AdImage } from "@entities/dto/AdBuyerView";
-import { AdCreator } from "@entities/dto/v2/AdCreator";
 import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
@@ -19,11 +18,12 @@ import { array, object, string } from "yup";
 import { AdCheckbox } from "./components/ad-checkbox";
 import { AdCreationInput } from "./components/ad-creation-input";
 import { useState } from "react";
+import AdCreatorDto from "@services/ad/modification/dto/AdCreatorDto";
 
 interface AdCreationModalProps {
     open: boolean;
     onClose(isChange?: boolean): void;
-    adCreator?: AdCreator;
+    adCreator?: AdCreatorDto;
 }
 
 const TITLE_ALREADY_EXISTS = "You already have used this title in another ad.";

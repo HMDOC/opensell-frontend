@@ -1,4 +1,4 @@
-export class AdCreator {
+export default class AdCreatorDto {
     public adId: number;
     public customerId: number;
     public title: string;

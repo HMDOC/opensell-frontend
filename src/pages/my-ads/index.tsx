@@ -1,6 +1,5 @@
 import { useAppContext } from "@context/AppContext";
 import { DisplayAdView } from "@entities/dto/DisplayAdView";
-import { AdCreator } from "@entities/dto/v2/AdCreator";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, IconButton, Stack, Typography } from "@mui/material";
 import AdCreationModal from "@pages/ad-creation/";
@@ -8,12 +7,13 @@ import { getCustomerAds } from "@services/AdService";
 import { createRandomKey } from "@services/RandomKeys";
 import { useEffect, useState } from "react";
 import DisplayAd from "./components/display-ad";
+import AdCreatorDto from "@services/ad/modification/dto/AdCreatorDto";
 
 export default function MyAds() {
     const { customerDto } = useAppContext();
 
     const [displayAds, setDisplayAds] = useState<Array<DisplayAdView>>([]);
-    const [dialogState, setDialogState] = useState<{ open: boolean, adCreator?: AdCreator }>({ open: false });
+    const [dialogState, setDialogState] = useState<{ open: boolean, adCreator?: AdCreatorDto }>({ open: false });
 
     // To only get data when something as been added or updated.
     const [isGetData, setIsGetData] = useState(true);
@@ -36,7 +36,7 @@ export default function MyAds() {
         setDisplayAds(displayAds.filter(ad => ad.idAd !== idAd));
     }
 
-    const launchUpdate = (adCreator: AdCreator) => {
+    const launchUpdate = (adCreator: AdCreatorDto) => {
         setDialogState({ open: true, adCreator });
     }
 
