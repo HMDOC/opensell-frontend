@@ -10,6 +10,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import { Card, CardContent, CardHeader, Container, Divider, Stack, Typography } from '@mui/material';
 import { IconLabel } from '@components/shared/IconLabel';
 import { useAppContext } from '@context/AppContext';
+import AdPreviewDto from '@services/ad/catalog/dto/AdPreviewDto';
 
 export default function UserProfil(props: { isMyProfil?: boolean }): ReactElement {
     const { username } = useParams();
@@ -74,15 +75,11 @@ export default function UserProfil(props: { isMyProfil?: boolean }): ReactElemen
                     {(customerProfil?.ads?.length > 0) ?
                         (
                             <Stack flexWrap="wrap" direction="row" spacing={2} useFlexGap>
-                                {customerProfil?.ads?.map((data: AdSearchPreview, i: number) => (
+                                {customerProfil?.ads?.map((data: AdPreviewDto, i: number) => (
                                     <AdPreview
                                         key={`ad-preview-${i}`}
                                         id={data?.id}
-                                        price={data?.adPrice}
-                                        shape={data?.adShape}
-                                        title={data?.adTitle}
-                                        isSold={data?.isAdSold}
-                                        firstImagePath={data?.adFirstImagePath}
+                                        {...data}
                                     />
                                 ))}
                             </Stack>

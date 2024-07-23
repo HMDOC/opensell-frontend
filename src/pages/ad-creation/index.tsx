@@ -7,8 +7,8 @@ import { useAppContext } from "@context/AppContext";
 import { FrontendImage, ImageBox } from "../../model/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
-import { createAd, updateAd } from "@services/ad/modification";
-import { isTitleConstraintOk } from "@services/ad/modification";
+import { createAd, updateAd } from "@services/ad/listings";
+import { isTitleConstraintOk } from "@services/ad/listings";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
@@ -17,7 +17,7 @@ import { array, object, string } from "yup";
 import { AdCheckbox } from "./components/ad-checkbox";
 import { AdCreationInput } from "./components/ad-creation-input";
 import { useState } from "react";
-import AdCreatorDto from "@services/ad/modification/dto/AdCreatorDto";
+import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
 import AdImage from "@model/AdImage";
 
 interface AdCreationModalProps {

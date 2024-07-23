@@ -7,6 +7,7 @@ import { getAdBySearch } from "@services/ad/catalog";
 import AdPreview from "./components/ad-preview";
 import SearchBar from "./components/search-bar";
 import "./style.css";
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
 /** 
     The catalog page and all of its important components
@@ -59,7 +60,7 @@ const ResultList = (): ReactElement => {
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const [listOfAds, setListOfAds] = useState<AdSearchPreview[]>([]);
+    const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
     const [searchClick, setSearchClick] = useState(false);
     const searchBarRef = useRef<HTMLInputElement>();
     const [isLoading, setLoading] = useState<boolean>();
@@ -144,7 +145,7 @@ const ResultList = (): ReactElement => {
 
             console.log(e);
 
-            setListOfAds(new Array<AdSearchPreview>());
+            setListOfAds(new Array<AdPreviewDto>());
             setLoading(false);
         });
 
@@ -173,15 +174,11 @@ const ResultList = (): ReactElement => {
                         (listOfAds.length > 0) ?
                             <Stack direction="row" flexWrap={"wrap"} spacing={2} useFlexGap>
                                 {
-                                    listOfAds?.map((data: AdSearchPreview, i: number) => (
+                                    listOfAds?.map((data: AdPreviewDto, i: number) => (
                                         <AdPreview
                                             key={`ad-preview-${i}`}
                                             id={data?.id}
-                                            price={data?.adPrice}
-                                            shape={data?.adShape}
-                                            title={data?.adTitle}
-                                            isSold={data?.isAdSold}
-                                            firstImagePath={data?.adFirstImagePath}
+                                            {...data}
                                         />
                                     ))
                                 }

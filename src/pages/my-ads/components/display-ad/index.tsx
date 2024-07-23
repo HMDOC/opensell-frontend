@@ -1,24 +1,24 @@
 import { SmallAd } from "@components/shared/ad/small-ad";
 import MuiMenuWithOptions from "@components/shared/mui-menu";
-import { DisplayAdView } from "../../../../model/dto/DisplayAdView";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PanoramaIcon from '@mui/icons-material/Panorama';
-import { deleteAd, getAdToModify } from "@services/ad/modification";
-import AdCreatorDto from "@services/ad/modification/dto/AdCreatorDto";
+import { deleteAd, getAdToModify } from "@services/ad/listings";
+import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
 import { useNavigate } from "react-router-dom";
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
-interface DisplayAdProps extends DisplayAdView {
+interface DisplayAdProps extends AdPreviewDto {
     onDelete(idAd: number): void;
     launchUpdate?(adCreator: AdCreatorDto): void;
 }
 
 export default function DisplayAd(props: DisplayAdProps) {
     const handleDelete = (): void => {
-        deleteAd(props.idAd)
+        deleteAd(props.id)
             .then(res => {
-                if (res?.data) props.onDelete(props.idAd);
+                if (res?.data) props.onDelete(props.id);
             });
     }
 
@@ -31,8 +31,8 @@ export default function DisplayAd(props: DisplayAdProps) {
                 <MuiMenuWithOptions
                     menuIcon={<MoreHorizIcon />}
                     options={[
-                        { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.idAd)).data) },
-                        { label: "Preview", icon: <PanoramaIcon />, action: () => navigate(`/ad/${props.idAd}`) },
+                        { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.id)).data) },
+                        { label: "Preview", icon: <PanoramaIcon />, action: () => navigate(`/ad/${props.id}`) },
                         { label: "Delete", icon: <DeleteIcon />, action: () => handleDelete() }
                     ]}
                 />

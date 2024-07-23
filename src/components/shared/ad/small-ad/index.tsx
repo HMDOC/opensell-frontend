@@ -1,21 +1,15 @@
 import AdPricePart from "@components/shared/ad/price-part";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { Card, CardHeader, CardMedia, Stack, Typography } from "@mui/material";
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 import { ReactNode } from "react";
 
 type SmallAd = {
     isSearch?: boolean;
-
-    firstImage: string;
-    visibility?: number;
-    title: string;
-    isSold?: boolean;
-    price: number;
     action?: ReactNode;
     goToAd?(): void;
-
     className?: string;
-};
+} & AdPreviewDto;
 
 /**
  * The component shared by AdPreview(catalog) and Display ad(my-ads).

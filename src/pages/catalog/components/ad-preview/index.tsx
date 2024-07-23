@@ -1,14 +1,6 @@
 import { SmallAd } from "@components/shared/ad/small-ad";
 import "./style.css";
-
-type AdPreviewProps = {
-    id: number;
-    isSold?: boolean;
-    firstImagePath: string;
-    title: string;
-    price: number;
-    shape: number;
-};
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
 /**
  * The preview component for the Ads. Clicking on it will
@@ -16,12 +8,11 @@ type AdPreviewProps = {
  * @author Davide
  * @modifiedBy Achraf
 */
-export default function AdPreview(props: AdPreviewProps) {
+export default function AdPreview(props: AdPreviewDto) {
     return (
         <SmallAd
             className="adPreview"
             {...props}
-            firstImage={props.firstImagePath}
             isSearch
             goToAd={() => {
                 window.open(`/ad/${props?.id}`, "_blank", "noreferrer")

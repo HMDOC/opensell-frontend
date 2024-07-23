@@ -1,5 +1,6 @@
 import AdViewDto from "@services/ad/catalog/dto/AdViewDto";
 import http from "../../../http-commons";
+import AdPreviewDto from "./dto/AdPreviewDto";
 
 const REQUEST_MAPPING = "/api/ad/catalog";
 
@@ -14,7 +15,7 @@ export async function getAdBySearch(query: string, filters) {
     //filters.filterSold = false;
     let params = filters;
 
-    return await http.post<AdSearchPreview[]>(`${REQUEST_MAPPING}/search`, params);
+    return await http.post<AdPreviewDto[]>(`${REQUEST_MAPPING}/search`, params);
 };
 
 /**

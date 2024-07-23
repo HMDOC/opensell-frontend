@@ -1,18 +1,18 @@
 import { useAppContext } from "@context/AppContext";
-import { DisplayAdView } from "../../model/dto/DisplayAdView";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, IconButton, Stack, Typography } from "@mui/material";
 import AdCreationModal from "@pages/ad-creation/";
-import { getCustomerAds } from "@services/AdService";
 import { createRandomKey } from "@services/RandomKeys";
 import { useEffect, useState } from "react";
 import DisplayAd from "./components/display-ad";
-import AdCreatorDto from "@services/ad/modification/dto/AdCreatorDto";
+import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
+import { getCustomerAds } from "@services/ad/listings";
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
 export default function MyAds() {
     const { customerDto } = useAppContext();
 
-    const [displayAds, setDisplayAds] = useState<Array<DisplayAdView>>([]);
+    const [displayAds, setDisplayAds] = useState<Array<AdPreviewDto>>([]);
     const [dialogState, setDialogState] = useState<{ open: boolean, adCreator?: AdCreatorDto }>({ open: false });
 
     // To only get data when something as been added or updated.
@@ -33,7 +33,7 @@ export default function MyAds() {
     }, [dialogState]);
 
     const onDelete = (idAd: number) => {
-        setDisplayAds(displayAds.filter(ad => ad.idAd !== idAd));
+        setDisplayAds(displayAds.filter(ad => ad.id !== idAd));
     }
 
     const launchUpdate = (adCreator: AdCreatorDto) => {

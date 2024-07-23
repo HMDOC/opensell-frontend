@@ -1,8 +1,9 @@
 import http from "../../../http-commons";
 import AdImage from "@model/AdImage";
 import AdCreatorDto from "./dto/AdCreatorDto";
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
-const REQUEST_MAPPING = "/api/ad/modification";
+const REQUEST_MAPPING = "/api/ad/listings";
 
 /**
  * Get all the content of an Ad that can be modifiable. It is for
@@ -41,4 +42,14 @@ export async function createAd(formData: FormData) {
 
 export async function updateAd(formData: FormData) {
     return await http.patch<Array<AdImage>>(`${REQUEST_MAPPING}`, formData);
+};
+
+/**
+ * Call the backend to get all the ad of a customer.
+ * 
+ * @param customerId
+ * @author Achraf
+ */
+export const getCustomerAds = async (customerId: number) => {
+    return await http.get<Array<AdPreviewDto>>(`${REQUEST_MAPPING}/${customerId}/all`);
 };
