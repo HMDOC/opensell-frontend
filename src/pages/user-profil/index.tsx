@@ -3,7 +3,7 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProfilIcon, { AVATAR_SIZE } from "../../components/shared/ProfilIcon";
-import CustomerProfil from "../../entities/dto/CustomerProfil";
+import CustomerProfil from "../../model/dto/CustomerProfil";
 import { getCustomerProfil } from "../../services/CustomerInfo";
 import AdPreview from "../catalog/components/ad-preview";
 import EmailIcon from '@mui/icons-material/Email';

@@ -1,4 +1,4 @@
-import { AdShape, getShapeStr } from "@entities/dto/AdBuyerView";
+import AdShape, { getShapeStr } from '@model/enums/AdShape';
 import InterestsIcon from '@mui/icons-material/Interests';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import PlaceIcon from '@mui/icons-material/Place';

@@ -1,5 +1,5 @@
 import http from "../../../http-commons";
-import { AdImage } from "@entities/dto/AdBuyerView";
+import AdImage from "@model/AdImage";
 import AdCreatorDto from "./dto/AdCreatorDto";
 
 const REQUEST_MAPPING = "/api/ad/modification";

@@ -1,7 +1,7 @@
 import { Stack } from "@mui/material";
 import { AxiosResponse } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
-import ModificationFeedback from "../../entities/dto/ModificationFeedback";
+import ModificationFeedback from "../../model/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";

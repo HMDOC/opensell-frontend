@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import * as jose from "jose";
-import { CustomerDto } from "../entities/dto/CustomerDto";
+import { CustomerDto } from "../model/dto/CustomerDto";
 import { getDto } from "./LogInService";
 
 export default async function getUserInfos(key: string): Promise<AxiosResponse<CustomerDto>> {

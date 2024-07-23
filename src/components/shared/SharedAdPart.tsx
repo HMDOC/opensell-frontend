@@ -1,4 +1,3 @@
-import { AdVisibility } from "@entities/dto/AdBuyerView";
 import LinkIcon from '@mui/icons-material/Link';
 import LockIcon from '@mui/icons-material/Lock';
 import PublicIcon from '@mui/icons-material/Public';
@@ -7,6 +6,7 @@ import { ErrorMessage, FieldProps } from "formik";
 import { ReactNode } from "react";
 import { createRandomKey } from "../../services/RandomKeys";
 import { IconLabel } from "./IconLabel";
+import { AdVisibility } from '@model/enums/AdVisibility';
 
 export const MAX_PRICE = 999990;
 

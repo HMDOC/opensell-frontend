@@ -9,7 +9,7 @@
             "@shared/*": ["./src/components/shared/*"],
             "@services/*": ["./src/services/*"],
             "@pages/*": ["./src/pages/*"],
-            "@entities/*": ["./src/entities/*"],
+            "@model/*": ["./src/model/*"],
             "@css/*": ["./src/css/*"],
             "@context/*": ["./src/context/*"],
             "@utils/*": ["./src/utils/*"]

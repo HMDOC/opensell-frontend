@@ -4,8 +4,7 @@ import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { useAppContext } from "@context/AppContext";
-import { AdImage } from "@entities/dto/AdBuyerView";
-import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
+import { FrontendImage, ImageBox } from "../../model/dto/v2/ImageBox";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 import { createAd, updateAd } from "@services/ad/modification";
@@ -19,6 +18,7 @@ import { AdCheckbox } from "./components/ad-checkbox";
 import { AdCreationInput } from "./components/ad-creation-input";
 import { useState } from "react";
 import AdCreatorDto from "@services/ad/modification/dto/AdCreatorDto";
+import AdImage from "@model/AdImage";
 
 interface AdCreationModalProps {
     open: boolean;

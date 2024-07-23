@@ -1,5 +1,5 @@
 import { useAppContext } from "@context/AppContext";
-import { DisplayAdView } from "@entities/dto/DisplayAdView";
+import { DisplayAdView } from "../../model/dto/DisplayAdView";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, IconButton, Stack, Typography } from "@mui/material";
 import AdCreationModal from "@pages/ad-creation/";

@@ -1,7 +1,7 @@
 import http from "../../http-commons"
 import { AxiosResponse } from "axios"
-import { CustomerModificationData } from "../../entities/dto/CustomerModificationData"
-import ModificationFeedback from "../../entities/dto/ModificationFeedback"
+import { CustomerModificationData } from "../../model/dto/CustomerModificationData"
+import ModificationFeedback from "../../model/dto/ModificationFeedback"
 
 const REQUEST_MAPPING = "/change";
 

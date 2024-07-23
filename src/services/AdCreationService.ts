@@ -1,6 +1,4 @@
-import { AdImage } from "@entities/dto/AdBuyerView";
 import { HTMLInputTypeAttribute } from "react";
-import http from "../../src/http-commons";
 
 /**
  * 

@@ -1,6 +1,6 @@
 import { SmallAd } from "@components/shared/ad/small-ad";
 import MuiMenuWithOptions from "@components/shared/mui-menu";
-import { DisplayAdView } from "@entities/dto/DisplayAdView";
+import { DisplayAdView } from "../../../../model/dto/DisplayAdView";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';

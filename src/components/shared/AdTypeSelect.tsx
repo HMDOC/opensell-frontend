@@ -2,7 +2,7 @@ import { MenuItem } from "@mui/material";
 import { createRandomKey } from "@services/RandomKeys";
 import { AxiosError } from "axios";
 import { ReactNode, useEffect, useState } from "react";
-import { AdType } from "../../entities/dto/AdType";
+import { AdType } from "../../model/dto/AdType";
 import { getAllAdTypes } from "../../services/AdService";
 import { SelectorReader } from "./SharedAdPart";
 import { FieldProps } from "formik";

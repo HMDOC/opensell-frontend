@@ -1,5 +1,5 @@
 import { IconLabel } from "@components/shared/IconLabel";
-import { FrontendImage, ImageBox } from "@entities/dto/v2/ImageBox";
+import { FrontendImage, ImageBox } from "../../model/dto/v2/ImageBox";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import { Button, Stack, Typography } from "@mui/material";

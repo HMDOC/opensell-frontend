@@ -8,7 +8,7 @@ import Navbar from './components/navbar';
 import './App.css';
 import getUserInfos from './services/GetUser';
 import PrivateRoute from './components/PrivateRoute';
-import { CustomerDto } from './entities/dto/CustomerDto';
+import { CustomerDto } from './model/dto/CustomerDto';
 import { AppContext } from './context/AppContext';
 import { Theme, ThemeOption } from './context/Theme';
 import { createTheme, ThemeProvider } from '@mui/material';
@@ -17,7 +17,7 @@ const About = lazy(() => import("./pages/about"));
 const Home = lazy(() => (import("./pages/home")));
 const Signup = lazy(() => (import("./pages/auth/Signup")));
 const Login = lazy(() => (import("./pages/auth/Login")));
-const AdView = lazy(() => (import("./pages/ad-view")));
+const AdViewDto = lazy(() => (import("./pages/ad-view")));
 const UserProfil = lazy(() => (import("./pages/user-profil")));
 const NotFound = lazy(() => (import("./pages/not-found")));
 const Catalog = lazy(() => (import("./pages/catalog")));
@@ -87,7 +87,7 @@ export default function App() {
 							<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
 							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
 							<Route path="/catalog" element={<Catalog />}></Route>
-							<Route path="/ad/:id" element={<AdView />}></Route>
+							<Route path="/ad/:id" element={<AdViewDto />}></Route>
 							<Route path="/user/:username" element={<UserProfil />}></Route>
 							<Route path="*" element={<NotFound />}></Route>
 						</Routes>

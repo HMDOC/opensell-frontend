@@ -5,7 +5,7 @@ import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { DESKTOP_VIEW, MOBILE_VIEW } from "@context/AppContext";
 import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
 import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
-import { getAdById } from "@services/AdService";
+import { getAdBuyerView } from "@services/ad/catalog";
 import { createRandomKey } from "@services/RandomKeys";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -37,7 +37,7 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
  * 
  * @author Achraf
 */
-export default function AdView() {
+export default function AdViewDto() {
     const { id } = useParams();
 
     const [currentPicture, setCurrentPicture] = useState<number>(0);
@@ -48,7 +48,7 @@ export default function AdView() {
     const imagesLength = adBuyerView?.adImages?.length;
 
     useEffect(() => {
-        getAdById(id as any).then(res => {
+        getAdBuyerView(id as any).then(res => {
             setPromiseResult(res);
         });
     }, []);

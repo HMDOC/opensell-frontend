@@ -1,6 +1,6 @@
 import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
-import { CustomerDto } from "@entities/dto/CustomerDto";
+import { CustomerDto } from "../../model/dto/CustomerDto";
 import { AdCreationInputProperties } from "../AdCreationService";
 
 export interface CMState {
