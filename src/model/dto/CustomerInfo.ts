@@ -1,5 +1,5 @@
 export interface CustomerInfo {
-    idCustomerInfo? : number;
+    id? : number;
     firstName? : string;
     lastName? : string;
     exposedEmail? : string;

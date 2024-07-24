@@ -1,5 +1,5 @@
 
 export interface AdTag {
-    idAdTag: number,
+    id: number,
     name: string
 }

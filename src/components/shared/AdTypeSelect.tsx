@@ -26,14 +26,14 @@ export default function AdTypeSelect(props: AdTypeSelectProps) {
             .then((rep) => {
                 if (rep?.data) {
                     if (props.isSearch) {
-                        setAdTypeArray([{ idAdType: "ALL" as any, name: "ALL" }, ...rep?.data]);
+                        setAdTypeArray([{ id: "ALL" as any, name: "ALL" }, ...rep?.data]);
                     }
 
                     else setAdTypeArray(rep?.data);
                 }
             }).catch((error: AxiosError) => {
                 console.log("ERORR : " + error);
-                setAdTypeArray([{ idAdType: 1, name: "No tags found..." }]);
+                setAdTypeArray([{ id: 1, name: "No tags found..." }]);
             });
     }, [])
 
@@ -48,7 +48,7 @@ export default function AdTypeSelect(props: AdTypeSelectProps) {
                 >
                     {
                         adTypeArray.map((option) => (
-                            <MenuItem key={createRandomKey()} value={option.idAdType}>{option.name}</MenuItem>
+                            <MenuItem key={createRandomKey()} value={option.id}>{option.name}</MenuItem>
                         )) ??
                         // The ?? is their to remove a warning from MUI.
                         (<MenuItem></MenuItem>)

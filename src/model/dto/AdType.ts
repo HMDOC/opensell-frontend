@@ -5,6 +5,6 @@
  */
 
 export interface AdType {
-    idAdType? :number;
+    id? :number;
     name? :string;
 }
