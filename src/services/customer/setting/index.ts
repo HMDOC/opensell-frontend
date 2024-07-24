@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios"
 import { CustomerModificationData } from "@model/dto/CustomerModificationData"
 import ModificationFeedback from "@model/dto/ModificationFeedback"
 
-const REQUEST_MAPPING = "/api/customer/setting";
+const REQUEST_MAPPING = "/api/customer/setting/edit";
 
 const REPLACE_SEQUENCE = "?";
 
@@ -51,5 +51,5 @@ export function isEmailExists(id: number, email: string) {
 
 
 export function changeCustomerPersonalEmail(id: number, email: string, confirmEmail: string) {
-    return http.patch(`${REQUEST_MAPPING}/change-private-email`, undefined, { params: { id, email, confirmEmail } })
+    return http.patch(`${REQUEST_MAPPING}/private-email`, undefined, { params: { id, email, confirmEmail } })
 }
