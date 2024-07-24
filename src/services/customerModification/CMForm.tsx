@@ -1,11 +1,11 @@
 import { Stack } from "@mui/material";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
 import ModificationFeedback from "../../model/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, changeCustomerPersonalEmail, executeChange, getCheckResult, getProfileIconPath, isEmailExists, replaceInString } from "./CMService";
+import { ArrayOfRequests, changeCustomerPersonalEmail, executeChange, getCheckResult, changeCustomerIconPath, isEmailExists, replaceInString } from "../customer/setting";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { object, ref, string } from "yup";
@@ -273,9 +273,16 @@ export class CMIconForm extends CMForm {
 
     private async saveIconChange(formEvent: FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
-        let res: ModificationFeedback = (await getProfileIconPath(this.currentFile, this.props.defaultValues.customerId));
-        if (res.code === 200) this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
-        else this.addFeedbackMessage("Something went wrong...");
+        await changeCustomerIconPath(this.currentFile, this.props.defaultValues.customerId)
+            .then(res => {
+                if (res.status == 200) {
+                    this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
+                }
+
+                else this.addFeedbackMessage("Something went wrong...");
+            }).catch((error: AxiosError) => {
+                this.addFeedbackMessage("Something went wrong...")
+            });
     }
 
     render(): ReactNode {

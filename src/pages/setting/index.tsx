@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import { CMModalType } from "@services/customerModification/CMService";
+import { CMModalType } from "@services/customer/setting";
 import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@services/customerModification/CMComponents";
 import "./style.css"
 import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMPersonalEmailForm, CMPhoneNumberForm } from "@services/customerModification/CMForm";
