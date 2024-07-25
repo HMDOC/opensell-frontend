@@ -43,7 +43,7 @@ export interface CMDisplayProperties {
 }
 
 export interface CMFormProperties {
-    defaultValues: CustomerDto,
+    defaultValues?: CustomerDto,
     closeModalCallback(): void
 }
 

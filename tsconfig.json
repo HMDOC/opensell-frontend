@@ -10,6 +10,7 @@
             "DOM.Iterable"
         ],
         "module": "ESNext",
+        // Skip type checking all .d.ts files.
         "skipLibCheck": true,
         /* Bundler mode */
         "moduleResolution": "bundler",

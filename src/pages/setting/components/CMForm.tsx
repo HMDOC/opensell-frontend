@@ -1,16 +1,20 @@
 import { Stack } from "@mui/material";
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
 import ModificationFeedback from "@model/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "@services/FormService";
 import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "@services/customerModification/CMFormValidation";
-import { ArrayOfRequests, changeCustomeremail, executeChange, getCheckResult, changeCustomerIconPath, isEmailExists, replaceInString } from "../../../services/customer/setting";
+import { ArrayOfRequests, changeCustomeremail, executeChange, getCheckResult, changeCustomerIconPath, replaceInString, changeOtherInformation } from "../../../services/customer/setting/edit";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { object, ref, string } from "yup";
 import { useAppContext } from "@context/AppContext";
 import { RegexCode, verify } from "@services/RegexService";
+import { notEmptyWithMaxAndMin } from "@utils/yupSchema";
+import { OtherInformationDto } from "@services/customer/setting/edit/dto/OtherInformationDto";
+import { isEmailExists, isUsernameExists } from "../../../services/customer/setting/verification";
+
 
 export function CMFormContainer(props: { children: ReactNode, saveChanges(formEvent: any): void }) {
     return (
@@ -61,13 +65,13 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
         this.setState({ feedbackMessages: [] });
     }
 
-    private getCustomerIdentification(): number {
+    private getCustomerIdentification(): number | undefined {
         return this.props.defaultValues?.customerId;
     }
 
-    protected getDefaultValueOf(name: string): string {
-        if (name === "username") return this.props.defaultValues.username;
-        return this.props.defaultValues?.customerInfo?.[name];
+    protected getDefaultValueOf(name: string): string | undefined {
+        if (name === "username") return this.props.defaultValues?.username;
+        return (this.props.defaultValues?.customerInfo as any)?.[name];
     }
 
     private isValid(name: string, value: string): boolean {
@@ -151,21 +155,48 @@ abstract class CMForm extends Component<CMFormProperties, CMFormState> {
     }
 }
 
-export class CMBasicModificationsForm extends CMForm {
+const USERNAME_ALREADY_EXISTS = "Username already exists";
+export function CMBasicModificationsForm(props: CMFormProperties) {
+    const [existingUsernames, setExistingUsernames] = useState<string[]>([]);
 
-    render(): ReactNode {
-        return (
-            <div>
-                {this.getFeedbackElement()}
-                <CMFormContainer saveChanges={(formEvent) => this.saveChanges(formEvent)}>
-                    <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} labelText="Bio" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                </CMFormContainer>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <CMFormContainerV2
+                initialValues={{
+                    username: props.defaultValues?.username ?? "",
+                    firstName: props.defaultValues?.customerInfo?.firstName ?? "",
+                    lastName: props.defaultValues?.customerInfo?.lastName ?? "",
+                    bio: props.defaultValues?.customerInfo?.bio ?? ""
+                }}
+                validationSchema={object({
+                    username: notEmptyWithMaxAndMin(50, 3, "username").notOneOf(existingUsernames, USERNAME_ALREADY_EXISTS),
+                    firstName: notEmptyWithMaxAndMin(50, 3, "firstName"),
+                    lastName: notEmptyWithMaxAndMin(50, 3, "lastName"),
+                    bio: notEmptyWithMaxAndMin(5000, 10, "bio"),
+                })}
+                onSubmit={async (values, formikHelpers) => {
+                    if ((await isUsernameExists(props.defaultValues?.customerId!, values.username)).data) {
+                        setExistingUsernames([values.username, ...existingUsernames])
+                        formikHelpers.setFieldError("username", USERNAME_ALREADY_EXISTS);
+                        return;
+                    }
+                    await changeOtherInformation(props.defaultValues?.customerId!, values as OtherInformationDto)
+                        .then(res => {
+                            if (res.status == HttpStatusCode.Ok) {
+                                props.closeModalCallback();
+                            }
+                        }).catch(error => {
+
+                        });
+                }}
+            >
+                <Field name="username" component={AdCreationInput} label="Username" />
+                <Field name="firstName" component={AdCreationInput} label="FirstName" />
+                <Field name="lastName" component={AdCreationInput} label="LastName" />
+                <Field name="bio" component={AdCreationInput} isTextArea label="Bio" />
+            </CMFormContainerV2>
+        </div>
+    )
 }
 
 const EMAIL_ALREADY_EXISTS = "Email already exists."
@@ -258,7 +289,7 @@ export class CMIconForm extends CMForm {
 
     private async saveIconChange(formEvent: FormEvent<HTMLFormElement>) {
         formEvent.preventDefault();
-        await changeCustomerIconPath(this.currentFile, this.props.defaultValues.customerId)
+        await changeCustomerIconPath(this.currentFile, this.props.defaultValues?.customerId)
             .then(res => {
                 if (res.status == 200) {
                     this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);

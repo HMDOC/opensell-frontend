@@ -1,10 +1,10 @@
-import { Component, ReactNode } from "react";
-import { CMModalType } from "@services/customer/setting";
-import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@pages/setting/components/CMComponents";
-import "./style.css"
-import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMEmailForm } from "@pages/setting/components/CMForm";
 import ProfilIcon from "@components/shared/ProfilIcon";
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow } from "@mui/material";
+import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@pages/setting/components/CMComponents";
+import { CMBasicModificationsForm, CMEmailForm, CMIconForm, CMPasswordForm } from "@pages/setting/components/CMForm";
+import { CMModalType } from "@services/customer/setting/edit";
+import { Component, ReactNode } from "react";
+import "./style.css";
 
 /**
  *
@@ -43,15 +43,15 @@ export default class CustomerModification extends Component<CMProperties, CMStat
 
                 <Stack spacing={2} useFlexGap>
                     <CMContainer title="Sensitive Information">
-                        <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.EMAIL)} defaultValue={this.props.customerData.email} />
+                        <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.EMAIL)} defaultValue={this.props?.customerData?.email} />
                         <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true} />
                     </CMContainer>
 
                     <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} />} >
-                        <CMDisplay labelText="Username" defaultValue={this.props.customerData.username} />
-                        <CMDisplay labelText="FirstName" defaultValue={this.props.customerData.customerInfo?.firstName} />
-                        <CMDisplay labelText="LastName" defaultValue={this.props.customerData.customerInfo?.lastName} />
-                        <CMDisplay labelText="Bio" defaultValue={this.props.customerData.customerInfo?.bio} />
+                        <CMDisplay labelText="Username" defaultValue={this.props.customerData?.username} />
+                        <CMDisplay labelText="FirstName" defaultValue={this.props.customerData?.customerInfo?.firstName} />
+                        <CMDisplay labelText="LastName" defaultValue={this.props.customerData?.customerInfo?.lastName} />
+                        <CMDisplay labelText="Bio" defaultValue={this.props.customerData?.customerInfo?.bio} />
                     </CMContainer>
 
                     <CMContainer title="Profile icon">

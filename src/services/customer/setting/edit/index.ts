@@ -1,7 +1,8 @@
-import http from "../../../http-commons"
+import http from "../../../../http-commons"
 import { AxiosResponse } from "axios"
 import { CustomerModificationData } from "@model/dto/CustomerModificationData"
 import ModificationFeedback from "@model/dto/ModificationFeedback"
+import { OtherInformationDto } from "./dto/OtherInformationDto";
 
 const REQUEST_MAPPING = "/api/customer/setting/edit";
 
@@ -44,11 +45,10 @@ export const changeCustomerIconPath = async (iconFile: File, idCustomer: number)
     return await http.patch(`${REQUEST_MAPPING}/${idCustomer}/icon`, formData);
 }
 
-export function isEmailExists(id: number, email: string) {
-    return http.get<boolean>(`${REQUEST_MAPPING}/email/exists`, { params: { id, email } });
-}
-
-
 export function changeCustomeremail(id: number, email: string, confirmEmail: string) {
     return http.patch(`${REQUEST_MAPPING}/email`, undefined, { params: { id, email, confirmEmail } })
+}
+
+export function changeOtherInformation(id: number, otherInformation: OtherInformationDto) {
+    return http.patch(`${REQUEST_MAPPING}/${id}/other-information`, undefined, {params : otherInformation});
 }
