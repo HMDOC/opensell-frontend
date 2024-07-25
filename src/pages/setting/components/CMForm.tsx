@@ -1,22 +1,23 @@
 import { useAppContext } from "@context/AppContext";
-import ModificationFeedback from "@model/dto/ModificationFeedback";
 import { Stack } from "@mui/material";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { OtherInformationDto } from "@services/customer/setting/edit/dto/OtherInformationDto";
-import { FormValidationObject } from "@services/customerModification/CMFormValidation";
-import { getFormData, getFormDataAsArray } from "@services/FormService";
 import { RegexCode, verify } from "@services/RegexService";
 import { notEmptyWithMaxAndMin } from "@utils/yupSchema";
-import { AxiosResponse, HttpStatusCode } from "axios";
+import { AxiosError, HttpStatusCode } from "axios";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
-import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
+import { ReactNode, useState } from "react";
 import { object, ref, string } from "yup";
-import { ArrayOfRequests, changeEmail, changeIcon, changeOtherInformation, executeChange, getCheckResult, replaceInString } from "../../../services/customer/setting/edit";
+import { changeEmail, changeIcon, changeOtherInformation, changePassword } from "../../../services/customer/setting/edit";
 import { isEmailExists, isUsernameExists } from "../../../services/customer/setting/verification";
-import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
+import { CMFormProperties, CMFormState } from "./CMComponents";
 
 const CM_FORM_ID = "setting-form";
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export function CMFormContainer(props: { children: ReactNode, saveChanges(formEvent: any): void }) {
     return (
         <form onSubmit={props.saveChanges} id={CM_FORM_ID}>
@@ -41,119 +42,6 @@ export function CMFormContainerV2(props: { children: ReactNode, initialValues: a
             </Form>
         </Formik>
     );
-}
-
-abstract class CMForm extends Component<CMFormProperties, CMFormState> {
-    protected NOTHING_CHANGED = "Nothing changed...";
-    protected CHANGE_SUCCESSFUL = "Change was successful..."
-
-    constructor(properties: CMFormProperties) {
-        super(properties)
-        this.state = {
-            feedbackMessages: []
-        }
-    }
-
-    protected addFeedbackMessage(message: string): void {
-        if (!this.state.feedbackMessages.includes(message)) this.setState({ ...this.state, feedbackMessages: [...this.state.feedbackMessages, message] });
-    }
-
-    protected removeFeedbackMessage(message: string): void {
-        this.setState({ ...this.state, feedbackMessages: [...this.state.feedbackMessages.filter((elem) => elem !== message)] });
-    }
-
-    protected resetFeedbackMessages() {
-        this.setState({ feedbackMessages: [] });
-    }
-
-    private getCustomerIdentification(): number | undefined {
-        return this.props.defaultValues?.customerId;
-    }
-
-    protected getDefaultValueOf(name: string): string | undefined {
-        if (name === "username") return this.props.defaultValues?.username;
-        return (this.props.defaultValues?.customerInfo as any)?.[name];
-    }
-
-    private isValid(name: string, value: string): boolean {
-        const { inputValueIsValid } = FormValidationObject?.[name];
-        return inputValueIsValid(value, this.getDefaultValueOf(name));
-    }
-
-    protected getFeedbackElement(): ReactNode {
-        return (
-            <>
-                {this.state.feedbackMessages.length > 0 ? <div className="CMFeedbackContainer">{this.state.feedbackMessages[this.state.feedbackMessages.length - 1]}</div> : null}
-            </>
-        )
-    }
-
-    protected handleChange(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>): void {
-        const { name, value } = changeEvent.target;
-        const { errors } = FormValidationObject?.[name];
-        if (this.isValid(name, value) !== false) this.removeFeedbackMessage(errors?.format);
-        else this.addFeedbackMessage(errors?.format);
-        //if (this.state.feedbackMessages.length > 0) this.setState({hasError: true});
-        //this.removeFeedbackMessage(this.NOTHING_CHANGED);
-        //this.removeFeedbackMessage(this.CHANGE_SUCCESSFUL);
-    }
-
-    private getRequests(formData: FormData): ArrayOfRequests {
-        let tempRequests: ArrayOfRequests = [];
-        for (let elem of getFormDataAsArray(formData)) {
-            const { fieldName, value } = elem;
-            if (this.isValid(fieldName, value) === true) tempRequests.push({ mapping: FormValidationObject?.[fieldName].modificationEndPoint, data: { id: this.getCustomerIdentification(), value: value } });
-        }
-        return tempRequests;
-    }
-
-    private async checkForUniques(fieldName: string, value: string, hasChanged: boolean) {
-        const { errors, uniqueCheck } = FormValidationObject?.[fieldName];
-        if (uniqueCheck !== null && hasChanged === true) {
-            if ((await getCheckResult(replaceInString(uniqueCheck, value, this.props.defaultValues.customerId.toString()))).data > 0) { this.addFeedbackMessage(errors?.unique); return false }
-            else return true;
-        } else return null;
-    }
-
-    private async formIsValid(formData: FormData) {
-        let nothingChanged: boolean = true;
-        let currentInputIsValid: boolean
-        for (let elem of getFormDataAsArray(formData)) {
-            const { fieldName, value } = elem;
-            currentInputIsValid = this.isValid(fieldName, value);
-            if (currentInputIsValid === false) return false;
-            else if (currentInputIsValid === true) nothingChanged = false;
-            if (await this.checkForUniques(fieldName, value, currentInputIsValid) === false && currentInputIsValid === true) return false;
-        }
-        return nothingChanged ? null : true;
-    }
-
-    private async makeChanges(array: ArrayOfRequests) {
-        let feedbackObjects: ModificationFeedback[] = [];
-        for (let elem = 0; elem < array.length; elem++) {
-            await executeChange(array[elem].mapping, array[elem].data).then((rep) => {
-                feedbackObjects.push(rep?.data);
-            });
-        }
-        return feedbackObjects;
-    }
-
-    private setChangeFeedback(array: ModificationFeedback[]) {
-        for (let elem of array) if (elem.code !== 200) this.addFeedbackMessage("Something went wrong...")
-        this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
-    }
-
-    protected async saveChanges(formEvent: FormEvent<HTMLFormElement>) {
-        formEvent.preventDefault();
-        let formData: FormData = getFormData(formEvent);
-        await this.formIsValid(formData).then(async (res) => {
-            if (res === true) {
-                await this.makeChanges(this.getRequests(formData)).then((rep) => {
-                    this.setChangeFeedback(rep);
-                })
-            } else if (res === null) this.addFeedbackMessage(this.NOTHING_CHANGED);
-        })
-    }
 }
 
 const USERNAME_ALREADY_EXISTS = "Username already exists";
@@ -186,9 +74,7 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
                             if (res.status == HttpStatusCode.Ok) {
                                 props.closeModalCallback();
                             }
-                        }).catch(error => {
-
-                        });
+                        })
                 }}
             >
                 <Field name="username" component={AdCreationInput} label="Username" />
@@ -248,66 +134,74 @@ export function CMEmailForm(props: { onClose(): void }) {
     )
 }
 
-export class CMPasswordForm extends CMForm {
-    private oldPwdInputRef: RefObject<HTMLInputElement> = createRef();
-
-    private async savePasswordChanges(formEvent: FormEvent<HTMLFormElement>) {
-        formEvent.preventDefault();
-        let oldPasswordCheck: AxiosResponse<number, any> = await getCheckResult(
-            replaceInString(FormValidationObject["pwd"]?.uniqueCheck,
-                this.oldPwdInputRef.current.value,
-                this.props.defaultValues.customerId.toString()));
-        if (oldPasswordCheck?.data === 1) this.saveChanges(formEvent);
-        else this.addFeedbackMessage("Old password value is wrong!");
-    }
-
-    render(): ReactNode {
-        return (
-            <div>
-                {this.getFeedbackElement()}
-                <CMFormContainer saveChanges={(formEvent) => this.savePasswordChanges(formEvent)}>
-                    <CMInput labelText="Old Password" type="password" inputRef={this.oldPwdInputRef} />
-                    <CMRepeatInput
-                        labelText="New Password"
-                        name="pwd"
-                        type="password"
-                        onChange={(changeEvent) => this.handleChange(changeEvent)}
-                        setRepeatInputState={(res: boolean) => this.setState({ confirmInputIsValid: res })}
-                        addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
-                        removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)} />
-                </CMFormContainer>
-            </div>
-        )
-    }
+const INVALID_OLD_PASSWORD = "Invalid old password.";
+export function CMPasswordForm(props: CMFormProperties) {
+    const [invalidOldPasswords, setInvalidOldPasswords] = useState<string[]>([]);
+    return (
+        <div>
+            <CMFormContainerV2
+                initialValues={{
+                    oldPassword: "",
+                    password: "",
+                    confirmPassword: ""
+                }}
+                validationSchema={object({
+                    oldPassword: string().required("oldPassword is required.").notOneOf(invalidOldPasswords, INVALID_OLD_PASSWORD),
+                    password: string().required("password is required."),
+                    confirmPassword: string().required("confirm password is required.").equals([ref("password")], "confirm password should equals password."),
+                })}
+                onSubmit={async (values, formikHelpers) => {
+                    await changePassword(props.defaultValues?.customerId!, values as any)
+                        .then(res => {
+                            if (res.status == HttpStatusCode.Ok) {
+                                props.closeModalCallback();
+                            }
+                        })
+                        .catch((error: AxiosError) => {
+                            if (error?.response?.status == HttpStatusCode.BadRequest) {
+                                if (error?.response?.data == 102) {
+                                    setInvalidOldPasswords([values.oldPassword, ...invalidOldPasswords]);
+                                    formikHelpers.setFieldError("oldPassword", INVALID_OLD_PASSWORD);
+                                }
+                            }
+                        })
+                }}
+            >
+                <Field name="oldPassword" component={AdCreationInput} label="Old Password" type="password" />
+                <Field name="password" component={AdCreationInput} label="New Password" type="password" />
+                <Field name="confirmPassword" component={AdCreationInput} label="Confirm Password" type="password" />
+            </CMFormContainerV2>
+        </div>
+    )
 }
 
 export function CMIconForm(props: CMFormProperties) {
-        return (
-            <div>
-                <Formik
-                    initialValues={{
-                        iconFile: null
-                    }}
-                    onSubmit={async (values) => {
-                        if (values.iconFile) {
-                            await changeIcon(values.iconFile, props.defaultValues?.customerId!)
-                                .then(res => {
-                                    if (res.status == HttpStatusCode.Ok) {
-                                        props.closeModalCallback();
-                                    }
-                                })
-                        } else props.closeModalCallback();
-                    }}
-                >
-                    {({ setFieldValue, handleBlur }) => (
-                        <Form id={CM_FORM_ID}>
-                            {/** Need to make a component for the images. This component should have a `multiple` properties. To handle bot single and multiple files component. */}
-                            <label>Icon</label>
-                            <br />
-                            <input onBlur={handleBlur} onChange={(e) => setFieldValue("iconFile", e.target.files?.item(0))} name="iconFile" type="file" />
-                        </Form>
-                    )}
-                </Formik>
-            </div>
-        )
+    return (
+        <div>
+            <Formik
+                initialValues={{
+                    iconFile: null
+                }}
+                onSubmit={async (values) => {
+                    if (values.iconFile) {
+                        await changeIcon(values.iconFile, props.defaultValues?.customerId!)
+                            .then(res => {
+                                if (res.status == HttpStatusCode.Ok) {
+                                    props.closeModalCallback();
+                                }
+                            })
+                    } else props.closeModalCallback();
+                }}
+            >
+                {({ setFieldValue, handleBlur }) => (
+                    <Form id={CM_FORM_ID}>
+                        {/** Need to make a component for the images. This component should have a `multiple` properties. To handle bot single and multiple files component. */}
+                        <label>Icon</label>
+                        <br />
+                        <input onBlur={handleBlur} onChange={(e) => setFieldValue("iconFile", e.target.files?.item(0))} name="iconFile" type="file" />
+                    </Form>
+                )}
+            </Formik>
+        </div>
+    )
 }

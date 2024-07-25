@@ -1,6 +1,9 @@
 import { RegexCode, verify } from "../RegexService";
 
-
+/**
+ * @deprecated
+ * @forRemoval
+ */
 interface CustomerModificationInputObject {
     inputValueIsValid?(value: string, defaultValue: string): boolean, //or Promise<boolean>
     modificationEndPoint: string,
@@ -8,6 +11,10 @@ interface CustomerModificationInputObject {
     uniqueCheck?: string
 }
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 const validateInput = (value: string, defaultValue: string, code: RegExp): boolean => {
     if (!defaultValue) defaultValue = "";
     if (verify(value, code) && value !== defaultValue) return true;
@@ -19,6 +26,10 @@ const REQUEST_MAPPING = "/api/customer/setting";
 const CHANGE_REQUEST_MAPPING = `${REQUEST_MAPPING}/edit`;
 const CHECK_REQUEST_MAPPING = `${REQUEST_MAPPING}/verification`;
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export const FormValidationObject: {[fieldName:string]: CustomerModificationInputObject} = {
     username: {
         inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.USERNAME),

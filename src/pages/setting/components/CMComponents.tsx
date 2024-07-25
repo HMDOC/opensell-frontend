@@ -21,6 +21,10 @@ export interface CMInputProperties extends AdCreationInputProperties {
     onChange?(changeEvent: ChangeEvent<any>): void;
 }
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export interface CMRepeatInputProperties extends CMInputProperties {
     setRepeatInputState(isValid: boolean): void,
     addFeedbackMessage(message: string): void,
@@ -47,11 +51,19 @@ export interface CMFormProperties {
     closeModalCallback(): void
 }
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export interface CMFormState {
     feedbackMessages: string[],
     confirmInputIsValid?: boolean
 }
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export function CMInput(props: CMInputProperties) {
     return (
         <TextField
@@ -68,6 +80,10 @@ export function CMInput(props: CMInputProperties) {
     )
 }
 
+/**
+ * @deprecated
+ * @forRemoval
+ */
 export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
     private INVALID_MESSAGE: string = "This value is not the same as the original input!";
     private inputRef: RefObject<HTMLInputElement> = createRef();
