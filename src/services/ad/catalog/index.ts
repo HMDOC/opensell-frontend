@@ -10,7 +10,7 @@ const REQUEST_MAPPING = "/api/ad/catalog";
     @param filters Any optional filter included in this object will be added to the request
     @author Davide
 */
-export async function getAdBySearch(query: string, filters) {
+export async function getAdBySearch(query: string, filters: any) {
     filters.query = query;
     //filters.filterSold = false;
     let params = filters;
