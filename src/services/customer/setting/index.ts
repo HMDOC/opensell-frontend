@@ -50,6 +50,6 @@ export function isEmailExists(id: number, email: string) {
 }
 
 
-export function changeCustomerPersonalEmail(id: number, email: string, confirmEmail: string) {
-    return http.patch(`${REQUEST_MAPPING}/private-email`, undefined, { params: { id, email, confirmEmail } })
+export function changeCustomeremail(id: number, email: string, confirmEmail: string) {
+    return http.patch(`${REQUEST_MAPPING}/email`, undefined, { params: { id, email, confirmEmail } })
 }

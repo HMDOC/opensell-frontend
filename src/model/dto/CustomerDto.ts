@@ -4,5 +4,5 @@ export interface CustomerDto {
     customerInfo: CustomerInfo;
     customerId: number;
 	username: string;
-    personalEmail: string;
+    email: string;
 };

@@ -36,12 +36,6 @@ export const FormValidationObject: {[fieldName:string]: CustomerModificationInpu
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/last-name`,
         errors: {format: "Your last name can't have any numbers (with one space or - followed by more characters)!"}
     },
-    exposedEmail: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.EMAIL),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/public-email`,
-        errors: {unique: "This email address already exists in our system!", format: "Wrong email format!"},
-        uniqueCheck: `${CHECK_REQUEST_MAPPING}/public-email?email=?1`
-    },
     bio: {
         inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.LIMIT5000),
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/bio`,

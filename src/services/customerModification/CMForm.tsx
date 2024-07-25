@@ -5,7 +5,7 @@ import ModificationFeedback from "../../model/dto/ModificationFeedback";
 import { getFormData, getFormDataAsArray } from "../FormService";
 import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, changeCustomerPersonalEmail, executeChange, getCheckResult, changeCustomerIconPath, isEmailExists, replaceInString } from "../customer/setting";
+import { ArrayOfRequests, changeCustomeremail, executeChange, getCheckResult, changeCustomerIconPath, isEmailExists, replaceInString } from "../customer/setting";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { object, ref, string } from "yup";
@@ -161,7 +161,6 @@ export class CMBasicModificationsForm extends CMForm {
                     <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                     <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                     <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
-                    <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                     <CMInput isTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} labelText="Bio" type="text" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                 </CMFormContainer>
             </div>
@@ -170,7 +169,7 @@ export class CMBasicModificationsForm extends CMForm {
 }
 
 const EMAIL_ALREADY_EXISTS = "Email already exists."
-export function CMPersonalEmailForm(props: { onClose(): void }) {
+export function CMemailForm(props: { onClose(): void }) {
     const [existingEmail, setExistingEmail] = useState<string[]>([])
     const { customerDto } = useAppContext();
 
@@ -187,13 +186,13 @@ export function CMPersonalEmailForm(props: { onClose(): void }) {
                     return;
                 }
 
-                else await changeCustomerPersonalEmail(customerDto?.customerId, values.email, values.confirmEmail);
+                else await changeCustomeremail(customerDto?.customerId, values.email, values.confirmEmail);
 
                 props.onClose();
             }}
             validationSchema={object({
                 email: string()
-                    .required("New private email cannot be empty")
+                    .required("New email cannot be empty")
                     .test("emailValid", "invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
                     .notOneOf(existingEmail, EMAIL_ALREADY_EXISTS),
                 confirmEmail: string()
@@ -204,13 +203,13 @@ export function CMPersonalEmailForm(props: { onClose(): void }) {
         >
             <Field
                 component={AdCreationInput}
-                label="New private email"
+                label="New email"
                 name="email"
             />
 
             <Field
                 component={AdCreationInput}
-                label="Confirm private email"
+                label="Confirm email"
                 name="confirmEmail"
             />
         </CMFormContainerV2>

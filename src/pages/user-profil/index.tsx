@@ -56,17 +56,6 @@ export default function UserProfil(props: { isMyProfil?: boolean }): ReactElemen
                                 )
                             }
 
-                            {customerProfil?.customerInfo?.exposedEmail ?
-                                (
-                                    <IconLabel
-                                        title={customerProfil?.customerInfo?.exposedEmail}
-                                        icon={<EmailIcon />}
-                                    />
-                                ) : (
-                                    <></>
-                                )
-                            }
-
                             <Typography variant="body1">{customerProfil?.customerInfo?.bio}</Typography>
                         </Stack>
                     </Stack>
