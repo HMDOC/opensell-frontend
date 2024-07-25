@@ -1,24 +1,25 @@
-import { Stack } from "@mui/material";
-import { AxiosError, AxiosResponse, HttpStatusCode } from "axios";
-import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
-import ModificationFeedback from "@model/dto/ModificationFeedback";
-import { getFormData, getFormDataAsArray } from "@services/FormService";
-import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
-import { FormValidationObject } from "@services/customerModification/CMFormValidation";
-import { ArrayOfRequests, changeCustomeremail, executeChange, getCheckResult, changeCustomerIconPath, replaceInString, changeOtherInformation } from "../../../services/customer/setting/edit";
-import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
-import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
-import { object, ref, string } from "yup";
 import { useAppContext } from "@context/AppContext";
+import ModificationFeedback from "@model/dto/ModificationFeedback";
+import { Stack } from "@mui/material";
+import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
+import { OtherInformationDto } from "@services/customer/setting/edit/dto/OtherInformationDto";
+import { FormValidationObject } from "@services/customerModification/CMFormValidation";
+import { getFormData, getFormDataAsArray } from "@services/FormService";
 import { RegexCode, verify } from "@services/RegexService";
 import { notEmptyWithMaxAndMin } from "@utils/yupSchema";
-import { OtherInformationDto } from "@services/customer/setting/edit/dto/OtherInformationDto";
+import { AxiosResponse, HttpStatusCode } from "axios";
+import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
+import { object, ref, string } from "yup";
+import { ArrayOfRequests, changeEmail, changeIcon, changeOtherInformation, executeChange, getCheckResult, replaceInString } from "../../../services/customer/setting/edit";
 import { isEmailExists, isUsernameExists } from "../../../services/customer/setting/verification";
+import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
 
+const CM_FORM_ID = "setting-form";
 
 export function CMFormContainer(props: { children: ReactNode, saveChanges(formEvent: any): void }) {
     return (
-        <form onSubmit={props.saveChanges} id="setting-form">
+        <form onSubmit={props.saveChanges} id={CM_FORM_ID}>
             <Stack spacing={2}>
                 {props.children}
             </Stack>
@@ -211,13 +212,13 @@ export function CMEmailForm(props: { onClose(): void }) {
                 confirmEmail: ""
             }}
             onSubmit={async (values, formikHelper) => {
-                if ((await isEmailExists(customerDto?.customerId, values.email)).data) {
+                if ((await isEmailExists(customerDto?.customerId!, values.email)).data) {
                     setExistingEmail([...existingEmail, values.email]);
                     formikHelper.setFieldError("email", EMAIL_ALREADY_EXISTS);
                     return;
                 }
 
-                else await changeCustomeremail(customerDto?.customerId, values.email, values.confirmEmail);
+                else await changeEmail(customerDto?.customerId!, values.email, values.confirmEmail);
 
                 props.onClose();
             }}
@@ -265,7 +266,7 @@ export class CMPasswordForm extends CMForm {
             <div>
                 {this.getFeedbackElement()}
                 <CMFormContainer saveChanges={(formEvent) => this.savePasswordChanges(formEvent)}>
-                    <CMInput labelText="Old Password" name={null} type="password" inputRef={this.oldPwdInputRef} />
+                    <CMInput labelText="Old Password" type="password" inputRef={this.oldPwdInputRef} />
                     <CMRepeatInput
                         labelText="New Password"
                         name="pwd"
@@ -280,36 +281,33 @@ export class CMPasswordForm extends CMForm {
     }
 }
 
-export class CMIconForm extends CMForm {
-    protected currentFile: File;
-
-    private handleIconChange(changeEvent: ChangeEvent<HTMLInputElement>) {
-        this.currentFile = changeEvent.currentTarget.files[0];
-    }
-
-    private async saveIconChange(formEvent: FormEvent<HTMLFormElement>) {
-        formEvent.preventDefault();
-        await changeCustomerIconPath(this.currentFile, this.props.defaultValues?.customerId)
-            .then(res => {
-                if (res.status == 200) {
-                    this.addFeedbackMessage(this.CHANGE_SUCCESSFUL);
-                }
-
-                else this.addFeedbackMessage("Something went wrong...");
-            }).catch((error: AxiosError) => {
-                this.addFeedbackMessage("Something went wrong...")
-            });
-    }
-
-    render(): ReactNode {
+export function CMIconForm(props: CMFormProperties) {
         return (
             <div>
-                {this.getFeedbackElement()}
-                <CMFormContainer saveChanges={(formEvent) => this.saveIconChange(formEvent)}>
-                    <CMInput name="file" type="file" accept="image/png" labelText="Icon"
-                        onChange={(changeEvent) => this.handleIconChange(changeEvent as ChangeEvent<HTMLInputElement>)} />
-                </CMFormContainer>
+                <Formik
+                    initialValues={{
+                        iconFile: null
+                    }}
+                    onSubmit={async (values) => {
+                        if (values.iconFile) {
+                            await changeIcon(values.iconFile, props.defaultValues?.customerId!)
+                                .then(res => {
+                                    if (res.status == HttpStatusCode.Ok) {
+                                        props.closeModalCallback();
+                                    }
+                                })
+                        } else props.closeModalCallback();
+                    }}
+                >
+                    {({ setFieldValue, handleBlur }) => (
+                        <Form id={CM_FORM_ID}>
+                            {/** Need to make a component for the images. This component should have a `multiple` properties. To handle bot single and multiple files component. */}
+                            <label>Icon</label>
+                            <br />
+                            <input onBlur={handleBlur} onChange={(e) => setFieldValue("iconFile", e.target.files?.item(0))} name="iconFile" type="file" />
+                        </Form>
+                    )}
+                </Formik>
             </div>
         )
-    }
 }

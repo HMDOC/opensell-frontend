@@ -38,14 +38,14 @@ export const getCheckResult = async (request: string): Promise<AxiosResponse<num
     return await http.get<number>(request);
 }
 
-export const changeCustomerIconPath = async (iconFile: File, idCustomer: number) => {
+export const changeIcon = async (iconFile: File, idCustomer: number) => {
     let formData: FormData = new FormData();
     formData.append("iconFile", iconFile);
 
     return await http.patch(`${REQUEST_MAPPING}/${idCustomer}/icon`, formData);
 }
 
-export function changeCustomeremail(id: number, email: string, confirmEmail: string) {
+export function changeEmail(id: number, email: string, confirmEmail: string) {
     return http.patch(`${REQUEST_MAPPING}/email`, undefined, { params: { id, email, confirmEmail } })
 }
 
