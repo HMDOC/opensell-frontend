@@ -10,7 +10,7 @@ export interface CMState {
 }
 
 export interface CMProperties {
-    customerData: CustomerDto;
+    customerData?: CustomerDto;
     refreshCallback(): void;
 }
 
@@ -63,7 +63,7 @@ export function CMInput(props: CMInputProperties) {
             defaultValue={props.defaultValue}
             type={props.type}  
             ref={props.inputRef as RefObject<HTMLInputElement>}
-            onChange={props.onChange ? (changeEvent: ChangeEvent<HTMLElement>) => props.onChange(changeEvent as ChangeEvent<HTMLInputElement>) : null}
+            onChange={props.onChange ? (changeEvent) => props.onChange?.(changeEvent) : undefined}
         />
     )
 }
@@ -73,7 +73,7 @@ export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
     private inputRef: RefObject<HTMLInputElement> = createRef();
 
     public handleRepeatInputChange(changeEvent: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
-        let isValid: boolean = changeEvent.target.value === this.inputRef.current.value;
+        let isValid: boolean = changeEvent.target.value === this.inputRef.current?.value;
         if (!isValid) this.props.addFeedbackMessage(this.INVALID_MESSAGE);
         else this.props.removeFeedbackMessage(this.INVALID_MESSAGE);
         this.props.setRepeatInputState(isValid);
@@ -82,8 +82,8 @@ export class CMRepeatInput extends Component<CMRepeatInputProperties, any> {
     render(): ReactNode {
         return (
             <>
-                <CMInput labelText={this.props.labelText} name={this.props.name} type={this.props.type} inputRef={this.inputRef} onChange={(changeEvent) => this.props.onChange(changeEvent)} />
-                <CMInput labelText={"Confirm " + this.props.labelText} name={null} type={this.props.type} onChange={(changeEvent) => this.handleRepeatInputChange(changeEvent)} />
+                <CMInput labelText={this.props.labelText} name={this.props.name} type={this.props.type} inputRef={this.inputRef} onChange={(changeEvent) => this.props.onChange?.(changeEvent)} />
+                <CMInput labelText={"Confirm " + this.props.labelText} type={this.props.type} onChange={(changeEvent) => this.handleRepeatInputChange(changeEvent)} />
             </>
         )
     }
@@ -95,7 +95,7 @@ export class CMButton extends Component<CMButtonProperties, any> {
             <div className="modificationSubmit">
                 <button
                     className={"modificationLabel" + (this.props.isExitButton === true ? " CMExitButton" : "")}
-                    type={this.props.type} onClick={this.props.isExitButton === true ? (e) => this.props.onClick(e) : null}>
+                    type={this.props.type} onClick={this.props.isExitButton === true ? (e) => this.props.onClick?.(e) : undefined}>
                     {this.props.buttonText}
                 </button>
             </div>
@@ -155,7 +155,7 @@ export function CMDisplay(props: CMDisplayProperties) {
             <TableCell align="right">
                 {props.hasButton ?
                     (
-                        <CMEditButton label="Edit" onClick={() => props.buttonOnClickCallback()} />
+                        <CMEditButton label="Edit" onClick={() => props.buttonOnClickCallback?.()} />
                     ) : (<></>)
                 }
             </TableCell>

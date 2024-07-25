@@ -1,18 +1,60 @@
 {
     "compilerOptions": {
-        "jsx": "react-jsx",
+        "composite": true,
+        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        "skipLibCheck": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "allowJs": true,
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": "./",
         "paths": {
-            "@animations/*": ["./src/components/animations/*"],
-            "@components/*": ["./src/components/*"],
-            "@shared/*": ["./src/components/shared/*"],
-            "@services/*": ["./src/services/*"],
-            "@pages/*": ["./src/pages/*"],
-            "@model/*": ["./src/model/*"],
-            "@css/*": ["./src/css/*"],
-            "@context/*": ["./src/context/*"],
-            "@utils/*": ["./src/utils/*"]
+            "@animations/*": [
+                "src/components/animations/*"
+            ],
+            "@components/*": [
+                "src/components/*"
+            ],
+            "@shared/*": [
+                "src/components/shared/*"
+            ],
+            "@services/*": [
+                "src/services/*"
+            ],
+            "@pages/*": [
+                "src/pages/*"
+            ],
+            "@model/*": [
+                "src/model/*"
+            ],
+            "@css/*": [
+                "src/css/*"
+            ],
+            "@context/*": [
+                "src/context/*"
+            ],
+            "@utils/*": [
+                "src/utils/*"
+            ]
         }
     }
 }

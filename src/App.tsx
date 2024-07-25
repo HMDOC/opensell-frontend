@@ -25,11 +25,11 @@ const Setting = lazy(() => (import("./pages/setting")));
 const MyAds = lazy(() => (import("./pages/my-ads")));
 
 export default function App() {
-	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
+	const [customerDto, setCustomerDto] = useState<CustomerDto | undefined>(undefined);
 	const [refresh, setRefresh] = useState(false);
 	const [theme, setTheme] = useState<ThemeOption>(Theme.getStorageTheme());
 
-	async function getCustomerInfo() {
+	async function getCustomerInfo(): Promise<any> {
 		const data = (await getUserInfos("token"))?.data;
 		if (customerDto !== data) setCustomerDto(data);
 		return data;

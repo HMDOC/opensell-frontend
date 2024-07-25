@@ -33,7 +33,7 @@ export const formValidation: {[key:string]: AdCreationInputObject} = {
 
 export interface AdCreationInputProperties {
     type?: HTMLInputTypeAttribute;
-    name: string;
+    name?: string;
     labelText: string;
     min?: number;
     max?: number;
