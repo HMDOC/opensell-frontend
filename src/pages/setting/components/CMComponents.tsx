@@ -1,7 +1,7 @@
 import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
-import { CustomerDto } from "../../model/dto/CustomerDto";
-import { AdCreationInputProperties } from "../AdCreationService";
+import { CustomerDto } from "@model/dto/CustomerDto";
+import { AdCreationInputProperties } from "@services/AdCreationService";
 
 export interface CMState {
     modalIsOpen: boolean;

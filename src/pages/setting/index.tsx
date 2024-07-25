@@ -1,8 +1,8 @@
 import { Component, ReactNode } from "react";
 import { CMModalType } from "@services/customer/setting";
-import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@services/customerModification/CMComponents";
+import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@pages/setting/components/CMComponents";
 import "./style.css"
-import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMEmailForm } from "@services/customerModification/CMForm";
+import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMEmailForm } from "@pages/setting/components/CMForm";
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
 

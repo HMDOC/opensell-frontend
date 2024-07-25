@@ -1,11 +1,11 @@
 import { Stack } from "@mui/material";
 import { AxiosError, AxiosResponse } from "axios";
 import { ChangeEvent, Component, FormEvent, ReactNode, RefObject, createRef, useState } from "react";
-import ModificationFeedback from "../../model/dto/ModificationFeedback";
-import { getFormData, getFormDataAsArray } from "../FormService";
+import ModificationFeedback from "@model/dto/ModificationFeedback";
+import { getFormData, getFormDataAsArray } from "@services/FormService";
 import { CMFormProperties, CMFormState, CMInput, CMRepeatInput } from "./CMComponents";
-import { FormValidationObject } from "./CMFormValidation";
-import { ArrayOfRequests, changeCustomeremail, executeChange, getCheckResult, changeCustomerIconPath, isEmailExists, replaceInString } from "../customer/setting";
+import { FormValidationObject } from "@services/customerModification/CMFormValidation";
+import { ArrayOfRequests, changeCustomeremail, executeChange, getCheckResult, changeCustomerIconPath, isEmailExists, replaceInString } from "../../../services/customer/setting";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { object, ref, string } from "yup";
