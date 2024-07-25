@@ -5,6 +5,8 @@
  * @author Davide
  */
 
+import { AdVisibility } from "@model/enums/AdVisibility";
+
 export default interface AdPreviewDto {
     id?: number;
     title?: string;
@@ -12,5 +14,5 @@ export default interface AdPreviewDto {
     shape?: number;
     firstImage?: string;
     isSold?: boolean;
-    visibility?: number;
+    visibility?: AdVisibility;
 }

@@ -20,7 +20,17 @@ export const SmallAd = (props: SmallAd) => {
             <CardMedia component="img" image={props.firstImage} width="220px" height="150px" />
 
             <CardHeader
-                title={<Typography component={Stack} direction="row" alignItems="center" variant="h4">{props.isSearch ? <></> : getVisibilityIcon(props.visibility)}{props.title}</Typography>}
+                sx={{
+                    "& .MuiCardHeader-content": {
+                        overflow: "auto"
+                    }
+                }}
+                title={
+                    <Stack direction="row" alignItems="center">
+                        {props.isSearch ? <></> : getVisibilityIcon(props.visibility!)}
+                        <Typography variant="h4" textOverflow="ellipsis">{props.title}</Typography>
+                    </Stack>
+                }
                 subheader={
                     <AdPricePart price={props.price} isSold={props.isSold} />
                 }
