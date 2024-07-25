@@ -10,25 +10,16 @@ import { ReactNode, useState } from "react";
 import { object, ref, string } from "yup";
 import { changeEmail, changeIcon, changeOtherInformation, changePassword } from "../../../services/customer/setting/edit";
 import { isEmailExists, isUsernameExists } from "../../../services/customer/setting/verification";
-import { CMFormProperties, CMFormState } from "./CMComponents";
+import { CustomerDto } from "@model/dto/CustomerDto";
 
 const CM_FORM_ID = "setting-form";
 
-/**
- * @deprecated
- * @forRemoval
- */
-export function CMFormContainer(props: { children: ReactNode, saveChanges(formEvent: any): void }) {
-    return (
-        <form onSubmit={props.saveChanges} id={CM_FORM_ID}>
-            <Stack spacing={2}>
-                {props.children}
-            </Stack>
-        </form>
-    );
+interface CMFormProperties {
+    defaultValues?: CustomerDto,
+    closeModalCallback(): void
 }
 
-export function CMFormContainerV2(props: { children: ReactNode, initialValues: any, onSubmit(values: FormikValues, formikHelpers: FormikHelpers<FormikValues>): void, validationSchema?: any }) {
+export function CMFormContainer(props: { children: ReactNode, initialValues: any, onSubmit(values: FormikValues, formikHelpers: FormikHelpers<FormikValues>): void, validationSchema?: any }) {
     return (
         <Formik
             initialValues={props.initialValues}
@@ -50,7 +41,7 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
 
     return (
         <div>
-            <CMFormContainerV2
+            <CMFormContainer
                 initialValues={{
                     username: props.defaultValues?.username ?? "",
                     firstName: props.defaultValues?.customerInfo?.firstName ?? "",
@@ -59,9 +50,9 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
                 }}
                 validationSchema={object({
                     username: notEmptyWithMaxAndMin(50, 3, "username").notOneOf(existingUsernames, USERNAME_ALREADY_EXISTS),
-                    firstName: notEmptyWithMaxAndMin(50, 3, "firstName"),
-                    lastName: notEmptyWithMaxAndMin(50, 3, "lastName"),
-                    bio: notEmptyWithMaxAndMin(5000, 10, "bio"),
+                    firstName: string().nullable().max(50, "bio cannot be more than 50 characters."),
+                    lastName: string().nullable().max(50, "bio cannot be more than 50 characters."),
+                    bio: string().nullable().max(5000, "bio cannot be more than 5000 characters."),
                 })}
                 onSubmit={async (values, formikHelpers) => {
                     if ((await isUsernameExists(props.defaultValues?.customerId!, values.username)).data) {
@@ -81,7 +72,7 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
                 <Field name="firstName" component={AdCreationInput} label="FirstName" />
                 <Field name="lastName" component={AdCreationInput} label="LastName" />
                 <Field name="bio" component={AdCreationInput} isTextArea label="Bio" />
-            </CMFormContainerV2>
+            </CMFormContainer>
         </div>
     )
 }
@@ -92,7 +83,7 @@ export function CMEmailForm(props: { onClose(): void }) {
     const { customerDto } = useAppContext();
 
     return (
-        <CMFormContainerV2
+        <CMFormContainer
             initialValues={{
                 email: "",
                 confirmEmail: ""
@@ -130,7 +121,7 @@ export function CMEmailForm(props: { onClose(): void }) {
                 label="Confirm email"
                 name="confirmEmail"
             />
-        </CMFormContainerV2>
+        </CMFormContainer>
     )
 }
 
@@ -139,7 +130,7 @@ export function CMPasswordForm(props: CMFormProperties) {
     const [invalidOldPasswords, setInvalidOldPasswords] = useState<string[]>([]);
     return (
         <div>
-            <CMFormContainerV2
+            <CMFormContainer
                 initialValues={{
                     oldPassword: "",
                     password: "",
@@ -170,7 +161,7 @@ export function CMPasswordForm(props: CMFormProperties) {
                 <Field name="oldPassword" component={AdCreationInput} label="Old Password" type="password" />
                 <Field name="password" component={AdCreationInput} label="New Password" type="password" />
                 <Field name="confirmPassword" component={AdCreationInput} label="Confirm Password" type="password" />
-            </CMFormContainerV2>
+            </CMFormContainer>
         </div>
     )
 }

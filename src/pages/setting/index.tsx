@@ -4,7 +4,6 @@ import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@pa
 import { CMBasicModificationsForm, CMEmailForm, CMIconForm, CMPasswordForm } from "@pages/setting/components/CMForm";
 import { CMModalType } from "@services/customer/setting/edit";
 import { Component, ReactNode } from "react";
-import "./style.css";
 
 /**
  *
@@ -44,7 +43,7 @@ export default class CustomerModification extends Component<CMProperties, CMStat
                 <Stack spacing={2} useFlexGap>
                     <CMContainer title="Sensitive Information">
                         <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.EMAIL)} defaultValue={this.props?.customerData?.email} />
-                        <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true} />
+                        <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} defaultValue="***************" />
                     </CMContainer>
 
                     <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} />} >
