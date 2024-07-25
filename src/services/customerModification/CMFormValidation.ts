@@ -46,11 +46,5 @@ export const FormValidationObject: {[fieldName:string]: CustomerModificationInpu
         modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/pwd`,
         errors: {unique: "You're already using this password!", format: "Your password must contain at least 8 characters, one special character, number and lower/hupper case letter..."},
         uniqueCheck: `${CHECK_REQUEST_MAPPING}/same-pwd?pwd=?1&id=?2`
-    },
-    phoneNumber: {
-        inputValueIsValid: (value: string, defaultValue: string) => validateInput(value, defaultValue, RegexCode.PHONE_NUMBER),
-        modificationEndPoint: `${CHANGE_REQUEST_MAPPING}/phone-number`,
-        errors: {unique: "This number already exists in our system!", format: "Wrong phone number format...(123-456-7890)"},
-        uniqueCheck: `${CHECK_REQUEST_MAPPING}/phone-number?phoneNumber=?1`
     }
 }

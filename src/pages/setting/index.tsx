@@ -2,7 +2,7 @@ import { Component, ReactNode } from "react";
 import { CMModalType } from "@services/customer/setting";
 import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@services/customerModification/CMComponents";
 import "./style.css"
-import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMemailForm, CMPhoneNumberForm } from "@services/customerModification/CMForm";
+import { CMBasicModificationsForm, CMIconForm, CMPasswordForm, CMEmailForm } from "@services/customerModification/CMForm";
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
 
@@ -25,9 +25,8 @@ export default class CustomerModification extends Component<CMProperties, CMStat
 
     public openModal(type: CMModalType): void {
         if (type === CMModalType.BASIC_CHANGES) this.setState({ currentModalTitle: "other informations", currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.PERSONNAL_EMAIL) this.setState({ currentModalTitle: "personnal email", currentModalContent: <CMemailForm onClose={() => this.closeModal()} /> });
+        else if (type === CMModalType.EMAIL) this.setState({ currentModalTitle: "personnal email", currentModalContent: <CMEmailForm onClose={() => this.closeModal()} /> });
         else if (type === CMModalType.PASSWORD) this.setState({ currentModalTitle: "password", currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.PHONE_NUMBER) this.setState({ currentModalTitle: "phone number", currentModalContent: <CMPhoneNumberForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
         else if (type === CMModalType.ICON) this.setState({ currentModalTitle: "icon", currentModalContent: <CMIconForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
         this.setState({ modalIsOpen: true });
     }
@@ -44,9 +43,8 @@ export default class CustomerModification extends Component<CMProperties, CMStat
 
                 <Stack spacing={2} useFlexGap>
                     <CMContainer title="Sensitive Information">
-                        <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PERSONNAL_EMAIL)} defaultValue={this.props.customerData.email} />
+                        <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.EMAIL)} defaultValue={this.props.customerData.email} />
                         <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} isPassword={true} />
-                        <CMDisplay labelText="Phone Number" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PHONE_NUMBER)} defaultValue={this.props.customerData.customerInfo?.phoneNumber} />
                     </CMContainer>
 
                     <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} />} >

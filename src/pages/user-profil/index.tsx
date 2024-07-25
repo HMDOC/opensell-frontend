@@ -45,17 +45,6 @@ export default function UserProfil(props: { isMyProfil?: boolean }): ReactElemen
                                 <span style={{ color: "grey", fontSize: "11px" }}>Since {new Date(customerProfil?.joinedDate).getFullYear()}</span>
                             </Stack>
 
-                            {customerProfil?.customerInfo?.phoneNumber ?
-                                (
-                                    <IconLabel
-                                        title={customerProfil?.customerInfo?.phoneNumber}
-                                        icon={<PhoneIcon />}
-                                    />
-                                ) : (
-                                    <></>
-                                )
-                            }
-
                             <Typography variant="body1">{customerProfil?.customerInfo?.bio}</Typography>
                         </Stack>
                     </Stack>

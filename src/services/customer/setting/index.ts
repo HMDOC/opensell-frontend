@@ -8,10 +8,9 @@ const REQUEST_MAPPING = "/api/customer/setting/edit";
 const REPLACE_SEQUENCE = "?";
 
 export enum CMModalType {
-    PERSONNAL_EMAIL,
+    EMAIL,
     PASSWORD,
     BASIC_CHANGES,
-    PHONE_NUMBER,
     ICON
 }
 

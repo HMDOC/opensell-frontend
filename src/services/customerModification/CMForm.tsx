@@ -169,7 +169,7 @@ export class CMBasicModificationsForm extends CMForm {
 }
 
 const EMAIL_ALREADY_EXISTS = "Email already exists."
-export function CMemailForm(props: { onClose(): void }) {
+export function CMEmailForm(props: { onClose(): void }) {
     const [existingEmail, setExistingEmail] = useState<string[]>([])
     const { customerDto } = useAppContext();
 
@@ -243,20 +243,6 @@ export class CMPasswordForm extends CMForm {
                         setRepeatInputState={(res: boolean) => this.setState({ confirmInputIsValid: res })}
                         addFeedbackMessage={(message: string) => this.addFeedbackMessage(message)}
                         removeFeedbackMessage={(message: string) => this.removeFeedbackMessage(message)} />
-                </CMFormContainer>
-            </div>
-        )
-    }
-}
-
-export class CMPhoneNumberForm extends CMForm {
-
-    render(): ReactNode {
-        return (
-            <div>
-                {this.getFeedbackElement()}
-                <CMFormContainer saveChanges={(formEvent) => this.saveChanges(formEvent)}>
-                    <CMInput labelText="New Phone Number" type="text" name="phoneNumber" onChange={(changeEvent) => this.handleChange(changeEvent)} />
                 </CMFormContainer>
             </div>
         )
