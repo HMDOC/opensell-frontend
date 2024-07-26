@@ -2,7 +2,7 @@ import { Loading } from "@animations/loading";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import getUserInfos from "../services/GetUser";
+import getUserInfos from "@services/TokenService";
 
 export default function PrivateRoute() {
     const { logout } = useAppContext();

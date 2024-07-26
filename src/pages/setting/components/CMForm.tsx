@@ -2,14 +2,14 @@ import { useAppContext } from "@context/AppContext";
 import { Stack } from "@mui/material";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { OtherInformationDto } from "@services/customer/setting/edit/dto/OtherInformationDto";
-import { RegexCode, verify } from "@services/RegexService";
+import { RegexCode, verify } from "@utils/RegexUtils";
 import { notEmptyWithMaxAndMin } from "@utils/yupSchema";
 import { AxiosError, HttpStatusCode } from "axios";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { ReactNode, useState } from "react";
 import { object, ref, string } from "yup";
-import { changeEmail, changeIcon, changeOtherInformation, changePassword } from "../../../services/customer/setting/edit";
-import { isEmailExists, isUsernameExists } from "../../../services/customer/setting/verification";
+import { changeEmail, changeIcon, changeOtherInformation, changePassword } from "@services/customer/setting/edit";
+import { isEmailExists, isUsernameExists } from "@services/customer/setting/verification";
 import { CustomerDto } from "@model/dto/CustomerDto";
 
 const CM_FORM_ID = "setting-form";

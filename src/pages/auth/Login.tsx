@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAppContext } from "../../context/AppContext";
-import { checkLogin } from '../../services/LogInService';
-import { setToken } from "../../services/SetToken";
+import { login } from '../../services/customer/auth';
+import { setToken } from "../../services/TokenService";
 import "./style.css";
 import PersonIcon from '@mui/icons-material/Person';
 import KeyIcon from '@mui/icons-material/Key';
@@ -33,7 +33,7 @@ export default function Login(props) {
             errors.password = "Required";
             setErrors(errors);
         } else if (username.current.value && password.current.value) {
-            checkLogin(username.current.value, password.current.value).then(res => {
+            login(username.current.value, password.current.value).then(res => {
                 if (res?.data === "") {
                     errors.creds = "Username or password is incorrect";
                 } else {

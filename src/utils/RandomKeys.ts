@@ -1,10 +1,10 @@
 // POSTION FROM ASCI TABLE
-enum AsciLetter {
-    FIRST_LOWER = 97,
-    LAST_LOWER = 122,
-    FIRST_UPPER = 65, 
-    LAST_UPPER = 90
-}
+const AsciLetter = {
+    FIRST_LOWER: 97,
+    LAST_LOWER: 122,
+    FIRST_UPPER: 65, 
+    LAST_UPPER: 90
+} as const;
 
 function nextInt(min: number, max: number): number {
     return Math.floor(

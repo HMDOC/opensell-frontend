@@ -1,9 +1,9 @@
 import { MenuItem } from "@mui/material";
-import { createRandomKey } from "@services/RandomKeys";
+import { createRandomKey } from "@utils/RandomKeys";
 import { AxiosError } from "axios";
 import { ReactNode, useEffect, useState } from "react";
 import { AdType } from "../../model/dto/AdType";
-import { getAllAdTypes } from "../../services/AdService";
+import { getAllAdTypes } from "../../services/ad";
 import { SelectorReader } from "./SharedAdPart";
 import { FieldProps } from "formik";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';

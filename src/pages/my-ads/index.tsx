@@ -2,7 +2,7 @@ import { useAppContext } from "@context/AppContext";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, IconButton, Stack, Typography } from "@mui/material";
 import AdCreationModal from "@pages/ad-creation/";
-import { createRandomKey } from "@services/RandomKeys";
+import { createRandomKey } from "@utils/RandomKeys";
 import { useEffect, useState } from "react";
 import DisplayAd from "./components/display-ad";
 import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";

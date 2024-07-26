@@ -5,7 +5,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import { Button, Stack, Typography } from "@mui/material";
 import { ErrorMessage, FieldArray, useFormikContext } from "formik";
 import { ChangeEvent, useEffect } from "react";
-import { createRandomKey } from "../../services/RandomKeys";
+import { createRandomKey } from "../../utils/RandomKeys";
 import "./style.css";
 
 export function AdImages(props: { name: string }) {

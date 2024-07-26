@@ -2,12 +2,12 @@ import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Verification from "./verification";
 import "./style.css";
-import { checkSignup } from "../../services/SignupService";
 import PersonIcon from '@mui/icons-material/Person';
 import KeyIcon from '@mui/icons-material/Key';
 import EmailIcon from '@mui/icons-material/Email';
+import { signup } from "@services/LogInService";
 
-export default function Signup(props) {
+export default function Signup() {
     const naviguate = useNavigate();
     const [isFirstSubmit, setIsFirstSubmit] = useState(false);
     const [isAuthentified, setIsAuthentified] = useState(false);
@@ -44,7 +44,7 @@ export default function Signup(props) {
         return !errors.email && !errors.password;
     }
 
-    function handleChange(event) {
+    function handleChange(event: any) {
         setInfos(
             {
                 ...infos,
@@ -56,7 +56,7 @@ export default function Signup(props) {
         }
     }
 
-    function handleClick(event) {
+    function handleClick(event: any) {
         event.preventDefault();
 
         if (!isFirstSubmit) {
@@ -64,7 +64,7 @@ export default function Signup(props) {
         };
 
         if (getError()) {
-            checkSignup(infos.email, infos.username, infos.password).then(res => {
+            signup(infos.email, infos.username, infos.password).then(res => {
                 if (res?.data === 1) {
                     setEErrors({ ...eErrors, email: "Email already exists" });
                 } else if (res?.data === 2) {

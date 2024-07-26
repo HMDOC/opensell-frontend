@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { LazyLoad } from './components/animations/loading';
 import Navbar from './components/navbar';
 import './App.css';
-import getUserInfos from './services/GetUser';
+import getUserInfos from '@services/TokenService';
 import PrivateRoute from './components/PrivateRoute';
 import { CustomerDto } from './model/dto/CustomerDto';
 import { AppContext } from './context/AppContext';

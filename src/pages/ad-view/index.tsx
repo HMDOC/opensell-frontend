@@ -6,7 +6,7 @@ import { DESKTOP_VIEW, MOBILE_VIEW } from "@context/AppContext";
 import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
 import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
 import { getAdBuyerView } from "@services/ad/catalog";
-import { createRandomKey } from "@services/RandomKeys";
+import { createRandomKey } from "@utils/RandomKeys";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AdTypePart from "./components/ad-type-part";

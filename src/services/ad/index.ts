@@ -1,6 +1,6 @@
-import { AdTag } from "../model/dto/AdTag";
-import { AdType } from "../model/dto/AdType";
-import http from "../http-commons";
+import { AdTag } from "../../model/dto/AdTag";
+import { AdType } from "../../model/dto/AdType";
+import http from "../../http-commons";
 
 const REQUEST_MAPPING = "/api/ad";
 

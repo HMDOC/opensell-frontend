@@ -3,7 +3,7 @@ import TagIcon from '@mui/icons-material/Tag';
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { ErrorMessage, FieldArray } from "formik";
-import { createRandomKey } from "../../../../services/RandomKeys";
+import { createRandomKey } from "../../../../utils/RandomKeys";
 import AdTagPart from "../tag-part";
 
 /**

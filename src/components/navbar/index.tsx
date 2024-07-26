@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { createRandomKey } from '@services/RandomKeys';
+import { createRandomKey } from '@utils/RandomKeys';
 import { ReactElement, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AppNavLink from './components/app-nav-link';
