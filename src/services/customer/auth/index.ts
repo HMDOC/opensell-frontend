@@ -12,9 +12,9 @@ export const login = async (username?: string, pwd?: string) => {
 }
 
 export const signup = async (email?: string, username?: String, pwd?: string) => {
-    return await http.post("/signup", null, { params: { email, username, pwd } });
+    return await http.post(`${REQUEST_MAPPING}/signup`, null, { params: { email, username, pwd } });
 }
 
 export const verifyCode = async (email?: string, inputCode?: string) => {
-    return await http.get("/verify-code", { params: { email, inputCode } });
+    return await http.get(`${REQUEST_MAPPING}/verify-code`, { params: { email, inputCode } });
 }

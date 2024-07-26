@@ -5,7 +5,7 @@ import "./style.css";
 import PersonIcon from '@mui/icons-material/Person';
 import KeyIcon from '@mui/icons-material/Key';
 import EmailIcon from '@mui/icons-material/Email';
-import { signup } from "@services/LogInService";
+import { signup } from "@services/customer/auth";
 
 export default function Signup() {
     const naviguate = useNavigate();
