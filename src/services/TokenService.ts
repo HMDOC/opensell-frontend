@@ -1,6 +1,6 @@
 import { SignJWT, decodeJwt } from "jose";
 import { AxiosResponse } from "axios";
-import { CustomerDto } from "../model/dto/CustomerDto";
+import { CustomerDto } from "./customer/auth/CustomerDto";
 import { getCustomerDto } from "./customer/auth";
 
 export const setToken = async (idCustomer: number) => {

@@ -5,7 +5,7 @@ import AdPreviewDto from '@services/ad/catalog/dto/AdPreviewDto';
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProfilIcon, { AVATAR_SIZE } from "../../components/shared/ProfilIcon";
-import ProfileDto from "../../model/dto/ProfileDto";
+import ProfileDto from "../../services/customer/ProfileDto";
 import AdPreview from "../catalog/components/ad-preview";
 import { getCustomerProfileDto } from '@services/customer';
 

@@ -1,17 +1,16 @@
 import "@fontsource/inter";
 
-import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
+import { createTheme, ThemeProvider } from '@mui/material';
+import getUserInfos from '@services/TokenService';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import './App.css';
 import { LazyLoad } from './components/animations/loading';
 import Navbar from './components/navbar';
-import './App.css';
-import getUserInfos from '@services/TokenService';
 import PrivateRoute from './components/PrivateRoute';
-import { CustomerDto } from './model/dto/CustomerDto';
 import { AppContext } from './context/AppContext';
 import { Theme, ThemeOption } from './context/Theme';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { CustomerDto } from './services/customer/auth/CustomerDto';
 
 const About = lazy(() => import("./pages/about"));
 const Home = lazy(() => (import("./pages/home")));

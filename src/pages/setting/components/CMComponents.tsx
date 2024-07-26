@@ -1,4 +1,4 @@
-import { CustomerDto } from "@model/dto/CustomerDto";
+import { CustomerDto } from "@services/customer/auth/CustomerDto";
 import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { ReactNode } from "react";
 

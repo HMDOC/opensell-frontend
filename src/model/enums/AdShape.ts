@@ -9,7 +9,7 @@ enum AdShape {
 
 export default AdShape;
 
-export const getShapeStr = (shape?: AdShape): string => {
+export const getShapeStr = (shape?: AdShape): string | undefined => {
     switch(shape) {
         case AdShape.NEW:
             return "New";

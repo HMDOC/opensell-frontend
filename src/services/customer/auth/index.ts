@@ -1,4 +1,4 @@
-import { CustomerDto } from "@model/dto/CustomerDto";
+import { CustomerDto } from "@services/customer/auth/CustomerDto";
 import http from "../../../http-commons";
 
 const REQUEST_MAPPING = "/api/customer/auth";

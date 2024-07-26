@@ -10,7 +10,7 @@ import { ReactNode, useState } from "react";
 import { object, ref, string } from "yup";
 import { changeEmail, changeIcon, changeOtherInformation, changePassword } from "@services/customer/setting/edit";
 import { isEmailExists, isUsernameExists } from "@services/customer/setting/verification";
-import { CustomerDto } from "@model/dto/CustomerDto";
+import { CustomerDto } from "@services/customer/auth/CustomerDto";
 
 const CM_FORM_ID = "setting-form";
 

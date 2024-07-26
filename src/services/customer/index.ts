@@ -1,4 +1,4 @@
-import ProfileDto from "@model/dto/ProfileDto";
+import ProfileDto from "./ProfileDto";
 import http from "../../http-commons";
 
 export const getCustomerProfileDto = async (username? : String) => {
