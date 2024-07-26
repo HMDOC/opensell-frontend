@@ -1,7 +1,8 @@
-import { CustomerInfo } from "./CustomerInfo";
-
 export interface CustomerDto {
-    customerInfo: CustomerInfo;
+    firstName? : string;
+    lastName? : string;
+    bio? : string;
+    iconPath? : string;
     customerId: number;
 	username: string;
     email: string;

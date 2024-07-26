@@ -48,15 +48,15 @@ export default class CustomerModification extends Component<CMProperties, CMStat
 
                     <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} />} >
                         <CMDisplay labelText="Username" defaultValue={this.props.customerData?.username} />
-                        <CMDisplay labelText="FirstName" defaultValue={this.props.customerData?.customerInfo?.firstName} />
-                        <CMDisplay labelText="LastName" defaultValue={this.props.customerData?.customerInfo?.lastName} />
-                        <CMDisplay labelText="Bio" defaultValue={this.props.customerData?.customerInfo?.bio} />
+                        <CMDisplay labelText="FirstName" defaultValue={this.props.customerData?.firstName} />
+                        <CMDisplay labelText="LastName" defaultValue={this.props.customerData?.lastName} />
+                        <CMDisplay labelText="Bio" defaultValue={this.props.customerData?.bio} />
                     </CMContainer>
 
                     <CMContainer title="Profile icon">
                         <TableRow sx={{ border: "none" }} className="change-button">
                             <TableCell>
-                                <ProfilIcon src={this.props.customerData?.customerInfo?.iconPath} username={this.props.customerData?.username} />
+                                <ProfilIcon src={this.props.customerData?.iconPath} username={this.props.customerData?.username} />
                             </TableCell>
 
                             <TableCell />

@@ -1,9 +1,11 @@
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
-import { CustomerInfo } from "./CustomerInfo";
 
-export default interface CustomerProfil {
+export default interface ProfileDto {
+    firstName? : string;
+    lastName? : string;
+    bio? : string;
+    iconPath? : string;
     username: string;
     joinedDate: string;
     ads: Array<AdPreviewDto>;
-    customerInfo: CustomerInfo;
 }

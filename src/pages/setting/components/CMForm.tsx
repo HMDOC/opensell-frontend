@@ -44,9 +44,9 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
             <CMFormContainer
                 initialValues={{
                     username: props.defaultValues?.username ?? "",
-                    firstName: props.defaultValues?.customerInfo?.firstName ?? "",
-                    lastName: props.defaultValues?.customerInfo?.lastName ?? "",
-                    bio: props.defaultValues?.customerInfo?.bio ?? ""
+                    firstName: props.defaultValues?.firstName ?? "",
+                    lastName: props.defaultValues?.lastName ?? "",
+                    bio: props.defaultValues?.bio ?? ""
                 }}
                 validationSchema={object({
                     username: notEmptyWithMaxAndMin(50, 3, "username").notOneOf(existingUsernames, USERNAME_ALREADY_EXISTS),

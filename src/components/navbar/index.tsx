@@ -17,9 +17,9 @@ import { createRandomKey } from '@services/RandomKeys';
 import { ReactElement, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AppNavLink from './components/app-nav-link';
+import ThemeToggle from './components/theme-toggle';
 import links from "./links.json";
 import "./style.css";
-import ThemeToggle from './components/theme-toggle';
 
 
 const DROPDOWN_MENU = [
@@ -109,8 +109,8 @@ export default function Navbar(props: { logout(): void }): ReactElement {
                     {customerDto ?
                         (
                             <MuiMenu menuIcon={
-                                <Avatar src={customerDto?.customerInfo?.iconPath}>
-                                    {customerDto?.customerInfo?.iconPath ? null : customerDto?.username?.at(0)}
+                                <Avatar src={customerDto?.iconPath}>
+                                    {customerDto?.iconPath ? null : customerDto?.username?.at(0)}
                                 </Avatar>
                             }>
                                 <Stack component={MenuItem}>
