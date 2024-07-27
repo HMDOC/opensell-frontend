@@ -1,13 +1,22 @@
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow } from "@mui/material";
-import { CMContainer, CMDisplay, CMEditButton, CMProperties, CMState } from "@pages/setting/components/CMComponents";
+import { CMContainer, CMDisplay, CMEditButton } from "@pages/setting/components/CMComponents";
 import { CMBasicModificationsForm, CMEmailForm, CMIconForm, CMPasswordForm } from "@pages/setting/components/CMForm";
+import { CustomerDto } from "@services/customer/auth/CustomerDto";
 import { CMModalType } from "@services/customer/setting/edit";
-import { Component, ReactNode } from "react";
+import { useState } from "react";
+import SettingTheme from "./components/theme";
+
+export interface SettingProps {
+    customerData?: CustomerDto;
+    refreshCallback(): void;
+}
+
 
 /**
  *
  * @author Olivier Mansuy
+ * @modifiedBy Achraf
  * @Note 
  * https://www.w3schools.com/typescript/typescript_casting.php
  * https://javascript.plainenglish.io/promise-based-prop-in-react-78a77440f4fc
@@ -15,76 +24,75 @@ import { Component, ReactNode } from "react";
  * https://blog.logrocket.com/types-vs-interfaces-typescript/
  *
  */
-export default class CustomerModification extends Component<CMProperties, CMState> {
-    public state = {
+export default function Setting(props: SettingProps) {
+    const [modalState, setModalState] = useState({
         modalIsOpen: false,
-        currentModalContent: null,
+        currentModalContent: <></>,
         currentModalTitle: ""
+    });
+
+    const openModal = (type: CMModalType): void => {
+        if (type === CMModalType.BASIC_CHANGES) setModalState({ modalIsOpen: true, currentModalTitle: "other informations", currentModalContent: <CMBasicModificationsForm defaultValues={props.customerData} closeModalCallback={() => closeModal()} /> });
+        else if (type === CMModalType.EMAIL) setModalState({ modalIsOpen: true, currentModalTitle: "personnal email", currentModalContent: <CMEmailForm onClose={() => closeModal()} /> });
+        else if (type === CMModalType.PASSWORD) setModalState({ modalIsOpen: true, currentModalTitle: "password", currentModalContent: <CMPasswordForm defaultValues={props.customerData} closeModalCallback={() => closeModal()} /> });
+        else if (type === CMModalType.ICON) setModalState({ modalIsOpen: true, currentModalTitle: "icon", currentModalContent: <CMIconForm defaultValues={props.customerData} closeModalCallback={() => closeModal()} /> });
     }
 
-    public openModal(type: CMModalType): void {
-        if (type === CMModalType.BASIC_CHANGES) this.setState({ currentModalTitle: "other informations", currentModalContent: <CMBasicModificationsForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.EMAIL) this.setState({ currentModalTitle: "personnal email", currentModalContent: <CMEmailForm onClose={() => this.closeModal()} /> });
-        else if (type === CMModalType.PASSWORD) this.setState({ currentModalTitle: "password", currentModalContent: <CMPasswordForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        else if (type === CMModalType.ICON) this.setState({ currentModalTitle: "icon", currentModalContent: <CMIconForm defaultValues={this.props.customerData} closeModalCallback={() => this.closeModal()} /> });
-        this.setState({ modalIsOpen: true });
+    const closeModal = (): void => {
+        setModalState({ ...modalState, modalIsOpen: false });
+        props.refreshCallback();
     }
 
-    public closeModal(): void {
-        this.setState({ modalIsOpen: false });
-        this.props.refreshCallback();
-    }
+    return (
+        <Container>
+            <title>Settings</title>
 
-    render(): ReactNode {
-        return (
-            <Container>
-                <title>Settings</title>
+            <Stack spacing={2} useFlexGap>
+                <CMContainer title="Sensitive Information">
+                    <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => openModal(CMModalType.EMAIL)} defaultValue={props?.customerData?.email} />
+                    <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => openModal(CMModalType.PASSWORD)} defaultValue="***************" />
+                </CMContainer>
 
-                <Stack spacing={2} useFlexGap>
-                    <CMContainer title="Sensitive Information">
-                        <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.EMAIL)} defaultValue={this.props?.customerData?.email} />
-                        <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => this.openModal(CMModalType.PASSWORD)} defaultValue="***************" />
-                    </CMContainer>
+                <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => openModal(CMModalType.BASIC_CHANGES)} />} >
+                    <CMDisplay labelText="Username" defaultValue={props.customerData?.username} />
+                    <CMDisplay labelText="FirstName" defaultValue={props.customerData?.firstName} />
+                    <CMDisplay labelText="LastName" defaultValue={props.customerData?.lastName} />
+                    <CMDisplay labelText="Bio" defaultValue={props.customerData?.bio} />
+                </CMContainer>
 
-                    <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => this.openModal(CMModalType.BASIC_CHANGES)} />} >
-                        <CMDisplay labelText="Username" defaultValue={this.props.customerData?.username} />
-                        <CMDisplay labelText="FirstName" defaultValue={this.props.customerData?.firstName} />
-                        <CMDisplay labelText="LastName" defaultValue={this.props.customerData?.lastName} />
-                        <CMDisplay labelText="Bio" defaultValue={this.props.customerData?.bio} />
-                    </CMContainer>
+                <CMContainer title="Profile icon">
+                    <TableRow sx={{ border: "none" }}>
+                        <TableCell>
+                            <ProfilIcon src={props.customerData?.iconPath} username={props.customerData?.username} />
+                        </TableCell>
 
-                    <CMContainer title="Profile icon">
-                        <TableRow sx={{ border: "none" }} className="change-button">
-                            <TableCell>
-                                <ProfilIcon src={this.props.customerData?.iconPath} username={this.props.customerData?.username} />
-                            </TableCell>
+                        <TableCell />
+                        <TableCell>
+                            <CMEditButton onClick={() => openModal(CMModalType.ICON)} label="Edit" />
+                        </TableCell>
+                    </TableRow>
+                </CMContainer>
 
-                            <TableCell />
-                            <TableCell>
-                                <CMEditButton onClick={() => this.openModal(CMModalType.ICON)} label="Edit" />
-                            </TableCell>
-                        </TableRow>
-                    </CMContainer>
-                </Stack>
+                <SettingTheme />
 
-                <Dialog open={this.state.modalIsOpen} onClose={() => this.closeModal()} fullWidth>
-                    <DialogTitle variant="h5">
-                        Edit {this.state.currentModalTitle}
-                    </DialogTitle>
-                    <Divider />
+            </Stack>
 
-                    <DialogContent>
-                        {this.state.currentModalContent}
-                    </DialogContent>
-                    <Divider />
+            <Dialog open={modalState.modalIsOpen} onClose={() => closeModal()} fullWidth>
+                <DialogTitle variant="h5">
+                    Edit {modalState.currentModalTitle}
+                </DialogTitle>
+                <Divider />
 
-                    <DialogActions>
-                        <Button onClick={() => this.closeModal()}>Cancel</Button>
-                        <Button type="submit" form="setting-form">Save</Button>
-                    </DialogActions>
-                </Dialog>
-            </Container>
-        )
-    }
+                <DialogContent>
+                    {modalState.currentModalContent}
+                </DialogContent>
+                <Divider />
 
+                <DialogActions>
+                    <Button onClick={() => closeModal()}>Cancel</Button>
+                    <Button type="submit" form="setting-form">Save</Button>
+                </DialogActions>
+            </Dialog>
+        </Container>
+    )
 }

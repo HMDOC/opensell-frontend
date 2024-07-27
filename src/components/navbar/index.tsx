@@ -5,10 +5,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from '@mui/icons-material/Settings';
 import WebIcon from '@mui/icons-material/Web';
-import { Divider, IconButton, MenuItem } from '@mui/material';
+import { Divider, Fade, IconButton, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,7 +16,7 @@ import { createRandomKey } from '@utils/RandomKeys';
 import { ReactElement, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import AppNavLink from './components/app-nav-link';
-import ThemeToggle from './components/theme-toggle';
+import Logo from './components/logo';
 import links from "./links.json";
 import "./style.css";
 
@@ -59,53 +58,28 @@ export default function Navbar(props: { logout(): void }): ReactElement {
     return (
         <AppBar position="static" enableColorOnDark color="transparent">
             <Container maxWidth={false}>
-                <Toolbar disableGutters>
-                    <ThemeToggle />
+                <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
+                    {/* <ThemeToggle /> */}
 
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        sx={{
-                            mr: 2,
-                            display: DESKTOP_VIEW,
-                            fontFamily: "monospace",
-                            letterSpacing: '.1rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Opensell
-                    </Typography>
-
-                    <Box sx={{ flexGrow: 1, display: MOBILE_VIEW }}>
+                    {/* MOBILE SECTION */}
+                    <Stack display={MOBILE_VIEW} direction="row" alignItems="center">
                         <IconButton onClick={() => setIsMenuDisplayed(!isMenuDisplayed)}>
                             <MenuIcon color='inherit' />
                         </IconButton>
-                    </Box>
 
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            display: MOBILE_VIEW,
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            letterSpacing: '.1rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Opensell
-                    </Typography>
-                    <Stack direction="row" spacing={5} sx={{ flexGrow: 1, display: DESKTOP_VIEW }}>
+                    </Stack>
+                    <Logo />
+
+                    {/* DESKTOP SECTION */}
+                    <Stack alignItems="center" direction="row" spacing={5} sx={{ display: DESKTOP_VIEW }}>
+                        <Logo isDesktop />
+
                         {links.navbar?.map((link) => (
                             <AppNavLink key={link.label} {...link} />
                         ))}
                     </Stack>
 
+                    {/* COMMON SECTION */}
                     {customerDto ?
                         (
                             <MuiMenu menuIcon={
@@ -142,17 +116,20 @@ export default function Navbar(props: { logout(): void }): ReactElement {
                     }
                 </Toolbar>
 
-                {isMenuDisplayed ?
-                    (
-                        <Stack sx={{ display: MOBILE_VIEW }} justifyContent="center" alignItems="center">
-                            {links.navbar.map((link) => (
-                                <AppNavLink key={createRandomKey()} {...link} />
-                            ))}
-                        </Stack>
-                    ) : (
-                        <></>
-                    )
-                }
+
+
+                <Fade
+                    in={isMenuDisplayed}
+                    unmountOnExit
+                >
+                    <Stack sx={{
+                        display: MOBILE_VIEW
+                    }} justifyContent="center" alignItems="center">
+                        {links.navbar.map((link) => (
+                            <AppNavLink key={createRandomKey()} {...link} />
+                        ))}
+                    </Stack>
+                </Fade>
             </Container>
         </AppBar>
     );

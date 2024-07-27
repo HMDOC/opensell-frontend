@@ -8,11 +8,11 @@ import SettingsBrightnessIcon from '@mui/icons-material/SettingsBrightness';
 /**
  * Function to get the icon that correspond to the theme in parameter.
  */
-function getThemeIcon(theme: ThemeOption) {
+export function getThemeIcon(theme: ThemeOption, fontSize?: any) {
     switch (theme) {
-        case ThemeOption.LIGHT: return <LightModeIcon />
-        case ThemeOption.DARK: return <DarkModeIcon />
-        default: return <SettingsBrightnessIcon />
+        case ThemeOption.LIGHT: return <LightModeIcon sx={{fontSize}} />
+        case ThemeOption.DARK: return <DarkModeIcon sx={{fontSize}} />
+        default: return <SettingsBrightnessIcon sx={{fontSize}} />
     }
 }
 

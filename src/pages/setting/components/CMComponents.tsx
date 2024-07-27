@@ -1,24 +1,4 @@
-import { CustomerDto } from "@services/customer/auth/CustomerDto";
 import { Button, Card, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import { ReactNode } from "react";
-
-export interface CMState {
-    modalIsOpen: boolean;
-    currentModalContent: ReactNode;
-    currentModalTitle: string;
-}
-
-export interface CMProperties {
-    customerData?: CustomerDto;
-    refreshCallback(): void;
-}
-
-export interface CMDisplayProperties {
-    labelText: string;
-    defaultValue?: string;
-    hasButton?: boolean;
-    buttonOnClickCallback?(): void;
-}
 
 export function CMEditButton(props: { onClick: any, label: string }) {
     return (
@@ -50,6 +30,13 @@ export function CMContainer(props: { children: any, title: string, editButton?: 
             </Table>
         </TableContainer>
     );
+}
+
+export interface CMDisplayProperties {
+    labelText: string;
+    defaultValue?: string;
+    hasButton?: boolean;
+    buttonOnClickCallback?(): void;
 }
 
 export function CMDisplay(props: CMDisplayProperties) {
