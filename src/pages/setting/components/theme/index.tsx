@@ -30,7 +30,7 @@ export default function SettingTheme() {
             <Divider />
 
             <CardContent>
-                <Stack direction="row" justifyContent="space-between">
+                <Stack direction="row" alignItems="center" justifyContent="center" flexWrap="wrap" spacing={6} useFlexGap>
                     <SingleThemeChoice theme={ThemeOption.BROWSER_DEFAULT} action={changeTheme} />
                     <SingleThemeChoice theme={ThemeOption.DARK} action={changeTheme} />
                     <SingleThemeChoice theme={ThemeOption.LIGHT} action={changeTheme} />

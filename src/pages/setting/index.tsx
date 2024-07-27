@@ -1,5 +1,5 @@
 import ProfilIcon from "@components/shared/ProfilIcon";
-import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow } from "@mui/material";
+import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import { CMContainer, CMDisplay, CMEditButton } from "@pages/setting/components/CMComponents";
 import { CMBasicModificationsForm, CMEmailForm, CMIconForm, CMPasswordForm } from "@pages/setting/components/CMForm";
 import { CustomerDto } from "@services/customer/auth/CustomerDto";
@@ -60,15 +60,16 @@ export default function Setting(props: SettingProps) {
                     <CMDisplay labelText="Bio" defaultValue={props.customerData?.bio} />
                 </CMContainer>
 
-                <CMContainer title="Profile icon">
+                <CMContainer title="Profile icon" editButton={<CMEditButton onClick={() => openModal(CMModalType.ICON)} label="Edit" />}>
                     <TableRow sx={{ border: "none" }}>
                         <TableCell>
-                            <ProfilIcon src={props.customerData?.iconPath} username={props.customerData?.username} />
+                            <Typography variant="h6">The icon visible by anyone in your profile.</Typography>
                         </TableCell>
 
                         <TableCell />
-                        <TableCell>
-                            <CMEditButton onClick={() => openModal(CMModalType.ICON)} label="Edit" />
+
+                        <TableCell sx={{ float: "right" }}>
+                            <ProfilIcon avatarSize={{ width: "150px", height: "150px" }} src={props.customerData?.iconPath} username={props.customerData?.username} />
                         </TableCell>
                     </TableRow>
                 </CMContainer>
