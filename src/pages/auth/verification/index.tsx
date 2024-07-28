@@ -4,9 +4,10 @@ import { useAppContext } from "@context/AppContext";
 import { verifyCode } from "@services/customer/auth";
 import { login } from "@services/customer/auth";
 import { setToken } from "@services/TokenService";
-import "./style.css";
+import DraftsIcon from '@mui/icons-material/Drafts';
+import { Button, Card, Container, Stack, TextField, Typography } from "@mui/material";
 
-export default function Verification(props: any) {
+export default function Verification(props: { email: string, pwd: string }) {
     const [code, setCode] = useState<string>();
     const [message, setMessage] = useState<string>();
     const navigate = useNavigate();
@@ -19,33 +20,42 @@ export default function Verification(props: any) {
 
     async function handleCode(e: any) {
         e.preventDefault();
-        verifyCode(props.email, code).then(async (response: any) => {
-            if (response?.data === 0) {
-                console.log("Account verified");
-                setMessage("Account verified");
-                await login(props.email, props.pwd).then(async res => {
-                    await setToken(res?.data).then(() => {
-                        getCustomerInfo();
-                    });
-                });
+        verifyCode(props.email, code)
+            .then(async (response: any) => {
+                if (response?.data === 0) {
+                    console.log("Account verified");
+                    setMessage(undefined);
 
-                navigate("/");
-            }
-            else {
-                setMessage("Invalid code");
-            }
-        }).catch((error: any) => {
-            console.log(error);
-        });
+                    await login(props.email, props.pwd).then(async res => {
+                        await setToken(res?.data).then(() => {
+                            getCustomerInfo();
+                        });
+                    });
+
+                    navigate("/");
+                }
+                else if(!message) setMessage("Invalid code");
+            })
+            .catch((error: any) => {
+                console.log(error);
+            });
     }
     return (
-        <div className="verify-div">
-            <title>Verification</title>
-            <img className="email-pic" alt="email-verification" src="/img/email-vef.png"></img>
-            <p className="vef-top">Verify your account</p>
-            <p className="vef-bottom">A code has been sent to this email: {props.email}</p>
-            <input type="text" className="vefcode" onChange={handleChange}></input><br />
-            <div style={{ height: "100px" }}><button className="vef-button" onClick={handleCode}>Verify</button><br /><span style={{ fontSize: "1vw" }}>{message}</span></div>
-        </div>
+        <Container>
+            <Card minHeight="600px" component={Stack} alignItems="center" spacing={3} padding={5} justifyContent="center">
+                <title>Verification</title>
+                <Stack alignItems="center" spacing={1}>
+                    <DraftsIcon sx={{ fontSize: "210px" }} />
+                    <Typography variant="h3" className="vef-top">Verify your account</Typography>
+                    <Typography className="vef-bottom">A code has been sent to this email: {props.email}</Typography>
+                </Stack>
+
+                <TextField error={!!message} helperText={message} sx={{ width: "350px" }} onChange={handleChange} placeholder="Enter the verification code" />
+
+                <Stack alignItems="center" spacing={1}>
+                    <Button sx={{ width: "150px" }} onClick={handleCode}>Verify</Button>
+                </Stack>
+            </Card>
+        </Container>
     )
 }

@@ -27,6 +27,7 @@ img {
 	--invert: invert(100%);
 	--htmlHue: hue-rotate(180deg);
 	--imgHue: hue-rotate(-180deg);
+	/* --imageUrl: url("../public/img/dark-background.jpg") */
 }
 
 
@@ -34,6 +35,7 @@ img {
 	--invert: 0;
 	--htmlHue: hue-rotate(0);
 	--imgHue: 0;
+	/* --imageUrl: url("../public/img/main-background.jpg") */
 }
 
 body {
