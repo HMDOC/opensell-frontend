@@ -1,10 +1,12 @@
-import ProfilIcon from "@components/shared/ProfilIcon";
+import { AVATAR_SIZE } from "@components/shared/ProfilIcon";
+import { useAppContext } from "@context/AppContext";
 import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import { CMContainer, CMDisplay, CMEditButton } from "@pages/setting/components/CMComponents";
-import { CMBasicModificationsForm, CMEmailForm, CMIconForm, CMPasswordForm } from "@pages/setting/components/CMForm";
+import { CMBasicModificationsForm, CMEmailForm, CMPasswordForm } from "@pages/setting/components/CMForm";
 import { CustomerDto } from "@services/customer/auth/CustomerDto";
-import { CMModalType } from "@services/customer/setting/edit";
+import { changeIcon, CMModalType } from "@services/customer/setting/edit";
 import { useState } from "react";
+import { SingleImageInput } from "./components/profile-icon";
 import SettingTheme from "./components/theme";
 
 export interface SettingProps {
@@ -25,6 +27,7 @@ export interface SettingProps {
  *
  */
 export default function Setting(props: SettingProps) {
+    const { customerDto } = useAppContext();
     const [modalState, setModalState] = useState({
         modalIsOpen: false,
         currentModalContent: <></>,
@@ -35,7 +38,6 @@ export default function Setting(props: SettingProps) {
         if (type === CMModalType.BASIC_CHANGES) setModalState({ modalIsOpen: true, currentModalTitle: "other informations", currentModalContent: <CMBasicModificationsForm defaultValues={props.customerData} closeModalCallback={() => closeModal()} /> });
         else if (type === CMModalType.EMAIL) setModalState({ modalIsOpen: true, currentModalTitle: "personnal email", currentModalContent: <CMEmailForm onClose={() => closeModal()} /> });
         else if (type === CMModalType.PASSWORD) setModalState({ modalIsOpen: true, currentModalTitle: "password", currentModalContent: <CMPasswordForm defaultValues={props.customerData} closeModalCallback={() => closeModal()} /> });
-        else if (type === CMModalType.ICON) setModalState({ modalIsOpen: true, currentModalTitle: "icon", currentModalContent: <CMIconForm defaultValues={props.customerData} closeModalCallback={() => closeModal()} /> });
     }
 
     const closeModal = (): void => {
@@ -60,16 +62,18 @@ export default function Setting(props: SettingProps) {
                     <CMDisplay labelText="Bio" defaultValue={props.customerData?.bio} />
                 </CMContainer>
 
-                <CMContainer title="Profile icon" editButton={<CMEditButton onClick={() => openModal(CMModalType.ICON)} label="Edit" />}>
+                <CMContainer title="Profile">
                     <TableRow sx={{ border: "none" }}>
                         <TableCell>
-                            <Typography variant="h6">The icon visible by anyone in your profile.</Typography>
+                            <Typography variant="h6">Profile icon</Typography>
+
+                            <Typography variant="subtitle2">The icon visible by anyone in your profile.</Typography>
                         </TableCell>
 
                         <TableCell />
 
                         <TableCell sx={{ float: "right" }}>
-                            <ProfilIcon avatarSize={{ width: "150px", height: "150px" }} src={props.customerData?.iconPath} username={props.customerData?.username} />
+                            <SingleImageInput avatarSize={AVATAR_SIZE} id={customerDto?.customerId!} saveQuery={(id, file) => { changeIcon(id!, file); props.refreshCallback(); }} avatarText={customerDto?.username?.at(0)} path={customerDto?.iconPath} />
                         </TableCell>
                     </TableRow>
                 </CMContainer>

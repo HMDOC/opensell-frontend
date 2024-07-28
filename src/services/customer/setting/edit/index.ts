@@ -7,13 +7,12 @@ const REQUEST_MAPPING = "/api/customer/setting/edit";
 export enum CMModalType {
     EMAIL,
     PASSWORD,
-    BASIC_CHANGES,
-    ICON
+    BASIC_CHANGES
 }
 
-export const changeIcon = async (iconFile: File, id: number) => {
+export const changeIcon = async (id: number, iconFile?: File) => {
     let formData: FormData = new FormData();
-    formData.append("iconFile", iconFile);
+    if(iconFile) formData.append("iconFile", iconFile);
 
     return await http.patch(`${REQUEST_MAPPING}/${id}/icon`, formData);
 }

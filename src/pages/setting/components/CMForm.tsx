@@ -1,18 +1,16 @@
 import { useAppContext } from "@context/AppContext";
 import { Stack } from "@mui/material";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
+import { CustomerDto } from "@services/customer/auth/CustomerDto";
+import { changeEmail, changeOtherInformation, changePassword } from "@services/customer/setting/edit";
 import { OtherInformationDto } from "@services/customer/setting/edit/dto/OtherInformationDto";
+import { isEmailExists, isUsernameExists } from "@services/customer/setting/verification";
 import { RegexCode, verify } from "@utils/RegexUtils";
 import { notEmptyWithMaxAndMin } from "@utils/yupSchema";
 import { AxiosError, HttpStatusCode } from "axios";
 import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
 import { ReactNode, useState } from "react";
 import { object, ref, string } from "yup";
-import { changeEmail, changeIcon, changeOtherInformation, changePassword } from "@services/customer/setting/edit";
-import { isEmailExists, isUsernameExists } from "@services/customer/setting/verification";
-import { CustomerDto } from "@services/customer/auth/CustomerDto";
-
-const CM_FORM_ID = "setting-form";
 
 interface CMFormProperties {
     defaultValues?: CustomerDto,
@@ -162,37 +160,6 @@ export function CMPasswordForm(props: CMFormProperties) {
                 <Field name="password" component={AdCreationInput} label="New Password" type="password" />
                 <Field name="confirmPassword" component={AdCreationInput} label="Confirm Password" type="password" />
             </CMFormContainer>
-        </div>
-    )
-}
-
-export function CMIconForm(props: CMFormProperties) {
-    return (
-        <div>
-            <Formik
-                initialValues={{
-                    iconFile: null
-                }}
-                onSubmit={async (values) => {
-                    if (values.iconFile) {
-                        await changeIcon(values.iconFile, props.defaultValues?.customerId!)
-                            .then(res => {
-                                if (res.status == HttpStatusCode.Ok) {
-                                    props.closeModalCallback();
-                                }
-                            })
-                    } else props.closeModalCallback();
-                }}
-            >
-                {({ setFieldValue, handleBlur }) => (
-                    <Form id={CM_FORM_ID}>
-                        {/** Need to make a component for the images. This component should have a `multiple` properties. To handle bot single and multiple files component. */}
-                        <label>Icon</label>
-                        <br />
-                        <input onBlur={handleBlur} onChange={(e) => setFieldValue("iconFile", e.target.files?.item(0))} name="iconFile" type="file" />
-                    </Form>
-                )}
-            </Formik>
         </div>
     )
 }
