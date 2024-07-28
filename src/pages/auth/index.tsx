@@ -35,15 +35,10 @@ export default function Auth(props: { isLogin?: boolean }) {
                         await login(values.username, values.pwd)
                             .then(async res => {
                                 if (res?.data) {
-                                    let response = (await login(values.username, values.pwd));
-
-                                    if (response?.data) {
-                                        setToken(response?.data).then(() => {
-                                            getCustomerInfo();
-                                        });
-
+                                    await setToken(res?.data).then(() => {
+                                        getCustomerInfo();
                                         navigate("/");
-                                    }
+                                    });
                                 }
                             }).catch((error: AxiosError) => {
                                 if (error.response?.status == 400) {
