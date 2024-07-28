@@ -96,7 +96,7 @@ export default function Auth(props: { isLogin?: boolean }) {
                 {({ values }) => (
                     <>
                         {isAuthentified ? (<Verification email={values.email} pwd={values.pwd} />) : (
-                            <Form>
+                            <Form id={props.isLogin ? "login" : "signup"}>
                                 <Card
                                     component={Stack}
                                     direction="row"

@@ -14,7 +14,8 @@ import { CustomerDto } from './services/customer/auth/CustomerDto';
 
 const About = lazy(() => import("@pages/about"));
 const Home = lazy(() => import("@pages/home"));
-const Auth = lazy(() => import("@pages/auth"));
+const Login = lazy(() => import("@pages/auth/login"));
+const Signup = lazy(() => import("@pages/auth/signup"));
 const AdViewDto = lazy(() => import("@pages/ad-view"));
 const UserProfil = lazy(() => import("@pages/user-profil"));
 const NotFound = lazy(() => import("@pages/not-found"));
@@ -47,18 +48,18 @@ export default function App() {
 	}
 
 	const muiTheme = createTheme({
-		palette : {
+		palette: {
 
 		},
-		components : {
-			MuiButton : {
-				defaultProps : {
-					variant : "contained"
+		components: {
+			MuiButton: {
+				defaultProps: {
+					variant: "contained"
 				}
 			},
-			MuiTextField : {
-				defaultProps : {
-					variant : "outlined"
+			MuiTextField: {
+				defaultProps: {
+					variant: "outlined"
 				}
 			}
 		}
@@ -82,8 +83,8 @@ export default function App() {
 							</Route>
 							<Route path="/" element={<Home />}></Route>
 							<Route path='/about' element={<About />}></Route>
-							<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Auth />}></Route>
-							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Auth isLogin />}></Route>
+							<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
+							<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
 							<Route path="/catalog" element={<Catalog />}></Route>
 							<Route path="/ad/:id" element={<AdViewDto />}></Route>
 							<Route path="/user/:username" element={<UserProfil />}></Route>
