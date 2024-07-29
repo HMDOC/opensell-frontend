@@ -1,9 +1,8 @@
+import HomeSearchBar from "@components/shared/home-search-bar";
+import { Stack, Typography } from "@mui/material";
+import { AboutLine } from "@pages/about";
 import { FormEvent, ReactElement } from "react";
 import { useNavigate } from "react-router-dom";
-import "./style.css";
-import { IconButton, Stack, Typography } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
-import { AboutLine } from "@pages/about";
 
 export default function Home(): ReactElement {
     const navigate = useNavigate();
@@ -27,12 +26,8 @@ export default function Home(): ReactElement {
 
             <Typography variant="h5">The online marketplace redesigned.</Typography><br />
 
-            <form onSubmit={getLink} className="inputContainer">
-                <input name="query" placeholder="Search" className="mainMenuInput" />
-
-                <IconButton type="submit">
-                    <SearchIcon />
-                </IconButton>
+            <form onSubmit={getLink}>
+                <HomeSearchBar />
             </form>
         </Stack >
     );

@@ -1,8 +1,7 @@
-import SearchIcon from '@mui/icons-material/Search';
-import { Card, IconButton, InputBase, Stack, useTheme } from "@mui/material";
+import HomeSearchBar from '@components/shared/home-search-bar';
+import { Card, Stack } from "@mui/material";
 import { ReactElement } from "react";
 import SearchFilters from "../search-filters";
-import "./style.css";
 
 type SearchBarProps = {
 
@@ -13,7 +12,6 @@ type SearchBarProps = {
     @author Davide
 */
 export default function SearchBar(props: any): ReactElement {
-    const theme = useTheme();
 
     const searchBarPress = (event: any) => {
         let key: string = event.key;
@@ -24,14 +22,9 @@ export default function SearchBar(props: any): ReactElement {
     }
 
     return (
-        <Card component={Stack} width="350px" padding={2}>
-            <Stack border={1} direction="row" alignItems="center" className="catInputContainer">
-                {/* Need to try with InputBase */}
-                <input style={{ color: theme.palette.text.primary }} className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="Search" />
-
-                <IconButton type="submit" form="searchFilters" onClick={props.click}>
-                    <SearchIcon />
-                </IconButton>
+        <Card component={Stack} width="350px" padding={2} spacing={3}>
+            <Stack alignItems="center">
+                <HomeSearchBar isSearch {...props} searchBarPress={searchBarPress} />
             </Stack>
 
             <SearchFilters

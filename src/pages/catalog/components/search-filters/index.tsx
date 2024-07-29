@@ -25,7 +25,7 @@ const adSortBy = [
     The component that holds all of the filter options.
     @author Davide
 */
-const SearchFilters = (props): ReactElement => {
+export default function SearchFilters(props: any): ReactElement {
     //const filtersUpdated = (event) => props.filterUpdate(event);
 
     // Tag error and emplacement container
@@ -63,11 +63,11 @@ const SearchFilters = (props): ReactElement => {
             onSubmit={(values) => {
                 console.log(values);
                 // You need to cast the dateMin and max, because MUI use a special type of date.
-                console.log(new Date(values.dateMin?.toString())?.toLocaleDateString()); // 7/13/2024
+                console.log(new Date((values.dateMin as any)?.toString())?.toLocaleDateString()); // 7/13/2024
                 console.log("Hello World!");
             }}
         >
-            <Stack component={Form} id="searchFilters" spacing={1}>
+            <Stack component={Form} id="searchFilters" spacing={1.5}>
                 <Field name="priceMin" component={AdCreationInput} label="Price Min" type="number" />
                 <Field name="priceMax" component={AdCreationInput} label="Price Max" type="number" />
                 <Field name="dateMin" component={FormikDatePicker} label="Date Min" />
@@ -145,5 +145,3 @@ const SearchFilters = (props): ReactElement => {
     }
 
 }
-
-export default SearchFilters;

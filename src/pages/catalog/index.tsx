@@ -9,56 +9,55 @@ import AdPreview from "./components/ad-preview";
 import SearchBar from "./components/search-bar";
 import "./style.css";
 
+const errors = {
+    regular: [
+        `Nobody here but us script kitties!`,
+        "Your search query did not match any criteria.",
+        "Purrhaps try using criteria that is not as strict."
+    ],
+    cantConnect: [
+        "No contact here but us script kitties!",
+        "We were not able to connect with our servers. ",
+        "Purrhaps one of us tripped on the faulty wiring backstage."
+    ],
+    canceled: [
+        "No cancellation but us script kitties!",
+        "Looks like your request has somehow been cancelled.",
+        "Purrhaps you should try again?"
+    ],
+    badrequest: [
+        "No requests but us script kitties!",
+        "Looks like your request is somehow invalid.",
+        "Purrhaps you used unsupported parameters or the syntax is invalid?"
+    ],
+    badresponse: [
+        "No response but us script kitties!",
+        "Looks like our response is somehow invalid.",
+        "It's unlikely, due the error type," +
+        "but purrhaps you did something that caused this?"
+    ],
+    toomanyrequests: [
+        "No requests but us script kitties!",
+        "Looks like youre sending too many requests.",
+        "Purrhaps you can take a break and touch grass?"
+    ],
+    deprecated: [
+        "Nothing but us script kitties!",
+        "Looks like youre trying to use something thats deprecated.",
+        "Purrhaps you can navigate elsewhere?"
+    ],
+    unknown: [
+        "No unknown errors but us script kitties!",
+        "We REALLY don't know what happened!",
+        "Purrhaps you should try again?"
+    ]
+};
+
 /** 
     The catalog page and all of its important components
     @author Davide
 */
-const ResultList = (): ReactElement => {
-
-    const errors = {
-        regular: [
-            `Nobody here but us script kitties!`,
-            "Your search query did not match any criteria.",
-            "Purrhaps try using criteria that is not as strict."
-        ],
-        cantConnect: [
-            "No contact here but us script kitties!",
-            "We were not able to connect with our servers. ",
-            "Purrhaps one of us tripped on the faulty wiring backstage."
-        ],
-        canceled: [
-            "No cancellation but us script kitties!",
-            "Looks like your request has somehow been cancelled.",
-            "Purrhaps you should try again?"
-        ],
-        badrequest: [
-            "No requests but us script kitties!",
-            "Looks like your request is somehow invalid.",
-            "Purrhaps you used unsupported parameters or the syntax is invalid?"
-        ],
-        badresponse: [
-            "No response but us script kitties!",
-            "Looks like our response is somehow invalid.",
-            "It's unlikely, due the error type," +
-            "but purrhaps you did something that caused this?"
-        ],
-        toomanyrequests: [
-            "No requests but us script kitties!",
-            "Looks like youre sending too many requests.",
-            "Purrhaps you can take a break and touch grass?"
-        ],
-        deprecated: [
-            "Nothing but us script kitties!",
-            "Looks like youre trying to use something thats deprecated.",
-            "Purrhaps you can navigate elsewhere?"
-        ],
-        unknown: [
-            "No unknown errors but us script kitties!",
-            "We REALLY don't know what happened!",
-            "Purrhaps you should try again?"
-        ]
-    }
-
+export default function Catalog(): ReactElement {
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
     const [searchClick, setSearchClick] = useState(false);
@@ -74,11 +73,11 @@ const ResultList = (): ReactElement => {
     const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
 
     useEffect(() => {
-        let tmpFilterOptions = {};
-        filterRef.current.childNodes.forEach((value: HTMLInputElement, key: number) => {
+        let tmpFilterOptions: any = {};
+        filterRef?.current?.childNodes.forEach((value: any) => {
             console.log(`${value?.name} - ${value?.value} - ${value?.defaultValue}`);
             if ((value?.value !== value?.defaultValue) && (value?.value !== "")) {
-                tmpFilterOptions[`${value?.name}`] = value.value;
+                tmpFilterOptions[value?.name as string] = value.value;
             }
         });
 
@@ -88,7 +87,7 @@ const ResultList = (): ReactElement => {
     }, [filtersUpdated]);
 
     useEffect(() => {
-        searchBarRef.current.value = searchParams.get("query");
+        searchBarRef.current!.value = searchParams.get("query") as string;
 
         let tmpFilterOptions = filterOptions;
         tmpFilterOptions["adTags"] = searchTags;
@@ -173,12 +172,12 @@ const ResultList = (): ReactElement => {
                     (listOfAds.length > 0) ?
                         (
                             listOfAds?.map((data: AdPreviewDto, i: number) => (
-                                <div key={`ad-preview-${i}`}>
+                                <Stack key={`ad-preview-${i}`}>
                                     <AdPreview
                                         id={data?.id}
                                         {...data}
                                     />
-                                </div>
+                                </Stack>
                             ))
                         ) : (
                             <Stack className="searchEmpty" width="100%">
@@ -199,5 +198,3 @@ const ResultList = (): ReactElement => {
         </Stack>
     )
 }
-
-export default ResultList;
