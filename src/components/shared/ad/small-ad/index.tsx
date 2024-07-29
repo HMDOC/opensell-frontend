@@ -2,7 +2,7 @@ import AdPricePart from "@components/shared/ad/price-part";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { Card, CardActionArea, CardHeader, CardMedia, Stack, Typography } from "@mui/material";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 
 type SmallAd = {
     isSearch?: boolean;

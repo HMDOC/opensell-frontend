@@ -63,7 +63,7 @@ export default function Setting(props: SettingProps) {
                 </CMContainer>
 
                 <CMContainer title="Profile">
-                    <TableRow sx={{ border: "none" }}>
+                    <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell>
                             <Typography variant="h6">Profile icon</Typography>
 
