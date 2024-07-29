@@ -40,7 +40,7 @@ export function AdTags(props: { name: string, isSearch?: boolean, placeholder?: 
                         name={props.name}
                         sx={{ width: "250px" }}
                         onBlur={form.handleBlur}
-                        error={form.errors[props.name] && Boolean(form.touched[props.name])}
+                        error={Boolean(form.errors[props.name]) && Boolean(form.touched[props.name])}
                         helperText={<ErrorMessage name={props.name} />}
                         onDoubleClickCapture={(e: any) => {
                             if (e.target.value?.length > 0 && !form.values.tags?.includes(e.target.value)) {
@@ -51,8 +51,8 @@ export function AdTags(props: { name: string, isSearch?: boolean, placeholder?: 
                     />
 
                     <Stack flexWrap={"wrap"} direction="row" spacing={1} width={600}>
-                        {form.values.tags?.map(value => (
-                            <AdTagPart label={value} onDoubleClick={() => remove(form.values.tags?.indexOf(value))} key={createRandomKey()} />
+                        {form.values.tags?.map((value: string) => (
+                            <AdTagPart label={value} onDelete={() => remove(form.values.tags?.indexOf(value))} key={createRandomKey()} />
                         ))}
                     </Stack>
                 </>

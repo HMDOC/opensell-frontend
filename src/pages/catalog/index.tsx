@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import AdPreview from "./components/ad-preview";
-import SearchBar from "./components/search-bar";
+import SearchFilters from "./components/search-filters";
 import "./style.css";
 
 const errors = {
@@ -61,7 +61,7 @@ export default function Catalog(): ReactElement {
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
     const [searchClick, setSearchClick] = useState(false);
-    const searchBarRef = useRef<HTMLInputElement>();
+    const searchBarRef = useRef<HTMLInputElement>(null);
     const [isLoading, setLoading] = useState<boolean>();
     const [searchError, setSearchError] = useState<string[]>(errors.regular);
 
@@ -87,7 +87,7 @@ export default function Catalog(): ReactElement {
     }, [filtersUpdated]);
 
     useEffect(() => {
-        searchBarRef.current!.value = searchParams.get("query") as string;
+        if (searchBarRef?.current) searchBarRef.current.value = searchParams.get("query") as string;
 
         let tmpFilterOptions = filterOptions;
         tmpFilterOptions["adTags"] = searchTags;
@@ -156,13 +156,10 @@ export default function Catalog(): ReactElement {
             <title>Catalog</title>
 
             <Stack>
-                <SearchBar
+                <SearchFilters
                     filterUpdate={setFiltersUpdated}
-                    filters={filterRef}
                     reference={searchBarRef}
                     click={setSearchClick}
-                    searchTags={searchTags}
-                    setSearchTags={setSearchTags}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
             </Stack>
 

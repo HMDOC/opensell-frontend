@@ -1,10 +1,10 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { IconButton, Stack, useTheme } from "@mui/material";
 import "./style.css";
+import { RefObject } from 'react';
 
 type HomeSearchBarProps = {
-    click?: any;
-    reference?: any;
+    reference?: RefObject<HTMLInputElement>;
     searchBarPress?: any;
     isSearch?: boolean;
 };
@@ -39,7 +39,7 @@ export default function HomeSearchBar(props: HomeSearchBarProps) {
                 name="query"
             />
 
-            <IconButton type="submit" onClick={props.click}>
+            <IconButton type="submit">
                 <SearchIcon />
             </IconButton>
         </Stack>
