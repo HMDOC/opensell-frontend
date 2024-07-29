@@ -40,14 +40,14 @@ export default function App() {
 						<Route path="/u/setting" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
 					</Route>
 					
-					<Route path="/" element={<Home />}></Route>
-					<Route path='/about' element={<About />}></Route>
-					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
-					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
-					<Route path="/catalog" element={<Catalog />}></Route>
-					<Route path="/ad/:id" element={<AdViewDto />}></Route>
-					<Route path="/user/:username" element={<UserProfile />}></Route>
-					<Route path="*" element={<NotFound />}></Route>
+					<Route path="/" element={<Home />} />
+					<Route path='/about' element={<About />} />
+					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />} />
+					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />} />
+					<Route path="/catalog" element={<Catalog />} />
+					<Route path="/ad/:id" element={<AdViewDto />} />
+					<Route path="/user/:username" element={<UserProfile />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Suspense>
 			<title>Opensell</title>
