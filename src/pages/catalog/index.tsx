@@ -1,13 +1,13 @@
-import { Stack } from "@mui/material";
+import { LoadingIcon } from "@components/animations/loading";
+import { Grid, Stack } from "@mui/material";
+import { getAdBySearch } from "@services/ad/catalog";
+import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 import { AxiosError } from "axios";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { LoadingIcon } from "@components/animations/loading";
-import { getAdBySearch } from "@services/ad/catalog";
 import AdPreview from "./components/ad-preview";
 import SearchBar from "./components/search-bar";
 import "./style.css";
-import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
 /** 
     The catalog page and all of its important components
@@ -109,10 +109,10 @@ const ResultList = (): ReactElement => {
 
         let tmpQueryParams: any = filterOptions;
         tmpQueryParams["adTags"] = searchTags;
-        tmpQueryParams["query"] = searchBarRef.current.value;
+        tmpQueryParams["query"] = searchBarRef.current?.value;
         setSearchParams(tmpQueryParams);
 
-        getAdBySearch(searchBarRef.current.value, filterOptions).then(res => {
+        getAdBySearch(searchBarRef?.current?.value!, filterOptions).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
@@ -153,9 +153,10 @@ const ResultList = (): ReactElement => {
 
 
     return (
-        <div className="catalog-div">
+        <Stack direction="row" spacing={2} justifyContent="center">
             <title>Catalog</title>
-            <div className="div-filters catalog-div-bg">
+
+            <Stack>
                 <SearchBar
                     filterUpdate={setFiltersUpdated}
                     filters={filterRef}
@@ -164,39 +165,38 @@ const ResultList = (): ReactElement => {
                     searchTags={searchTags}
                     setSearchTags={setSearchTags}
                     defSortValue={searchParams.get("reverseSort") === "1"} />
-            </div>
+            </Stack>
 
-            <div >
-                {
-                    (isLoading) ?
-                        <LoadingIcon /> :
-
-                        (listOfAds.length > 0) ?
-                            <Stack direction="row" flexWrap={"wrap"} spacing={2} useFlexGap>
-                                {
-                                    listOfAds?.map((data: AdPreviewDto, i: number) => (
-                                        <AdPreview
-                                            key={`ad-preview-${i}`}
-                                            id={data?.id}
-                                            {...data}
-                                        />
-                                    ))
-                                }
-                            </Stack>
-                            :
-                            <div className="searchEmpty">
+            <Grid container direction="row" gap={2} flexWrap={"wrap"} width="1500px" marginRight="350px">
+                {(isLoading) ?
+                    <LoadingIcon /> :
+                    (listOfAds.length > 0) ?
+                        (
+                            listOfAds?.map((data: AdPreviewDto, i: number) => (
+                                <div key={`ad-preview-${i}`}>
+                                    <AdPreview
+                                        id={data?.id}
+                                        {...data}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <Stack className="searchEmpty" width="100%">
                                 {searchError.map((val, index) => {
                                     return (
-                                        <div id={(index === 0) ? "errorTitle" : ""}
-                                            key={`error${index}`}>
+                                        <Stack
+                                            id={(index === 0) ? "errorTitle" : ""}
+                                            key={`error${index}`}
+                                        >
                                             {val}
-                                        </div>
+                                        </Stack>
                                     )
                                 })}
-                            </div>
+                            </Stack>
+                        )
                 }
-            </div>
-        </div>
+            </Grid>
+        </Stack>
     )
 }
 

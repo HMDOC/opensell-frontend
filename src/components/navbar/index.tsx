@@ -44,13 +44,13 @@ const DROPDOWN_MENU = [
  * @author Quoc
  * @modifiedBy Achraf
  */
-export default function Navbar(props: { logout(): void }): ReactElement {
+export default function Navbar(): ReactElement {
     const navigate = useNavigate();
     const [isMenuDisplayed, setIsMenuDisplayed] = useState(false);
-    const { customerDto } = useAppContext();
+    const { customerDto, logout } = useAppContext();
 
     const logoutAction = () => {
-        props.logout();
+        logout();
         localStorage.removeItem('token');
         navigate('/');
     }

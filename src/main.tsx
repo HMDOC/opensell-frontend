@@ -2,12 +2,15 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
 import reportWebVitals from "./reportWebVitals";
+import { AppContextProvider } from '@context/AppContext';
 
 const root = createRoot(document.getElementById('root')!);
 
 root.render(
   <StrictMode>
-    <App />
+    <AppContextProvider>
+      <App />
+    </AppContextProvider>
   </StrictMode>
 );
 

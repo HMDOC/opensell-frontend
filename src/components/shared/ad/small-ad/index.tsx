@@ -1,8 +1,8 @@
 import AdPricePart from "@components/shared/ad/price-part";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
-import { Card, CardHeader, CardMedia, Stack, Typography } from "@mui/material";
+import { Card, CardActionArea, CardHeader, CardMedia, Stack, Typography } from "@mui/material";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
-import { ReactNode } from "react";
+import { Fragment, ReactNode } from "react";
 
 type SmallAd = {
     isSearch?: boolean;
@@ -16,7 +16,7 @@ type SmallAd = {
 */
 export const SmallAd = (props: SmallAd) => {
     return (
-        <Card className={props.className} onClick={props.goToAd} sx={{ width: "350px" }}>
+        <Card onClick={props.goToAd} sx={{ width: "350px" }} component={props.isSearch ? CardActionArea : Stack}>
             <CardMedia component="img" image={props.firstImage} width="220px" height="150px" />
 
             <CardHeader

@@ -15,35 +15,19 @@ body {
 	display: none;
 } */
 
-html {
-	filter: var(--invert) var(--htmlHue);
-}
-
-img {
-	filter: var(--invert) hue-rotate(-180deg);
-}
-
 [is-dark-mode="true"] {
-	--invert: invert(100%);
-	--htmlHue: hue-rotate(180deg);
-	--imgHue: hue-rotate(-180deg);
-	/* --imageUrl: url("../public/img/dark-background.jpg") */
 }
 
 
 [is-dark-mode="false"] {
-	--invert: 0;
-	--htmlHue: hue-rotate(0);
-	--imgHue: 0;
-	/* --imageUrl: url("../public/img/main-background.jpg") */
 }
 
 body {
-	color: var(--defaultText);
+	/* color: var(--defaultText);
 	background-image: var(--imageUrl);
 	background-repeat: no-repeat;
 	background-size: 100vw 100vh;
-	background-color: #e3d9cd;
+	background-color: #e3d9cd; */
 }
 
 .main-background {
@@ -58,29 +42,6 @@ body {
 	padding: 30px;
 }
 
-
-.reg-background {
-	width: 90vw;
-	max-width: 60em;
-	min-height: 80vh;
-	margin: 30px auto auto auto;
-	background-color: white;
-	border-radius: 20px;
-	padding: 50px 20px;
-	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-}
-
-.reg-background div {
-	margin: 0.5em 0;
-}
-
-.reg-background label {
-	font-weight: bold;
-}
-
-.dark-shadow {
-	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
-}
 
 .imgFit {
 	object-fit: cover;

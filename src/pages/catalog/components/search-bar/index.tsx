@@ -1,15 +1,21 @@
-import { ReactElement } from "react";
-import "./style.css";
-import SearchFilters from "../search-filters";
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, Stack } from "@mui/material";
+import { Card, IconButton, InputBase, Stack, useTheme } from "@mui/material";
+import { ReactElement } from "react";
+import SearchFilters from "../search-filters";
+import "./style.css";
+
+type SearchBarProps = {
+
+};
 
 /** 
     The component for the search bar.
     @author Davide
 */
-const SearchBar = (props): ReactElement => {
-    const searchBarPress = (event) => {
+export default function SearchBar(props: any): ReactElement {
+    const theme = useTheme();
+
+    const searchBarPress = (event: any) => {
         let key: string = event.key;
         if (key === "Enter") {
             console.log("Enter")
@@ -18,11 +24,12 @@ const SearchBar = (props): ReactElement => {
     }
 
     return (
-        <div className="catSearchBar">
-            <Stack direction="row" alignItems="center" className="catInputContainer">
-                <input className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="Search" />
+        <Card component={Stack} width="350px" padding={2}>
+            <Stack border={1} direction="row" alignItems="center" className="catInputContainer">
+                {/* Need to try with InputBase */}
+                <input style={{ color: theme.palette.text.primary }} className="catMainMenuInput" ref={props.reference} onKeyDown={searchBarPress} placeholder="Search" />
 
-                <IconButton type="submit" form="searchFilters" className="catSearchButton" onClick={props.click}>
+                <IconButton type="submit" form="searchFilters" onClick={props.click}>
                     <SearchIcon />
                 </IconButton>
             </Stack>
@@ -34,8 +41,6 @@ const SearchBar = (props): ReactElement => {
                 filterElementRef={props.filters}
                 defValue={props.defSortValue}
             />
-        </div>
+        </Card>
     )
 }
-
-export default SearchBar;
