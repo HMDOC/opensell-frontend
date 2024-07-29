@@ -1,6 +1,6 @@
 import { useAppContext } from '@context/AppContext';
 import EditIcon from '@mui/icons-material/Edit';
-import { Card, CardContent, CardHeader, Container, Divider, Stack, Typography } from '@mui/material';
+import { Card, CardContent, CardHeader, Container, Divider, Stack, Typography, useTheme } from '@mui/material';
 import AdPreviewDto from '@services/ad/catalog/dto/AdPreviewDto';
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -9,17 +9,19 @@ import ProfileDto from "../../services/customer/ProfileDto";
 import AdPreview from "../catalog/components/ad-preview";
 import { getCustomerProfileDto } from '@services/customer';
 
-export default function UserProfil(props: { isMyProfil?: boolean }): ReactElement {
+export default function UserProfil(): ReactElement {
     const { username } = useParams();
     const [profileDto, setCustomerProfileDto] = useState<ProfileDto>();
     const { customerDto } = useAppContext();
+    const theme = useTheme();
+    const isMyProfil = customerDto?.username == username;
 
     useEffect(() => {
         console.log(username);
-        getCustomerProfileDto(props.isMyProfil ? customerDto?.username : username).then(res => {
+        getCustomerProfileDto(username).then(res => {
             setCustomerProfileDto(res?.data)
         });
-    }, []);
+    }, [username]);
 
     return (
         <Container>
@@ -28,7 +30,7 @@ export default function UserProfil(props: { isMyProfil?: boolean }): ReactElemen
             <Card>
                 <CardHeader
                     action={
-                        props.isMyProfil ? <Link to="/u/setting"><EditIcon /></Link> : <></>
+                        isMyProfil ? <Link to="/u/setting" style={{ color: theme.palette.text.primary }}><EditIcon /></Link> : <></>
                     }
                 />
 

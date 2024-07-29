@@ -13,7 +13,7 @@ const Home = lazy(() => import("@pages/home"));
 const Login = lazy(() => import("@pages/auth/login"));
 const Signup = lazy(() => import("@pages/auth/signup"));
 const AdViewDto = lazy(() => import("@pages/ad-view"));
-const UserProfil = lazy(() => import("@pages/user-profil"));
+const UserProfile = lazy(() => import("@pages/user-profile"));
 const NotFound = lazy(() => import("@pages/not-found"));
 const Catalog = lazy(() => import("@pages/catalog"));
 const Setting = lazy(() => import("@pages/setting"));
@@ -38,15 +38,15 @@ export default function App() {
 					<Route path="/u" element={<PrivateRoute />}>
 						<Route path='/u/my-ads' element={<MyAds />} />
 						<Route path="/u/setting" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
-						<Route path="/u/my-profil" element={<UserProfil isMyProfil />}></Route>
 					</Route>
+					
 					<Route path="/" element={<Home />}></Route>
 					<Route path='/about' element={<About />}></Route>
 					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />}></Route>
 					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />}></Route>
 					<Route path="/catalog" element={<Catalog />}></Route>
 					<Route path="/ad/:id" element={<AdViewDto />}></Route>
-					<Route path="/user/:username" element={<UserProfil />}></Route>
+					<Route path="/user/:username" element={<UserProfile />}></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
 			</Suspense>

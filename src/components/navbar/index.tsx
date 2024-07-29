@@ -20,25 +20,6 @@ import Logo from './components/logo';
 import links from "./links.json";
 import "./style.css";
 
-
-const DROPDOWN_MENU = [
-    {
-        path: "/u/my-profil",
-        label: "My profil",
-        icon: <PersonIcon />
-    },
-    {
-        path: "/u/my-ads",
-        label: "My Ads",
-        icon: <WebIcon />
-    },
-    {
-        path: "/u/setting",
-        label: "Settings",
-        icon: <SettingsIcon />
-    }
-];
-
 /**
  * 
  * @author Quoc
@@ -48,6 +29,24 @@ export default function Navbar(): ReactElement {
     const navigate = useNavigate();
     const [isMenuDisplayed, setIsMenuDisplayed] = useState(false);
     const { customerDto, logout } = useAppContext();
+
+    const DROPDOWN_MENU = [
+        {
+            path: `/user/${customerDto?.username}`,
+            label: "My profil",
+            icon: <PersonIcon />
+        },
+        {
+            path: "/u/my-ads",
+            label: "My Ads",
+            icon: <WebIcon />
+        },
+        {
+            path: "/u/setting",
+            label: "Settings",
+            icon: <SettingsIcon />
+        }
+    ];
 
     const logoutAction = () => {
         logout();
@@ -115,8 +114,6 @@ export default function Navbar(): ReactElement {
                         )
                     }
                 </Toolbar>
-
-
 
                 <Fade
                     in={isMenuDisplayed}
