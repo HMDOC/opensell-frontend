@@ -30,7 +30,6 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-
 				<Navbar />
 
 				<Routes>

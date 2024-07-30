@@ -2,12 +2,15 @@ import AdImage from '@model/AdImage';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import { Container, Dialog, DialogContent, DialogTitle, IconButton, Stack, Typography } from "@mui/material";
+import { Container, Dialog, DialogContent, DialogTitle, IconButton, Stack, SvgIcon, Typography } from "@mui/material";
 
-const arrowStyle = {
-    fontSize: "55px",
-    color: "black"
-};
+function ArrowButton(props: { icon: typeof SvgIcon, action(): void }) {
+    return (
+        <IconButton onClick={props.action}>
+            <props.icon sx={{ fontSize: "55px", color: "text.primary" }} />
+        </IconButton>
+    );
+}
 
 export default function ImageViewer(props: { open: boolean, onClose: any, currentPicture: number, adImages?: Array<AdImage>, nextOrPrevious: any }) {
     return (
@@ -18,15 +21,11 @@ export default function ImageViewer(props: { open: boolean, onClose: any, curren
 
             <DialogContent>
                 <Stack direction="row" justifyContent="center" alignItems="center">
-                    <IconButton onClick={() => props.nextOrPrevious(false)}>
-                        <ArrowCircleLeftIcon sx={arrowStyle} />
-                    </IconButton>
+                    <ArrowButton icon={ArrowCircleLeftIcon} action={() => props.nextOrPrevious(false)} />
 
-                    <Typography color="black" variant="h6">{props.currentPicture + 1} / {props.adImages?.length}</Typography>
+                    <Typography variant="h6">{props.currentPicture + 1} / {props.adImages?.length}</Typography>
 
-                    <IconButton onClick={() => props.nextOrPrevious(true)}>
-                        <ArrowCircleRightIcon sx={arrowStyle} />
-                    </IconButton>
+                    <ArrowButton icon={ArrowCircleRightIcon} action={() => props.nextOrPrevious(true)} />
                 </Stack>
 
                 <Stack component={Container} justifyContent="center" alignItems="center">
