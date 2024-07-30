@@ -17,8 +17,8 @@
     ],
     "compagny": [
         {
-            "label": "FAQ",
-            "pathname": "/"
+            "label": "About",
+            "pathname": "/about"
         },
         {
             "label": "Blog",
