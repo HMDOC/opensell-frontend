@@ -1,34 +1,21 @@
-import HomeSearchBar from "@components/shared/home-search-bar";
-import { Stack, Typography } from "@mui/material";
-import { AboutLine } from "@pages/about";
-import { FormEvent, ReactElement } from "react";
-import { useNavigate } from "react-router-dom";
+import { Stack } from "@mui/material";
+import { ReactElement } from "react";
+import FirstSection from "./components/first-section";
+import PopularClient from "./components/popular-client";
+import Statistics from "./components/statistics";
+import WhyOpensell from "./components/why-opensell";
+import BrowseOrSignup from "./components/browse-or-signup";
+import Footer from "./components/footer";
 
 export default function Home(): ReactElement {
-    const navigate = useNavigate();
-
-    const getLink = (e: FormEvent<HTMLFormElement>): void => {
-        e.preventDefault();
-        let query = new FormData(e.currentTarget).get("query") as string;
-        navigate(`/catalog?query=${encodeURIComponent(query)}`);
-    };
-
     return (
-        <Stack sx={{ float: "left", marginTop: "10%", marginLeft: "10%" }}>
-            <title>Opensell</title>
-            <Stack>
-                <Typography variant="h1" style={{ paddingRight: "180px" }}>Opensell</Typography>
-                <Stack direction="row" alignItems="center" spacing={2} useFlexGap>
-                    <AboutLine />
-                    <Typography variant="h1">Inc.</Typography>
-                </Stack>
-            </Stack>
-
-            <Typography variant="h5">The online marketplace redesigned.</Typography><br />
-
-            <form onSubmit={getLink}>
-                <HomeSearchBar />
-            </form>
-        </Stack >
+        <Stack>
+            <FirstSection />
+            <PopularClient />
+            <Statistics />
+            <WhyOpensell />
+            <BrowseOrSignup />
+            <Footer />
+        </Stack>
     );
 }

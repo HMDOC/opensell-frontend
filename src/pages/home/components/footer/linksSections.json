@@ -1,0 +1,32 @@
+{
+    "support": [
+        {
+            "label": "Contact us",
+            "pathname": "/"
+        }
+    ],
+    "legal": [
+        {
+            "label": "Privacy Statement",
+            "pathname": "/"
+        },
+        {
+            "label": "Terms of Use",
+            "pathname": "/"
+        }
+    ],
+    "compagny": [
+        {
+            "label": "FAQ",
+            "pathname": "/"
+        },
+        {
+            "label": "Blog",
+            "pathname": "/"
+        },
+        {
+            "label": "FAQ",
+            "pathname": "/"
+        }
+    ]
+}

@@ -10,7 +10,7 @@ export function AdCheckbox(props: AdCheckboxProps) {
         <FormControlLabel 
             label={props.label}
             control={
-                <Switch name={props.field.name} {...props.field} />
+                <Switch {...props.field} />
             } 
         />
     );

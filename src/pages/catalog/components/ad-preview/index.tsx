@@ -1,5 +1,4 @@
 import { SmallAd } from "@components/shared/ad/small-ad";
-import "./style.css";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 
 /**
@@ -11,7 +10,6 @@ import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 export default function AdPreview(props: AdPreviewDto) {
     return (
         <SmallAd
-            className="adPreview"
             {...props}
             isSearch
             goToAd={() => {

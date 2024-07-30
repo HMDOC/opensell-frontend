@@ -30,7 +30,7 @@ export class Theme {
     }
     
     public static getStorageTheme(): ThemeOption {
-        let storage: string = localStorage.getItem("theme");
+        let storage: string = localStorage.getItem("theme")!;
         let theme: ThemeOption = ThemeOption.BROWSER_DEFAULT;
 
         // Added this boiler plate code because a lot of bugs where faced.

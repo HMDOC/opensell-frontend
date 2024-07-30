@@ -1,5 +1,3 @@
-import { DESKTOP_VIEW } from '@context/AppContext';
-import { Stack } from '@mui/material';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 
@@ -16,7 +14,7 @@ export default function SideImages(props: { images?: string[], openImageAction(i
                         loading="lazy"
                     />
                 </ImageListItem>
-            ))}
+            )) ?? <></>}
         </ImageList>
     );
 }

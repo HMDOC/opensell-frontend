@@ -6,10 +6,9 @@ import { RefObject } from 'react';
 type HomeSearchBarProps = {
     reference?: RefObject<HTMLInputElement>;
     searchBarPress?: any;
-    isSearch?: boolean;
 };
 
-export default function HomeSearchBar(props: HomeSearchBarProps) {
+export default function CatalogSearchBar(props: HomeSearchBarProps) {
     const theme = useTheme();
 
     return (
@@ -20,17 +19,14 @@ export default function HomeSearchBar(props: HomeSearchBarProps) {
             className="inputContainer"
             sx={{
                 border: "2px solid " + theme.palette.grey[700],
-                height : props.isSearch ? "50px" : undefined,
-                width: props.isSearch ? "280px" : "550px",
-                padding: props.isSearch ? undefined : "7px",
+                height : "50px",
+                width: "280px",
             }}
         >
             {/* Need to try with InputBase */}
             <input
                 style={{
                     color: theme.palette.text.primary,
-                    height: props.isSearch ? undefined : "35px",
-                    fontSize: props.isSearch ? undefined : "20px"
                 }}
                 className="mainMenuInput"
                 ref={props.reference}

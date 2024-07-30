@@ -16,9 +16,9 @@ interface DisplayAdProps extends AdPreviewDto {
 
 export default function DisplayAd(props: DisplayAdProps) {
     const handleDelete = (): void => {
-        deleteAd(props.id)
+        deleteAd(props.id!)
             .then(res => {
-                if (res?.data) props.onDelete(props.id);
+                if (res?.data) props.onDelete(props.id!);
             });
     }
 
@@ -31,7 +31,7 @@ export default function DisplayAd(props: DisplayAdProps) {
                 <MuiMenuWithOptions
                     menuIcon={<MoreHorizIcon />}
                     options={[
-                        { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate((await getAdToModify(props.id)).data) },
+                        { label: "Modify", icon: <EditIcon />, action: async () => props.launchUpdate?.((await getAdToModify(props.id!)).data) },
                         { label: "Preview", icon: <PanoramaIcon />, action: () => navigate(`/ad/${props.id}`) },
                         { label: "Delete", icon: <DeleteIcon />, action: () => handleDelete() }
                     ]}

@@ -8,7 +8,7 @@ export const DESKTOP_VIEW = { xs: 'none', md: 'flex' };
 export const MOBILE_VIEW = { xs: 'flex', md: 'none' };
 
 type AppContextProps = {
-	theme: Theme;
+	theme: ThemeOption;
 	isDarkMode(): boolean;
 	changeTheme(theme: ThemeOption): void;
 	customerDto?: CustomerDto;
@@ -46,7 +46,10 @@ export function AppContextProvider(props: { children: ReactNode }) {
 		components: {
 			MuiButton: {
 				defaultProps: {
-					variant: "contained"
+					variant: "contained",
+                    sx: {
+                        textTransform: "none",
+                    }
 				}
 			},
 			MuiTextField: {

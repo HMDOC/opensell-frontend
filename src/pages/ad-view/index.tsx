@@ -13,6 +13,7 @@ import AdTypePart from "./components/ad-type-part";
 import FrontImage from "./components/front-image";
 import ImageViewer from "./components/image-viewer";
 import SideImages from "./components/side-images";
+import AdViewDto from "@services/ad/catalog/dto/AdViewDto";
 
 /**
  * Function that increase the index of the current picture
@@ -37,14 +38,14 @@ const changePicture = (isNext: boolean, currentPicture: number, listLength: numb
  * 
  * @author Achraf
 */
-export default function AdViewDto() {
+export default function AdView() {
     const { id } = useParams();
 
     const [currentPicture, setCurrentPicture] = useState<number>(0);
     const [promiseResult, setPromiseResult] = useState<any>(undefined);
     const [isPicturePopup, setIsPicturePopup] = useState(false);
 
-    const adBuyerView = promiseResult?.data;
+    const adBuyerView: AdViewDto = promiseResult?.data;
     const imagesLength = adBuyerView?.adImages?.length;
 
     useEffect(() => {
@@ -54,7 +55,7 @@ export default function AdViewDto() {
     }, []);
 
     const nextOrPrevious = (isNext: boolean) => {
-        let newIndex = changePicture(isNext, currentPicture, imagesLength);
+        let newIndex = changePicture(isNext, currentPicture, imagesLength!);
         if (newIndex !== currentPicture) {
             setCurrentPicture(newIndex);
         }
@@ -78,9 +79,9 @@ export default function AdViewDto() {
                             title={
                                 <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap spacing={1}>
                                     <Stack direction="row" alignItems="center" spacing={0.5} flexWrap="wrap" useFlexGap>
-                                        {getVisibilityIcon(adBuyerView?.adVisibility)}
+                                        {getVisibilityIcon(adBuyerView?.adVisibility!)}
                                         <Typography variant="h3">{adBuyerView?.adTitle}</Typography>
-                                        <AdTypePart type={adBuyerView?.adType?.name} />
+                                        <AdTypePart type={adBuyerView?.adType?.name!} />
                                     </Stack>
 
                                     <Chip
@@ -140,7 +141,7 @@ export default function AdViewDto() {
                                 <Stack direction="column" spacing={1}>
                                     <Stack direction="row" spacing={1}>
                                         {adBuyerView?.adTagsName?.map(value => (
-                                            <AdTagPart key={createRandomKey()} label={value} isAdView />
+                                            <AdTagPart key={createRandomKey()} label={value} />
                                         ))}
                                     </Stack>
 

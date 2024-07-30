@@ -5,10 +5,14 @@ import tsconfigPaths from "vite-tsconfig-paths";
 // https://vitejs.dev/config/
 export default ({ mode }: any) => {
 	const env = loadEnv(mode, "./");
-	
+	const PORT: any = env?.VITE_PORT;
+
 	return defineConfig({
 		server: {
-			port: env?.VITE_PORT as any
+			port: PORT 
+		},
+		preview : {
+			port: PORT
 		},
 		plugins: [tsconfigPaths(), react()]
 	})

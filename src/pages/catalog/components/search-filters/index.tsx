@@ -3,7 +3,7 @@ import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdSortTypeSelect from "@components/shared/AdSortTypeSelect";
 import AdTypeSelect from "@components/shared/AdTypeSelect";
 import FormikDatePicker from "@components/shared/formik/date-picker";
-import HomeSearchBar from "@components/shared/home-search-bar";
+import CatalogSearchBar from "../search-bar";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { Card, Stack } from "@mui/material";
 import { AdCheckbox } from "@pages/ad-creation/components/ad-checkbox";
@@ -24,11 +24,11 @@ type SearchFiltersProps = {
 const dateMin = "2020-01-01";
 const dateMax = "3000-01-01";
 
-const adSortBy = [
-    { sortParam: "", sortVisual: "Added Date" },
-    { sortParam: "title", sortVisual: "Title" },
-    { sortParam: "price", sortVisual: "Price" }
-];
+// const adSortBy = [
+//     { sortParam: "", sortVisual: "Added Date" },
+//     { sortParam: "title", sortVisual: "Title" },
+//     { sortParam: "price", sortVisual: "Price" }
+// ];
 
 /** 
     The component that holds all of the filter options.
@@ -85,7 +85,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
             >
                 <Stack component={Form} id="searchFilters" spacing={2.25}>
                     <Stack alignItems="center">
-                        <HomeSearchBar isSearch {...props} searchBarPress={searchBarPress} />
+                        <CatalogSearchBar {...props} searchBarPress={searchBarPress} />
                     </Stack>
 
                     <Field name="priceMin" component={AdCreationInput} label="Price Min" type="number" />

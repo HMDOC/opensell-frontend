@@ -70,7 +70,7 @@ export default function Catalog(): ReactElement {
     const [filterOptions, setFilterOptions] = useState<any>({ query: "" });
 
     // AdTags
-    const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
+    //const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
 
     useEffect(() => {
         let tmpFilterOptions: any = {};
@@ -81,7 +81,7 @@ export default function Catalog(): ReactElement {
             }
         });
 
-        tmpFilterOptions["adTags"] = searchTags;
+        //tmpFilterOptions["adTags"] = searchTags;
 
         setFilterOptions(tmpFilterOptions);
     }, [filtersUpdated]);
@@ -90,7 +90,7 @@ export default function Catalog(): ReactElement {
         if (searchBarRef?.current) searchBarRef.current.value = searchParams.get("query") as string;
 
         let tmpFilterOptions = filterOptions;
-        tmpFilterOptions["adTags"] = searchTags;
+        //tmpFilterOptions["adTags"] = searchTags;
 
         searchParams.forEach((value, key) => {
             tmpFilterOptions[key] = value;
@@ -107,7 +107,7 @@ export default function Catalog(): ReactElement {
         setLoading(true);
 
         let tmpQueryParams: any = filterOptions;
-        tmpQueryParams["adTags"] = searchTags;
+        //tmpQueryParams["adTags"] = searchTags;
         tmpQueryParams["query"] = searchBarRef.current?.value;
         setSearchParams(tmpQueryParams);
 

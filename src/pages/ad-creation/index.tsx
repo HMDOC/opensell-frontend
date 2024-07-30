@@ -4,21 +4,20 @@ import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { useAppContext } from "@context/AppContext";
-import { FrontendImage, ImageBox } from "../../model/dto/v2/ImageBox";
+import AdImage from "@model/AdImage";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
-import { createAd, updateAd } from "@services/ad/listings";
-import { isTitleConstraintOk } from "@services/ad/listings";
+import { createAd, isTitleConstraintOk, updateAd } from "@services/ad/listings";
+import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
-import { Field, Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { Field, Form, Formik } from "formik";
+import { useState } from "react";
 import { array, object, string } from "yup";
+import { FrontendImage, ImageBox } from "../../model/dto/v2/ImageBox";
 import { AdCheckbox } from "./components/ad-checkbox";
 import { AdCreationInput } from "./components/ad-creation-input";
-import { useState } from "react";
-import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
-import AdImage from "@model/AdImage";
 
 interface AdCreationModalProps {
     open: boolean;
@@ -42,7 +41,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
         visibility: props.adCreator?.visibility ?? 0,
         shape: props.adCreator?.shape ?? "",
         tags: props.adCreator?.tags ?? [],
-        images: isUpdate ? (JSON.parse(props.adCreator?.adImagesJson) as AdImage[]).map<ImageBox>((img: AdImage) => ({ id: img.id, content: img.path })) : new Array<ImageBox>(),
+        images: isUpdate ? (JSON.parse(props.adCreator?.adImagesJson!) as AdImage[]).map<ImageBox>((img: AdImage) => ({ id: img.id, content: img.path })) : new Array<ImageBox>(),
         isSold: props.adCreator?.isSold ?? false,
     };
 
@@ -65,8 +64,8 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         shape: string().required("Shape is required."),
                         images: array().min(2, " should be at least 2."),
                     })}
-                onSubmit={async (values: any, formikHelpers: FormikHelpers<FormikValues>) => {
-                    if (!(await isTitleConstraintOk(values.title, customerDto?.customerId, props.adCreator?.adId)).data) {
+                onSubmit={async (values: any, formikHelpers) => {
+                    if (!(await isTitleConstraintOk(values.title, customerDto?.customerId!, props.adCreator?.adId)).data) {
                         setAlreadyExistingTitles([...alreadyExistingTitles, values.title]);
                         formikHelpers.setFieldError("title", TITLE_ALREADY_EXISTS)
                         return;
@@ -79,7 +78,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     }
 
                     let formData = new FormData();
-                    formData.append("customerId", `${customerDto.customerId}`);
+                    formData.append("customerId", `${customerDto?.customerId}`);
 
                     for (let key in values) {
                         if (!["images", "deletedImg"].includes(key)) formData.append(key, values[key]);
@@ -88,19 +87,19 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     // For update
                     let adImages: AdImage[] = [];
 
-                    values.images.forEach((img: ImageBox, index) => {
+                    values.images.forEach((img: ImageBox, index: number) => {
                         if (img.content instanceof FrontendImage) {
                             formData.append("images", img.content.file);
                             formData.append("imagePositions", index + "");
                         } else {
                             // Will not be called if it is a create.
-                            adImages.push({ id: img.id, path: img.content, spot: index, isLocal: true })
+                            adImages.push({ id: img.id!, path: img.content, spot: index, isLocal: true })
                         }
                     });
 
                     if (isUpdate) {
                         formData.append("adImagesJson", JSON.stringify(adImages));
-                        formData.append("adId", props.adCreator.adId + "");
+                        formData.append("adId", props.adCreator?.adId + "");
                         
                         await updateAd(formData).then(
                             res => {
@@ -122,7 +121,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     }
                 }}
             >
-                {({ isValid, submitCount }) => (
+                {({ isValid, submitCount, isSubmitting }) => (
 
                     <>
                         <DialogTitle variant="h5" sx={{ fontWeight: "bold" }}>{isUpdate ? "Update" : "Create"} Ad</DialogTitle>
@@ -153,7 +152,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
 
                         <DialogActions>
                             <Button variant="text" onClick={() => props.onClose()}>Cancel</Button>
-                            <Button disabled={!isValid && (submitCount >= 1)} type="submit" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
+                            <Button disabled={(!isValid && (submitCount >= 1)) || isSubmitting} type="submit" form="create-ad">{isUpdate ? "Update" : "Create"}</Button>
                         </DialogActions>
                     </>
                 )}

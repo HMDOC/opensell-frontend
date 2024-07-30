@@ -8,7 +8,7 @@ interface FrontImageProps {
 export default function FrontImage(props: FrontImageProps) {
     return (
         <img
-            style={props.isMobile ? undefined : { cursor: "pointer", width: props.imagesLength > 1 ? "70%" : "100%" }}
+            style={props.isMobile ? undefined : { cursor: "pointer", width: props.imagesLength && props.imagesLength > 1 ? "70%" : "100%" }}
             onClick={props.action}
             className="imgFit"
             src={props.path}

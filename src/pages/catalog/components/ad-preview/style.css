@@ -1,7 +1,0 @@
-.adPreview:hover {
-    cursor: pointer;
-
-    transition: background-color box-shadow color 0.2s;
-    background-color: rgb(231, 231, 231);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5);
-}

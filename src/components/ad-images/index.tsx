@@ -9,7 +9,7 @@ import { createRandomKey } from "../../utils/RandomKeys";
 import "./style.css";
 
 export function AdImages(props: { name: string }) {
-    const { values, setFieldValue } = useFormikContext();
+    const { values, setFieldValue } = useFormikContext<any>();
     const images: ImageBox[] = values[props.name];
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export function AdImages(props: { name: string }) {
     }, []);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-        let files = Array.from(e.target.files);
+        let files = Array.from(e.target.files!);
         let currentFiles: ImageBox[] = [];
 
         files.forEach(file =>
@@ -27,7 +27,7 @@ export function AdImages(props: { name: string }) {
         );
 
         setFieldValue(props.name, [...images, ...currentFiles])
-        e.target.value = null;
+        e.target.value = "";
     };
 
     const revokeUrl = (currentImg: ImageBox): void => {
