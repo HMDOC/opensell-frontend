@@ -47,7 +47,7 @@ export function CMDisplay(props: CMDisplayProperties) {
             </TableCell>
 
             <TableCell align="left">
-                <Typography variant="subtitle1">{props.defaultValue ?? <span style={{ color: 'brown' }}>{"<Empty>"}</span>}</Typography>
+                {props.defaultValue ? <Typography variant="subtitle1">{props.defaultValue}</Typography> : <></>}
             </TableCell>
 
             <TableCell align="right">
@@ -57,6 +57,7 @@ export function CMDisplay(props: CMDisplayProperties) {
                     ) : (<></>)
                 }
             </TableCell>
+
         </TableRow>
     )
 }

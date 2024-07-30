@@ -64,7 +64,6 @@ export default function Navbar(): ReactElement {
                         <IconButton onClick={() => setIsMenuDisplayed(!isMenuDisplayed)}>
                             <MenuIcon color='inherit' />
                         </IconButton>
-
                     </Stack>
                     <Logo />
 
