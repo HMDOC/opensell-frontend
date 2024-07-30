@@ -18,6 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AppNavLink from './components/app-nav-link';
 import Logo from './components/logo';
 import links from "./links.json";
+import CloseIcon from '@mui/icons-material/Close';
 
 /**
  * 
@@ -62,7 +63,7 @@ export default function Navbar(): ReactElement {
                     {/* MOBILE SECTION */}
                     <Stack display={MOBILE_VIEW} direction="row" alignItems="center">
                         <IconButton onClick={() => setIsMenuDisplayed(!isMenuDisplayed)}>
-                            <MenuIcon color='inherit' />
+                            {isMenuDisplayed ? <CloseIcon sx={{ color: "text.primary" }} /> : <MenuIcon sx={{ color: "text.primary" }} />}
                         </IconButton>
                     </Stack>
                     <Logo />
