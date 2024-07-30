@@ -19,14 +19,8 @@ export class Theme {
         }
     }
 
-    private static setHtmlTheme(theme: ThemeOption) {
-        // This is to put the element into <html />
-		document.documentElement.setAttribute("is-dark-mode", this.isDarkMode(theme)?.toString());
-    }
-
     public static setTheme(theme: ThemeOption) {
         localStorage.setItem("theme", theme.toString());
-        this.setHtmlTheme(theme);
     }
     
     public static getStorageTheme(): ThemeOption {
@@ -44,7 +38,6 @@ export class Theme {
             return theme;
         }
         
-        this.setHtmlTheme(theme);
         return theme;
     }
 }
