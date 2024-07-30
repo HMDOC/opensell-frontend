@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from "@mui/icons-material/Person";
 import SettingsIcon from '@mui/icons-material/Settings';
 import WebIcon from '@mui/icons-material/Web';
-import { Divider, Fade, IconButton, MenuItem } from '@mui/material';
+import { Box, Button, Divider, Fade, IconButton, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Avatar from '@mui/material/Avatar';
 import Container from '@mui/material/Container';
@@ -14,11 +14,10 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { createRandomKey } from '@utils/RandomKeys';
 import { ReactElement, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppNavLink from './components/app-nav-link';
 import Logo from './components/logo';
 import links from "./links.json";
-import "./style.css";
 
 /**
  * 
@@ -108,8 +107,15 @@ export default function Navbar(): ReactElement {
                             </MuiMenu>
                         ) : (
                             <Stack direction="row" spacing={1.5}>
-                                <NavLink className="nav-button sign-in" to="/login">SIGN IN</NavLink>
-                                <NavLink className="nav-button get-started" to="/signup">GET STARTED</NavLink>
+                                <Link to="/login">
+                                    <Button variant="outlined">Sign in</Button>
+                                </Link>
+
+                                <Box sx={{ display: DESKTOP_VIEW }}>
+                                    <Link to="/signup">
+                                        <Button>Get Started</Button>
+                                    </Link>
+                                </Box>
                             </Stack>
                         )
                     }

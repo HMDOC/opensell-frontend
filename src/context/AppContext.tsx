@@ -42,12 +42,16 @@ export function AppContextProvider(props: { children: ReactNode }) {
 	const muiTheme = createTheme({
 		palette: {
 			mode: Theme.isDarkMode(theme) ? "dark" : "light",
+			primary : {
+				main : "#778da9"
+			}
 		},
 		components: {
 			MuiButton: {
 				defaultProps: {
 					variant: "contained",
                     sx: {
+						fontSize : "16px",
                         textTransform: "none",
                     }
 				}

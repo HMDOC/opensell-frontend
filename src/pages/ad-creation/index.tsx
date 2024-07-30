@@ -1,4 +1,4 @@
-import { AdImages } from "@components/ad-images";
+import { AdImages } from "@components/shared/ad/images";
 import { AdTags } from "@components/shared/ad/tags";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
@@ -100,7 +100,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     if (isUpdate) {
                         formData.append("adImagesJson", JSON.stringify(adImages));
                         formData.append("adId", props.adCreator?.adId + "");
-                        
+
                         await updateAd(formData).then(
                             res => {
                                 if (res.status == HttpStatusCode.Ok) {
