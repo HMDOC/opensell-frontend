@@ -7,7 +7,7 @@ import linksSections from "./linksSections.json";
 export default function Footer(): ReactElement {
     return (
         <Stack padding={5}>
-            <Stack direction="row" alignItems="center" flexWrap="wrap" justifyContent="center" gap={8} padding={4}>
+            <Stack direction="row" alignItems="center" flexWrap="wrap" justifyContent="center" gap={6} padding={4}>
                 <Stack>
                     <Logo isNotNavbar />
                     <Typography variant="h6">Everything you need, all in one place</Typography>
