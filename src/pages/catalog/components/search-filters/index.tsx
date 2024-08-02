@@ -35,7 +35,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
     const dateMin = "2020-01-01";
     const dateMax = "3000-01-01";
 
-    const [filterOptions, setFilterOptions] = useState<any>({ query: "" });
+    const [filterOptions, setFilterOptions] = useState<any>({});
     const [searchParams, setSearchParams] = useSearchParams();
 
     var defaultFilters : any = {
@@ -80,27 +80,33 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
     }
 
     useEffect( () => {
-        let tmpFilterOptions = filterOptions;
+        let tmpFilterOptions :any = { query: "" };
 
         searchParams.forEach((value, key : string) => {
-            if (value !== defaultFilters[key]){
-                let val : any = value
-                if (typeof defaultFilters[key] === "number"){
-                    val = parseInt(value)
-                }
-                if (key.includes("date")){
-                    val = dayjs(value)
-                }
+            if (key === "adTags"){
+                let prevlist = tmpFilterOptions[key];
+                if (prevlist===undefined)
+                    prevlist = [];
 
-                tmpFilterOptions[key] = val;
+                tmpFilterOptions[key] = [...prevlist, value]
+            }else if (key.includes("date")){
+                tmpFilterOptions[key] = dayjs(value);
+            }else{
+                tmpFilterOptions[key] = value;
             }
         });
 
-        if (props.reference.current)
-            props.reference.current.value = tmpFilterOptions.query;
+        console.log(tmpFilterOptions.adTags)
+
+        if (props.reference.current){
+            props.reference.current.value = tmpFilterOptions.query
+        }
+
         
-        props.searchMethod(tmpFilterOptions)
+        props.searchMethod(tmpFilterOptions);
         
+        tmpFilterOptions.tags = tmpFilterOptions.adTags
+        delete tmpFilterOptions.adTags
         setFilterOptions(tmpFilterOptions);
     }, [])
 
@@ -158,7 +164,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     <Field name="dateMax" component={FormikDatePicker} label="Date Max" />
                     <Field name="shapeId" component={AdShapeSelect} label="Shape"/>
                     <Field name="typeId" component={AdTypeSelect} isSearch label="Category" />
-                    <AdTags name="tags" isSearch />
+                    <AdTags name="tags" isSearch/>
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
                     <Field name="reverseSort" component={AdSortDirSelect} label="Reverse Sort" />
                     <Field name="filterSold" component={AdFilterSoldSelect} label="Filter sold" />

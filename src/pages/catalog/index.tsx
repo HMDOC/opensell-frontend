@@ -64,56 +64,13 @@ export default function Catalog(): ReactElement {
 
     // AdTags
     //const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
-    
-    /*
-    useEffect(() => {
-        let tmpFilterOptions: any = {};
-        filterRef?.current?.childNodes.forEach((value: any) => {
-            console.log(`${value?.name} - ${value?.value} - ${value?.defaultValue}`);
-            if ((value?.value !== value?.defaultValue) && (value?.value !== "")) {
-                tmpFilterOptions[value?.name as string] = value.value;
-            }
-        });
-
-        //tmpFilterOptions["adTags"] = searchTags;
-
-        setFilterOptions(tmpFilterOptions);
-    }, [filtersUpdated]);
-
-    useEffect(() => {
-        if (searchBarRef?.current) searchBarRef.current.value = searchParams.get("query") as string;
-
-        let tmpFilterOptions = filterOptions;
-        //tmpFilterOptions["adTags"] = searchTags;
-
-        searchParams.forEach((value, key : string) => {
-            console.log(key, value, defaultFilters[key])
-            
-            if (value !== defaultFilters[key]){
-                let val : any = value
-                if (typeof defaultFilters[key] === "number"){
-                    val = parseInt(value)
-                }
-                if (key.includes("date")){
-                    val = dayjs(value)
-                }
-
-                tmpFilterOptions[key] = val;
-            }
-        });
-
-        setFilterOptions(tmpFilterOptions);
-    }, [searchParams]);
-    */
    
     const search = (filters : any) => {
         setLoading(true);
 
         let tmpQueryParams: any = filters;
 
-        console.log(tmpQueryParams)
-
-        getAdBySearch(filters).then(res => {
+        getAdBySearch(tmpQueryParams).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
