@@ -37,7 +37,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
 
     const [filterOptions, setFilterOptions] = useState<any>({});
     const [searchParams, setSearchParams] = useSearchParams();
-    console.log(searchParams.get("query"));
+
     var defaultFilters : any = {
         query: "",
         priceMin: 0,
@@ -162,7 +162,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     <Field name="priceMax" component={AdCreationInput} label="Price Max" type="number" />
                     <Field name="dateMin" component={FormikDatePicker} label="Date Min" />
                     <Field name="dateMax" component={FormikDatePicker} label="Date Max" />
-                    <Field name="shapeId" component={AdShapeSelect} label="Shape" isSearch />
+                    <Field name="shapeId" component={AdShapeSelect} label="Shape"/>
                     <Field name="typeId" component={AdTypeSelect} isSearch label="Category" />
                     <AdTags name="tags" isSearch/>
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
