@@ -3,8 +3,7 @@ import { Grid, Stack } from "@mui/material";
 import { getAdBySearch } from "@services/ad/catalog";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 import { AxiosError } from "axios";
-import { ReactElement, useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { ReactElement, useRef, useState } from "react";
 import AdPreview from "./components/ad-preview";
 import SearchFilters from "./components/search-filters";
 import "./style.css";
@@ -58,7 +57,6 @@ const errors = {
     @author Davide
 */
 export default function Catalog(): ReactElement {
-    const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
     const searchBarRef = useRef<HTMLInputElement>(null);
     const [isLoading, setLoading] = useState<boolean>();
