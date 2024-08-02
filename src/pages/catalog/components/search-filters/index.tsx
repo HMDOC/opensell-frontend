@@ -55,8 +55,6 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
     const updateURL = (params:any) => {
         let tmpFilterOptions : any = { query: ""};
 
-        console.log(params, tmpFilterOptions)
-
         for (let key in params){
             let value = params[key];
 
@@ -95,8 +93,6 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                 tmpFilterOptions[key] = value;
             }
         });
-
-        console.log(tmpFilterOptions.adTags)
 
         if (props.reference.current){
             props.reference.current.value = tmpFilterOptions.query
