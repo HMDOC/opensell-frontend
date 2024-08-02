@@ -43,7 +43,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
         dateMax: null,
         tags: [],
         typeId: "",
-        shapeId: undefined,
+        shapeId: null,
         filterSold: null,
         sortBy: "addedDate",
         reverseSort: 0,
@@ -138,6 +138,13 @@ const [filterOptions, setFilterOptions] = useState<any>(filterOpt);
                     if (values?.dateMax) {
                         let pDateMax = new Date((values?.dateMax as any)?.toString())
                         params.dateMax = pDateMax?.toISOString()
+                    }
+                    
+                    if (params?.shapeId>=0){
+                        params.shapeId--;
+                        if (params.shapeId===-1){
+                            params.shapeId = null
+                        }
                     }
 
                     if (props.reference.current)
