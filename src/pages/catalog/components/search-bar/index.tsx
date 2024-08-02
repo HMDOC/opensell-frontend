@@ -5,7 +5,6 @@ import { RefObject } from 'react';
 
 type HomeSearchBarProps = {
     reference?: RefObject<HTMLInputElement>;
-    searchBarPress?: any;
 };
 
 export default function CatalogSearchBar(props: HomeSearchBarProps) {
@@ -30,12 +29,11 @@ export default function CatalogSearchBar(props: HomeSearchBarProps) {
                 }}
                 className="mainMenuInput"
                 ref={props.reference}
-                onKeyDown={props.searchBarPress}
                 placeholder="Search"
                 name="query"
             />
 
-            <IconButton type="submit">
+            <IconButton type='submit' >
                 <SearchIcon />
             </IconButton>
         </Stack>

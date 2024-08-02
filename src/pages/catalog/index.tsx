@@ -60,18 +60,14 @@ const errors = {
 export default function Catalog(): ReactElement {
     const [searchParams, setSearchParams] = useSearchParams();
     const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
-    const [searchClick, setSearchClick] = useState(false);
     const searchBarRef = useRef<HTMLInputElement>(null);
     const [isLoading, setLoading] = useState<boolean>();
     const [searchError, setSearchError] = useState<string[]>(errors.regular);
 
-    const [filtersUpdated, setFiltersUpdated] = useState();
-    const filterRef = useRef<HTMLDivElement>();
-    const [filterOptions, setFilterOptions] = useState<any>({ query: "" });
-
     // AdTags
     //const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
-
+    
+    /*
     useEffect(() => {
         let tmpFilterOptions: any = {};
         filterRef?.current?.childNodes.forEach((value: any) => {
@@ -92,26 +88,37 @@ export default function Catalog(): ReactElement {
         let tmpFilterOptions = filterOptions;
         //tmpFilterOptions["adTags"] = searchTags;
 
-        searchParams.forEach((value, key) => {
-            tmpFilterOptions[key] = value;
-            let element: any = document.querySelector(`#${key}`);
-            if (element !== null) {
-                element.value = value
+        searchParams.forEach((value, key : string) => {
+            console.log(key, value, defaultFilters[key])
+            
+            if (value !== defaultFilters[key]){
+                let val : any = value
+                if (typeof defaultFilters[key] === "number"){
+                    val = parseInt(value)
+                }
+                if (key.includes("date")){
+                    val = dayjs(value)
+                }
+
+                tmpFilterOptions[key] = val;
             }
         });
 
         setFilterOptions(tmpFilterOptions);
     }, [searchParams]);
+    */
 
-    useEffect(() => {
+    const search = (filters : any) => {
         setLoading(true);
 
-        let tmpQueryParams: any = filterOptions;
+        let tmpQueryParams: any = filters;
         //tmpQueryParams["adTags"] = searchTags;
         tmpQueryParams["query"] = searchBarRef.current?.value;
         setSearchParams(tmpQueryParams);
 
-        getAdBySearch(searchBarRef?.current?.value!, filterOptions).then(res => {
+        console.log(tmpQueryParams)
+
+        getAdBySearch(searchBarRef?.current?.value!, filters).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
@@ -148,8 +155,11 @@ export default function Catalog(): ReactElement {
             setLoading(false);
         });
 
-    }, [searchClick]);
+    };
 
+    useEffect( () => {
+        search({})
+    }, []);
 
     return (
         <Stack marginTop={10} direction="row" spacing={2} justifyContent="center">
@@ -157,10 +167,9 @@ export default function Catalog(): ReactElement {
 
             <Stack>
                 <SearchFilters
-                    filterUpdate={setFiltersUpdated}
                     reference={searchBarRef}
-                    click={setSearchClick}
-                    defSortValue={searchParams.get("reverseSort") === "1"} />
+                    defSortValue={searchParams.get("reverseSort") === "1"}
+                    searchMethod={search} />
             </Stack>
 
             <Grid container direction="row" gap={2} flexWrap={"wrap"} width="1500px" marginRight="350px">
