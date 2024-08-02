@@ -11,9 +11,9 @@ import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input
 import { priceWithMinAndMax } from "@utils/yupSchema";
 import { Field, Form, Formik } from "formik";
 import { ReactElement, RefObject, useEffect, useState } from "react";
-import { object, string } from "yup";
+import { date, object, string } from "yup";
 import AdSortDirSelect from "@components/shared/AdSortDirSelect";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams} from "react-router-dom";
 import dayjs from "dayjs";
 
 type SearchFiltersProps = {
@@ -35,27 +35,46 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
     const dateMin = "2020-01-01";
     const dateMax = "3000-01-01";
 
-    const [filterOptions, setFilterOptions] = useState<any>({});
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    var defaultFilters : any = {
+    const defaultFilters : any = {
         query: "",
-        priceMin: 0,
-        priceMax: MAX_PRICE,
-        dateMin: dayjs(dateMin),
-        dateMax: dayjs(dateMax),
-        adTags: undefined,
-        typeId: "ALL",
+        priceMin: "",
+        priceMax: "",
+        dateMin: null,
+        dateMax: null,
+        tags: [],
+        typeId: "",
         shapeId: undefined,
         filterSold: null,
         sortBy: "addedDate",
         reverseSort: 0,
     }
 
+    const [sParams, setsParams] = useSearchParams();
+
+    let filterOpt : any = {
+        query: sParams.get("query"),
+        priceMin: sParams.get("priceMin"),
+        priceMax: sParams.get("priceMax"),
+        dateMin: sParams.get("dateMin") ? dayjs(sParams.get("dateMin")) : null,
+        dateMax: sParams.get("dateMax") ? dayjs(sParams.get("dateMax")) : null,
+        tags: sParams.getAll("tags"),
+        typeId: sParams.get("typeId"),
+        shapeId: sParams.get("shapeId"),
+        filterSold: sParams.get("filterSold"),
+        sortBy: sParams.get("sortBy"),
+        reverseSort: sParams.get("reverseSort")
+    }
+
+    for( let key in filterOpt){
+        if (filterOpt[key]===null){
+            filterOpt[key] = defaultFilters[key]
+        }
+    }
+
+const [filterOptions, setFilterOptions] = useState<any>(filterOpt);
+
     const updateURL = (params:any) => {
         let tmpFilterOptions : any = { query: ""};
-
-        console.log(params, tmpFilterOptions)
 
         for (let key in params){
             let value = params[key];
@@ -69,45 +88,26 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     }
                 }
                 if (key.includes("date")){
-                    val = dayjs(value)
+                    if (value===null){
+                        continue
+                    }else{
+                        val = dayjs(value)
+                    }
                 }
 
                 tmpFilterOptions[key] = val;
             }
         }
 
-        setSearchParams(tmpFilterOptions);
+        setsParams(tmpFilterOptions);
     }
 
     useEffect( () => {
-        let tmpFilterOptions :any = { query: "" };
-
-        searchParams.forEach((value, key : string) => {
-            if (key === "adTags"){
-                let prevlist = tmpFilterOptions[key];
-                if (prevlist===undefined)
-                    prevlist = [];
-
-                tmpFilterOptions[key] = [...prevlist, value]
-            }else if (key.includes("date")){
-                tmpFilterOptions[key] = dayjs(value);
-            }else{
-                tmpFilterOptions[key] = value;
-            }
-        });
-
-        console.log(tmpFilterOptions.adTags)
-
         if (props.reference.current){
-            props.reference.current.value = tmpFilterOptions.query
+            props.reference.current.value = filterOptions.query
         }
 
-        
-        props.searchMethod(tmpFilterOptions);
-        
-        tmpFilterOptions.tags = tmpFilterOptions.adTags
-        delete tmpFilterOptions.adTags
-        setFilterOptions(tmpFilterOptions);
+        props.searchMethod(filterOptions);
     }, [])
 
     return (
@@ -120,10 +120,10 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                         // query: notEmptyWithMaxAndMin(80, 3, "query"),
                         priceMin: priceWithMinAndMax(MAX_PRICE, 0, "PriceMin"),
                         priceMax: priceWithMinAndMax(MAX_PRICE, 0, "PriceMax"),
-                        //dateMin: date().min("2020-01-01"),
-                        //dateMax: date().max("3000-01-01"),
+                        dateMin: date().min(dateMin).nullable(),
+                        dateMax: date().max(dateMax).nullable(),
                         typeId: string(),
-                        sortBy: string()
+                        //sortBy: string()
                         //reverseSort: boolean()
                     })
 
@@ -139,9 +139,6 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                         let pDateMax = new Date((values?.dateMax as any)?.toString())
                         params.dateMax = pDateMax?.toISOString()
                     }
-
-                    params.adTags = values.tags
-                    delete params.tags
 
                     if (props.reference.current)
                         params.query = props.reference.current.value;
