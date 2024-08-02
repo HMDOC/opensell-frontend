@@ -152,7 +152,7 @@ export default function Catalog(): ReactElement {
 
 
     return (
-        <Stack direction="row" spacing={2} justifyContent="center">
+        <Stack marginTop={10} direction="row" spacing={2} justifyContent="center">
             <title>Catalog</title>
 
             <Stack>

@@ -20,7 +20,7 @@ export default function CatalogSearchBar(props: HomeSearchBarProps) {
             sx={{
                 border: "2px solid " + theme.palette.grey[700],
                 height : "50px",
-                width: "280px",
+                width: "240px",
             }}
         >
             {/* Need to try with InputBase */}

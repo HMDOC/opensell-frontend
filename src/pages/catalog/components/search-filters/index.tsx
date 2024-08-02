@@ -46,7 +46,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
     }
 
     return (
-        <Card component={Stack} width="350px" padding={2} spacing={3}>
+        <Card component={Stack} width="280px" padding={2} spacing={3}>
             <Formik
                 initialValues={{
                     query: "",
