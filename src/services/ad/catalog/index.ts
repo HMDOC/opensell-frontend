@@ -15,6 +15,8 @@ export async function getAdBySearch(query: string, filters: any) {
     //filters.filterSold = false;
     let params = filters;
 
+    console.log(params)
+
     return await http.post<AdPreviewDto[]>(`${REQUEST_MAPPING}/search`, params);
 };
 
