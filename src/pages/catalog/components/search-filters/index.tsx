@@ -68,7 +68,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                         priceMax: priceWithMinAndMax(MAX_PRICE, 0, "PriceMax"),
                         //dateMin: date().min("2020-01-01"),
                         //dateMax: date().max("3000-01-01"),
-                        // typeId: string(),
+                        typeId: string(),
                         sortBy: string()
                         //reverseSort: boolean()
                     })
