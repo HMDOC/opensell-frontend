@@ -1,5 +1,5 @@
 import { SelectorReader, SelectorReaderProps } from "./SharedAdPart";
-import PublicIcon from '@mui/icons-material/Public';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
 export const SORT_ARRAY: any[] = ["Ascending", "Descending"];
 
 export default function AdSortDirSelect(props: SelectorReaderProps) {
@@ -7,7 +7,7 @@ export default function AdSortDirSelect(props: SelectorReaderProps) {
         <>
             <SelectorReader
                 {...props}
-                icon={<PublicIcon />}
+                icon={<ImportExportIcon />}
                 title="Sort Order"
                 options={SORT_ARRAY}
             />
