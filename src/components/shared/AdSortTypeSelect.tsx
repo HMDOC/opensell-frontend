@@ -10,6 +10,7 @@ export default function AdSortTypeSelect(props: SelectorReaderProps) {
                 icon={<PublicIcon />}
                 title="SortBy"
                 options={SORT_ARRAY}
+                valueIsOption={true}
             />
         </>
     );

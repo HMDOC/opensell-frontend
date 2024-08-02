@@ -31,6 +31,7 @@ export interface SelectorReaderProps extends FieldProps {
     title: string;
     icon: ReactNode;
     options?: Array<String>;
+    valueIsOption?: boolean;
     children?: ReactNode;
 }
 
@@ -59,7 +60,7 @@ export function SelectorReader(props: SelectorReaderProps) {
                     (props.children) ??
                     (
                         props.options?.map((option, index) => (
-                            <MenuItem key={createRandomKey()} value={index}>{option}</MenuItem>
+                            <MenuItem key={createRandomKey()} value={(props.valueIsOption) ? option : index}>{option}</MenuItem>
                         ))
                     )
                 }
