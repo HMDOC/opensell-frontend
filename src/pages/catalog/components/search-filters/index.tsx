@@ -159,7 +159,7 @@ const [filterOptions, setFilterOptions] = useState<any>(filterOpt);
                     <Field name="priceMax" component={AdCreationInput} label="Price Max" type="number" />
                     <Field name="dateMin" component={FormikDatePicker} label="Date Min" />
                     <Field name="dateMax" component={FormikDatePicker} label="Date Max" />
-                    <Field name="shapeId" component={AdShapeSelect} label="Shape"/>
+                    <Field name="shapeId" component={AdShapeSelect} label="Shape" isSearch />
                     <Field name="typeId" component={AdTypeSelect} isSearch label="Category" />
                     <AdTags name="tags" isSearch/>
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
