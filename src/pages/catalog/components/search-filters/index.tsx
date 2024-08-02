@@ -17,7 +17,6 @@ import { useSearchParams } from "react-router-dom";
 import dayjs from "dayjs";
 
 type SearchFiltersProps = {
-    defSortValue: boolean;
     reference: RefObject<HTMLInputElement>;
     searchMethod : any;
 };
@@ -45,21 +44,70 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
         priceMax: MAX_PRICE,
         dateMin: dayjs(dateMin),
         dateMax: dayjs(dateMax),
-        adTags: [],
+        adTags: undefined,
         typeId: "ALL",
-        shapeId: "",
-        filterSold: false,
-        sortBy: 0,
-        reverseSort: false,
+        shapeId: undefined,
+        filterSold: null,
+        sortBy: "addedDate",
+        reverseSort: 0,
+    }
+
+    const updateURL = (params:any) => {
+        let tmpFilterOptions : any = { query: ""};
+
+        console.log(params, tmpFilterOptions)
+
+        for (let key in params){
+            let value = params[key];
+
+            if (value != defaultFilters[key]){
+                let val : any = value
+                if (typeof defaultFilters[key] === "number"){
+                    val = parseInt(value)
+                    if (Number.isNaN(val)){
+                        continue;
+                    }
+                }
+                if (key.includes("date")){
+                    val = dayjs(value)
+                }
+
+                tmpFilterOptions[key] = val;
+            }
+        }
+
+        setSearchParams(tmpFilterOptions);
     }
 
     useEffect( () => {
+        let tmpFilterOptions = filterOptions;
+
+        searchParams.forEach((value, key : string) => {
+            if (value !== defaultFilters[key]){
+                let val : any = value
+                if (typeof defaultFilters[key] === "number"){
+                    val = parseInt(value)
+                }
+                if (key.includes("date")){
+                    val = dayjs(value)
+                }
+
+                tmpFilterOptions[key] = val;
+            }
+        });
+
+        if (props.reference.current)
+            props.reference.current.value = tmpFilterOptions.query;
         
-    })
+        props.searchMethod(tmpFilterOptions)
+        
+        setFilterOptions(tmpFilterOptions);
+    }, [])
 
     return (
         <Card component={Stack} width="280px" padding={2} spacing={3}>
             <Formik
+                enableReinitialize={true}
                 initialValues={filterOptions}
                 validationSchema={
                     object({
@@ -87,8 +135,16 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     }
 
                     params.adTags = values.tags
+                    delete params.tags
+
+                    if (props.reference.current)
+                        params.query = props.reference.current.value;
+
+                    console.log(params)
 
                     props.searchMethod(params)
+
+                    updateURL(params)
                 }}
             >
                 <Stack component={Form} id="searchFilters" spacing={2.25}>

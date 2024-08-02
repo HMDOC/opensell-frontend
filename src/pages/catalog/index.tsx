@@ -107,18 +107,15 @@ export default function Catalog(): ReactElement {
         setFilterOptions(tmpFilterOptions);
     }, [searchParams]);
     */
-
+   
     const search = (filters : any) => {
         setLoading(true);
 
         let tmpQueryParams: any = filters;
-        //tmpQueryParams["adTags"] = searchTags;
-        tmpQueryParams["query"] = searchBarRef.current?.value;
-        setSearchParams(tmpQueryParams);
 
         console.log(tmpQueryParams)
 
-        getAdBySearch(searchBarRef?.current?.value!, filters).then(res => {
+        getAdBySearch(filters).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
@@ -157,10 +154,6 @@ export default function Catalog(): ReactElement {
 
     };
 
-    useEffect( () => {
-        search({})
-    }, []);
-
     return (
         <Stack marginTop={10} direction="row" spacing={2} justifyContent="center">
             <title>Catalog</title>
@@ -168,7 +161,6 @@ export default function Catalog(): ReactElement {
             <Stack>
                 <SearchFilters
                     reference={searchBarRef}
-                    defSortValue={searchParams.get("reverseSort") === "1"}
                     searchMethod={search} />
             </Stack>
 
