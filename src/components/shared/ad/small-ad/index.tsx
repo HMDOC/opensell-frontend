@@ -16,7 +16,7 @@ type SmallAd = {
 */
 export const SmallAd = (props: SmallAd) => {
     return (
-        <Card onClick={props.goToAd} sx={{ width: "350px" }} component={props.isSearch ? CardActionArea : Stack}>
+        <Card onClick={props.goToAd} sx={{ width: "300px" }} component={props.isSearch ? CardActionArea : Stack}>
             <CardMedia component="img" image={props.firstImage} width="220px" height="150px" />
 
             <CardHeader
@@ -28,7 +28,8 @@ export const SmallAd = (props: SmallAd) => {
                 title={
                     <Stack direction="row" alignItems="center">
                         {props.isSearch ? <></> : getVisibilityIcon(props.visibility!)}
-                        <Typography variant="h4" textOverflow="ellipsis">{props.title}</Typography>
+                        <Typography variant="h5" overflow={"hidden"} whiteSpace={"nowrap"} 
+                            textOverflow="ellipsis">{props.title}</Typography>
                     </Stack>
                 }
                 subheader={
