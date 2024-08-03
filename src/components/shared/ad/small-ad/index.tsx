@@ -2,6 +2,7 @@ import AdPricePart from "@components/shared/ad/price-part";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
 import { Card, CardActionArea, CardHeader, CardMedia, Stack, Typography } from "@mui/material";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
+import getAdImageUrl from "@services/file";
 import { ReactNode } from "react";
 
 type SmallAd = {
@@ -17,7 +18,7 @@ type SmallAd = {
 export const SmallAd = (props: SmallAd) => {
     return (
         <Card onClick={props.goToAd} sx={{ width: "300px" }} component={props.isSearch ? CardActionArea : Stack}>
-            <CardMedia component="img" image={props.firstImage} width="220px" height="150px" />
+            <CardMedia component="img" image={getAdImageUrl(props.firstImage)} width="220px" height="150px" />
 
             <CardHeader
                 sx={{
@@ -28,12 +29,12 @@ export const SmallAd = (props: SmallAd) => {
                 title={
                     <Stack direction="row" alignItems="center">
                         {props.isSearch ? <></> : getVisibilityIcon(props.visibility!)}
-                        <Typography variant="h5" overflow={"hidden"} whiteSpace={"nowrap"} 
+                        <Typography variant="h5" overflow={"hidden"} whiteSpace={"nowrap"}
                             textOverflow="ellipsis">{props.title}</Typography>
                     </Stack>
                 }
                 subheader={
-                    <AdPricePart price={props.price} isSold={props.isSold} />
+                    <AdPricePart price={props.price} sold={props.sold} />
                 }
                 action={
                     props.isSearch ? <></> : props.action

@@ -3,9 +3,10 @@ import { FrontendImage, ImageBox } from "@model/dto/v2/ImageBox";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import { Button, Stack, Typography } from "@mui/material";
+import getAdImageUrl from "@services/file";
+import { createRandomKey } from "@utils/RandomKeys";
 import { ErrorMessage, FieldArray, useFormikContext } from "formik";
 import { ChangeEvent, useEffect } from "react";
-import { createRandomKey } from "@utils/RandomKeys";
 import "./style.css";
 
 export function AdImages(props: { name: string }) {
@@ -23,7 +24,7 @@ export function AdImages(props: { name: string }) {
         let currentFiles: ImageBox[] = [];
 
         files.forEach(file =>
-            currentFiles.push({ content: new FrontendImage(file, URL.createObjectURL(file)) })
+            currentFiles.push(new FrontendImage(file, URL.createObjectURL(file)))
         );
 
         setFieldValue(props.name, [...images, ...currentFiles])
@@ -31,13 +32,13 @@ export function AdImages(props: { name: string }) {
     };
 
     const revokeUrl = (currentImg: ImageBox): void => {
-        URL.revokeObjectURL((currentImg.content as FrontendImage).blobUrl);
+        URL.revokeObjectURL((currentImg as FrontendImage).blobUrl);
     };
 
     const removeImageBox = (img: ImageBox, removeCallback: any) => {
         removeCallback(images?.indexOf(img));
 
-        if (img.content instanceof FrontendImage) {
+        if (img instanceof FrontendImage) {
             revokeUrl(img);
         }
     };
@@ -70,7 +71,7 @@ export function AdImages(props: { name: string }) {
 
                     <div>
                         {images?.map((img: ImageBox) => (
-                            <img onDoubleClick={() => removeImageBox(img, remove)} className="ad-image" key={createRandomKey()} src={img.content instanceof FrontendImage ? img.content.blobUrl : img.content} />
+                            <img onDoubleClick={() => removeImageBox(img, remove)} className="ad-image" key={createRandomKey()} src={img instanceof FrontendImage ? img.blobUrl : getAdImageUrl(img)} />
                         ))}
                     </div>
                 </>

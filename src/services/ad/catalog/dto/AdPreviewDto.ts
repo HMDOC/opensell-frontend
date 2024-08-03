@@ -13,6 +13,6 @@ export default interface AdPreviewDto {
     price?: number;
     shape?: number;
     firstImage?: string;
-    isSold?: boolean;
+    sold?: boolean;
     visibility?: AdVisibility;
 }

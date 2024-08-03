@@ -4,11 +4,11 @@ export default interface AdCreatorDto {
     title: string;
     price: number;
     address: string;
-    isSold: boolean;
+    sold: boolean;
     description: string;
     tags: Array<string>;
     adTypeId: number;
     shape: number;
     visibility: number;
-    adImagesJson: string;
+    images: string[];
 }

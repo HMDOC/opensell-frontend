@@ -95,7 +95,7 @@ export default function AdView() {
                                 </Stack>
                             }
                             subheader={
-                                <AdPricePart price={adBuyerView?.adPrice} isSold={adBuyerView?.isAdSold} />
+                                <AdPricePart price={adBuyerView?.adPrice} sold={adBuyerView?.isAdSold} />
                             }
                         >
                         </CardHeader>

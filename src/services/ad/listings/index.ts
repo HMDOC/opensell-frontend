@@ -1,7 +1,6 @@
-import http from "../../../http-commons";
-import AdImage from "@model/AdImage";
-import AdCreatorDto from "./dto/AdCreatorDto";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
+import http from "../../../http-commons";
+import AdCreatorDto from "./dto/AdCreatorDto";
 
 const REQUEST_MAPPING = "/api/ad/listings";
 
@@ -36,12 +35,17 @@ export async function isTitleConstraintOk(title: string, customerId: number, adI
     return http.get<boolean>(`${REQUEST_MAPPING}/is-title-constraint-ok`, { params: { title, customerId, adId } });
 }
 
-export async function createAd(formData: FormData) {
-    return await http.post<Array<AdImage>>(`${REQUEST_MAPPING}`, formData);
+export async function saveImages(formData: FormData) {
+    return await http.post<Array<string>>(`${REQUEST_MAPPING}/images`, formData);
 };
 
-export async function updateAd(formData: FormData) {
-    return await http.patch<Array<AdImage>>(`${REQUEST_MAPPING}`, formData);
+
+export async function createAd(adCreatorDto: AdCreatorDto) {
+    return await http.post(`${REQUEST_MAPPING}`, adCreatorDto);
+};
+
+export async function updateAd(adCreatorDto: AdCreatorDto) {
+    return await http.patch(`${REQUEST_MAPPING}`, adCreatorDto);
 };
 
 /**

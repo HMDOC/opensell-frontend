@@ -4,10 +4,9 @@ import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdVisibilitySelect from "@components/shared/AdVisibilitySelect";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { useAppContext } from "@context/AppContext";
-import AdImage from "@model/AdImage";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
-import { createAd, isTitleConstraintOk, updateAd } from "@services/ad/listings";
+import { createAd, isTitleConstraintOk, saveImages, updateAd } from "@services/ad/listings";
 import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
 import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
@@ -41,8 +40,8 @@ export default function AdCreationModal(props: AdCreationModalProps) {
         visibility: props.adCreator?.visibility ?? 0,
         shape: props.adCreator?.shape ?? "",
         tags: props.adCreator?.tags ?? [],
-        images: isUpdate ? (JSON.parse(props.adCreator?.adImagesJson!) as AdImage[]).map<ImageBox>((img: AdImage) => ({ id: img.id, content: img.path })) : new Array<ImageBox>(),
-        isSold: props.adCreator?.isSold ?? false,
+        images: props.adCreator?.images as ImageBox[] ?? new Array<ImageBox>(),
+        sold: props.adCreator?.sold ?? false,
     };
 
     return (
@@ -64,7 +63,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         shape: string().required("Shape is required."),
                         images: array().min(2, " should be at least 2."),
                     })}
-                onSubmit={async (values: any, formikHelpers) => {
+                onSubmit={async (values, formikHelpers) => {
                     if (!(await isTitleConstraintOk(values.title, customerDto?.customerId!, props.adCreator?.adId)).data) {
                         setAlreadyExistingTitles([...alreadyExistingTitles, values.title]);
                         formikHelpers.setFieldError("title", TITLE_ALREADY_EXISTS)
@@ -77,31 +76,36 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         return;
                     }
 
-                    let formData = new FormData();
-                    formData.append("customerId", `${customerDto?.customerId}`);
+                    // Add customerId and adId
+                    (values as any)["customerId"] = customerDto?.customerId;
+                    if (isUpdate) (values as any)["adId"] = props.adCreator?.adId;
 
-                    for (let key in values) {
-                        if (!["images", "deletedImg"].includes(key)) formData.append(key, values[key]);
+                    /**
+                     * If their is one image or more that is new in the frontend, the code will save these images in the backend
+                     * and use the list of fileNames returned by the backend to replace the old FrontendImage with the string of fileName.
+                    */
+                    if (values.images.find((img) => img instanceof FrontendImage) != undefined) {
+                        // Saving images file
+                        let formData = new FormData();
+                        values.images.forEach(img => {
+                            if (img instanceof FrontendImage) {
+                                formData.append("images", img.file);
+                            }
+                        });
+
+                        // reverse like that the first will be the last when we will do .pop()
+                        let savedImages = (await saveImages(formData)).data.reverse();
+
+                        // reset the images to a list of string.
+                        (values as any).images = values.images.map(img => {
+                            if (img instanceof FrontendImage) return savedImages.pop();
+                            else return img;
+                        });
+                        console.log(values.images);
                     }
 
-                    // For update
-                    let adImages: AdImage[] = [];
-
-                    values.images.forEach((img: ImageBox, index: number) => {
-                        if (img.content instanceof FrontendImage) {
-                            formData.append("images", img.content.file);
-                            formData.append("imagePositions", index + "");
-                        } else {
-                            // Will not be called if it is a create.
-                            adImages.push({ id: img.id!, path: img.content, spot: index, isLocal: true })
-                        }
-                    });
-
                     if (isUpdate) {
-                        formData.append("adImagesJson", JSON.stringify(adImages));
-                        formData.append("adId", props.adCreator?.adId + "");
-
-                        await updateAd(formData).then(
+                        await updateAd(values as any).then(
                             res => {
                                 if (res.status == HttpStatusCode.Ok) {
                                     props.onClose(true);
@@ -111,7 +115,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                     }
 
                     else {
-                        await createAd(formData).then(
+                        await createAd(values as any).then(
                             res => {
                                 if (res.status == HttpStatusCode.Ok) {
                                     props.onClose(true);
@@ -135,7 +139,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                                     <Field name="description" component={AdCreationInput} label="Description" isTextArea />
                                     <Field name="address" component={AdCreationInput} label="Address" icon={<LocationOnIcon />} />
 
-                                    {isUpdate ? <Field name="isSold" component={AdCheckbox} type="checkbox" label="Is your ad sold?" /> : <></>}
+                                    {isUpdate ? <Field name="sold" component={AdCheckbox} type="checkbox" label="Is your ad sold?" /> : <></>}
 
                                     <Field name="visibility" component={AdVisibilitySelect} />
                                     <Field name="shape" component={AdShapeSelect} />
