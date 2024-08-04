@@ -19,6 +19,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AppNavLink from './components/app-nav-link';
 import Logo from './components/logo';
 import links from "./links.json";
+import { getCustomerIconUrl } from '@services/file';
 
 const drawerWidth = "100%";
 
@@ -84,7 +85,7 @@ export default function Navbar(): ReactElement {
                         {customerDto ?
                             (
                                 <MuiMenu menuIcon={
-                                    <Avatar src={customerDto?.iconPath}>
+                                    <Avatar src={getCustomerIconUrl(customerDto?.iconPath)}>
                                         {customerDto?.iconPath ? null : customerDto?.username?.at(0)}
                                     </Avatar>
                                 }>

@@ -7,6 +7,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/Delete';
 import UploadIcon from '@mui/icons-material/Upload';
 import { Avatar, Button, Stack, SxProps } from "@mui/material";
+import { getCustomerIconUrl } from "@services/file";
 import { useEffect, useState } from "react";
 
 export const BANNER_SIZE = { width: 550, height: 150, borderRadius: 2 };
@@ -79,7 +80,7 @@ export function SingleImageInput(props: SingleImageInputProps) {
 
     };
 
-    const imageSrc: string | undefined = isLoading ? "/img/loadingAnim.svg" : image?.path ? image.path : props.path;
+    const imageSrc: string | undefined = isLoading ? "/img/loadingAnim.svg" : (image?.path ? image.path : getCustomerIconUrl(props.path));
 
     return (
         <Stack direction="column" alignItems="end" spacing={2}>

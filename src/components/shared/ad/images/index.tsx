@@ -3,7 +3,7 @@ import { FrontendImage, ImageBox } from "@model/dto/v2/ImageBox";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import { Button, Stack, Typography } from "@mui/material";
-import getAdImageUrl from "@services/file";
+import { getAdImageUrl } from "@services/file";
 import { createRandomKey } from "@utils/RandomKeys";
 import { ErrorMessage, FieldArray, useFormikContext } from "formik";
 import { ChangeEvent, useEffect } from "react";
