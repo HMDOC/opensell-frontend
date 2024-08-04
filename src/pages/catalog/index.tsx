@@ -3,7 +3,7 @@ import { Grid, Stack } from "@mui/material";
 import { getAdBySearch } from "@services/ad/catalog";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 import { AxiosError } from "axios";
-import { ReactElement, useRef, useState } from "react";
+import { ReactElement, useState } from "react";
 import AdPreview from "./components/ad-preview";
 import SearchFilters from "./components/search-filters";
 import "./style.css";
@@ -58,7 +58,6 @@ const errors = {
 */
 export default function Catalog(): ReactElement {
     const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
-    const searchBarRef = useRef<HTMLInputElement>(null);
     const [isLoading, setLoading] = useState<boolean>();
     const [searchError, setSearchError] = useState<string[]>(errors.regular);
 
@@ -115,7 +114,6 @@ export default function Catalog(): ReactElement {
 
             <Stack>
                 <SearchFilters
-                    reference={searchBarRef}
                     searchMethod={search} />
             </Stack>
 

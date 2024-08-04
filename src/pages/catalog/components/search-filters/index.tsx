@@ -1,165 +1,93 @@
 import { AdTags } from "@components/shared/ad/tags";
+import AdFilterSoldSelect from "@components/shared/AdFilterSoldSelect";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
+import AdSortDirSelect from "@components/shared/AdSortDirSelect";
 import AdSortTypeSelect from "@components/shared/AdSortTypeSelect";
 import AdTypeSelect from "@components/shared/AdTypeSelect";
-import AdFilterSoldSelect from "@components/shared/AdFilterSoldSelect";
 import FormikDatePicker from "@components/shared/formik/date-picker";
-import CatalogSearchBar from "../search-bar";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { Card, Stack } from "@mui/material";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { priceWithMinAndMax } from "@utils/yupSchema";
-import { Field, Form, Formik } from "formik";
-import { ReactElement, RefObject, useEffect, useState } from "react";
-import { date, object, string } from "yup";
-import AdSortDirSelect from "@components/shared/AdSortDirSelect";
-import { useSearchParams} from "react-router-dom";
 import dayjs from "dayjs";
+import { Field, Form, Formik } from "formik";
+import { ReactElement } from "react";
+import { useSearchParams } from "react-router-dom";
+import { date, object, ref, string } from "yup";
+import CatalogSearchBar from "../search-bar";
 
 type SearchFiltersProps = {
-    reference: RefObject<HTMLInputElement>;
-    searchMethod : any;
+    searchMethod: any;
 };
 
-// const adSortBy = [
-//     { sortParam: "", sortVisual: "Added Date" },
-//     { sortParam: "title", sortVisual: "Title" },
-//     { sortParam: "price", sortVisual: "Price" }
-// ];
+const dateMin = "2020-01-01";
+const dateMax = "3000-01-01";
 
 /** 
     The component that holds all of the filter options.
     @author Davide
 */
 export default function SearchFilters(props: SearchFiltersProps): ReactElement {
-    const dateMin = "2020-01-01";
-    const dateMax = "3000-01-01";
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const defaultFilters : any = {
-        query: "",
-        priceMin: "",
-        priceMax: "",
-        dateMin: null,
-        dateMax: null,
-        tags: [],
-        typeId: "",
-        shapeId: null,
-        filterSold: null,
-        sortBy: "addedDate",
-        reverseSort: 0,
-    }
+    const updateUrl = (params: any) => {
+        let tmp: any = {};
 
-    const [sParams, setsParams] = useSearchParams();
-
-    let filterOpt : any = {
-        query: sParams.get("query"),
-        priceMin: sParams.get("priceMin"),
-        priceMax: sParams.get("priceMax"),
-        dateMin: sParams.get("dateMin") ? dayjs(sParams.get("dateMin")) : null,
-        dateMax: sParams.get("dateMax") ? dayjs(sParams.get("dateMax")) : null,
-        tags: sParams.getAll("tags"),
-        typeId: sParams.get("typeId"),
-        shapeId: sParams.get("shapeId"),
-        filterSold: sParams.get("filterSold"),
-        sortBy: sParams.get("sortBy"),
-        reverseSort: sParams.get("reverseSort")
-    }
-
-    for( let key in filterOpt){
-        if (filterOpt[key]===null){
-            filterOpt[key] = defaultFilters[key]
-        }
-    }
-
-const [filterOptions, setFilterOptions] = useState<any>(filterOpt);
-
-    const updateURL = (params:any) => {
-        let tmpFilterOptions : any = { query: ""};
-
-        for (let key in params){
+        Object.keys(params).forEach(key => {
             let value = params[key];
+            if(value) tmp[key] = value;
+        });
 
-            if (value != defaultFilters[key]){
-                let val : any = value
-                if (typeof defaultFilters[key] === "number"){
-                    val = parseInt(value)
-                    if (Number.isNaN(val)){
-                        continue;
-                    }
-                }
-                if (key.includes("date")){
-                    if (value===null){
-                        continue
-                    }else{
-                        val = dayjs(value)
-                    }
-                }
-
-                tmpFilterOptions[key] = val;
-            }
-        }
-
-        setsParams(tmpFilterOptions);
+        setSearchParams(tmp);
     }
-
-    useEffect( () => {
-        if (props.reference.current){
-            props.reference.current.value = filterOptions.query
-        }
-
-        props.searchMethod(filterOptions);
-    }, [])
 
     return (
         <Card component={Stack} width="280px" padding={2} spacing={3}>
             <Formik
                 enableReinitialize={true}
-                initialValues={filterOptions}
+                initialValues={{
+                    query: searchParams.get("query") ?? "",
+                    priceMin: searchParams.get("priceMin") ?? "",
+                    priceMax: searchParams.get("priceMax") ?? "",
+                    dateMin: searchParams.get("dateMin") ? dayjs(searchParams.get("dateMin")) : null,
+                    dateMax: searchParams.get("dateMax") ? dayjs(searchParams.get("dateMax")) : null,
+                    tags: searchParams.getAll("tags") ?? [],
+                    typeId: searchParams.get("typeId") ?? "",
+                    shapeId: Number(searchParams.get("shapeId")) ?? 0,
+                    filterSold: searchParams.get("filterSold") ?? null,
+                    sortBy: searchParams.get("sortBy") ?? "addedDate",
+                    reverseSort: searchParams.get("reverseSort") ?? 0
+                }}
                 validationSchema={
                     object({
-                        // query: notEmptyWithMaxAndMin(80, 3, "query"),
                         priceMin: priceWithMinAndMax(MAX_PRICE, 0, "PriceMin"),
-                        priceMax: priceWithMinAndMax(MAX_PRICE, 0, "PriceMax"),
+                        priceMax: priceWithMinAndMax(MAX_PRICE, 0, "PriceMax").moreThan(ref("priceMin"), "Price max cannot be less than or equal than price min."),
                         dateMin: date().min(dateMin).nullable(),
-                        dateMax: date().max(dateMax).nullable(),
+                        dateMax: date().min(ref("dateMin"), "Date max cannot be less than date min.").max(dateMax).nullable(),
                         typeId: string(),
-                        //sortBy: string()
-                        //reverseSort: boolean()
                     })
-
                 }
                 onSubmit={(values) => {
                     var params = structuredClone(values)
-                    
+
                     if (values?.dateMin) {
-                        let pDateMin = new Date((values?.dateMin as any)?.toString())
-                        params.dateMin = pDateMin?.toISOString()
+                        (params as any).dateMin = values?.dateMin.toDate()?.toISOString();
                     }
                     if (values?.dateMax) {
-                        let pDateMax = new Date((values?.dateMax as any)?.toString())
-                        params.dateMax = pDateMax?.toISOString()
-                    }
-                    
-                    if (params?.shapeId>=0){
-                        params.shapeId--;
-                        if (params.shapeId===-1){
-                            params.shapeId = null
-                        }
+                        (params as any).dateMax = values?.dateMax.toDate()?.toISOString();
                     }
 
-                    if (props.reference.current)
-                        params.query = props.reference.current.value;
+                    (params as any).shapeId = params.shapeId > 0 ? params.shapeId - 1 : null;
 
-                    console.log(params)
+                    console.log(params);
+                    props.searchMethod(params);
 
-                    props.searchMethod(params)
-
-                    updateURL(params)
+                    updateUrl(params);
                 }}
             >
                 <Stack component={Form} id="searchFilters" spacing={2.25}>
                     <Stack alignItems="center">
-                        <CatalogSearchBar {...props} />
+                        <Field name="query" component={CatalogSearchBar} />
                     </Stack>
 
                     <Field name="priceMin" component={AdCreationInput} label="Price Min" type="number" />
@@ -168,7 +96,7 @@ const [filterOptions, setFilterOptions] = useState<any>(filterOpt);
                     <Field name="dateMax" component={FormikDatePicker} label="Date Max" />
                     <Field name="shapeId" component={AdShapeSelect} label="Shape" isSearch />
                     <Field name="typeId" component={AdTypeSelect} isSearch label="Category" />
-                    <AdTags name="tags" isSearch/>
+                    <AdTags name="tags" isSearch />
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
                     <Field name="reverseSort" component={AdSortDirSelect} label="Reverse Sort" />
                     <Field name="filterSold" component={AdFilterSoldSelect} label="Filter sold" />

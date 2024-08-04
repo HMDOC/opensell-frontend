@@ -1,13 +1,9 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { IconButton, Stack, useTheme } from "@mui/material";
+import { IconButton, InputBase, Stack, useTheme } from "@mui/material";
+import { FieldProps } from 'formik';
 import "./style.css";
-import { RefObject } from 'react';
 
-type HomeSearchBarProps = {
-    reference?: RefObject<HTMLInputElement>;
-};
-
-export default function CatalogSearchBar(props: HomeSearchBarProps) {
+export default function CatalogSearchBar(props: FieldProps) {
     const theme = useTheme();
 
     return (
@@ -18,19 +14,14 @@ export default function CatalogSearchBar(props: HomeSearchBarProps) {
             className="inputContainer"
             sx={{
                 border: "2px solid " + theme.palette.grey[700],
-                height : "50px",
+                height: "50px",
                 width: "240px",
             }}
         >
-            {/* Need to try with InputBase */}
-            <input
-                style={{
-                    color: theme.palette.text.primary,
-                }}
+            <InputBase
                 className="mainMenuInput"
-                ref={props.reference}
                 placeholder="Search"
-                name="query"
+                {...props.field}
             />
 
             <IconButton type='submit' >
