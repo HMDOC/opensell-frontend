@@ -8,6 +8,8 @@ import { SelectorReader } from "./SharedAdPart";
 import { FieldProps } from "formik";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
+export const ALL_ID = "ALL";
+
 export interface AdTypeSelectProps extends FieldProps {
     isSearch?: boolean;
     options?: Array<String>;
@@ -26,7 +28,7 @@ export default function AdTypeSelect(props: AdTypeSelectProps) {
             .then((rep) => {
                 if (rep?.data) {
                     if (props.isSearch) {
-                        setAdTypeArray([{ id: "" as any, name: "ALL" }, ...rep?.data]);
+                        setAdTypeArray([{ id: ALL_ID as any, name: "ALL" }, ...rep?.data]);
                     }
 
                     else setAdTypeArray(rep?.data);

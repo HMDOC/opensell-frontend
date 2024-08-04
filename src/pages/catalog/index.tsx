@@ -61,15 +61,11 @@ export default function Catalog(): ReactElement {
     const [isLoading, setLoading] = useState<boolean>();
     const [searchError, setSearchError] = useState<string[]>(errors.regular);
 
-    // AdTags
-    //const [searchTags, setSearchTags] = useState<Array<string>>(searchParams.getAll("adTags"));
-   
-    const search = (filters : any) => {
+    const search = async (filters: any) => {
         setLoading(true);
 
-        let tmpQueryParams: any = filters;
-
-        getAdBySearch(tmpQueryParams).then(res => {
+        console.log("FILTERS : ", filters)
+        await getAdBySearch(filters).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
@@ -105,7 +101,6 @@ export default function Catalog(): ReactElement {
             setListOfAds(new Array<AdPreviewDto>());
             setLoading(false);
         });
-
     };
 
     return (
@@ -113,8 +108,7 @@ export default function Catalog(): ReactElement {
             <title>Catalog</title>
 
             <Stack>
-                <SearchFilters
-                    searchMethod={search} />
+                <SearchFilters searchMethod={search} />
             </Stack>
 
             <Grid container direction="row" gap={2} flexWrap={"wrap"} width="1500px" marginRight="350px">
@@ -132,16 +126,14 @@ export default function Catalog(): ReactElement {
                             ))
                         ) : (
                             <Stack className="searchEmpty" width="100%">
-                                {searchError.map((val, index) => {
-                                    return (
-                                        <Stack
-                                            id={(index === 0) ? "errorTitle" : ""}
-                                            key={`error${index}`}
-                                        >
-                                            {val}
-                                        </Stack>
-                                    )
-                                })}
+                                {searchError.map((val, index) => (
+                                    <Stack
+                                        id={(index === 0) ? "errorTitle" : ""}
+                                        key={`error-${index}`}
+                                    >
+                                        {val}
+                                    </Stack>
+                                ))}
                             </Stack>
                         )
                 }

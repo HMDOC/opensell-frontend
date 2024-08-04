@@ -11,10 +11,7 @@ const REQUEST_MAPPING = "/api/ad/catalog";
     @author Davide
 */
 export async function getAdBySearch(filters: any) {
-    //filters.filterSold = false;
-    let params = filters;
-
-    return await http.post<AdPreviewDto[]>(`${REQUEST_MAPPING}/search`, params);
+    return await http.post<AdPreviewDto[]>(`${REQUEST_MAPPING}/search`, filters);
 };
 
 /**
