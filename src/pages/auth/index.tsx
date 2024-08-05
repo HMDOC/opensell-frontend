@@ -1,6 +1,6 @@
 "use client";
 
-import { DESKTOP_VIEW, useAppContext } from "@context/AppContext";
+import { DESKTOP_VIEW, MARGIN_TOP_FOR_SECTION, useAppContext } from "@context/AppContext";
 import { Button, Card, Container, Stack, Typography } from "@mui/material";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { login, signup } from "@services/customer/auth";
@@ -101,6 +101,7 @@ export default function Auth(props: { isLogin?: boolean }) {
                                     spacing={3}
                                     padding={3}
                                     useFlexGap
+                                    marginTop={MARGIN_TOP_FOR_SECTION}
                                 >
                                     <Stack width={450} spacing={2} useFlexGap flexWrap="wrap">
                                         <Typography variant="h3">{props.isLogin ? "Login" : "Sign up"}</Typography>
