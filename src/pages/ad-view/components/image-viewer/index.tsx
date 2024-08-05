@@ -1,4 +1,3 @@
-import AdImage from '@model/AdImage';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';

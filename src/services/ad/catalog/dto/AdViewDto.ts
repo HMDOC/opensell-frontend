@@ -1,7 +1,6 @@
 import AdShape from "@model/enums/AdShape";
 import { AdCategory } from "@model/dto/AdCategory";
 import { AdVisibility } from "@model/enums/AdVisibility";
-import AdImage from "@model/AdImage";
 
 /**
  * Interface that contain the essential data that a user need to see
