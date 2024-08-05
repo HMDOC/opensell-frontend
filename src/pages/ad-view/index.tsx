@@ -75,7 +75,7 @@ export default function AdView() {
             <title>{adBuyerView?.adTitle}</title>
             {adBuyerView ?
                 (
-                    <Card component={Container} sx={{ borderRadius: "20px", marginTop : MARGIN_TOP_FOR_SECTION }}>
+                    <Card component={Container} sx={{ borderRadius: "20px", marginTop: MARGIN_TOP_FOR_SECTION }}>
                         <CardHeader
                             title={
                                 <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap spacing={1}>
@@ -122,13 +122,17 @@ export default function AdView() {
                                                     path={getAdImageUrl(adBuyerView?.adImages?.[0])}
                                                 />
 
-                                                <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => getAdImageUrl(img))} openImageAction={loadImageFromClick} />
+                                                {imagesLength && imagesLength > 1 ?
+                                                    (
+                                                        <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => getAdImageUrl(img))} openImageAction={loadImageFromClick} />
+                                                    ) : <></>
+                                                }
                                             </Stack>
 
                                             <Stack sx={{ display: MOBILE_VIEW }}>
                                                 <FrontImage
                                                     action={() => loadImageFromClick(0)}
-                                                    path={adBuyerView?.adImages?.[0]}
+                                                    path={getAdImageUrl(adBuyerView?.adImages?.[0])}
                                                     isMobile
                                                 />
                                             </Stack>

@@ -3,7 +3,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 
 export default function SideImages(props: { images?: (string | undefined)[], openImageAction(index: number): void }) {
     return (
-        <ImageList sx={{ width: 350 }} cols={1} rowHeight={204} variant="woven">
+        <ImageList sx={{ width: 350 }} cols={1} rowHeight={204} variant="masonry">
             {props.images?.map((img, index) => (
                 <ImageListItem key={img}>
                     <img
