@@ -4,7 +4,7 @@
  * @author Davide
  */
 
-export interface AdType {
-    id? :number;
+export interface AdCategory {
+    id?: string;
     name? :string;
 }

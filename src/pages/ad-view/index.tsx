@@ -9,7 +9,7 @@ import { getAdBuyerView } from "@services/ad/catalog";
 import { createRandomKey } from "@utils/RandomKeys";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import AdTypePart from "./components/ad-type-part";
+import AdCategoryPart from "./components/ad-type-part";
 import FrontImage from "./components/front-image";
 import ImageViewer from "./components/image-viewer";
 import SideImages from "./components/side-images";
@@ -81,7 +81,7 @@ export default function AdView() {
                                     <Stack direction="row" alignItems="center" spacing={0.5} flexWrap="wrap" useFlexGap>
                                         {getVisibilityIcon(adBuyerView?.adVisibility!)}
                                         <Typography variant="h3">{adBuyerView?.adTitle}</Typography>
-                                        <AdTypePart type={adBuyerView?.adType?.name!} />
+                                        <AdCategoryPart type={adBuyerView?.adCategory?.name!} />
                                     </Stack>
 
                                     <Chip

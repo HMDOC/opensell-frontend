@@ -1,11 +1,11 @@
-import { AdTag } from "../../model/dto/AdTag";
-import { AdType } from "../../model/dto/AdType";
+import { AdTag } from "@model/dto/AdTag";
+import { AdCategory } from "@model/dto/AdCategory";
 import http from "../../http-commons";
 
 const REQUEST_MAPPING = "/api/ad";
 
-export const getAllAdTypes = async () => {
-    return await http.get<Array<AdType>>(`${REQUEST_MAPPING}/get-all-ad-type`);
+export const getAllAdCategorys = async () => {
+    return await http.get<Array<AdCategory>>(`${REQUEST_MAPPING}/get-all-ad-type`);
 };
 
 export const getAllAdTags = async () => {

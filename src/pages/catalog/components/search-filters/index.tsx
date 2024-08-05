@@ -3,7 +3,7 @@ import AdFilterSoldSelect from "@components/shared/AdFilterSoldSelect";
 import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdSortDirSelect from "@components/shared/AdSortDirSelect";
 import AdSortTypeSelect from "@components/shared/AdSortTypeSelect";
-import AdTypeSelect, { ALL_ID } from "@components/shared/AdTypeSelect";
+import AdCategorySelect, { ALL_ID } from "@components/shared/AdCategorySelect";
 import FormikDatePicker from "@components/shared/formik/date-picker";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
 import { Card, Stack } from "@mui/material";
@@ -103,7 +103,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     <Field name="dateMin" component={FormikDatePicker} label="Date Min" />
                     <Field name="dateMax" component={FormikDatePicker} label="Date Max" />
                     <Field name="shape" component={AdShapeSelect} label="Shape" isSearch />
-                    <Field name="typeId" component={AdTypeSelect} isSearch label="Category" />
+                    <Field name="typeId" component={AdCategorySelect} isSearch label="Category" />
                     <AdTags name="tags" isSearch />
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
                     <Field name="reverseSort" component={AdSortDirSelect} label="Reverse Sort" />

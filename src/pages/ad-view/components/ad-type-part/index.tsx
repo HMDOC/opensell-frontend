@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 
-export default function AdTypePart(props: { type: string }) {
+export default function AdCategoryPart(props: { type: string }) {
     return (
         <Typography
             color="white"

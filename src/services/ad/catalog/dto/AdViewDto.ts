@@ -1,5 +1,5 @@
 import AdShape from "@model/enums/AdShape";
-import { AdType } from "../../../../model/dto/AdType";
+import { AdCategory } from "@model/dto/AdCategory";
 import { AdVisibility } from "@model/enums/AdVisibility";
 import AdImage from "@model/AdImage";
 
@@ -18,7 +18,7 @@ export default interface AdViewDto {
     adVisibility?: AdVisibility;
     adDescription?: string;
     adAddress?: string;
-    adType?: AdType;
+    adCategory?: AdCategory;
     adTagsName?: Array<string>;
     adImages?: Array<AdImage>;
 	userPhone?: string;

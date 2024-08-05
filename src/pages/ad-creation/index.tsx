@@ -8,7 +8,6 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack } from "@mui/material";
 import { createAd, isTitleConstraintOk, saveImages, updateAd } from "@services/ad/listings";
 import AdCreatorDto from "@services/ad/listings/dto/AdCreatorDto";
-import AdTypeSelect from "@shared/AdTypeSelect";
 import { notEmptyWithMaxAndMin, priceWithMinAndMax } from "@utils/yupSchema";
 import { HttpStatusCode } from "axios";
 import { Field, Form, Formik } from "formik";
@@ -17,6 +16,7 @@ import { array, object, string } from "yup";
 import { FrontendImage, ImageBox } from "../../model/dto/v2/ImageBox";
 import { AdCheckbox } from "./components/ad-checkbox";
 import { AdCreationInput } from "./components/ad-creation-input";
+import AdCategorySelect from "@components/shared/AdCategorySelect";
 
 interface AdCreationModalProps {
     open: boolean;
@@ -36,7 +36,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
         price: props.adCreator?.price ?? "",
         description: props.adCreator?.description ?? "",
         address: props.adCreator?.address ?? "",
-        adTypeId: props.adCreator?.adTypeId ?? "",
+        adCategoryId: props.adCreator?.adCategoryId ?? "",
         visibility: props.adCreator?.visibility ?? 0,
         shape: props.adCreator?.shape ?? "",
         tags: props.adCreator?.tags ?? [],
@@ -58,7 +58,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
                         price: priceWithMinAndMax(MAX_PRICE, 0, "Price"),
                         description: notEmptyWithMaxAndMin(5000, 10, "Description"),
                         address: notEmptyWithMaxAndMin(256, 4, "Address"),
-                        adTypeId: string().required("Category is required."),
+                        adCategoryId: string().required("Category is required."),
                         visibility: string().required("Visibility is required."),
                         shape: string().required("Shape is required."),
                         images: array().min(2, " should be at least 2."),
@@ -146,7 +146,7 @@ export default function AdCreationModal(props: AdCreationModalProps) {
 
                                     <AdImages name="images" />
 
-                                    <Field name="adTypeId" component={AdTypeSelect} />
+                                    <Field name="adCategoryId" component={AdCategorySelect} />
 
                                     <AdTags name="tags" />
                                 </Stack>

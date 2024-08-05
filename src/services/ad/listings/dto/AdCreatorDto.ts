@@ -7,7 +7,7 @@ export default interface AdCreatorDto {
     sold: boolean;
     description: string;
     tags: Array<string>;
-    adTypeId: number;
+    adCategoryId: string;
     shape: number;
     visibility: number;
     images: string[];
