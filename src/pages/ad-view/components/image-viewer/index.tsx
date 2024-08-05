@@ -3,6 +3,7 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { Container, Dialog, DialogContent, DialogTitle, IconButton, Stack, SvgIcon, Typography } from "@mui/material";
+import { getAdImageUrl } from '@services/file';
 
 function ArrowButton(props: { icon: typeof SvgIcon, action(): void }) {
     return (
@@ -12,7 +13,7 @@ function ArrowButton(props: { icon: typeof SvgIcon, action(): void }) {
     );
 }
 
-export default function ImageViewer(props: { open: boolean, onClose: any, currentPicture: number, adImages?: Array<AdImage>, nextOrPrevious: any }) {
+export default function ImageViewer(props: { open: boolean, onClose: any, currentPicture: number, adImages?: Array<string>, nextOrPrevious: any }) {
     return (
         <Dialog fullScreen open={props.open} onClose={props.onClose}>
             <DialogTitle>
@@ -29,7 +30,7 @@ export default function ImageViewer(props: { open: boolean, onClose: any, curren
                 </Stack>
 
                 <Stack component={Container} justifyContent="center" alignItems="center">
-                    <img style={{ width: "100%", height: "100%" }} src={props.adImages?.[props.currentPicture]?.path} />
+                    <img style={{ width: "100%", height: "100%" }} src={getAdImageUrl(props.adImages?.[props.currentPicture])} />
                 </Stack>
             </DialogContent>
         </Dialog>

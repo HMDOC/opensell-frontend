@@ -20,7 +20,7 @@ export default interface AdViewDto {
     adAddress?: string;
     adCategory?: AdCategory;
     adTagsName?: Array<string>;
-    adImages?: Array<AdImage>;
+    adImages?: Array<string>;
 	userPhone?: string;
     username?: string;
     userIcon?: string;

@@ -2,7 +2,7 @@ import AdPricePart from "@components/shared/ad/price-part";
 import AdTagPart from "@components/shared/ad/tag-part";
 import ProfilIcon from "@components/shared/ProfilIcon";
 import { getVisibilityIcon } from "@components/shared/SharedAdPart";
-import { DESKTOP_VIEW, MOBILE_VIEW } from "@context/AppContext";
+import { DESKTOP_VIEW, MARGIN_TOP_FOR_SECTION, MOBILE_VIEW } from "@context/AppContext";
 import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
 import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
 import { getAdBuyerView } from "@services/ad/catalog";
@@ -14,6 +14,7 @@ import FrontImage from "./components/front-image";
 import ImageViewer from "./components/image-viewer";
 import SideImages from "./components/side-images";
 import AdViewDto from "@services/ad/catalog/dto/AdViewDto";
+import { getAdImageUrl } from "@services/file";
 
 /**
  * Function that increase the index of the current picture
@@ -74,7 +75,7 @@ export default function AdView() {
             <title>{adBuyerView?.adTitle}</title>
             {adBuyerView ?
                 (
-                    <Card component={Container} sx={{ borderRadius: "20px" }}>
+                    <Card component={Container} sx={{ borderRadius: "20px", marginTop : MARGIN_TOP_FOR_SECTION }}>
                         <CardHeader
                             title={
                                 <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" useFlexGap spacing={1}>
@@ -118,16 +119,16 @@ export default function AdView() {
                                                 <FrontImage
                                                     action={() => loadImageFromClick(0)}
                                                     imagesLength={imagesLength}
-                                                    path={adBuyerView?.adImages?.[0]?.path}
+                                                    path={getAdImageUrl(adBuyerView?.adImages?.[0])}
                                                 />
 
-                                                <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => img.path)} openImageAction={loadImageFromClick} />
+                                                <SideImages images={adBuyerView?.adImages?.slice(1, 4)?.map(img => getAdImageUrl(img))} openImageAction={loadImageFromClick} />
                                             </Stack>
 
                                             <Stack sx={{ display: MOBILE_VIEW }}>
                                                 <FrontImage
                                                     action={() => loadImageFromClick(0)}
-                                                    path={adBuyerView?.adImages?.[0]?.path}
+                                                    path={adBuyerView?.adImages?.[0]}
                                                     isMobile
                                                 />
                                             </Stack>
