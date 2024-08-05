@@ -1,4 +1,3 @@
-import { AdTag } from "@model/dto/AdTag";
 import { AdCategory } from "@model/dto/AdCategory";
 import http from "../../http-commons";
 
@@ -9,5 +8,5 @@ export const getAllAdCategorys = async () => {
 };
 
 export const getAllAdTags = async () => {
-    return await http.get<Array<AdTag>>(`${REQUEST_MAPPING}/get-all-ad-tag`);
+    return await http.get<Array<string>>(`${REQUEST_MAPPING}/get-all-ad-tag`);
 };
