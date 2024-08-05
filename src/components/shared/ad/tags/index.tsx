@@ -50,7 +50,7 @@ export function AdTags(props: { name: string, isSearch?: boolean, placeholder?: 
                         }}
                     />
 
-                    <Stack flexWrap={"wrap"} direction="row" spacing={1} width={600}>
+                    <Stack flexWrap={"wrap"} direction="row" gap={1} maxWidth={600}>
                         {form.values.tags?.map((value: string) => (
                             <AdTagPart label={value} onDelete={() => remove(form.values.tags?.indexOf(value))} key={createRandomKey()} />
                         ))}
