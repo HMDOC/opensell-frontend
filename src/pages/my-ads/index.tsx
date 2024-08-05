@@ -1,4 +1,4 @@
-import { useAppContext } from "@context/AppContext";
+import { MARGIN_TOP_FOR_SECTION, useAppContext } from "@context/AppContext";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Container, IconButton, Stack, Typography } from "@mui/material";
 import AdCreationModal from "@pages/ad-creation/";
@@ -53,7 +53,7 @@ export default function MyAds() {
     }
 
     return (
-        <Container component={Stack} spacing={1}>
+        <Container marginTop={MARGIN_TOP_FOR_SECTION} component={Stack} spacing={1}>
             <title>My ads</title>
 
             <Stack direction="row" justifyContent="space-between" alignItems="center">

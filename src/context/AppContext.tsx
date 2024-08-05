@@ -4,6 +4,7 @@ import { createContext, ReactNode, useContext, useState } from "react";
 import { CustomerDto } from "../services/customer/auth/CustomerDto";
 import { Theme, ThemeOption } from "./Theme";
 
+export const MARGIN_TOP_FOR_SECTION = 10;
 export const DESKTOP_VIEW = { xs: 'none', md: 'flex' };
 export const MOBILE_VIEW = { xs: 'flex', md: 'none' };
 

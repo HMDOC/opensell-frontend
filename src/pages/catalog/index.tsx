@@ -7,6 +7,7 @@ import { ReactElement, useState } from "react";
 import AdPreview from "./components/ad-preview";
 import SearchFilters from "./components/search-filters";
 import "./style.css";
+import { MARGIN_TOP_FOR_SECTION } from "@context/AppContext";
 
 const errors = {
     regular: [
@@ -104,7 +105,7 @@ export default function Catalog(): ReactElement {
     };
 
     return (
-        <Stack marginTop={10} direction="row" spacing={2} justifyContent="center">
+        <Stack marginTop={MARGIN_TOP_FOR_SECTION} direction="row" spacing={2} justifyContent="center">
             <title>Catalog</title>
 
             <Stack>

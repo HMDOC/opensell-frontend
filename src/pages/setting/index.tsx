@@ -1,5 +1,5 @@
 import { AVATAR_SIZE } from "@components/shared/ProfilIcon";
-import { useAppContext } from "@context/AppContext";
+import { MARGIN_TOP_FOR_SECTION, useAppContext } from "@context/AppContext";
 import { Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import { CMContainer, CMDisplay, CMEditButton } from "@pages/setting/components/CMComponents";
 import { CMBasicModificationsForm, CMEmailForm, CMPasswordForm } from "@pages/setting/components/CMForm";
@@ -49,7 +49,7 @@ export default function Setting(props: SettingProps) {
         <Container>
             <title>Settings</title>
 
-            <Stack spacing={2} useFlexGap>
+            <Stack marginTop={MARGIN_TOP_FOR_SECTION} spacing={2} useFlexGap>
                 <CMContainer title="Sensitive Information">
                     <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => openModal(CMModalType.EMAIL)} defaultValue={props?.customerData?.email} />
                     <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => openModal(CMModalType.PASSWORD)} defaultValue="***************" />

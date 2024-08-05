@@ -7,6 +7,7 @@ import { LazyLoad } from './components/animations/loading';
 import Navbar from './components/navbar';
 import PrivateRoute from './components/PrivateRoute';
 import { useAppContext } from './context/AppContext';
+import { Stack } from "@mui/material";
 
 const About = lazy(() => import("@pages/about"));
 const Home = lazy(() => import("@pages/home"));
@@ -30,7 +31,7 @@ export default function App() {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-				<Navbar />
+				<Stack marginBottom="65px"><Navbar /></Stack>
 
 				<Routes>
 					<Route path="/u" element={<PrivateRoute />}>

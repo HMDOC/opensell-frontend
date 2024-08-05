@@ -1,4 +1,4 @@
-import { useAppContext } from '@context/AppContext';
+import { MARGIN_TOP_FOR_SECTION, useAppContext } from '@context/AppContext';
 import EditIcon from '@mui/icons-material/Edit';
 import { Card, CardContent, CardHeader, Container, Divider, Stack, Typography, useTheme } from '@mui/material';
 import AdPreviewDto from '@services/ad/catalog/dto/AdPreviewDto';
@@ -28,7 +28,7 @@ export default function UserProfil(): ReactElement {
         <Container>
             <title>{profileDto?.username}</title>
 
-            <Card>
+            <Card sx={{marginTop: MARGIN_TOP_FOR_SECTION}}>
                 <CardHeader
                     action={
                         isMyProfil ? <Link to="/u/setting" style={{ color: theme.palette.text.primary }}><EditIcon /></Link> : <></>

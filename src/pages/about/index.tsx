@@ -1,3 +1,4 @@
+import { MARGIN_TOP_FOR_SECTION } from "@context/AppContext";
 import { Card, Container, Divider, Stack, Typography, useTheme } from "@mui/material";
 import { ReactElement } from "react";
 
@@ -14,7 +15,7 @@ export default function About(): ReactElement {
         <Container>
             <title>About Opensell</title>
 
-            <Stack component={Card} height="700px" alignItems="center" justifyContent="center">
+            <Stack marginTop={MARGIN_TOP_FOR_SECTION} component={Card} height="700px" alignItems="center" justifyContent="center">
                 <Stack alignItems="center">
                     <Stack direction="row" alignItems="center" spacing={6} useFlexGap padding={1} marginLeft={30}>
                         <Typography fontSize={110}>About</Typography>
