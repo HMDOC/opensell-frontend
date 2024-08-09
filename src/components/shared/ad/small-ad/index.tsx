@@ -5,7 +5,7 @@ import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 import { getAdImageUrl } from "@services/file";
 import { ReactNode } from "react";
 
-type SmallAd = {
+type SmallAdProps = {
     isSearch?: boolean;
     action?: ReactNode;
     goToAd?(): void;
@@ -15,7 +15,7 @@ type SmallAd = {
 /**
  * The component shared by AdPreview(catalog) and Display ad(my-ads).
 */
-export const SmallAd = (props: SmallAd) => {
+export const SmallAd = (props: SmallAdProps) => {
     return (
         <Card onClick={props.goToAd} sx={{ width: "300px" }} component={props.isSearch ? CardActionArea : Stack}>
             <CardMedia component="img" image={getAdImageUrl(props.firstImage)} width="220px" height="150px" />
