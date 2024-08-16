@@ -5,11 +5,11 @@ import AdShapeSelect from "@components/shared/AdShapeSelect";
 import AdSortDirSelect from "@components/shared/AdSortDirSelect";
 import AdSortTypeSelect from "@components/shared/AdSortTypeSelect";
 import { MAX_PRICE } from "@components/shared/SharedAdPart";
-import { Card, Stack } from "@mui/material";
+import { Card, Pagination, Stack } from "@mui/material";
 import { AdCreationInput } from "@pages/ad-creation/components/ad-creation-input";
 import { priceWithMinAndMax } from "@utils/yupSchema";
 import { Field, Form, FormikContext, useFormik } from "formik";
-import { ReactElement, useEffect } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { object, ref, string } from "yup";
 import CatalogSearchBar from "../search-bar";
@@ -41,12 +41,14 @@ function getSearchParamsValues(searchParams: URLSearchParams) {
         shape: Number(searchParams.get("shape")) ?? 0,
         filterSold: searchParams.get("filterSold") ?? false,
         sortBy: searchParams.get("sortBy") ?? "addedDate",
-        reverseSort: searchParams.get("reverseSort") ?? 0
+        reverseSort: searchParams.get("reverseSort") ?? 0,
+        page: searchParams.get("page") ?? 1
     }
 };
 
 type SearchFiltersProps = {
     searchMethod: any;
+    pageCount : number;
 };
 
 /** 
@@ -56,10 +58,16 @@ type SearchFiltersProps = {
 export default function SearchFilters(props: SearchFiltersProps): ReactElement {
     const [searchParams, setSearchParams] = useSearchParams();
 
+    const [pageNb, setPageNb] = useState<number>( () => {
+            let pageUrl =searchParams.get("page");
+            return (pageUrl) ? Number.parseInt(pageUrl) : 1;
+        }
+    );
+
     const formik = useFormik({
         initialValues: getSearchParamsValues(searchParams),
         onSubmit(values) {
-            setSearchParams(cleanValuesForBackend(values));
+            setSearchParams(cleanValuesForBackend(values))
         },
         validationSchema:
             object({
@@ -90,6 +98,12 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
                     <Field name="reverseSort" component={AdSortDirSelect} label="Reverse Sort" />
                     <Field name="filterSold" component={AdFilterSoldSelect} label="Filter sold" />
+                    <Pagination count={props.pageCount} page={pageNb} siblingCount={0} boundaryCount={1} color="primary" 
+                        onChange={(_event : any, value : number) =>{
+                            setPageNb(value)
+                            searchParams.set("page", `${value}`)
+                            setSearchParams(searchParams)
+                        }}/>
                 </Stack>
             </FormikContext.Provider>
         </Card>
