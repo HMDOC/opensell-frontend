@@ -34,8 +34,8 @@ function cleanValuesForBackend(params: any, isBackend?: boolean): any {
 function getSearchParamsValues(searchParams: URLSearchParams) {
     return {
         query: searchParams.get("query") ?? "",
-        priceMin: searchParams.get("priceMin") ?? undefined,
-        priceMax: searchParams.get("priceMax") ?? undefined,
+        priceMin: searchParams.get("priceMin") ?? "",
+        priceMax: searchParams.get("priceMax") ?? "",
         tags: searchParams.getAll("tags") ?? [],
         typeId: searchParams.get("typeId") ?? ALL_ID,
         shape: Number(searchParams.get("shape")) ?? 0,
