@@ -100,13 +100,16 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
                     <Field name="reverseSort" component={AdSortDirSelect} label="Reverse Sort" />
                     <Field name="filterSold" component={AdFilterSoldSelect} label="Filter sold" />
-                    <Pagination count={props.pageCount} page={pageNb} siblingCount={0} boundaryCount={1} color="primary" 
+                    <Stack marginY={1}>
+                        <Pagination count={props.pageCount} page={pageNb} siblingCount={0} boundaryCount={1} color="primary" 
                         onChange={(_event : any, value : number) =>{
                             value = (value>props.pageCount) ? props.pageCount : value
                             setPageNb(value)
                             searchParams.set("page", `${value}`)
                             setSearchParams(searchParams)
                         }}/>
+                    </Stack>
+                    
                 </Stack>
             </FormikContext.Provider>
         </Card>
