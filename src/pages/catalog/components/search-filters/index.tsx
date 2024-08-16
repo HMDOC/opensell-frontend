@@ -60,7 +60,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
 
     const [pageNb, setPageNb] = useState<number>( () => {
             let pageUrl =searchParams.get("page");
-            return (pageUrl) ? Number.parseInt(pageUrl) : 1;
+            return (pageUrl) ? Math.min(Number.parseInt(pageUrl), props.pageCount) : 1;
         }
     );
 
@@ -74,12 +74,14 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                 priceMin: priceWithMinAndMax(MAX_PRICE, 0, "PriceMin"),
                 priceMax: priceWithMinAndMax(MAX_PRICE, 0, "PriceMax").moreThan(ref("priceMin"), "Price max cannot be less than or equal than price min."),
                 typeId: string(),
-            })
+            }),
+        enableReinitialize: true
     });
 
     useEffect(() => {
         const tmp: any = getSearchParamsValues(searchParams);
         props.searchMethod(cleanValuesForBackend(tmp, true));
+        setPageNb(Number.parseInt(tmp.page))
     }, [searchParams]);
 
     return (
@@ -100,6 +102,7 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                     <Field name="filterSold" component={AdFilterSoldSelect} label="Filter sold" />
                     <Pagination count={props.pageCount} page={pageNb} siblingCount={0} boundaryCount={1} color="primary" 
                         onChange={(_event : any, value : number) =>{
+                            value = (value>props.pageCount) ? props.pageCount : value
                             setPageNb(value)
                             searchParams.set("page", `${value}`)
                             setSearchParams(searchParams)
