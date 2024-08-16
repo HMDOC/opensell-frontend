@@ -1,5 +1,5 @@
 import { LoadingIcon } from "@components/animations/loading";
-import { Grid, Stack } from "@mui/material";
+import { Grid, Pagination, Stack } from "@mui/material";
 import { getAdBySearch } from "@services/ad/catalog";
 import AdPreviewDto from "@services/ad/catalog/dto/AdPreviewDto";
 import { AxiosError } from "axios";
@@ -8,6 +8,7 @@ import AdPreview from "./components/ad-preview";
 import SearchFilters from "./components/search-filters";
 import "./style.css";
 import { MARGIN_TOP_FOR_SECTION } from "@context/AppContext";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const errors = {
     regular: [
@@ -61,15 +62,26 @@ export default function Catalog(): ReactElement {
     const [listOfAds, setListOfAds] = useState<AdPreviewDto[]>([]);
     const [isLoading, setLoading] = useState<boolean>();
     const [searchError, setSearchError] = useState<string[]>(errors.regular);
+    const [urlParams, setUrlParams] = useSearchParams({page: "1"});
+
+    const [itemsPerPage, setItemsPerPage] = useState<number>(12);
+    const [pageCount, setPageCount] = useState<number>(1);
+    const [pageNb, setPageNb] = useState<number>( () => {
+            let pageUrl =urlParams.get("page");
+            return (pageUrl) ? Number.parseInt(pageUrl) : 1;
+        }
+    );
 
     const search = async (filters: any) => {
         setLoading(true);
 
         console.log("FILTERS : ", filters)
+
         await getAdBySearch(filters).then(res => {
             setSearchError(errors.regular);
 
             setListOfAds(res?.data);
+            setPageCount(Math.ceil(res?.data.length/itemsPerPage))
 
             setLoading(false);
         }).catch((e: AxiosError) => {
@@ -104,12 +116,28 @@ export default function Catalog(): ReactElement {
         });
     };
 
+    const pageNumberChange = (_event : any, value : number) =>{
+        setPageNb(value)
+        
+        urlParams.set("page", `${value}`)
+        setUrlParams(urlParams)
+    }
+
+    const getPageItems = () =>{
+        let page = ((pageNb - 1)*itemsPerPage);
+
+        return listOfAds?.slice(page, page + itemsPerPage);
+    }
+
     return (
         <Stack marginTop={MARGIN_TOP_FOR_SECTION} direction="row" spacing={2} justifyContent="center">
             <title>Catalog</title>
 
             <Stack>
                 <SearchFilters searchMethod={search} />
+                <Stack marginY={2} alignSelf="center">
+                    <Pagination count={pageCount} page={pageNb} siblingCount={0} boundaryCount={1} color="primary" onChange={pageNumberChange}/>
+                </Stack>
             </Stack>
 
             <Grid container direction="row" gap={2} flexWrap={"wrap"} width="1500px" marginRight="350px">
@@ -117,7 +145,7 @@ export default function Catalog(): ReactElement {
                     <LoadingIcon /> :
                     (listOfAds.length > 0) ?
                         (
-                            listOfAds?.map((data: AdPreviewDto, i: number) => (
+                            getPageItems().map((data: AdPreviewDto, i: number) => (
                                 <Stack key={`ad-preview-${i}`}>
                                     <AdPreview
                                         id={data?.id}
