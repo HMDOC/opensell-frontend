@@ -3,26 +3,6 @@ body {
 	font-family: "Inter";
 }
 
-:root {
-	--sr1: #4C566A;
-	--defaultText: #2E3440;
-	--sr3: #E6E6E6;
-	--imageUrl: url("../public/img/main-background.jpg");
-	--inputborder: #a0a0a0;
-}
-
-.main-background {
-	background-color: rgba(252, 251, 250, 0.39);
-	width: 60%;
-	backdrop-filter: blur(2px);
-	margin: 50px auto auto auto;
-	border-radius: 27px;
-	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-	border: #FCFBFA solid 2px;
-	height: 75vh;
-	padding: 30px;
-}
-
 .imgFit {
 	object-fit: cover;
 	/* le morceau important */
