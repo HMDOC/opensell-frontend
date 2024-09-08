@@ -59,7 +59,7 @@ export default function Navbar(): ReactElement {
 
     return (
         <>
-            <AppBar sx={{ bgcolor : "background.paper", zIndex: (theme) => theme.zIndex.drawer + 1 }} position="fixed" enableColorOnDark color="transparent">
+            <AppBar sx={{ bgcolor: "background.paper", zIndex: (theme) => theme.zIndex.drawer + 1 }} position="fixed" enableColorOnDark color="transparent">
                 <Container maxWidth={false}>
                     <Toolbar disableGutters sx={{ display: "flex", justifyContent: "space-between" }}>
                         {/* <ThemeToggle /> */}
@@ -138,7 +138,7 @@ export default function Navbar(): ReactElement {
                 <Stack component={ListItem}>
                     {links.navbar.map(link => (
                         <ListItemButton>
-                            <ListItemText primary={link.label} />
+                            <ListItemText primary={link.label} onClick={() => navigate(link.path)} />
                         </ListItemButton>
                     ))}
                 </Stack>
