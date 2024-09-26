@@ -1,66 +1,55 @@
-import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useState } from 'react';
-import LazyLoad from './component/part/LazyLoad';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import GlobalNavBar from './component/page/GlobalNavBar';
-import './App.css';
-import getUserInfos from './services/GetUser';
-import PrivateRoute from './component/page/PrivateRoute';
-import { CustomerDto } from './entities/dto/CustomerDto';
+import "@fontsource/inter";
 
-const About = lazy(() => import("./component/page/About"));
-const MainMenu = lazy(() => (import("./component/page/MainMenu")));
-const Signup = lazy(() => (import("./component/page/signup")));
-const Login = lazy(() => (import("./component/page/Login")));
-const AdView = lazy(() => (import("./component/page/AdView")));
-const UserProfil = lazy(() => (import("./component/page/UserProfil")));
-const NotFound = lazy(() => (import("./component/page/NotFound")));
-const Catalog = lazy(() => (import("./component/page/Catalog")));
-const CustomerModification = lazy(() => (import("./component/page/CustomerModification")));
-const AdModification = lazy(() => (import("./component/page/AdModification")));
-const MyAds = lazy(() => (import("./component/page/MyAds")));
-const AdCreation = lazy(() => (import("./component/page/AdCreation")));
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import "./App.css";
+import { LazyLoad } from './components/animations/loading';
+import Navbar from './components/navbar';
+import PrivateRoute from './components/PrivateRoute';
+import { useAppContext } from './context/AppContext';
+import { Stack } from "@mui/material";
 
+const About = lazy(() => import("@pages/about"));
+const Home = lazy(() => import("@pages/home"));
+const Login = lazy(() => import("@pages/auth/login"));
+const Signup = lazy(() => import("@pages/auth/signup"));
+const AdView = lazy(() => import("@pages/ad-view"));
+const UserProfile = lazy(() => import("@pages/user-profile"));
+const NotFound = lazy(() => import("@pages/not-found"));
+const Catalog = lazy(() => import("@pages/catalog"));
+const Setting = lazy(() => import("@pages/setting"));
+const MyAds = lazy(() => import("@pages/my-ads"));
 
 export default function App() {
-	const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
 	const [refresh, setRefresh] = useState(false);
-
-	async function getCustomerInfo() {
-		await getUserInfos("token")?.then((res) => {
-			if(res?.data) {
-				setCustomerDto(res?.data);
-			}
-		});
-	}
+	const { customerDto, getCustomerInfo } = useAppContext();
 
 	useEffect(() => {
 		getCustomerInfo();
-	}, [refresh])
+	}, [refresh]);
 
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<LazyLoad />}>
-				<GlobalNavBar customerDto={customerDto} logout={() => setCustomerDto(undefined)} />
+				<Stack marginBottom="65px"><Navbar /></Stack>
+
 				<Routes>
 					<Route path="/u" element={<PrivateRoute />}>
-						<Route path='/u/my-ads' element={<MyAds idCustomer={customerDto?.customerId} />}/>
-						<Route path="/u/ad-modification/:link" element={<AdModification />}></Route>
-						<Route path="/u/customer-modification" element={<CustomerModification customerData={customerDto} refreshCallback={() => setRefresh(!refresh)}/>}></Route>
-						<Route path="/u/my-profil" element={<UserProfil loggedUserLink={customerDto?.link} isMyProfil />}></Route>
+						<Route path='/u/my-ads' element={<MyAds />} />
+						<Route path="/u/setting" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
 					</Route>
-					<Route path="/" element={<MainMenu />}></Route>
-					<Route path='/about' element={<About />}></Route>
-					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup getCustomerInfo={getCustomerInfo}/>}></Route>
-					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login getCustomerInfo={getCustomerInfo}/>}></Route>
-					<Route path="/catalog" element={<Catalog />}></Route>
-					<Route path="/ad/:link" element={<AdView />}></Route>
-					<Route path="/user/:link" element={<UserProfil />}></Route>
-					<Route path="*" element={<NotFound />}></Route>
+
+					<Route path="/" element={<Home />} />
+					<Route path='/about' element={<About />} />
+					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />} />
+					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />} />
+					<Route path="/catalog" element={<Catalog />} />
+					<Route path="/ad/:id" element={<AdView />} />
+					<Route path="/user/:username" element={<UserProfile />} />
+					<Route path="*" element={<NotFound />} />
 				</Routes>
 			</Suspense>
-		<title>Opensell</title>
-		</BrowserRouter>
+			<title>Opensell</title>
+		</BrowserRouter >
 	);
 }

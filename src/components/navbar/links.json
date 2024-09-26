@@ -1,0 +1,16 @@
+{
+    "navbar": [
+        {
+            "path": "/",
+            "label": "Home"
+        },
+        {
+            "path": "/about",
+            "label": "About"
+        },
+        {
+            "path": "/catalog",
+            "label": "Catalog"
+        }
+    ]
+}

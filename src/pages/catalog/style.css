@@ -1,0 +1,9 @@
+.searchEmpty{
+    font-size: small;
+    text-align: center;
+}
+
+#errorTitle{
+    font-size: large;
+    font-weight: bold;
+}
