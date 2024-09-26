@@ -1,12 +1,12 @@
-import {ReactElement, useState } from "react";
+import { faClock, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
+import { ReactElement, useState } from "react";
 import "../../css/component/page/SearchBar.css";
-import { MAX_PRICE} from "../shared/SharedAdPart";
-import AdTypeSelect from "../shared/AdTypeSelect";
-import { AdTags } from "../shared/AdTags";
 import { HtmlCode } from "../../services/verification/HtmlCode";
-import { SHAPE_ARRAY } from "../shared/AdShapeSelect";
 import IconLabelError from "../part/IconLabelError";
-import { faClock, faDollarSign, faList, faReceipt, faSackDollar, faShapes, faSort } from "@fortawesome/free-solid-svg-icons";
+import { SHAPE_ARRAY } from "../shared/AdShapeSelect";
+import { AdTags } from "../shared/AdTags";
+import AdTypeSelect from "../shared/AdTypeSelect";
+import { MAX_PRICE } from "../shared/SharedAdPart";
 
 /** 
     The component that holds all of the filter options.

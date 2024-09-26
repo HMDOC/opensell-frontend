@@ -1,4 +1,4 @@
-import { faEarthAmerica, faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
+import { faItalic, faLocationDot, faReceipt, faSackDollar, faScroll } from "@fortawesome/free-solid-svg-icons";
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { BooleanSchema, NumberSchema, StringSchema } from "yup";
@@ -16,7 +16,6 @@ import AdVisibilitySelect from "../shared/AdVisibilitySelect";
 import {
     InputType,
     ModifType,
-    SelectorReaderProps,
     SimpleInput,
     SimpleInputProps
 } from "../shared/SharedAdPart";

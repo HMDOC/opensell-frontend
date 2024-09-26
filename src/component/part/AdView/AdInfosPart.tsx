@@ -1,8 +1,8 @@
-import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { faClock, faLocationDot, faPhone, faShapes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../../../css/component/part/AdView/AdInfosPart.scss";
 import { AdShape, getShapeStr } from "../../../entities/dto/AdBuyerView";
-import { faClock, faLocationDot, faPhone, faShapes } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 function SingleInfo(props: { icon: IconProp, labelValue: string, isEnd?: boolean }) {
     return (

@@ -1,14 +1,14 @@
-import { ReactElement, useState } from 'react';
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { ReactElement } from 'react';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import Row from 'react-bootstrap/Row';
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import "../../css/component/page/GlobalNavBar.css";
+import { CustomerDto } from '../../entities/dto/CustomerDto';
+import { createRandomKey } from '../../services/RandomKeys';
 import navLinks from "./Navbar.json";
 import ProfilIcon from './ProfilIcon';
-import { createRandomKey } from '../../services/RandomKeys';
-import { CustomerDto } from '../../entities/dto/CustomerDto';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import { NO_PROFILE_ICON } from './UserProfil';
 
 /**

@@ -1,18 +1,18 @@
+import { faEarthAmericas, faLink, faLock, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { AxiosResponse } from "axios";
 import { PureComponent, ReactNode, useEffect, useState } from "react";
+import { Button, Dropdown, DropdownItem } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../../css/component/page/MyAds.css";
 import "../../css/component/part/ImageFit.css";
-import { Button, Dropdown, DropdownItem, SplitButton } from "react-bootstrap";
-import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
-import { DisplayAdView } from "../../entities/dto/DisplayAdView";
-import { Link, useNavigate } from "react-router-dom";
-import { createRandomKey } from "../../services/RandomKeys";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEarthAmericas, faLink, faLock, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { AdMapping } from "./AdView";
-import { AxiosResponse } from "axios";
 import { AdBuyerView } from "../../entities/dto/AdBuyerView";
-import AdPricePart from "../part/AdView/AdPricePart";
+import { DisplayAdView } from "../../entities/dto/DisplayAdView";
+import { deleteAd, getCustomerAdPreview, getCustomerAds } from "../../services/AdService";
+import { createRandomKey } from "../../services/RandomKeys";
 import AdCreationModal from "../part/AdCreationModal";
+import AdPricePart from "../part/AdView/AdPricePart";
+import { AdMapping } from "./AdView";
 
 interface DisplayAdProps extends DisplayAdView {
     onDelete(idAd: number): void;

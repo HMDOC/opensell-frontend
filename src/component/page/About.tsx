@@ -1,9 +1,5 @@
-import { ReactElement, useState } from "react";
-import "../../css/component/page/About.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { ReactElement } from "react";
+import "../../css/component/page/About.css";
 export default function About(): ReactElement {
     return (
         <div className="main-background">

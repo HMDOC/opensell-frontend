@@ -1,11 +1,10 @@
-import { useRef, useState } from "react";
-import { checkLogin } from '../../services/LogInService';
-import { NavLink, useNavigate } from "react-router-dom";
-import { CustomerInfo } from "../../entities/dto/CustomerInfo";
-import { setToken } from "../../services/SetToken";
-import "../../css/component/page/signup.css"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faKey, faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRef, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import "../../css/component/page/signup.css";
+import { checkLogin } from '../../services/LogInService';
+import { setToken } from "../../services/SetToken";
 
 export default function Login(props) {
     const username = useRef(null);

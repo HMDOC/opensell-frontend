@@ -1,5 +1,4 @@
 import { Component, ReactNode } from "react";
-import LoadingIcon from "../part/LoadingIcon"; 
 import { NavLink } from "react-router-dom";
 
 export default class NotFound extends Component<{}> {

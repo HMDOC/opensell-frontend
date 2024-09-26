@@ -1,11 +1,11 @@
+import { AxiosError } from "axios";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import SearchBar from "./SearchBar";
-import AdPreview from "./AdPreview";
-import "../../css/component/page/Catalog.css"
-import { getAdBySearch } from "../../services/AdService";
 import { useSearchParams } from "react-router-dom";
+import "../../css/component/page/Catalog.css";
+import { getAdBySearch } from "../../services/AdService";
 import LoadingIcon from "../part/LoadingIcon";
-import { AxiosError, AxiosStatic } from "axios";
+import AdPreview from "./AdPreview";
+import SearchBar from "./SearchBar";
 
 /** 
     The catalog page and all of its important components

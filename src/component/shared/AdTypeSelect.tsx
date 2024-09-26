@@ -1,8 +1,8 @@
-import { ChangeEvent, Component, ReactNode, RefObject, createRef } from "react";
+import { faList } from "@fortawesome/free-solid-svg-icons";
+import { AxiosError } from "axios";
+import { ChangeEvent, Component, ReactNode } from "react";
 import { AdType } from "../../entities/dto/AdType";
 import { getAllAdTypes } from "../../services/AdService";
-import { AxiosError } from "axios";
-import { faList } from "@fortawesome/free-solid-svg-icons";
 import IconLabelError from "../part/IconLabelError";
 
 interface AdTypeSelectProperties {

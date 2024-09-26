@@ -1,7 +1,6 @@
 import { Component, ReactNode } from "react";
 import Modal from "react-modal";
 import AdCreation from "../page/AdCreation";
-import { AdCreationpProperties } from "../../services/AdCreationService";
 
 interface AdCreationModalState {
 
