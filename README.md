@@ -129,13 +129,21 @@ mvn spring-boot:run
 
 ![Home](https://raw.githubusercontent.com/HMDOC/readme-src/main/connected_option_in_main_page.png)
 
+### Catalog
+
+![Catalog](https://raw.githubusercontent.com/HMDOC/readme-src/main/catalog.png)
+
+### Ad view
+
+![Ad view](https://raw.githubusercontent.com/HMDOC/readme-src/main/ad-view.png)
+
 ### My ads
 
 ![My Ads](https://raw.githubusercontent.com/HMDOC/readme-src/main/my-ads.png)
 
 ### Profile
 
-![Profile](https://raw.githubusercontent.com/HMDOC/readme-src/main/profil.png)
+![Profile](https://raw.githubusercontent.com/HMDOC/readme-src/main/profile.png)
 
 ### Settings
 
