@@ -30,7 +30,7 @@ export function getVisibilityIcon(visibility: AdVisibility): ReactNode {
 export interface SelectorReaderProps extends FieldProps {
     title: string;
     icon: ReactNode;
-    options?: Array<String>;
+    options?: Array<string>;
     valueIsOption?: boolean;
     children?: ReactNode;
 }
