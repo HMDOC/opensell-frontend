@@ -21,7 +21,7 @@ export async function getAdBySearch(filters: any) {
  * @param id
  * @author Achraf
  */
-export async function getAdBuyerView(idAd: number): Promise<any> {
+export async function getAdBuyerView(idAd: string): Promise<any> {
     try {
         return await http.get<AdViewDto>(`${REQUEST_MAPPING}/${idAd}`);
     } catch (error: any) {
