@@ -54,12 +54,10 @@ cd opensell-frontend/
 npm install
 ```
 
-Create a file named `data.json` in the `src` directory with the following content :
+Create a file named `.env` in the root directory with the following content :
 
-```json
-{
-    "url": "<BACKEND_URL>"
-}
+```properties
+REACT_APP_BACKEND_URL=http://localhost:8080
 ```
 
 </details>
