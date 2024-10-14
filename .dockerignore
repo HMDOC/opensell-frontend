@@ -2,3 +2,5 @@ node_modules
 .gitignore
 README.md
 .env
+.dockerignore
+package-lock.json
