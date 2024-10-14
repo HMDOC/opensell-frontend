@@ -1,9 +1,8 @@
 FROM node
 
 WORKDIR /home/opensell
-COPY ./build ./build
-
-RUN npm install -g serve
-
-CMD ["serve", "-s", "build"]
+COPY . .
+RUN npm i
+# Running temporarily in dev, because we cannot change env variables after the build.
+CMD ["npm", "start"]
 EXPOSE 3000
