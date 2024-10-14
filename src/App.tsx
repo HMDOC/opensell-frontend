@@ -23,7 +23,7 @@ const AdModification = lazy(() => import("./component/page/AdModification"));
 const MyAds = lazy(() => import("./component/page/MyAds"));
 
 export default function App() {
-  const [customerDto, setCustomerDto] = useState<CustomerDto>(undefined);
+  const [customerDto, setCustomerDto] = useState<CustomerDto | undefined>(undefined);
   const [refresh, setRefresh] = useState(false);
 
   async function getCustomerInfo() {

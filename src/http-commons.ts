@@ -4,6 +4,6 @@ import axios from "axios";
 that point to Spring baseURL */
 export default axios.create(
     {
-        baseURL : process.env.REACT_APP_BACKEND_URL,
+        baseURL : import.meta.env?.VITE_BACKEND_URL,
     }
 )

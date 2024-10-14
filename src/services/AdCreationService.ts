@@ -3,7 +3,7 @@ import { HtmlCode } from "./verification/HtmlCode"
 import { AxiosResponse } from "axios";
 import { AdCreationFeedback } from "../entities/dto/adCreation/AdCreationFeedback";
 import { AdCreationData } from "../entities/dto/adCreation/AdCreationData";
-import http from "../../src/http-commons";
+import http from "../http-commons";
 import { BlockImage } from "../entities/dto/BlockImages";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { ChangeEvent } from "react";

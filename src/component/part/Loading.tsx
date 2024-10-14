@@ -1,5 +1,5 @@
 import { Component, ReactNode } from "react";
-import LoadingIcon from "../part/LoadingIcon"; 
+import LoadingIcon from "./LoadingIcon"; 
 
 export default class Loading extends Component {
     public render(): ReactNode {

@@ -1,13 +1,37 @@
 {
     "compilerOptions": {
-        /* To delete the errors in VScode when we put 
-        HTML code in React */
-        "jsx": "react-jsx",
-        /* To be able to import in this way :
-        import React from 'react'; */
+        "composite": true,
+        "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+        "target": "ES2020",
+        "useDefineForClassFields": true,
+        "lib": [
+            "ES2020",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "module": "ESNext",
+        // Skip type checking all .d.ts files.
+        "skipLibCheck": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
         "allowSyntheticDefaultImports": true,
-
-        // To delete the error when importing a JSON in Typescript
         "resolveJsonModule": true,
+        "isolatedModules": true,
+        "moduleDetection": "force",
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "allowJs": true,
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "baseUrl": "./",
+        "paths": {
+            "@component/*": [
+                "src/component/*"
+            ],
+        }
     }
 }

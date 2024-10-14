@@ -15,11 +15,11 @@ import ProfilIcon from "./ProfilIcon";
  * @author Quoc
  */
 export default function GlobalNavBar(props: {
-  customerDto: CustomerDto;
+  customerDto?: CustomerDto;
   logout(): void;
 }): ReactElement {
   const naviguate = useNavigate();
-  const b = ({ isActive }) => {
+  const b = ({ isActive }: { isActive: boolean }) => {
     return isActive ? "is-active" : "";
   };
   const logout = () => {
