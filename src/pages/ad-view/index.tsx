@@ -6,6 +6,8 @@ import { DESKTOP_VIEW, MARGIN_TOP_FOR_SECTION, MOBILE_VIEW } from "@context/AppC
 import { Card, CardContent, CardHeader, Chip, Container, Stack, Typography } from "@mui/material";
 import AdInfosPart from "@pages/ad-view/components/ad-infos-part";
 import { getAdBuyerView } from "@services/ad/catalog";
+import AdViewDto from "@services/ad/catalog/dto/AdViewDto";
+import { getAdImageUrl } from "@services/file";
 import { createRandomKey } from "@utils/RandomKeys";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -13,8 +15,6 @@ import AdCategoryPart from "./components/ad-type-part";
 import FrontImage from "./components/front-image";
 import ImageViewer from "./components/image-viewer";
 import SideImages from "./components/side-images";
-import AdViewDto from "@services/ad/catalog/dto/AdViewDto";
-import { getAdImageUrl } from "@services/file";
 
 /**
  * Function that increase the index of the current picture
@@ -50,8 +50,9 @@ export default function AdView() {
     const imagesLength = adBuyerView?.adImages?.length;
 
     useEffect(() => {
-        getAdBuyerView(id as any).then(res => {
+        getAdBuyerView(id!).then(res => {
             setPromiseResult(res);
+            console.log(res);
         });
     }, []);
 
@@ -90,7 +91,7 @@ export default function AdView() {
                                         to={`/user/${adBuyerView?.username}`}
                                         clickable
                                         sx={{ height: "100%" }}
-                                        icon={<ProfilIcon src={adBuyerView?.userIcon} username={adBuyerView?.username} />}
+                                        icon={<ProfilIcon userIcon={adBuyerView?.userIcon} username={adBuyerView?.username} />}
                                         label={<Typography variant="subtitle1">{adBuyerView?.username}</Typography>}
                                     />
                                 </Stack>

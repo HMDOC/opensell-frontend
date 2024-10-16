@@ -2,13 +2,12 @@ import { MARGIN_TOP_FOR_SECTION, useAppContext } from '@context/AppContext';
 import EditIcon from '@mui/icons-material/Edit';
 import { Card, CardContent, CardHeader, Container, Divider, Stack, Typography, useTheme } from '@mui/material';
 import AdPreviewDto from '@services/ad/catalog/dto/AdPreviewDto';
+import { getCustomerProfileDto } from '@services/customer';
 import { ReactElement, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import ProfilIcon, { AVATAR_SIZE } from "../../components/shared/ProfilIcon";
 import ProfileDto from "../../services/customer/ProfileDto";
 import AdPreview from "../catalog/components/ad-preview";
-import { getCustomerProfileDto } from '@services/customer';
-import { getCustomerIconUrl } from '@services/file';
 
 export default function UserProfil(): ReactElement {
     const { username } = useParams();
@@ -37,7 +36,7 @@ export default function UserProfil(): ReactElement {
 
                 <CardContent component={Stack} spacing={2}>
                     <Stack justifyContent="center" alignItems="center" direction="row" spacing={1} useFlexGap flexWrap="wrap">
-                        <ProfilIcon avatarSize={AVATAR_SIZE} src={getCustomerIconUrl(profileDto?.iconPath)} username={profileDto?.username} />
+                        <ProfilIcon avatarSize={AVATAR_SIZE} userIcon={profileDto?.iconPath} username={profileDto?.username} />
 
                         <Stack spacing={0.8} sx={{ maxWidth: "600px" }}>
                             <Stack direction="row" alignItems="center" spacing={0.5}>

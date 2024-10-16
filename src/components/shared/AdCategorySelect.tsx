@@ -12,7 +12,7 @@ export const ALL_ID = "ALL";
 
 export interface AdCategorySelectProps extends FieldProps {
     isSearch?: boolean;
-    options?: Array<String>;
+    options?: Array<string>;
     children?: ReactNode;
 }
 
@@ -35,7 +35,7 @@ export default function AdCategorySelect(props: AdCategorySelectProps) {
                 }
             }).catch((error: AxiosError) => {
                 console.log("ERORR : " + error);
-                setAdCategoryArray([{ id: 1, name: "No tags found..." }]);
+                setAdCategoryArray([{ id: "1", name: "No tags found..." }]);
             });
     }, [])
 

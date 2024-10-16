@@ -137,8 +137,8 @@ export default function Navbar(): ReactElement {
 
                 <Stack component={ListItem}>
                     {links.navbar.map(link => (
-                        <ListItemButton>
-                            <ListItemText primary={link.label} onClick={() => navigate(link.path)} />
+                        <ListItemButton onClick={() => { setIsMenuDisplayed(false); navigate(link.path); }} key={link.label}>
+                            <ListItemText primary={link.label} />
                         </ListItemButton>
                     ))}
                 </Stack>

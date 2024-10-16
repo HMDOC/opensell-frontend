@@ -44,102 +44,102 @@ Opensell is a marketplace website that we developed during the course 420-412-MV
 - [JDK 21](https://www.oracle.com/ca-en/java/technologies/downloads/#java21)
 
 </details>
-<br />
-
-<!-- Images section -->
-<details open><summary><b>Images server</b></summary>
-
-Setup :
-
-```shell
-git clone https://github.com/HMDOC/opensell-images
-npm install
-```
-
-</details>
-<br />
 
 <!-- Backend section -->
 <details open><summary><b>Backend</b></summary>
 
-Setup :
+### Setup
+
+Clone the repository.
 
 ```sh
 git clone https://github.com/HMDOC/opensell-backend
 ```
 
-Create a file named `env.properties` in the root directory with the following content :
+### Development
+
+1. Create the containers by running `docker compose up -d` in the terminal.
+2. Connect to the MongoDB container with the credentials locate at `docker-compose.yml` using [MongoDB Compass](https://www.mongodb.com/try/download/compass). Then you need to import the data from the adCategory, customer, and ad collections located at `./src/main/ressources/data`. The import order is adCategory.json, customer.json, and ad.json.
+3. Clone the image repository(opensell-images). This repository contains the images files that are referenced in the MongoDB database.
+    ```shell
+    git clone https://github.com/HMDOC/opensell-images
+    ```
+4. Almost all environment variables are handled by docker compose or the dev profile, so the only thing that you need to change is the `APP_IMAGE_SERVER_PATH` environment variable, which tells Spring where to access and store images. This environment variable should contain the location on your machine of the `opensell-images` repository you just cloned before.
+
+### Production
+
+Here are the environment variables you need to set in production.
 
 ```properties
-# The port of the backend.
-SERVER_PORT=
+# (Optional) The default port is 8080.
+SERVER_PORT=8080
 
-# The url of the SMTP server. Ex: smtp-mail.outlook.com
+# The profile that the application uses by default is dev.
+ACTIVE_PROFILE=prod
+
+# The keystore.p12 password for HTTPS.
+SSL_KEY_STORE_PASSWORD=
+
+# (Optional) The location of the keystore file, by default it is keystore.p12.
+SSL_KEY_STORE=keystore.p12
+
+# Database URI
+MONGO_DB_URI=
+
+# All the information about the SMTP server.
 SMTP_HOST=
-
-# The port of the SMTP server. Ex: 587
 SMTP_PORT=
 SMTP_EMAIL=
 SMTP_PASSWORD=
 
-# The url that can make request to the backend. The only one you need is the one of the frontend
-ALLOWED_URLS=
+# The urls that have permission to access the backend.
+APP_ALLOWED_URLS=
 
-# The path where the image are going to be stored. This path should end with /public if you are using the image server.
-IMAGE_SERVER_PATH=
+# The application's email that is used to send emails to customers.
+APP_SUPPORT_EMAIL=
 
-# The url of the server that contain the image. Ex: http://localhost:$PORT
-IMAGE_SERVER_URL=
-
-# The information that will be given directly to the MongoDB container.
-MONGO_INITDB_ROOT_USERNAME=
-MONGO_INITDB_ROOT_PASSWORD=
-MONGO_INITDB_ROOT_DATABASE=
+# The path where the images(ad images, customer profile, etc.) are stored. 
+APP_IMAGE_SERVER_PATH=
 ```
-
-After running the project, you need to connect to the database container using [MongoDB Compass](https://www.mongodb.com/try/download/compass). Then you need to import the data from the adCategory, customer, and ad collections located at `./src/main/ressources/data`. The import order is adCategory.json, customer.json, and ad.json.
 </details>
-<br />
 
 <!-- Frontend section -->
 <details open><summary><b>Frontend</b></summary>
 
-Setup :
+### Setup
 
-```sh
-git clone https://github.com/HMDOC/opensell-frontend
-cd opensell-frontend/
-npm install
-```
+1. Clone the repository.
+   ```sh
+   git clone https://github.com/HMDOC/opensell-frontend
+   cd opensell-frontend/
+   npm install
+   ```
 
-Create a file named `.env.local` in the root directory with the following content :
-
-```properties
-# Port of the frontend
-VITE_PORT=80
-VITE_BACKEND_URL=
-VITE_JWT_SECRET_KEY=
-
-# URL of the image server, should finish with a /
-VITE_IMAGES_SERVER_URL=
-
-VITE_AD_IMAGES_FOLDER=ad-image/
-VITE_CUSTOMER_PROFILE_FOLDER=customer-profile/
-```
+2. Create a file named `.env.local` in the root directory with the following content :
+   ```properties
+   # Port of the frontend
+   VITE_PORT=3000
+   VITE_JWT_SECRET_KEY=
+   VITE_BACKEND_URL=
+   
+   # The backend url to get the images(ad images, customer profile, etc.). You only need to change the host and the port if needed.
+   VITE_IMAGES_SERVER_URL=http://localhost:8080/api/file/
+   
+   # These are used to specify which route to get for each image type.
+   VITE_AD_IMAGES_FOLDER=ad-image/
+   VITE_CUSTOMER_PROFILE_FOLDER=customer-profile/
+   ```
 
 </details>
 
-## Run the project
+## Run the project in development
 
 ```sh
 # Frontend
 npm run dev
 
-# Backend: run with your IDE or :
-./mvnw spring-boot:run
-
-# Images
-npm start
+# Backend
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--APP_IMAGE_SERVER_PATH=${THE_PATH_OF_THE_OPENSELL_IMAGES_REPOSITORY}"
 ```
 
 ## Preview
