@@ -34,7 +34,6 @@ Opensell is a marketplace website that we developed during the course 420-412-MV
 ## Installation
 <!-- Dependencies -->
 <details open><summary><b>External dependencies</b></summary>
-<br />
 
 - [nodejs](https://nodejs.org/en/download/prebuilt-installer)
 - [MariaDB](https://mariadb.org/download/)
@@ -44,77 +43,98 @@ Opensell is a marketplace website that we developed during the course 420-412-MV
 
 <!-- Frontend section -->
 <details open><summary><b>Frontend</b></summary>
-<br />
 
-Setup :
+### Setup
 
-```sh
-git clone https://github.com/HMDOC/opensell-frontend -b legacy
-cd opensell-frontend/
-npm install
-```
+1. Clone the repository.
 
-Create a file named `.env` in the root directory with the following content :
+    ```sh
+    git clone https://github.com/HMDOC/opensell-frontend -b legacy
+    cd opensell-frontend/
+    npm install
+    ```
 
-```properties
-REACT_APP_BACKEND_URL=http://localhost:8080
-```
+2. Create a file named `.env` in the root directory with the following content :
+
+    ```properties
+    VITE_BACKEND_URL=http://localhost:8080
+    VITE_PORT=3000
+    # (Optional) This is not necessary in dev mode.
+    VITE_HTTPS=true
+    ```
 
 </details>
 
 <!-- Backend section -->
 <details open><summary><b>Backend</b></summary>
-<br />
 
-Setup :
+### Setup
+
+Clone the repository.
 
 ```sh
 git clone https://github.com/HMDOC/opensell-backend -b legacy
-cd opensell-backend
-mvn install
 ```
 
-Create a file named `env.properties` in the root directory with the following content :
+### Development
+
+1. Create the containers by running `docker compose up -d` in the terminal.
+2. Clone the image repository(opensell-images). This repository contains the images files that are referenced in `src/main/resources/data.sql`.
+
+    ```shell
+    git clone https://github.com/HMDOC/opensell-images
+    ```
+
+3. Almost all environment variables are handled by docker compose or the dev profile, so the only thing that you need to change is the `UPLOAD_PATH` environment variable, which tells Spring where to access and store images. This environment variable should contain the location on your machine of the `opensell-images` repository you just cloned before.
+
+### Production
+
+Here are the environment variables you need to set in production.
 
 ```properties
-SERVER_PORT=
+# (Optional) The default port is 8080.
+SERVER_PORT=8080
 
-# Email information
-SMTP_HOST=smtp-mail.outlook.com
-SMTP_PORT=587
-SMTP_EMAIL=
-SMTP_PASSWORD=
+# The profile that the application uses by default is dev.
+ACTIVE_PROFILE=prod
+
+# The keystore.p12 password for HTTPS.
+SSL_KEY_STORE_PASSWORD=
+
+# (Optional) The location of the keystore file, by default it is keystore.p12.
+SSL_KEY_STORE=keystore.p12
 
 # Database information
 DB_URL=jdbc:mariadb://localhost:3306/opensell
-DB_USER=
-DB_PWD=
+DB_USERNAME=
+DB_PASSWORD=
 
-SERVER_URL=
+# All the information about the SMTP server.
+SMTP_HOST=
+SMTP_PORT=
+SMTP_EMAIL=
+SMTP_PASSWORD=
 
-# The path where the images will be saved
+# The urls that have permission to access the backend.
+ALLOWED_URLS=
+
+# The application's email that is used to send emails to customers.
+SUPPORT_EMAIL=
+
+# The path where the images(ad images, customer profile, etc.) are stored. 
 UPLOAD_PATH=
-
-# Frontend url
-ALLOWED_URL=http://localhost:3000
-```
-
-To enable images :
-
-```text
-You need to create two folders one named "/ad-image" that will contain the images for the ads and the other "/customer-profil" will contain the profil pictures of the users. They need to be accessible by http like this : http://<BACKEND_URL>/ad-image/.
 ```
 
 </details>
 
-## Run the project
+## Run the project in development
 
 ```sh
 # Frontend
 npm start
 
 # Backend
-mvn spring-boot:run
+./mvnw spring-boot:run -Dspring-boot.run.arguments="--UPLOAD_PATH=${THE_PATH_OF_THE_OPENSELL_IMAGES_REPOSITORY}"
 ```
 
 ## Preview
