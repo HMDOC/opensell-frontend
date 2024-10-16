@@ -37,17 +37,16 @@ Opensell is a marketplace website that we developed during the course 420-412-MV
 
 ## Installation
 <!-- Dependencies -->
-<details open><summary><b style="font-size: 23px">External dependencies</b></summary>
+<details open><summary><b>External dependencies</b></summary>
 
 - [nodejs](https://nodejs.org/en/download/prebuilt-installer)
 - [docker](https://www.docker.com/get-started/)
 - [JDK 21](https://www.oracle.com/ca-en/java/technologies/downloads/#java21)
 
 </details>
-<br />
 
 <!-- Backend section -->
-<details open><summary><b style="font-size: 23px">Backend</b></summary>
+<details open><summary><b>Backend</b></summary>
 
 ### Setup
 
@@ -75,7 +74,7 @@ Here are the environment variables you need to set in production.
 # (Optional) The default port is 8080.
 SERVER_PORT=8080
 
-# The profile the application will use, by default it is dev.
+# The profile that the application uses by default is dev.
 ACTIVE_PROFILE=prod
 
 # The keystore.p12 password for HTTPS.
@@ -99,14 +98,13 @@ APP_ALLOWED_URLS=
 # The application's email that is used to send emails to customers.
 APP_SUPPORT_EMAIL=
 
-# The path of where the images(ad images, customer profile, etc.) are stored. 
+# The path where the images(ad images, customer profile, etc.) are stored. 
 APP_IMAGE_SERVER_PATH=
 ```
 </details>
-<br />
 
 <!-- Frontend section -->
-<details open><summary><b style="font-size: 23px">Frontend</b></summary>
+<details open><summary><b>Frontend</b></summary>
 
 ### Setup
 
