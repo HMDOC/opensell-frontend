@@ -41,30 +41,6 @@ Opensell is a marketplace website that we developed during the course 420-412-MV
 
 </details>
 
-<!-- Frontend section -->
-<details open><summary><b>Frontend</b></summary>
-
-### Setup
-
-1. Clone the repository.
-
-    ```sh
-    git clone https://github.com/HMDOC/opensell-frontend -b legacy
-    cd opensell-frontend/
-    npm install
-    ```
-
-2. Create a file named `.env` in the root directory with the following content :
-
-    ```properties
-    VITE_BACKEND_URL=http://localhost:8080
-    VITE_PORT=3000
-    # (Optional) This is not necessary in dev mode.
-    VITE_HTTPS=true
-    ```
-
-</details>
-
 <!-- Backend section -->
 <details open><summary><b>Backend</b></summary>
 
@@ -124,6 +100,30 @@ SUPPORT_EMAIL=
 # The path where the images(ad images, customer profile, etc.) are stored. 
 UPLOAD_PATH=
 ```
+
+</details>
+
+<!-- Frontend section -->
+<details open><summary><b>Frontend</b></summary>
+
+### Setup
+
+1. Clone the repository.
+
+    ```sh
+    git clone https://github.com/HMDOC/opensell-frontend -b legacy
+    cd opensell-frontend/
+    npm install
+    ```
+
+2. Create a file named `.env` in the root directory with the following content :
+
+    ```properties
+    VITE_BACKEND_URL=http://localhost:8080
+    VITE_PORT=3000
+    # (Optional) This is not necessary in dev mode.
+    VITE_HTTPS=true
+    ```
 
 </details>
 
