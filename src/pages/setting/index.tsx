@@ -50,15 +50,15 @@ export default function Setting(props: SettingProps) {
             <title>Settings</title>
 
             <Stack marginTop={MARGIN_TOP_FOR_SECTION} spacing={2} useFlexGap>
-                <CMContainer title="Sensitive Information">
+                <CMContainer title="Sensitive information">
                     <CMDisplay labelText="Email" hasButton={true} buttonOnClickCallback={() => openModal(CMModalType.EMAIL)} defaultValue={props?.customerData?.email} />
                     <CMDisplay labelText="Password" hasButton={true} buttonOnClickCallback={() => openModal(CMModalType.PASSWORD)} defaultValue="***************" />
                 </CMContainer>
 
-                <CMContainer title="Other Information" editButton={<CMEditButton label="Edit" onClick={() => openModal(CMModalType.BASIC_CHANGES)} />} >
+                <CMContainer title="Other information" editButton={<CMEditButton label="Edit" onClick={() => openModal(CMModalType.BASIC_CHANGES)} />} >
                     <CMDisplay labelText="Username" defaultValue={props.customerData?.username} />
-                    <CMDisplay labelText="FirstName" defaultValue={props.customerData?.firstName} />
-                    <CMDisplay labelText="LastName" defaultValue={props.customerData?.lastName} />
+                    <CMDisplay labelText="First name" defaultValue={props.customerData?.firstName} />
+                    <CMDisplay labelText="Last name" defaultValue={props.customerData?.lastName} />
                     <CMDisplay labelText="Bio" defaultValue={props.customerData?.bio} />
                 </CMContainer>
 
@@ -67,7 +67,7 @@ export default function Setting(props: SettingProps) {
                         <TableCell>
                             <Typography variant="h6">Profile icon</Typography>
 
-                            <Typography variant="subtitle2">The icon visible by anyone in your profile.</Typography>
+                            <Typography variant="subtitle2">The icon visible to everyone.</Typography>
                         </TableCell>
 
                         <TableCell />

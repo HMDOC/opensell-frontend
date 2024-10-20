@@ -36,7 +36,7 @@ export default function Navbar(): ReactElement {
     const DROPDOWN_MENU = [
         {
             path: `/user/${customerDto?.username}`,
-            label: "My profil",
+            label: "My profile",
             icon: <PersonIcon />
         },
         {
