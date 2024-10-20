@@ -56,7 +56,7 @@ export default function App() {
               element={<AdModification />}
             ></Route>
             <Route
-              path="/u/customer-modification"
+              path="/u/settings"
               element={
                 <CustomerModification
                   customerData={customerDto}
@@ -65,7 +65,7 @@ export default function App() {
               }
             ></Route>
             <Route
-              path="/u/my-profil"
+              path="/u/my-profile"
               element={
                 <UserProfil loggedUserLink={customerDto?.link} isMyProfil />
               }

@@ -136,8 +136,8 @@ export class CMBasicModificationsForm extends CMForm {
                 {this.getFeedbackElement()}
                 <form onSubmit={(formEvent) => this.saveChanges(formEvent)}>
                     <CMInput name="username" defaultValue={this.props.defaultValues.username} labelText="Username : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                    <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="FirstName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
-                    <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="LastName : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
+                    <CMInput name="firstName" defaultValue={this.props.defaultValues.customerInfo.firstName} labelText="First name : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
+                    <CMInput name="lastName" defaultValue={this.props.defaultValues.customerInfo.lastName} labelText="Last name : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     <CMInput name="exposedEmail" defaultValue={this.props.defaultValues.customerInfo.exposedEmail} labelText="Public email : " type="text" onChange={(changeEvent) => this.handleChange(changeEvent)}/>
                     <CMTextArea name="bio" defaultValue={this.props.defaultValues.customerInfo.bio} type="" labelText="Bio : " onChange={(changeEvent) => this.handleChange(changeEvent)} cols={80} rows={10}/>
                     {this.getButtons()}

@@ -23,7 +23,7 @@ export default function MainMenu(): ReactElement {
                         <p>Inc.</p>
                     </div>
                 </div>
-                <p className="splash-bottom">The online marketplace, redesigned</p><br />
+                <p className="splash-bottom">The online marketplace redesigned.</p><br />
                 <form onSubmit={getLink} className="inputContainer">
                     <input onChange={(e) => { search = e.target.value }} type="text" placeholder="Search" className="mainMenuInput" />
                     <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />

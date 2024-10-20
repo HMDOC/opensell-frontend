@@ -35,7 +35,7 @@ export default function UserProfil(props: {
       <title>{customerProfil?.username}</title>
       <div className="front-div">
         {props.isMyProfil ? (
-          <Link to="/u/customer-modification">
+          <Link to="/u/settings">
             <FontAwesomeIcon className="pencil" icon={faPencil} />
           </Link>
         ) : (

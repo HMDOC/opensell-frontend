@@ -100,10 +100,10 @@ export default class CustomerModification extends Component<
         <div id="customer-modification-form" className="modificationPage">
           <div className="CM-Container">
             <div className="input-div">
-              <h1 style={{ width: "66.5%" }}>Sensitive Information</h1>
+              <h1 style={{ width: "66.5%" }}>Sensitive information</h1>
               <span style={{ fontSize: "1vw" }}>
                 <CMDisplay
-                  labelText="Private Email"
+                  labelText="Private email"
                   hasButton={true}
                   buttonOnClickCallback={() =>
                     this.openModal(CMModalType.PERSONNAL_EMAIL)
@@ -120,7 +120,7 @@ export default class CustomerModification extends Component<
                 isPassword={true}
               />
               <CMDisplay
-                labelText="Phone Number"
+                labelText="Phone number"
                 hasButton={true}
                 buttonOnClickCallback={() =>
                   this.openModal(CMModalType.PHONE_NUMBER)
@@ -132,7 +132,7 @@ export default class CustomerModification extends Component<
           <div className="CM-Container">
             <div className="input-div">
               <div className="CM-Title-Button-Container">
-                <h1>Other Information</h1>
+                <h1>Other information</h1>
                 <div className="change-button">
                   <button
                     type="button"
@@ -148,15 +148,15 @@ export default class CustomerModification extends Component<
                 defaultValue={this.props.customerData.username}
               />
               <CMDisplay
-                labelText="FirstName"
+                labelText="First name"
                 defaultValue={this.props.customerData.customerInfo?.firstName}
               />
               <CMDisplay
-                labelText="LastName"
+                labelText="Last name"
                 defaultValue={this.props.customerData.customerInfo?.lastName}
               />
               <CMDisplay
-                labelText="Public Email"
+                labelText="Public email"
                 defaultValue={
                   this.props.customerData.customerInfo?.exposedEmail
                 }
@@ -169,7 +169,7 @@ export default class CustomerModification extends Component<
           </div>
           <div className="CM-Container">
             <div className="input-div">
-              <div className="CM-Title-Button-Container">
+              <div style={{ display: "flex", alignItems: "center" }} className="CM-Title-Button-Container">
                 <h1
                   style={{
                     width: "fit-content",
@@ -177,9 +177,9 @@ export default class CustomerModification extends Component<
                     border: "none",
                   }}
                 >
-                  Profile Icon
+                  Profile icon
                 </h1>
-                <div style={{ border: "none" }} className="change-button">
+                <div style={{ border: "none", display: "flex", alignItems: "center" }} className="change-button">
                   <ProfilIcon
                     src={this.props.customerData?.customerInfo?.iconPath}
                   />

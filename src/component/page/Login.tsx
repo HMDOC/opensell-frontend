@@ -51,7 +51,7 @@ export default function Login(props) {
         <title>Login</title>
             <div className="signup-form">
                 <p className="top-text">Log in</p>
-                <p className="middle-text">Welcome back</p>
+                <p className="middle-text">Welcome back!</p>
                 <form className="form">
                     <div className="input-div">
                         <FontAwesomeIcon icon={faUser} className="signup-icon"></FontAwesomeIcon>

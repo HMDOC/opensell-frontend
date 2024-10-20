@@ -100,7 +100,7 @@ export default function Signup(props) {
                                 <input placeholder="Password" className="signup-input" type="password" name="password" onChange={handleChange}></input><span style={{ textAlign: "right" }}>{eErrors.password}</span>
                             </div><br />
                             <button className="signup-button" type="submit" onClick={handleClick}>SIGN UP</button>
-                            <p className="bottom-text">Already have an account? Login <NavLink to="/login" style={{ textDecoration: "underline", fontWeight: "bold", color: "#232751" }}>here</NavLink></p>
+                            <p className="bottom-text">Already have an account? Log in <NavLink to="/login" style={{ textDecoration: "underline", fontWeight: "bold", color: "#232751" }}>here</NavLink></p>
                         </form>
                     </div>
                     <div className="decoration-div">

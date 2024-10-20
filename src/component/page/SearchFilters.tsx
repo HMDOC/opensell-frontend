@@ -73,7 +73,7 @@ const SearchFilters = (props) : ReactElement =>{
                         tags={props.searchTags}
                         error={searchTagsError}
                         setError={setSearchTagsError} 
-                        placeholder={"list all tags"} />
+                        placeholder={"List all tags"} />
                 </div>
                 
                 <IconLabelError iconProp={faShapes} title="Shape" isTitle />
