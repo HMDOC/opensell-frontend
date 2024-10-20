@@ -25,7 +25,7 @@ export default function SettingTheme() {
     return (
         <Card>
             <CardHeader
-                title="Application theme"
+                title="Theme"
             />
             <Divider />
 

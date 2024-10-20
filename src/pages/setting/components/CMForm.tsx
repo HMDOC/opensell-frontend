@@ -47,10 +47,10 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
                     bio: props.defaultValues?.bio ?? ""
                 }}
                 validationSchema={object({
-                    username: notEmptyWithMaxAndMin(50, 3, "username").notOneOf(existingUsernames, USERNAME_ALREADY_EXISTS),
-                    firstName: string().nullable().max(50, "bio cannot be more than 50 characters."),
-                    lastName: string().nullable().max(50, "bio cannot be more than 50 characters."),
-                    bio: string().nullable().max(5000, "bio cannot be more than 5000 characters."),
+                    username: notEmptyWithMaxAndMin(50, 3, "\"Username\"").notOneOf(existingUsernames, USERNAME_ALREADY_EXISTS),
+                    firstName: string().nullable().max(50, "\"First name\" cannot exceed 50 characters."),
+                    lastName: string().nullable().max(50, "\"Last name\" cannot exceed 50 characters."),
+                    bio: string().nullable().max(5000, "\"Bio\" cannot exceed 5000 characters."),
                 })}
                 onSubmit={async (values, formikHelpers) => {
                     if ((await isUsernameExists(props.defaultValues?.customerId!, values.username)).data) {
@@ -67,8 +67,8 @@ export function CMBasicModificationsForm(props: CMFormProperties) {
                 }}
             >
                 <Field name="username" component={AdCreationInput} label="Username" />
-                <Field name="firstName" component={AdCreationInput} label="FirstName" />
-                <Field name="lastName" component={AdCreationInput} label="LastName" />
+                <Field name="firstName" component={AdCreationInput} label="First name" />
+                <Field name="lastName" component={AdCreationInput} label="Last name" />
                 <Field name="bio" component={AdCreationInput} isTextArea label="Bio" />
             </CMFormContainer>
         </div>
@@ -99,13 +99,13 @@ export function CMEmailForm(props: { onClose(): void }) {
             }}
             validationSchema={object({
                 email: string()
-                    .required("New email cannot be empty")
-                    .test("emailValid", "invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
+                    .required("\"New email\" cannot be empty.")
+                    .test("emailValid", "Invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
                     .notOneOf(existingEmail, EMAIL_ALREADY_EXISTS),
                 confirmEmail: string()
-                    .required("Confirm email cannot be empty")
-                    .test("emailValid", "invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
-                    .equals([ref("email")], "Confirm email must equal to new email.")
+                    .required("\"Confirm email\" cannot be empty")
+                    .test("emailValid", "Invalid email format.", (value) => new Promise((resolve) => resolve(verify(value, RegexCode.EMAIL))))
+                    .equals([ref("email")], "\"Confirm email\" should match \"New email\".")
             })}
         >
             <Field
@@ -123,7 +123,7 @@ export function CMEmailForm(props: { onClose(): void }) {
     )
 }
 
-const INVALID_OLD_PASSWORD = "Invalid old password.";
+const INVALID_OLD_PASSWORD = "\"Old Password\" is invalid.";
 export function CMPasswordForm(props: CMFormProperties) {
     const [invalidOldPasswords, setInvalidOldPasswords] = useState<string[]>([]);
     return (
@@ -135,9 +135,9 @@ export function CMPasswordForm(props: CMFormProperties) {
                     confirmPassword: ""
                 }}
                 validationSchema={object({
-                    oldPassword: string().required("oldPassword is required.").notOneOf(invalidOldPasswords, INVALID_OLD_PASSWORD),
-                    password: string().required("password is required."),
-                    confirmPassword: string().required("confirm password is required.").equals([ref("password")], "confirm password should equals password."),
+                    oldPassword: string().required("\"Old Password\" is required.").notOneOf(invalidOldPasswords, INVALID_OLD_PASSWORD),
+                    password: string().required("\"New password\" is required."),
+                    confirmPassword: string().required("\"Confirm password\" is required.").equals([ref("password")], "\"Confirm password\" should match \"New password\"."),
                 })}
                 onSubmit={async (values, formikHelpers) => {
                     await changePassword(props.defaultValues?.customerId!, values as any)
@@ -156,9 +156,9 @@ export function CMPasswordForm(props: CMFormProperties) {
                         })
                 }}
             >
-                <Field name="oldPassword" component={AdCreationInput} label="Old Password" type="password" />
-                <Field name="password" component={AdCreationInput} label="New Password" type="password" />
-                <Field name="confirmPassword" component={AdCreationInput} label="Confirm Password" type="password" />
+                <Field name="oldPassword" component={AdCreationInput} label="Old password" type="password" />
+                <Field name="password" component={AdCreationInput} label="New password" type="password" />
+                <Field name="confirmPassword" component={AdCreationInput} label="Confirm password" type="password" />
             </CMFormContainer>
         </div>
     )
