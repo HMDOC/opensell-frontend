@@ -12,7 +12,7 @@ export default function BrowseOrSignup() {
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <ActionButton label="Browse" pathname="/catalog?query=" />
                     <Typography variant="h6">or</Typography>
-                    <ActionButton label="Sign up" pathname="/signup" />
+                    <ActionButton label="Sign up" pathname="/sign-up" />
                 </Stack>
             </Stack>
 

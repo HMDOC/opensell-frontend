@@ -113,7 +113,7 @@ export default function Auth(props: { isLogin?: boolean }) {
                                         <Button type="submit">{props.isLogin ? "Sign in" : "Create account"}</Button>
                                         <Typography>
                                             {props.isLogin ? "Do not have an account. " : "Already have an account. "}
-                                            <Link to={props.isLogin ? "/signup" : "/login"}>{props.isLogin ? "Sign up" : "Login"}</Link>
+                                            <Link to={props.isLogin ? "/sign-up" : "/login"}>{props.isLogin ? "Sign up" : "Login"}</Link>
                                         </Typography>
                                     </Stack>
 
