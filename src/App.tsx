@@ -41,7 +41,7 @@ export default function App() {
 
 					<Route path="/" element={<Home />} />
 					<Route path='/about' element={<About />} />
-					<Route path="/signup" element={customerDto ? <Navigate to="/" /> : <Signup />} />
+					<Route path="/sign-up" element={customerDto ? <Navigate to="/" /> : <Signup />} />
 					<Route path="/login" element={customerDto ? <Navigate to="/" /> : <Login />} />
 					<Route path="/catalog" element={<Catalog />} />
 					<Route path="/ad/:id" element={<AdView />} />

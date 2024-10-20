@@ -116,8 +116,8 @@ export default function Navbar(): ReactElement {
                                     </Link>
 
                                     <Box sx={{ display: DESKTOP_VIEW }}>
-                                        <Link to="/signup">
-                                            <Button>Get Started</Button>
+                                        <Link to="/sign-up">
+                                            <Button>Get started</Button>
                                         </Link>
                                     </Box>
                                 </Stack>
