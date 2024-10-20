@@ -12,8 +12,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { object, string } from "yup";
 import Verification from "./verification";
 
-const USERNAME_EXISTS = "username already exists.";
-const EMAIL_EXISTS = "email already exists.";
+const USERNAME_EXISTS = "\"Username\" already exists.";
+const EMAIL_EXISTS = "\"Email\" already exists.";
 
 export default function Auth(props: { isLogin?: boolean }) {
     const [invalidUsernames, setInvalidUsernames] = useState<string[]>([]);
@@ -42,7 +42,7 @@ export default function Auth(props: { isLogin?: boolean }) {
                                 }
                             }).catch((error: AxiosError) => {
                                 if (error.response?.status == 400) {
-                                    formikHelpers.resetForm({ errors: { username: "invalid username or password." }, touched: { username: true } });
+                                    formikHelpers.resetForm({ errors: { username: "Invalid username or password." }, touched: { username: true } });
                                 }
                             });
                     }
@@ -71,21 +71,21 @@ export default function Auth(props: { isLogin?: boolean }) {
                 }}
                 validationSchema={object({
                     username: string()
-                        .required("username is required")
-                        .min(4, "username need to be at least 4 characters.")
-                        .max(30, "username need to be at most 30 characters.")
+                        .required("\"Username\" is required")
+                        .min(4, "\"Username\" must be at least 4 characters.")
+                        .max(30, "\"Username\" cannot exceed 30 characters.")
                         .notOneOf(invalidUsernames, USERNAME_EXISTS)
                     ,
                     pwd: props.isLogin ?
                         string()
-                            .required("password is required.")
+                            .required("\"Password\" is required.")
                         :
                         string()
-                            .required("password is required")
-                            .min(8, "password need to be at least 8 characters.")
-                            .max(100, "password need to be at most 100 characters."),
+                            .required("\"Password\" is required")
+                            .min(8, "\"Password\" must be at least 8 characters.")
+                            .max(100, "\"Password\" cannot exceed 100 characters."),
                     email: props.isLogin ? string() :
-                        string().required("email is required.").email("invalid email format.").notOneOf(invalidEmails, EMAIL_EXISTS)
+                        string().required("\"Email\" is required.").email("Invalid email format.").notOneOf(invalidEmails, EMAIL_EXISTS)
                 })}
             >
                 {({ values }) => (
