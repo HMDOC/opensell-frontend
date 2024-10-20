@@ -30,7 +30,7 @@ export default function UserProfil(): ReactElement {
             <Card sx={{marginTop: MARGIN_TOP_FOR_SECTION}}>
                 <CardHeader
                     action={
-                        isMyProfil ? <Link to="/u/setting" style={{ color: theme.palette.text.primary }}><EditIcon /></Link> : <></>
+                        isMyProfil ? <Link to="/u/settings" style={{ color: theme.palette.text.primary }}><EditIcon /></Link> : <></>
                     }
                 />
 

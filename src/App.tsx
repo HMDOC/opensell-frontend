@@ -36,7 +36,7 @@ export default function App() {
 				<Routes>
 					<Route path="/u" element={<PrivateRoute />}>
 						<Route path='/u/my-ads' element={<MyAds />} />
-						<Route path="/u/setting" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
+						<Route path="/u/settings" element={<Setting customerData={customerDto} refreshCallback={() => setRefresh(!refresh)} />}></Route>
 					</Route>
 
 					<Route path="/" element={<Home />} />
