@@ -41,11 +41,11 @@ export default function Navbar(): ReactElement {
         },
         {
             path: "/u/my-ads",
-            label: "My Ads",
+            label: "My ads",
             icon: <WebIcon />
         },
         {
-            path: "/u/setting",
+            path: "/u/settings",
             label: "Settings",
             icon: <SettingsIcon />
         }
