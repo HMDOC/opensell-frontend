@@ -8,10 +8,10 @@ export default function Statistics(): ReactElement {
             <Typography variant="h4" fontWeight="bold" color="white" textAlign="center">The place where everyone wins</Typography>
 
             <Stack direction="row" flexWrap="wrap" spacing={2} useFlexGap justifyContent="center">
-                <StatisticCard value="10 000+" text="ad sold" />
+                <StatisticCard value="10 000+" text="ads sold" />
                 <StatisticCard value="5 000+" text="active users" />
-                <StatisticCard value="car" text="is the most created category of ad" />
-                <StatisticCard value="300 000+" text="ad posted" />
+                <StatisticCard value="car" text="is the most created category of ads" />
+                <StatisticCard value="300 000+" text="ads posted" />
             </Stack>
         </Stack>
     );
