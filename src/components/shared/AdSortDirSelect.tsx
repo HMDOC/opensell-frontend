@@ -8,7 +8,7 @@ export default function AdSortDirSelect(props: SelectorReaderProps) {
             <SelectorReader
                 {...props}
                 icon={<ImportExportIcon />}
-                title="Sort Order"
+                title="Sort order"
                 options={SORT_ARRAY}
             />
         </>

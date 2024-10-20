@@ -8,7 +8,7 @@ export default function AdFilterSoldSelect(props: SelectorReaderProps) {
             <SelectorReader
                 {...props}
                 icon={<ShoppingCartIcon />}
-                title="FilterSold"
+                title="Filter sold"
                 options={SORT_ARRAY}
                 valueIsOption={true}
             />
