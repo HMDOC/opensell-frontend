@@ -8,7 +8,7 @@ export default function FirstSection(): ReactElement {
     return (
         <Stack color="white" bgcolor="#415A77" width="100%" justifyContent="center" height="700px" direction="row">
             <Stack maxWidth="800px" padding={5} justifyContent="center" gap={2.5}>
-                <Typography variant="h2">Search and post ad with confidence</Typography>
+                <Typography variant="h2">Search and post ads with confidence</Typography>
                 <Typography variant="h5">The online marketplace redesigned.</Typography>
                 <HomeSearchBar />
             </Stack>

@@ -6,8 +6,8 @@ export default function BrowseOrSignup() {
     return (
         <Stack padding={5} bgcolor="#476282" color="white" justifyContent="center" alignItems="center" spacing={7} direction="row" height="500px">
             <Stack spacing={2}>
-                <Typography variant="h3">Deal like you have never seen</Typography>
-                <Typography variant="h6">Start browsing for free or sign up for more features.</Typography>
+                <Typography variant="h3">Deal like you have never seen...</Typography>
+                <Typography variant="h6">You can start browsing for free or sign up to get more features.</Typography>
 
                 <Stack direction="row" alignItems="center" spacing={2}>
                     <ActionButton label="Browse" pathname="/catalog?query=" />
