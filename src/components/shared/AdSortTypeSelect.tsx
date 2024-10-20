@@ -8,7 +8,7 @@ export default function AdSortTypeSelect(props: SelectorReaderProps) {
             <SelectorReader
                 {...props}
                 icon={<PublicIcon />}
-                title="SortBy"
+                title="Sort by"
                 options={SORT_ARRAY}
                 valueIsOption={true}
             />

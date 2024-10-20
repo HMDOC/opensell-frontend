@@ -92,14 +92,14 @@ export default function SearchFilters(props: SearchFiltersProps): ReactElement {
                         <Field name="query" component={CatalogSearchBar} />
                     </Stack>
 
-                    <Field name="priceMin" component={AdCreationInput} label="Price Min" type="number" />
-                    <Field name="priceMax" component={AdCreationInput} label="Price Max" type="number" />
+                    <Field name="priceMin" component={AdCreationInput} label="Min price" type="number" />
+                    <Field name="priceMax" component={AdCreationInput} label="Max price" type="number" />
                     <Field name="shape" component={AdShapeSelect} label="Shape" isSearch />
-                    <Field name="typeId" component={AdCategorySelect} isSearch label="Category" />
+                    <Field name="typeId" component={AdCategorySelect} isSearch />
                     <AdTags name="tags" isSearch />
-                    <Field name="sortBy" component={AdSortTypeSelect} label="Sort By" />
-                    <Field name="reverseSort" component={AdSortDirSelect} label="Reverse Sort" />
-                    <Field name="filterSold" component={AdFilterSoldSelect} label="Filter sold" />
+                    <Field name="sortBy" component={AdSortTypeSelect} />
+                    <Field name="reverseSort" component={AdSortDirSelect} />
+                    <Field name="filterSold" component={AdFilterSoldSelect} />
                     <Stack marginY={1}>
                         <Pagination count={props.pageCount} page={pageNb} siblingCount={0} boundaryCount={1} color="primary" 
                         onChange={(_event : any, value : number) =>{
